@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
+<head><!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -154,7 +156,7 @@
 
             try {
                 if (!supabaseClient) {
-                    throw new Error('Supabase 초기화 실패');
+                    throw new Error('Supabase 클라이언트 초기화 실패');
                 }
 
                 const { data, error } = await supabaseClient
@@ -168,11 +170,10 @@
                     return;
                 }
 
-                // [디버깅용] 브라우저 콘솔(F12)에 데이터 전체 출력 (어떤 컬럼명으로 들어있는지 확인용)
-                console.log("Supabase 조회된 원본 데이터:", data);
-
-                const productType = (data.product_type || '').trim();
-                const isEmailAccount = productType.includes('이메일') || productType.includes('이메일 구매');
+                // 데이터 검증
+                const productType = String(data.product_type || '').toLowerCase();
+                const accountId = String(data.account_id || '').toLowerCase();
+                const isEmailAccount = productType.includes('이메일') || accountId.includes('@');
 
                 if (currentTab === 'general' && isEmailAccount) {
                     errorBox.classList.remove('hidden');
@@ -187,9 +188,27 @@
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                // 데이터베이스에 존재하는 모든 가능한 OTP 관련 컬럼명을 폭넓게 탐색
-                const otpKey = data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
-                
+                // [강력 개선] 데이터 객체의 모든 키를 순회하며 OTP/2FA 관련 키를 지능적으로 찾아냄
+                let otpKey = '';
+                for (const key in data) {
+                    const lowerKey = key.toLowerCase();
+                    if (lowerKey.includes('otp') || lowerKey.includes('two') || lowerKey.includes('fa') || lowerKey.includes('secret') || lowerKey.includes('auth') || lowerKey.includes('code')) {
+                        // search_key 나 account_id 등 다른 키는 제외하고 실제 값 후보를 찾음
+                        if (lowerKey !== 'search_key' && lowerKey !== 'account_id' && lowerKey !== 'account_pw') {
+                            const val = data[key];
+                            if (val && String(val).trim() !== '' && String(val) !== String(data.search_key)) {
+                                otpKey = String(val).trim();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // 만약 위에서 못 찾았을 경우 기존 지정된 필드들도 한 번 더 확인
+                if (!otpKey) {
+                    otpKey = data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
+                }
+
                 if (otpKey && String(otpKey).trim() !== '') {
                     setupOtp(String(otpKey).trim());
                 } else {
@@ -228,7 +247,270 @@
                 updateOtp();
                 otpInterval = setInterval(updateOtp, 1000);
             } catch (e) {
-                console.error("OTP 생성 오류:", e);
+                document.getElementById('res-otp').innerText = secret;
+                document.getElementById('res-otp-timer').innerText = '';
+            }
+        }
+
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            if (!text || text === '정보 없음' || text === '미등록' || text === '--- ---') {
+                alert('복사할 내용이 없습니다.');
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                alert('클립보드에 복사되었습니다!');
+            }).catch(err => {
+                console.error('복사 실패:', err);
+            });
+        }
+    </script>
+</body>
+</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계정 조회</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- TOTP 생성을 위한 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.3.2/otpauth.umd.min.js"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: 'Pretendard', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
+        
+        <!-- 상단 타이틀 -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold flex items-center justify-center gap-2">
+                <span>🔍</span> 구매 계정 조회
+            </h1>
+            <p class="text-slate-400 text-sm mt-1">발급 코드를 입력하여 계정 정보를 확인하세요.</p>
+        </div>
+
+        <!-- 탭 버튼 영역 -->
+        <div class="flex rounded-xl bg-slate-900 p-1 mb-6 border border-slate-700">
+            <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow">
+                계정 조회
+            </button>
+            <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white">
+                이메일 계정 조회
+            </button>
+        </div>
+
+        <!-- 입력 영역 -->
+        <div class="space-y-4">
+            <div>
+                <label id="input-label" class="block text-xs font-semibold text-slate-300 uppercase mb-1">발급 코드 입력</label>
+                <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
+                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors">
+            </div>
+            <button onclick="searchAccount()" 
+                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg shadow-emerald-600/30">
+                조회하기
+            </button>
+        </div>
+
+        <!-- 결과 출력 영역 -->
+        <div id="result-box" class="mt-6 hidden space-y-4">
+            
+            <!-- 상품 종류 -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3">
+                <span class="block text-xs text-slate-400 mb-1">상품 종류</span>
+                <div id="res-product-type" class="text-slate-200 font-medium">정보 없음</div>
+            </div>
+
+            <!-- 계정 ID -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+                <div class="overflow-hidden mr-2 flex-1">
+                    <span class="block text-xs text-slate-400 mb-1">계정 ID</span>
+                    <div id="res-account-id" class="text-slate-200 font-medium truncate">정보 없음</div>
+                </div>
+                <button onclick="copyText('res-account-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+            </div>
+
+            <!-- 비밀번호 -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+                <div class="overflow-hidden mr-2 flex-1">
+                    <span class="block text-xs text-slate-400 mb-1">비밀번호</span>
+                    <div id="res-account-pw" class="text-slate-200 font-medium truncate">정보 없음</div>
+                </div>
+                <button onclick="copyText('res-account-pw')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+            </div>
+
+            <!-- 실시간 2차 인증(OTP) 번호 -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+                <div class="overflow-hidden mr-2 flex-1">
+                    <span class="block text-xs text-slate-400 mb-1">실시간 2차 인증 (OTP) 번호</span>
+                    <div class="flex items-center gap-2">
+                        <div id="res-otp" class="text-amber-400 font-bold tracking-wider text-lg">--- ---</div>
+                        <span id="res-otp-timer" class="text-xs text-slate-500"></span>
+                    </div>
+                </div>
+                <button onclick="copyText('res-otp')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+            </div>
+
+        </div>
+
+        <!-- 에러 메시지 -->
+        <div id="error-box" class="mt-6 hidden p-4 bg-slate-900 border border-rose-900/50 rounded-xl text-center text-rose-400 text-sm">
+            ❌ 일치하는 정보를 찾을 수 없습니다.
+        </div>
+
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://gjotvoufqqvrckicwpnj.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_U42wGuvhkR-KON09lk9lfA_LW9I-9gV';
+        
+        let supabaseClient = null;
+        let currentTab = 'general';
+        let otpInterval = null;
+
+        try {
+            if (window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+        } catch (e) {
+            console.error("Supabase 초기화 실패", e);
+        }
+
+        function switchTab(mode) {
+            currentTab = mode;
+            const tabGeneral = document.getElementById('tab-general');
+            const tabEmail = document.getElementById('tab-email');
+            const inputLabel = document.getElementById('input-label');
+            const resultBox = document.getElementById('result-box');
+            const errorBox = document.getElementById('error-box');
+
+            resultBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            document.getElementById('input-code').value = '';
+            if (otpInterval) clearInterval(otpInterval);
+
+            if (mode === 'general') {
+                tabGeneral.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow";
+                tabEmail.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white";
+                inputLabel.innerText = "발급 코드 입력";
+            } else {
+                tabEmail.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow";
+                tabGeneral.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white";
+                inputLabel.innerText = "이메일 주문번호 / 코드 입력";
+            }
+        }
+
+        async function searchAccount() {
+            const code = document.getElementById('input-code').value.trim();
+            const resultBox = document.getElementById('result-box');
+            const errorBox = document.getElementById('error-box');
+
+            resultBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            if (otpInterval) clearInterval(otpInterval);
+
+            if (!code) {
+                alert('코드를 입력해주세요!');
+                return;
+            }
+
+            try {
+                if (!supabaseClient) {
+                    throw new Error('Supabase 클라이언트 초기화 실패');
+                }
+
+                const { data, error } = await supabaseClient
+                    .from('orders')
+                    .select('*')
+                    .eq('search_key', code)
+                    .single();
+
+                if (error || !data) {
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                // 데이터 검증
+                const productType = String(data.product_type || '').toLowerCase();
+                const accountId = String(data.account_id || '').toLowerCase();
+                const isEmailAccount = productType.includes('이메일') || accountId.includes('@');
+
+                if (currentTab === 'general' && isEmailAccount) {
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                if (currentTab === 'email' && !isEmailAccount) {
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
+                document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
+                document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
+
+                // [강력 개선] 데이터 객체의 모든 키를 순회하며 OTP/2FA 관련 키를 지능적으로 찾아냄
+                let otpKey = '';
+                for (const key in data) {
+                    const lowerKey = key.toLowerCase();
+                    if (lowerKey.includes('otp') || lowerKey.includes('two') || lowerKey.includes('fa') || lowerKey.includes('secret') || lowerKey.includes('auth') || lowerKey.includes('code')) {
+                        // search_key 나 account_id 등 다른 키는 제외하고 실제 값 후보를 찾음
+                        if (lowerKey !== 'search_key' && lowerKey !== 'account_id' && lowerKey !== 'account_pw') {
+                            const val = data[key];
+                            if (val && String(val).trim() !== '' && String(val) !== String(data.search_key)) {
+                                otpKey = String(val).trim();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // 만약 위에서 못 찾았을 경우 기존 지정된 필드들도 한 번 더 확인
+                if (!otpKey) {
+                    otpKey = data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
+                }
+
+                if (otpKey && String(otpKey).trim() !== '') {
+                    setupOtp(String(otpKey).trim());
+                } else {
+                    document.getElementById('res-otp').innerText = '미등록';
+                    document.getElementById('res-otp-timer').innerText = '';
+                }
+
+                resultBox.classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                errorBox.classList.remove('hidden');
+            }
+        }
+
+        function setupOtp(secret) {
+            try {
+                const totp = new OTPAuth.TOTP({
+                    issuer: "AccountCheck",
+                    label: "User",
+                    algorithm: "SHA1",
+                    digits: 6,
+                    period: 30,
+                    secret: secret
+                });
+
+                function updateOtp() {
+                    const token = totp.generate();
+                    const epoch = Math.floor(Date.now() / 1000);
+                    const remaining = 30 - (epoch % 30);
+                    
+                    document.getElementById('res-otp').innerText = token;
+                    document.getElementById('res-otp-timer').innerText = `${remaining}초 남음`;
+                }
+
+                updateOtp();
+                otpInterval = setInterval(updateOtp, 1000);
+            } catch (e) {
                 document.getElementById('res-otp').innerText = secret;
                 document.getElementById('res-otp-timer').innerText = '';
             }
