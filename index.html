@@ -31,42 +31,68 @@
         </div>
 
         <!-- [필독] 계정 수령 후 필수 숙지사항 아코디언 배너 -->
-        <div class="mb-6 border border-amber-500/30 bg-amber-500/10 rounded-2xl overflow-hidden transition-all">
-            <button onclick="toggleNotice()" class="w-full px-4 py-3 text-left flex items-center justify-between text-amber-400 font-semibold text-sm hover:bg-amber-500/10 transition-colors">
+        <div class="mb-6 border border-amber-500/35 bg-amber-500/10 rounded-2xl overflow-hidden transition-all">
+            <button onclick="toggleNotice()" class="w-full px-4 py-3.5 text-left flex items-center justify-between text-amber-400 font-semibold text-sm hover:bg-amber-500/10 transition-colors">
                 <span class="flex items-center gap-2">
                     <span>⚠️</span> [필독] 계정 수령 후 필수 숙지사항
                 </span>
                 <span id="notice-arrow" class="transform transition-transform duration-200">▼</span>
             </button>
             <div id="notice-content" class="hidden px-4 pb-4 text-xs text-slate-300 space-y-3 border-t border-amber-500/20 pt-3">
-                <p><strong>1. 로그인 및 2차 인증:</strong> ID/PW 입력 후 2FA 코드를 입력해 주세요. (해킹 방지 및 안전 운용 목적)</p>
-                <p><strong>2. 서치반 테스트 및 규정:</strong> 최초 테스트 시 노출 불가인 경우 즉시 교환 가능하며 결과를 꼭 통보해 주세요. (미답변 시 정상 노출 간주, 이후 사용자 활동으로 인한 서치반은 교환/환불 불가)</p>
-                <p><strong>3. 계정 활성화 필수 작업:</strong> 신규 계정이므로 수령즉시 팔로우/팔로잉 늘리기, 게시글/리트윗/좋아요 등의 활동을 남겨주세요.</p>
-                <p><strong>4. 연동 메일 변경 (미구구매자):</strong> 연동된 메일은 보장하지 않으므로 즉시 개인 메일로 변경해 주세요. (48시간 잠금은 트위터 자체 보안 시스템입니다.)</p>
+                <div class="bg-black/30 p-3 rounded-xl border border-amber-500/20 space-y-2">
+                    <p class="text-amber-300 font-bold">⚠️ 주의사항</p>
+                    <p>• 계정 양도 이후 발생하는 모든 사용 책임(닉네임, 아이디, 이메일, 비밀번호 변경 및 게시글 삭제 포함)은 <strong>구매자 본인</strong>에게 있습니다.</p>
+                    <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong>즉시 회수</strong>됩니다.</p>
+                </div>
+
+                <p><strong>1️⃣ 로그인 및 2차 보안 (2FA)</strong><br>
+                - ID/PW 입력 후 2FA(OTP 인증번호)를 입력해 주세요.<br>
+                - 2FA는 X 자체 2차 보안 시스템으로 IP 보호 및 해킹 방지에 도움을 줍니다.</p>
+
+                <p><strong>2️⃣ 서치벤 테스트 및 환불 규정</strong><br>
+                - 수령 직후 테스트에서 노출되지 않을 경우 즉시 교환 및 환불 가능 (단, 결과 통보 필수이며 미답변 시 정상 노출 간주)<br>
+                - 정상 노출 확인 이후 사용자 활동 패턴으로 인한 서치벤은 교환/환불 불가 *(위 규정 외 환불 절대 불가)*</p>
+
+                <p><strong>3️⃣ 계정 활성화 필수 작업</strong><br>
+                - 신규 계정 특성상 사용 로그가 필요합니다. 수령 직후 <strong>팔로우/팔로잉, 게시글 업로드, 리트윗, 좋아요</strong> 등의 활동 흔적을 반드시 남겨주세요.</p>
+
+                <p><strong>4️⃣ 연동 메일 변경 안내 (이메일 미구매자)</strong><br>
+                - 연동 메일은 보장되지 않으므로 수령 즉시 개인 메일로 변경해 주세요. (변경 시 '48시간 잠금'은 트위터 정상 보안 시스템입니다.)</p>
+
+                <!-- 동의 체크박스 영역 -->
+                <div class="mt-4 pt-3 border-t border-amber-500/20 flex items-center gap-2">
+                    <input type="checkbox" id="agree-checkbox" onchange="toggleAgreement()" class="w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                    <label for="agree-checkbox" class="text-amber-200 font-semibold cursor-pointer select-none">
+                        위 내용을 모두 숙지하였으며 이에 동의합니다.
+                    </label>
+                </div>
             </div>
         </div>
 
-        <!-- 탭 버튼 영역 -->
-        <div class="flex rounded-2xl bg-slate-900/80 p-1 mb-6 border border-slate-800">
-            <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all bg-white text-black shadow">
-                계정 조회
-            </button>
-            <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white">
-                이메일 계정 조회
-            </button>
-        </div>
-
-        <!-- 입력 영역 -->
-        <div class="space-y-4">
-            <div>
-                <label id="input-label" class="block text-xs font-semibold text-slate-400 uppercase mb-1.5 ml-1">발급 코드 입력</label>
-                <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
-                    class="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-sky-500 transition-colors">
+        <!-- 잠금 처리된 조회 영역 (초기 비활성화) -->
+        <div id="query-section" class="opacity-40 pointer-events-none transition-opacity duration-300">
+            <!-- 탭 버튼 영역 -->
+            <div class="flex rounded-2xl bg-slate-900/80 p-1 mb-6 border border-slate-800">
+                <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all bg-white text-black shadow">
+                    계정 조회
+                </button>
+                <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white">
+                    이메일 계정 조회
+                </button>
             </div>
-            <button onclick="searchAccount()" 
-                class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3.5 rounded-full transition-all shadow-lg">
-                조회하기
-            </button>
+
+            <!-- 입력 영역 -->
+            <div class="space-y-4">
+                <div>
+                    <label id="input-label" class="block text-xs font-semibold text-slate-400 uppercase mb-1.5 ml-1">발급 코드 입력</label>
+                    <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
+                        class="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-sky-500 transition-colors">
+                </div>
+                <button onclick="searchAccount()" 
+                    class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3.5 rounded-full transition-all shadow-lg">
+                    조회하기
+                </button>
+            </div>
         </div>
 
         <!-- 결과 출력 영역 -->
@@ -160,6 +186,18 @@
                 arrow.style.transform = 'rotate(0deg)';
             } else {
                 arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // 동의 체크박스 연동 함수
+        function toggleAgreement() {
+            const isChecked = document.getElementById('agree-checkbox').checked;
+            const querySection = document.getElementById('query-section');
+
+            if (isChecked) {
+                querySection.classList.remove('opacity-40', 'pointer-events-none');
+            } else {
+                querySection.classList.add('opacity-40', 'pointer-events-none');
             }
         }
 
