@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>계정 조회 - Get Your Account</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.3.1/sha1.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; }
+    body { background-color: #111827; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .card { background: #1f2937; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); width: 100%; max-width: 520px; border: 1px solid #374151; }
+    h2 { text-align: center; color: #60a5fa; margin-bottom: 8px; font-size: 22px; }
+    p.desc { text-align: center; color: #9ca3af; font-size: 13px; margin-bottom: 20px; }
+    
+    .notice-banner { background: #374151; border: 1px solid #4b5563; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+    .notice-header { background: #1f2937; padding: 12px 16px; color: #fbbf24; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .notice-content { padding: 14px; font-size: 12px; color: #d1d5db; line-height: 1.6; display: none; border-top: 1px solid #4b5563; }
+    .notice-content.show { display: block; }
+    .notice-content ol { padding-left: 16px; }
+    .notice-content li { margin-bottom: 8px; }
+    .notice-content strong { color: #f3f4f6; }
+
+    .input-group { margin-bottom: 16px; }
+    label { display: block; color: #e5e7eb; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    input { width: 100%; padding: 14px; background-color: #111827; border: 1px solid #4b5563; border-radius: 8px; font-size: 15px; color: white; outline: none; }
+    input:focus { border-color: #3b82f6; }
+    button.search-btn { width: 100%; padding: 14px 20px; background-color: #16a34a; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    button.search-btn:hover { background-color: #15803d; }
+    
+    .result-box { display: none; background: #111827; border: 1px solid #374151; border-radius: 10px; padding: 20px; margin-top: 20px; }
+    .result-item { margin-bottom: 14px; display: flex; flex-direction: column; gap: 4px; }
+    .result-item:last-child { margin-bottom: 0; }
+    .label { font-size: 12px; color: #9ca3af; font-weight: 600; }
+    
+    .value-row { display: flex; align-items: center; justify-content: space-between; background: #374151; padding: 10px 14px; border-radius: 8px; gap: 10px; }
+    .value { font-size: 15px; color: #f3f4f6; font-weight: 500; word-break: break-all; }
+    .otp-code { font-size: 22px; font-weight: bold; color: #60a5fa; letter-spacing: 3px; }
+    .otp-timer { font-size: 12px; color: #facc15; font-weight: 600; white-space: nowrap; }
+    
+    .copy-btn { background-color: #2563eb; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+    .copy-btn:hover { background-color: #1d4ed8; }
+    .copy-btn.copied { background-color: #16a34a; }
+
+    .error-msg { display: none; background-color: #7f1d1d; border: 1px solid #991b1b; color: #fca5a5; padding: 12px; border-radius: 8px; font-size: 13px; text-align: center; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>🔍 구매 계정 조회</h2>
+    <p class="desc">발급 코드를 입력하여 계정 정보를 확인하세요.</p>
+
+    <div class="notice-banner">
+      <div class="notice-header" onclick="toggleNotice()">
+        <span>⚠️ [필독] 계정 수령 후 필수 숙지사항 (클릭해서 보기)</span>
+        <span id="toggleArrow">▼</span>
+      </div>
+      <div class="notice-content" id="noticeContent">
+        <ol>
+          <li><strong>로그인 및 2차 인증:</strong> ID/PW 입력 후 2FA 코드를 입력해 주세요. (해킹 방지 및 안전 운용 목적)</li>
+          <li><strong>서치벤 테스트 및 규정:</strong> 최초 테스트 시 노출 불가인 경우 즉시 교환 가능하며 결과를 꼭 통보해 주세요. (미답변 시 정상 노출 간주, 이후 사용자 활동으로 인한 서치벤은 교환/환불 불가)</li>
+          <li><strong>계정 활성화 필수 작업:</strong> 신규 계정이므로 수령즉시 팔로우/팔로잉 늘리기, 게시글/리트윗/좋아요 등의 활동을 남겨주세요.</li>
+          <li><strong>연동 메일 변경 (미구매자):</strong> 연동된 메일은 보장하지 않으므로 즉시 개인 메일로 변경해 주세요. (48시간 잠금은 트위터 자체 보안 시스템입니다.)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>발급 코드 입력</label>
+      <input type="text" id="searchInput" placeholder="발급 코드를 입력하세요">
+    </div>
+    <button class="search-btn" onclick="fetchOrderData()">조회하기</button>
+
+    <div id="errorMsg" class="error-msg">
+      ❌ 일치하는 발급 정보가 없습니다.<br>입력하신 코드를 다시 확인해 주세요.
+    </div>
+
+    <div id="resultBox" class="result-box">
+      <div class="result-item">
+        <span class="label">상품 종류</span>
+        <div class="value-row">
+          <span class="value" id="resProductType">-</span>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <span class="label">계정 ID</span>
+        <div class="value-row">
+          <span class="value" id="resAccountId">-</span>
+          <button class="copy-btn" onclick="copyText('resAccountId', this)">복사</button>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <span class="label">비밀번호</span>
+        <div class="value-row">
+          <span class="value" id="resAccountPw">-</span>
+          <button class="copy-btn" onclick="copyText('resAccountPw', this)">복사</button>
+        </div>
+      </div>
+
+      <div class="result-item" id="otpContainer" style="display: none;">
+        <span class="label">실시간 2차 인증 (OTP) 번호</span>
+        <div class="value-row">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span id="otpCodeText" class="otp-code">000000</span>
+            <span id="otpTimerText" class="otp-timer">30초</span>
+          </div>
+          <button class="copy-btn" onclick="copyText('otpCodeText', this)">복사</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleNotice() {
+      const content = document.getElementById('noticeContent');
+      const arrow = document.getElementById('toggleArrow');
+      content.classList.toggle('show');
+      arrow.textContent = content.classList.contains('show') ? '▲' : '▼';
+    }
+
+    const dbUrl = "https://gjotvoufqqvrckicwpnj.supabase.co";
+    const dbKey = "sb_publishable_U42wGuvhkR-KON09lk9lfA_LW9I-9gV";
+    const _supabaseClient = window.supabase.createClient(dbUrl, dbKey);
+    let currentSecret = "";
+    let timerInterval = null;
+
+    async function fetchOrderData() {
+      const searchKey = document.getElementById('searchInput').value.trim();
+      const resultBox = document.getElementById('resultBox');
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (!searchKey) {
+        alert('발급 코드를 입력해 주세요!');
+        return;
+      }
+
+      resultBox.style.display = 'none';
+      errorMsg.style.display = 'none';
+
+      // Supabase에서 코드 검색
+      const { data, error } = await _supabaseClient
+        .from('orders')
+        .select('*')
+        .eq('search_key', searchKey)
+        .maybeSingle();
+
+      if (error || !data) {
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      document.getElementById('resProductType').textContent = data.product_type || '일반 계정';
+      document.getElementById('resAccountId').textContent = data.account_id || '-';
+      document.getElementById('resAccountPw').textContent = data.account_pw || '-';
+
+      const otpContainer = document.getElementById('otpContainer');
+      if (data.otp_url) {
+        currentSecret = data.otp_url.trim().replace(/\s+/g, '');
+        startOtpTimer();
+        otpContainer.style.display = 'flex';
+      } else {
+        otpContainer.style.display = 'none';
+      }
+
+      resultBox.style.display = 'block';
+    }
+
+    function copyText(elementId, btnElement) {
+      const textToCopy = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = btnElement.textContent;
+        btnElement.textContent = "복사됨!";
+        btnElement.classList.add('copied');
+        setTimeout(() => {
+          btnElement.textContent = originalText;
+          btnElement.classList.remove('copied');
+        }, 1500);
+      }).catch(err => {
+        alert('복사 실패! 직접 드래그해서 복사해 주세요.');
+      });
+    }
+
+    function base32ToHex(base32) {
+      const base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ23457=";
+      let cleanInput = base32.replace(/=+$/, '').toUpperCase();
+      let bits = "";
+      let hex = "";
+      for (let i = 0; i < cleanInput.length; i++) {
+        let val = base32chars.indexOf(cleanInput.charAt(i));
+        if (val === -1 || val === 32) continue;
+        bits += leftpad(val.toString(2), 5, '0');
+      }
+      for (let i = 0; i + 4 <= bits.length; i += 4) {
+        let chunk = bits.substr(i, 4);
+        hex += parseInt(chunk, 2).toString(16);
+      }
+      return hex;
+    }
+
+    function leftpad(str, len, pad) {
+      while (str.length < len) str = pad + str;
+      return str;
+    }
+
+    function updateOTP() {
+      if (!currentSecret) return;
+      try {
+        let secretHex = base32ToHex(currentSecret);
+        if (!secretHex) throw new Error("Invalid Base32");
+
+        let epoch = Math.floor(Date.now() / 1000);
+        let timeStep = Math.floor(epoch / 30);
+        let timeLeft = 30 - (epoch % 30);
+
+        let timeHex = leftpad(timeStep.toString(16), 16, '0');
+        
+        let shaObj = new jsSHA("SHA-1", "HEX");
+        shaObj.setHMACKey(secretHex, "HEX");
+        shaObj.update(timeHex);
+        let hmac = shaObj.getHMAC("HEX");
+
+        let offset = parseInt(hmac.substring(hmac.length - 1), 16);
+        let otp = (parseInt(hmac.substr(offset * 2, 8), 16) & 0x7fffffff) % 1000000;
+        let otpCode = leftpad(otp.toString(), 6, '0');
+
+        document.getElementById('otpCodeText').textContent = otpCode;
+        document.getElementById('otpTimerText').textContent = timeLeft + "초 남음";
+      } catch (e) {
+        document.getElementById('otpCodeText').textContent = "오류";
+      }
+    }
+
+    function startOtpTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      updateOTP();
+      timerInterval = setInterval(updateOTP, 1000);
+    }
+  </script>
+</body>
+</html>
