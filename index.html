@@ -59,7 +59,7 @@
                 <div id="res-product-type" class="text-slate-200 font-medium">정보 없음</div>
             </div>
 
-            <!-- 계정 ID -->
+            <!-- 계정 ID (항상 표시) -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="block text-xs text-slate-400 mb-1">계정 ID</span>
@@ -68,7 +68,7 @@
                 <button onclick="copyText('res-account-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 비밀번호 -->
+            <!-- 비밀번호 (항상 표시) -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="block text-xs text-slate-400 mb-1">비밀번호</span>
@@ -77,7 +77,7 @@
                 <button onclick="copyText('res-account-pw')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 이메일 아이디 (이메일 계정 전용 칸) -->
+            <!-- 이메일 아이디 (이메일 계정일 때만 추가로 표시) -->
             <div id="email-id-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between hidden">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="block text-xs text-slate-400 mb-1">이메일 아이디</span>
@@ -86,7 +86,7 @@
                 <button onclick="copyText('res-email-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 이메일 비밀번호 (이메일 계정 전용 칸) -->
+            <!-- 이메일 비밀번호 (이메일 계정일 때만 추가로 표시) -->
             <div id="email-pw-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between hidden">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="block text-xs text-slate-400 mb-1">이메일 비밀번호</span>
@@ -203,11 +203,11 @@
 
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
 
-                // 기본 계정 ID, 비밀번호 세팅
+                // 기본 계정 ID와 비밀번호는 항상 표시
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                // 이메일 계정일 경우 이메일 아이디, 비밀번호 칸을 각각 독립적으로 표시
+                // 이메일 계정일 경우 이메일 아이디, 비밀번호 칸도 각각 추가로 표시
                 if (currentTab === 'email' && data.email_type) {
                     emailIdContainer.classList.remove('hidden');
                     emailPwContainer.classList.remove('hidden');
