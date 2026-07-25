@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>계정 조회</title>
+    <title>X 계정 조회</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase JS SDK -->
@@ -12,27 +12,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.3.2/otpauth.umd.min.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        body { font-family: 'Pretendard', sans-serif; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #000000; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-black text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
+    <div class="w-full max-w-md bg-black border border-slate-800 rounded-3xl shadow-2xl p-6 md:p-8">
         
-        <!-- 상단 타이틀 -->
+        <!-- 상단 타이틀 (트위터 X 스타일) -->
         <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold flex items-center justify-center gap-2">
-                <span>🔍</span> 구매 계정 조회
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-900 border border-slate-800 text-white text-2xl font-black mb-3 shadow-inner">
+                𝕏
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
+                X 계정 구매 조회
             </h1>
-            <p class="text-slate-400 text-sm mt-1">발급 코드를 입력하여 계정 정보를 확인하세요.</p>
+            <p class="text-slate-500 text-sm mt-1">발급 코드를 입력하여 계정 정보를 확인하세요.</p>
+        </div>
+
+        <!-- [필독] 계정 수령 후 필수 숙지사항 아코디언 배너 -->
+        <div class="mb-6 border border-amber-500/30 bg-amber-500/10 rounded-2xl overflow-hidden transition-all">
+            <button onclick="toggleNotice()" class="w-full px-4 py-3 text-left flex items-center justify-between text-amber-400 font-semibold text-sm hover:bg-amber-500/10 transition-colors">
+                <span class="flex items-center gap-2">
+                    <span>⚠️</span> [필독] 계정 수령 후 필수 숙지사항
+                </span>
+                <span id="notice-arrow" class="transform transition-transform duration-200">▼</span>
+            </button>
+            <div id="notice-content" class="hidden px-4 pb-4 text-xs text-slate-300 space-y-3 border-t border-amber-500/20 pt-3">
+                <p><strong>1. 로그인 및 2차 인증:</strong> ID/PW 입력 후 2FA 코드를 입력해 주세요. (해킹 방지 및 안전 운용 목적)</p>
+                <p><strong>2. 서치반 테스트 및 규정:</strong> 최초 테스트 시 노출 불가인 경우 즉시 교환 가능하며 결과를 꼭 통보해 주세요. (미답변 시 정상 노출 간주, 이후 사용자 활동으로 인한 서치반은 교환/환불 불가)</p>
+                <p><strong>3. 계정 활성화 필수 작업:</strong> 신규 계정이므로 수령즉시 팔로우/팔로잉 늘리기, 게시글/리트윗/좋아요 등의 활동을 남겨주세요.</p>
+                <p><strong>4. 연동 메일 변경 (미구구매자):</strong> 연동된 메일은 보장하지 않으므로 즉시 개인 메일로 변경해 주세요. (48시간 잠금은 트위터 자체 보안 시스템입니다.)</p>
+            </div>
         </div>
 
         <!-- 탭 버튼 영역 -->
-        <div class="flex rounded-xl bg-slate-900 p-1 mb-6 border border-slate-700">
-            <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow">
+        <div class="flex rounded-2xl bg-slate-900/80 p-1 mb-6 border border-slate-800">
+            <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all bg-white text-black shadow">
                 계정 조회
             </button>
-            <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white">
+            <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white">
                 이메일 계정 조회
             </button>
         </div>
@@ -40,77 +59,77 @@
         <!-- 입력 영역 -->
         <div class="space-y-4">
             <div>
-                <label id="input-label" class="block text-xs font-semibold text-slate-300 uppercase mb-1">발급 코드 입력</label>
+                <label id="input-label" class="block text-xs font-semibold text-slate-400 uppercase mb-1.5 ml-1">발급 코드 입력</label>
                 <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
-                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors">
+                    class="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-sky-500 transition-colors">
             </div>
             <button onclick="searchAccount()" 
-                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg shadow-emerald-600/30">
+                class="w-full bg-white hover:bg-slate-200 text-black font-bold py-3.5 rounded-full transition-all shadow-lg">
                 조회하기
             </button>
         </div>
 
         <!-- 결과 출력 영역 -->
-        <div id="result-box" class="mt-6 hidden space-y-4">
+        <div id="result-box" class="mt-6 hidden space-y-3">
             
             <!-- 상품 종류 -->
-            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3">
-                <span class="block text-xs text-slate-400 mb-1">상품 종류</span>
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-3.5">
+                <span class="block text-xs text-slate-500 mb-1">상품 종류</span>
                 <div id="res-product-type" class="text-slate-200 font-medium">정보 없음</div>
             </div>
 
-            <!-- 계정 ID (항상 표시) -->
-            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+            <!-- 계정 ID -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-xs text-slate-400 mb-1">계정 ID</span>
+                    <span class="block text-xs text-slate-500 mb-1">계정 ID</span>
                     <div id="res-account-id" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
-                <button onclick="copyText('res-account-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+                <button onclick="copyText('res-account-id')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 비밀번호 (항상 표시) -->
-            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+            <!-- 비밀번호 -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-xs text-slate-400 mb-1">비밀번호</span>
+                    <span class="block text-xs text-slate-500 mb-1">비밀번호</span>
                     <div id="res-account-pw" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
-                <button onclick="copyText('res-account-pw')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+                <button onclick="copyText('res-account-pw')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 이메일 아이디 (이메일 계정일 때만 추가로 표시) -->
-            <div id="email-id-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between hidden">
+            <!-- 이메일 아이디 (이메일 계정 전용 칸) -->
+            <div id="email-id-container" class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between hidden">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-xs text-slate-400 mb-1">이메일 아이디</span>
+                    <span class="block text-xs text-slate-500 mb-1">이메일 아이디</span>
                     <div id="res-email-id" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
-                <button onclick="copyText('res-email-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+                <button onclick="copyText('res-email-id')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 이메일 비밀번호 (이메일 계정일 때만 추가로 표시) -->
-            <div id="email-pw-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between hidden">
+            <!-- 이메일 비밀번호 (이메일 계정 전용 칸) -->
+            <div id="email-pw-container" class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between hidden">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-xs text-slate-400 mb-1">이메일 비밀번호</span>
+                    <span class="block text-xs text-slate-500 mb-1">이메일 비밀번호</span>
                     <div id="res-email-pw" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
-                <button onclick="copyText('res-email-pw')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+                <button onclick="copyText('res-email-pw')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl text-white transition-colors shrink-0">복사</button>
             </div>
 
             <!-- 실시간 2차 인증(OTP) 번호 -->
-            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-xs text-slate-400 mb-1">실시간 2차 인증 (OTP) 번호</span>
+                    <span class="block text-xs text-slate-500 mb-1">실시간 2차 인증 (OTP) 번호</span>
                     <div class="flex items-center gap-2">
-                        <div id="res-otp" class="text-amber-400 font-bold tracking-wider text-lg">--- ---</div>
+                        <div id="res-otp" class="text-sky-400 font-bold tracking-wider text-lg">--- ---</div>
                         <span id="res-otp-timer" class="text-xs text-slate-500"></span>
                     </div>
                 </div>
-                <button onclick="copyText('res-otp')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+                <button onclick="copyText('res-otp')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl text-white transition-colors shrink-0">복사</button>
             </div>
 
         </div>
 
         <!-- 에러 메시지 -->
-        <div id="error-box" class="mt-6 hidden p-4 bg-slate-900 border border-rose-900/50 rounded-xl text-center text-rose-400 text-sm">
+        <div id="error-box" class="mt-6 hidden p-4 bg-slate-900/50 border border-rose-900/40 rounded-2xl text-center text-rose-400 text-sm">
             ❌ 일치하는 정보를 찾을 수 없습니다.
         </div>
 
@@ -132,6 +151,18 @@
             console.error("Supabase 초기화 실패", e);
         }
 
+        // 숙지사항 배너 토글 함수
+        function toggleNotice() {
+            const content = document.getElementById('notice-content');
+            const arrow = document.getElementById('notice-arrow');
+            content.classList.toggle('hidden');
+            if (content.classList.contains('hidden')) {
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
         function switchTab(mode) {
             currentTab = mode;
             const tabGeneral = document.getElementById('tab-general');
@@ -146,12 +177,12 @@
             if (otpInterval) clearInterval(otpInterval);
 
             if (mode === 'general') {
-                tabGeneral.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow";
-                tabEmail.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white";
+                tabGeneral.className = "flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all bg-white text-black shadow";
+                tabEmail.className = "flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white";
                 inputLabel.innerText = "발급 코드 입력";
             } else {
-                tabEmail.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow";
-                tabGeneral.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white";
+                tabEmail.className = "flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all bg-white text-black shadow";
+                tabGeneral.className = "flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white";
                 inputLabel.innerText = "이메일 주문번호 / 코드 입력";
             }
         }
@@ -203,11 +234,9 @@
 
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
 
-                // 기본 계정 ID와 비밀번호는 항상 표시
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                // 이메일 계정일 경우 이메일 아이디, 비밀번호 칸도 각각 추가로 표시
                 if (currentTab === 'email' && data.email_type) {
                     emailIdContainer.classList.remove('hidden');
                     emailPwContainer.classList.remove('hidden');
