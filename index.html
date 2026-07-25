@@ -22,18 +22,18 @@
         <!-- 상단 타이틀 -->
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold flex items-center justify-center gap-2">
-                <span>🔍</span> 통합 계정 조회
+                <span>🔍</span> 계정 조회 시스템
             </h1>
-            <p class="text-slate-400 text-sm mt-1">조회할 항목을 선택하고 코드를 입력하세요.</p>
+            <p class="text-slate-400 text-sm mt-1">조회할 유형을 선택하고 발급 코드를 입력하세요.</p>
         </div>
 
-        <!-- 탭 버튼 영역 (일반 계정 / 이메일 구매 계정) -->
+        <!-- 탭 버튼 영역 (일반 계정 / 이메일 계정) -->
         <div class="flex rounded-xl bg-slate-900 p-1 mb-6 border border-slate-700">
             <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-indigo-600 text-white shadow">
                 일반 계정 조회
             </button>
             <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-400 hover:text-white">
-                이메일 구매 계정
+                이메일 계정 조회
             </button>
         </div>
 
@@ -160,18 +160,29 @@
                     throw new Error('Supabase 클라이언트 초기화 실패');
                 }
 
-                // 탭에 맞는 product_type 매칭 ('일반 계정' 또는 '이메일 구매 계정')
-                const productTypeName = currentTab === 'general' ? '일반 계정' : '이메일 구매 계정';
-
-                // orders 테이블에서 search_key와 product_type이 모두 일치하는 데이터 조회
+                // 1단계: search_key가 일치하는 데이터를 가져옴
                 const { data, error } = await supabaseClient
                     .from('orders')
                     .select('*')
                     .eq('search_key', code)
-                    .eq('product_type', productTypeName)
                     .single();
 
                 if (error || !data) {
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                // 2단계: 탭에 따른 엄격한 구분 검증 (이메일 포함 여부에 따라 차단)
+                const productType = (data.product_type || '').trim();
+                const isEmailAccount = productType.includes('이메일');
+
+                if (currentTab === 'general' && isEmailAccount) {
+                    // 일반 계정 탭인데 이메일 계정인 경우 차단
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                if (currentTab === 'email' && !isEmailAccount) {
+                    // 이메일 계정 탭인데 일반 계정인 경우 차단
                     errorBox.classList.remove('hidden');
                     return;
                 }
@@ -181,10 +192,10 @@
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                // OTP 키 처리 (otp_key 또는 otp 컬럼 지원)
-                const otpKey = data.otp_key || data.otp || '';
-                if (otpKey) {
-                    setupOtp(otpKey);
+                // 3단계: OTP 키 감지 및 실시간 발급 처리 (테이블 내 모든 가능한 OTP 컬럼명 대응)
+                const otpKey = data.otp_key || data.otp || data.two_fa || data.otp_secret || '';
+                if (otpKey && otpKey.trim() !== '') {
+                    setupOtp(otpKey.trim());
                 } else {
                     document.getElementById('res-otp').innerText = '미등록';
                     document.getElementById('res-otp-timer').innerText = '';
