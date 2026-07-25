@@ -121,14 +121,11 @@
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                // product_type 조건 설정 ('일반 계정' 또는 '이메일 구매 계정')
-                const productTypeName = type === 'general' ? '일반 계정' : '이메일 구매 계정';
-
+                // orders 테이블에서 search_key가 일치하는 데이터를 바로 조회
                 const { data, error } = await supabaseClient
                     .from('orders')
                     .select('*')
                     .eq('search_key', code)
-                    .eq('product_type', productTypeName)
                     .single();
 
                 if (error || !data) {
