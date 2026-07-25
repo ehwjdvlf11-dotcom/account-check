@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- TOTP 생성을 위한 라이브러리 (OTP 실시간 생성용) -->
+    <!-- TOTP 생성을 위한 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.3.2/otpauth.umd.min.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -27,7 +27,7 @@
             <p class="text-slate-400 text-sm mt-1">발급 코드를 입력하여 계정 정보를 확인하세요.</p>
         </div>
 
-        <!-- 탭 버튼 영역 (일반 계정 / 이메일 계정) -->
+        <!-- 탭 버튼 영역 -->
         <div class="flex rounded-xl bg-slate-900 p-1 mb-6 border border-slate-700">
             <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow">
                 계정 조회
@@ -37,7 +37,7 @@
             </button>
         </div>
 
-        <!-- [폼] 조회 입력 영역 -->
+        <!-- 입력 영역 -->
         <div class="space-y-4">
             <div>
                 <label id="input-label" class="block text-xs font-semibold text-slate-300 uppercase mb-1">발급 코드 입력</label>
@@ -91,7 +91,7 @@
 
         </div>
 
-        <!-- 에러 메시지 출력 영역 -->
+        <!-- 에러 메시지 -->
         <div id="error-box" class="mt-6 hidden p-4 bg-slate-900 border border-rose-900/50 rounded-xl text-center text-rose-400 text-sm">
             ❌ 일치하는 정보를 찾을 수 없습니다.
         </div>
@@ -157,7 +157,6 @@
                     throw new Error('Supabase 초기화 실패');
                 }
 
-                // 1. 코드로 데이터 조회
                 const { data, error } = await supabaseClient
                     .from('orders')
                     .select('*')
@@ -169,30 +168,30 @@
                     return;
                 }
 
-                // 2. 탭별 엄격한 조건 검증 (이메일 포함 여부에 따른 분리)
+                // [디버깅용] 브라우저 콘솔(F12)에 데이터 전체 출력 (어떤 컬럼명으로 들어있는지 확인용)
+                console.log("Supabase 조회된 원본 데이터:", data);
+
                 const productType = (data.product_type || '').trim();
                 const isEmailAccount = productType.includes('이메일') || productType.includes('이메일 구매');
 
                 if (currentTab === 'general' && isEmailAccount) {
-                    // 일반 계정 탭인데 이메일 계정 데이터인 경우 차단
                     errorBox.classList.remove('hidden');
                     return;
                 }
                 if (currentTab === 'email' && !isEmailAccount) {
-                    // 이메일 계정 탭인데 일반 계정 데이터인 경우 차단
                     errorBox.classList.remove('hidden');
                     return;
                 }
 
-                // 데이터 화면에 반영
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                // 3. OTP/2FA 실시간 생성 처리
-                const otpKey = data.otp_key || data.otp || data.two_fa || data.otp_secret || '';
-                if (otpKey && otpKey.trim() !== '') {
-                    setupOtp(otpKey.trim());
+                // 데이터베이스에 존재하는 모든 가능한 OTP 관련 컬럼명을 폭넓게 탐색
+                const otpKey = data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
+                
+                if (otpKey && String(otpKey).trim() !== '') {
+                    setupOtp(String(otpKey).trim());
                 } else {
                     document.getElementById('res-otp').innerText = '미등록';
                     document.getElementById('res-otp-timer').innerText = '';
@@ -229,6 +228,7 @@
                 updateOtp();
                 otpInterval = setInterval(updateOtp, 1000);
             } catch (e) {
+                console.error("OTP 생성 오류:", e);
                 document.getElementById('res-otp').innerText = secret;
                 document.getElementById('res-otp-timer').innerText = '';
             }
