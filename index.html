@@ -185,9 +185,21 @@
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                // 정확한 컬럼명인 otp_url을 우선적으로 가져오도록 수정
-                const otpKey = data.otp_url || data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
+                let otpKey = data.otp_url || data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
                 
+                // 만약 otp_url 등에 otpauth:// 형태의 주소가 통째로 들어있다면 시크릿 값만 정밀 추출
+                if (otpKey.includes('otpauth://')) {
+                    try {
+                        const urlParams = new URL(otpKey);
+                        const secretParam = urlParams.searchParams.get('secret');
+                        if (secretParam) {
+                            otpKey = secretParam;
+                        }
+                    } catch (e) {
+                        console.error("URL 파싱 실패:", e);
+                    }
+                }
+
                 if (otpKey && String(otpKey).trim() !== '') {
                     setupOtp(String(otpKey).trim());
                 } else {
@@ -226,6 +238,7 @@
                 updateOtp();
                 otpInterval = setInterval(updateOtp, 1000);
             } catch (e) {
+                console.error("TOTP 객체 생성 오류:", e);
                 document.getElementById('res-otp').innerText = secret;
                 document.getElementById('res-otp-timer').innerText = '';
             }
