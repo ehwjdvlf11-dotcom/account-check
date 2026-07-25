@@ -62,14 +62,14 @@
             <!-- 계정 ID -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-xs text-slate-400 mb-1">계정 ID</span>
+                    <span id="label-account-id" class="block text-xs text-slate-400 mb-1">계정 ID</span>
                     <div id="res-account-id" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-account-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 비밀번호 -->
-            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+            <!-- 비밀번호 (일반 계정용) -->
+            <div id="password-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="block text-xs text-slate-400 mb-1">비밀번호</span>
                     <div id="res-account-pw" class="text-slate-200 font-medium truncate">정보 없음</div>
@@ -142,6 +142,7 @@
             const code = document.getElementById('input-code').value.trim();
             const resultBox = document.getElementById('result-box');
             const errorBox = document.getElementById('error-box');
+            const passwordContainer = document.getElementById('password-container');
 
             resultBox.classList.add('hidden');
             errorBox.classList.add('hidden');
@@ -169,8 +170,8 @@
                 }
 
                 const productType = String(data.product_type || '').toLowerCase();
-                const accountId = String(data.account_id || '').toLowerCase();
-                const isEmailAccount = productType.includes('이메일') || accountId.includes('@');
+                const accountIdStr = String(data.account_id || '').toLowerCase();
+                const isEmailAccount = productType.includes('이메일') || accountIdStr.includes('@') || Boolean(data.email_type);
 
                 if (currentTab === 'general' && isEmailAccount) {
                     errorBox.classList.remove('hidden');
@@ -182,12 +183,21 @@
                 }
 
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
-                document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
-                document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
+
+                // 이메일 계정일 경우 email_type 값을 계정 ID 칸에 통째로 표시하고 비밀번호 칸은 숨김
+                if (currentTab === 'email' && data.email_type) {
+                    document.getElementById('label-account-id').innerText = '이메일 계정 정보 (ID / PW)';
+                    document.getElementById('res-account-id').innerText = data.email_type;
+                    passwordContainer.classList.add('hidden');
+                } else {
+                    document.getElementById('label-account-id').innerText = '계정 ID';
+                    document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
+                    document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
+                    passwordContainer.classList.remove('hidden');
+                }
 
                 let otpKey = data.otp_url || data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
                 
-                // 만약 otp_url 등에 otpauth:// 형태의 주소가 통째로 들어있다면 시크릿 값만 정밀 추출
                 if (otpKey.includes('otpauth://')) {
                     try {
                         const urlParams = new URL(otpKey);
