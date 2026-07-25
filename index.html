@@ -59,22 +59,40 @@
                 <div id="res-product-type" class="text-slate-200 font-medium">정보 없음</div>
             </div>
 
-            <!-- 계정 ID (또는 이메일 ID) -->
+            <!-- 계정 ID -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span id="label-account-id" class="block text-xs text-slate-400 mb-1">계정 ID</span>
+                    <span class="block text-xs text-slate-400 mb-1">계정 ID</span>
                     <div id="res-account-id" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-account-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
             </div>
 
-            <!-- 비밀번호 (일반 및 이메일 공통) -->
+            <!-- 비밀번호 -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span id="label-account-pw" class="block text-xs text-slate-400 mb-1">비밀번호</span>
+                    <span class="block text-xs text-slate-400 mb-1">비밀번호</span>
                     <div id="res-account-pw" class="text-slate-200 font-medium truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-account-pw')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+            </div>
+
+            <!-- 이메일 아이디 (이메일 계정 전용 칸) -->
+            <div id="email-id-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between hidden">
+                <div class="overflow-hidden mr-2 flex-1">
+                    <span class="block text-xs text-slate-400 mb-1">이메일 아이디</span>
+                    <div id="res-email-id" class="text-slate-200 font-medium truncate">정보 없음</div>
+                </div>
+                <button onclick="copyText('res-email-id')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
+            </div>
+
+            <!-- 이메일 비밀번호 (이메일 계정 전용 칸) -->
+            <div id="email-pw-container" class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between hidden">
+                <div class="overflow-hidden mr-2 flex-1">
+                    <span class="block text-xs text-slate-400 mb-1">이메일 비밀번호</span>
+                    <div id="res-email-pw" class="text-slate-200 font-medium truncate">정보 없음</div>
+                </div>
+                <button onclick="copyText('res-email-pw')" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg text-white transition-colors shrink-0">복사</button>
             </div>
 
             <!-- 실시간 2차 인증(OTP) 번호 -->
@@ -142,6 +160,8 @@
             const code = document.getElementById('input-code').value.trim();
             const resultBox = document.getElementById('result-box');
             const errorBox = document.getElementById('error-box');
+            const emailIdContainer = document.getElementById('email-id-container');
+            const emailPwContainer = document.getElementById('email-pw-container');
 
             resultBox.classList.add('hidden');
             errorBox.classList.add('hidden');
@@ -183,24 +203,26 @@
 
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
 
-                // 이메일 계정일 경우 email_type 값을 '/' 기준으로 아이디와 비밀번호로 완벽 분리
+                // 기본 계정 ID, 비밀번호 세팅
+                document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
+                document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
+
+                // 이메일 계정일 경우 이메일 아이디, 비밀번호 칸을 각각 독립적으로 표시
                 if (currentTab === 'email' && data.email_type) {
-                    document.getElementById('label-account-id').innerText = '이메일 아이디';
-                    document.getElementById('label-account-pw').innerText = '이메일 비밀번호';
+                    emailIdContainer.classList.remove('hidden');
+                    emailPwContainer.classList.remove('hidden');
 
                     const parts = data.email_type.split('/');
                     if (parts.length >= 2) {
-                        document.getElementById('res-account-id').innerText = parts[0].trim();
-                        document.getElementById('res-account-pw').innerText = parts[1].trim();
+                        document.getElementById('res-email-id').innerText = parts[0].trim();
+                        document.getElementById('res-email-pw').innerText = parts[1].trim();
                     } else {
-                        document.getElementById('res-account-id').innerText = data.email_type;
-                        document.getElementById('res-account-pw').innerText = '정보 없음';
+                        document.getElementById('res-email-id').innerText = data.email_type;
+                        document.getElementById('res-email-pw').innerText = '정보 없음';
                     }
                 } else {
-                    document.getElementById('label-account-id').innerText = '계정 ID';
-                    document.getElementById('label-account-pw').innerText = '비밀번호';
-                    document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
-                    document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
+                    emailIdContainer.classList.add('hidden');
+                    emailPwContainer.classList.add('hidden');
                 }
 
                 let otpKey = data.otp_url || data.otp_key || data.otp || data.two_fa || data.otp_secret || data.secret || data.code || '';
