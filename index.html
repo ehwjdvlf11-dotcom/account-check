@@ -69,9 +69,9 @@
     </div>
 
     <script>
-        // Supabase 연결 정보 (기존에 쓰시던 주소와 키를 여기에 넣어주세요)
-        const SUPABASE_URL = 'https://your-supabase-url.supabase.co';
-        const SUPABASE_ANON_KEY = 'your-supabase-anon-key';
+        // Supabase 자동 연결 정보 설정 완료
+        const SUPABASE_URL = 'https://gjotvoufqqvrckicwpnj.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_U42wGuvhkR-KON09lk9lfA_LW9I-9gV';
         
         let supabaseClient = null;
         try {
@@ -141,7 +141,7 @@
                 `;
             } catch (err) {
                 console.error(err);
-                resultBox.innerHTML = `<p class="text-rose-400 text-center">⚠️ 조회 중 오류가 발생했습니다. (데이터베이스 설정을 확인하세요)</p>`;
+                resultBox.innerHTML = `<p class="text-rose-400 text-center">⚠️ 조회 중 오류가 발생했습니다. (데이터베이스 테이블 설정을 확인하세요)</p>`;
             }
         }
     </script>
