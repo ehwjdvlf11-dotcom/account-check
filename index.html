@@ -69,7 +69,6 @@
     </div>
 
     <script>
-        // Supabase 자동 연결 정보 설정 완료
         const SUPABASE_URL = 'https://gjotvoufqqvrckicwpnj.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_U42wGuvhkR-KON09lk9lfA_LW9I-9gV';
         
@@ -122,11 +121,14 @@
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                const tableName = type === 'general' ? 'accounts' : 'email_accounts';
+                // product_type 조건 설정 ('일반 계정' 또는 '이메일 구매 계정')
+                const productTypeName = type === 'general' ? '일반 계정' : '이메일 구매 계정';
+
                 const { data, error } = await supabaseClient
-                    .from(tableName)
+                    .from('orders')
                     .select('*')
-                    .eq('code', code)
+                    .eq('search_key', code)
+                    .eq('product_type', productTypeName)
                     .single();
 
                 if (error || !data) {
@@ -136,12 +138,12 @@
 
                 resultBox.innerHTML = `
                     <div class="text-emerald-400 font-semibold mb-1">✅ 조회 성공</div>
-                    <div class="text-slate-300"><b>계정 정보:</b> ${data.account_info || data.email || '정보 없음'}</div>
-                    <div class="text-slate-300"><b>비밀번호:</b> ${data.password || '정보 없음'}</div>
+                    <div class="text-slate-300"><b>계정 정보:</b> ${data.account_id || '정보 없음'}</div>
+                    <div class="text-slate-300"><b>비밀번호:</b> ${data.account_pw || '정보 없음'}</div>
                 `;
             } catch (err) {
                 console.error(err);
-                resultBox.innerHTML = `<p class="text-rose-400 text-center">⚠️ 조회 중 오류가 발생했습니다. (데이터베이스 테이블 설정을 확인하세요)</p>`;
+                resultBox.innerHTML = `<p class="text-rose-400 text-center">⚠️ 조회 중 오류가 발생했습니다.</p>`;
             }
         }
     </script>
