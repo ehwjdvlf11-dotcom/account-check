@@ -105,7 +105,7 @@
             </button>
         </div>
 
-        <!-- ==================== STEP 1: 계정 조회 및 필수 숙지사항(동의) 화면 ==================== -->
+        <!-- ==================== STEP 1: 계정 조회 화면 ==================== -->
         <div id="step-query" class="hidden space-y-4">
             
             <div class="flex justify-between items-center mb-1">
@@ -125,51 +125,15 @@
             </div>
 
             <!-- 입력 영역 -->
-            <div class="space-y-3 pt-1">
+            <div class="space-y-3.5 pt-1">
                 <div>
                     <label id="input-label" class="block text-[11px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 ml-1">발급 코드 입력</label>
                     <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
                         class="w-full bg-slate-950/80 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all">
                 </div>
-
-                <!-- 필독 숙지사항 박스 -->
-                <div class="border border-amber-500/30 bg-amber-500/[0.03] backdrop-blur rounded-2xl p-4 text-xs text-slate-300 space-y-3 max-h-[180px] overflow-y-auto custom-scrollbar">
-                    <div class="flex items-center gap-2 text-amber-400 font-bold text-sm mb-2 sticky top-0 bg-black/80 py-1 backdrop-blur">
-                        <span>⚠️</span> [필독] 계정 수령 후 필수 숙지사항
-                    </div>
-
-                    <div class="bg-black/50 p-3 rounded-xl border border-amber-500/20 space-y-2">
-                        <p class="text-amber-300 font-bold">⚠️ 주의사항</p>
-                        <p>• 계정 양도 이후 발생하는 모든 사용 책임(닉네임, 아이디, 이메일, 비밀번호 변경 및 게시글 삭제 포함)은 <strong>구매자 본인</strong>에게 있습니다.</p>
-                        <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong>즉시 회수</strong>됩니다.</p>
-                    </div>
-
-                    <p><strong>1️⃣ 로그인 및 2차 보안 (2FA)</strong><br>
-                    - ID/PW 입력 후 2FA(OTP 인증번호)를 입력해 주세요.<br>
-                    - 2FA는 X 자체 2차 보안 시스템으로 IP 보호 및 해킹 방지에 도움을 줍니다.</p>
-
-                    <p><strong>2️⃣ 서치벤 테스트 및 환불 규정</strong><br>
-                    - 수령 직후 테스트에서 노출되지 않을 경우 즉시 교환 및 환불 가능 (단, 결과 통보 필수이며 미답변 시 정상 노출 간주)<br>
-                    - 정상 노출 확인 이후 사용자 활동 패턴으로 인한 서치벤은 교환/환불 불가 *(위 규정 외 환불 절대 불가)*</p>
-
-                    <p><strong>3️⃣ 계정 활성화 필수 작업</strong><br>
-                    - 신규 계정 특성상 사용 로그가 필요합니다. 수령 직후 <strong>팔로우/팔로잉, 게시글 업로드, 리트윗, 좋아요</strong> 등의 활동 흔적을 반드시 남겨주세요.</p>
-
-                    <p><strong>4️⃣ 연동 메일 변경 안내 (이메일 미구매자)</strong><br>
-                    - 연동 메일은 보장되지 않으므로 수령 즉시 개인 메일로 변경해 주세요. (변경 시 '48시간 잠금'은 트위터 정상 보안 시스템입니다.)</p>
-                </div>
-
-                <!-- 동의 체크박스 -->
-                <div class="flex items-center gap-2.5 bg-slate-900/60 border border-slate-800 p-3 rounded-2xl hover:border-slate-700 transition-colors">
-                    <input type="checkbox" id="agree-checkbox" onchange="checkAgreement()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
-                    <label for="agree-checkbox" class="text-slate-200 font-semibold text-xs cursor-pointer select-none">
-                        위 내용을 모두 숙지하였으며 이에 동의합니다.
-                    </label>
-                </div>
-
-                <!-- 조회하기 버튼 (처음에 비활성화, 체크해야 활성화) -->
-                <button id="btn-search" onclick="searchAccount()" disabled
-                    class="w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm">
+                <!-- 조회하기 버튼 (클릭 시 약관 동의 팝업 호출) -->
+                <button onclick="openAgreementModal()" 
+                    class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-sky-500/20 text-sm active:scale-[0.99]">
                     조회하기
                 </button>
             </div>
@@ -242,6 +206,56 @@
 
     </div>
 
+    <!-- ==================== 약관 동의 팝업 (모달) ==================== -->
+    <div id="agreement-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+            
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                    <span>⚠️</span> 필수 숙지사항 및 약관 동의
+                </h3>
+                <button onclick="closeAgreementModal()" class="text-slate-500 hover:text-white text-lg font-bold px-2">×</button>
+            </div>
+
+            <!-- 약관 내용 박스 -->
+            <div class="border border-amber-500/30 bg-amber-500/[0.03] rounded-2xl p-4 text-xs text-slate-300 space-y-3 max-h-[220px] overflow-y-auto">
+                <div class="bg-black/50 p-3 rounded-xl border border-amber-500/20 space-y-2">
+                    <p class="text-amber-300 font-bold">⚠️ 주의사항</p>
+                    <p>• 계정 양도 이후 발생하는 모든 사용 책임(닉네임, 아이디, 이메일, 비밀번호 변경 및 게시글 삭제 포함)은 <strong>구매자 본인</strong>에게 있습니다.</p>
+                    <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong>즉시 회수</strong>됩니다.</p>
+                </div>
+
+                <p><strong>1️⃣ 로그인 및 2차 보안 (2FA)</strong><br>
+                - ID/PW 입력 후 2FA(OTP 인증번호)를 입력해 주세요.<br>
+                - 2FA는 X 자체 2차 보안 시스템으로 IP 보호 및 해킹 방지에 도움을 줍니다.</p>
+
+                <p><strong>2️⃣ 서치벤 테스트 및 환불 규정</strong><br>
+                - 수령 직후 테스트에서 노출되지 않을 경우 즉시 교환 및 환불 가능 (단, 결과 통보 필수이며 미답변 시 정상 노출 간주)<br>
+                - 정상 노출 확인 이후 사용자 활동 패턴으로 인한 서치벤은 교환/환불 불가 *(위 규정 외 환불 절대 불가)*</p>
+
+                <p><strong>3️⃣ 계정 활성화 필수 작업</strong><br>
+                - 신규 계정 특성상 사용 로그가 필요합니다. 수령 직후 <strong>팔로우/팔로잉, 게시글 업로드, 리트윗, 좋아요</strong> 등의 활동 흔적을 반드시 남겨주세요.</p>
+
+                <p><strong>4️⃣ 연동 메일 변경 안내 (이메일 미구매자)</strong><br>
+                - 연동 메일은 보장되지 않으므로 수령 즉시 개인 메일로 변경해 주세요. (변경 시 '48시간 잠금'은 트위터 정상 보안 시스템입니다.)</p>
+            </div>
+
+            <!-- 동의 체크박스 -->
+            <div class="flex items-center gap-2.5 bg-slate-900/60 border border-slate-800 p-3 rounded-2xl hover:border-slate-700 transition-colors">
+                <input type="checkbox" id="modal-agree-checkbox" onchange="checkModalAgreement()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+                <label for="modal-agree-checkbox" class="text-slate-200 font-semibold text-xs cursor-pointer select-none">
+                    위 내용을 모두 숙지하였으며 이에 동의합니다.
+                </label>
+            </div>
+
+            <!-- 최종 조회 버튼 -->
+            <button id="btn-modal-confirm" onclick="confirmSearch()" disabled
+                class="w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm">
+                동의하고 계정 발급(조회)하기
+            </button>
+        </div>
+    </div>
+
     <!-- 하단 작은 저작권 or 브랜드 텍스트 -->
     <div class="mt-6 text-slate-600 text-[11px] tracking-wider uppercase font-semibold">
         © X Account Secure System
@@ -279,26 +293,13 @@
         function goToQueryStep() {
             document.getElementById('step-price').classList.add('hidden');
             document.getElementById('step-query').classList.remove('hidden');
-            document.getElementById('sub-title').innerText = "발급 코드를 입력하고 약관에 동의하여 조회하세요.";
+            document.getElementById('sub-title').innerText = "발급 코드를 입력하여 계정을 조회하세요.";
         }
 
         function goToPriceStep() {
             document.getElementById('step-query').classList.add('hidden');
             document.getElementById('step-price').classList.remove('hidden');
             document.getElementById('sub-title').innerText = "계정 가격 및 거래 안내를 확인해 주세요.";
-        }
-
-        function checkAgreement() {
-            const isChecked = document.getElementById('agree-checkbox').checked;
-            const btnSearch = document.getElementById('btn-search');
-
-            if (isChecked) {
-                btnSearch.disabled = false;
-                btnSearch.className = "w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-sky-500/25 text-sm cursor-pointer";
-            } else {
-                btnSearch.disabled = true;
-                btnSearch.className = "w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm";
-            }
         }
 
         function switchTab(mode) {
@@ -325,12 +326,44 @@
             }
         }
 
-        async function searchAccount() {
-            const isChecked = document.getElementById('agree-checkbox').checked;
-            if (!isChecked) {
-                alert('필수 숙지사항 및 동의에 체크해주세요!');
+        // '조회하기' 누를 때 코드 입력 검사 후 팝업 열기
+        function openAgreementModal() {
+            const code = document.getElementById('input-code').value.trim();
+            if (!code) {
+                alert('코드를 입력해주세요!');
                 return;
             }
+
+            // 모달 초기화
+            document.getElementById('modal-agree-checkbox').checked = false;
+            const btnConfirm = document.getElementById('btn-modal-confirm');
+            btnConfirm.disabled = true;
+            btnConfirm.className = "w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm";
+
+            // 팝업 띄우기
+            document.getElementById('agreement-modal').classList.remove('hidden');
+        }
+
+        function closeAgreementModal() {
+            document.getElementById('agreement-modal').classList.add('hidden');
+        }
+
+        function checkModalAgreement() {
+            const isChecked = document.getElementById('modal-agree-checkbox').checked;
+            const btnConfirm = document.getElementById('btn-modal-confirm');
+
+            if (isChecked) {
+                btnConfirm.disabled = false;
+                btnConfirm.className = "w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-sky-500/25 text-sm cursor-pointer";
+            } else {
+                btnConfirm.disabled = true;
+                btnConfirm.className = "w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm";
+            }
+        }
+
+        // 모달에서 동의 후 최종 조회 실행
+        async function confirmSearch() {
+            closeAgreementModal();
 
             const code = document.getElementById('input-code').value.trim();
             const resultBox = document.getElementById('result-box');
@@ -341,11 +374,6 @@
             resultBox.classList.add('hidden');
             errorBox.classList.add('hidden');
             if (otpInterval) clearInterval(otpInterval);
-
-            if (!code) {
-                alert('코드를 입력해주세요!');
-                return;
-            }
 
             try {
                 if (!supabaseClient) {
@@ -377,7 +405,6 @@
                 }
 
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
-
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
