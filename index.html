@@ -55,8 +55,20 @@
                         <span class="text-white font-black text-sm">15,000원</span>
                     </div>
                     <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
-                        <span class="text-slate-300 font-medium">🔹 이메일 지급 계정</span>
-                        <span class="text-white font-black text-sm">20,000원</span>
+                        <div class="mr-2">
+                            <span class="text-slate-300 font-medium block">🔹 이메일 지급 계정</span>
+                            <span class="text-[10px] text-sky-400 font-medium">(이메일 잠김시 해결 가능)</span>
+                        </div>
+                        <span class="text-white font-black text-sm shrink-0">20,000원</span>
+                    </div>
+                    <!-- 일괄 구매 할인 가격표 -->
+                    <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-medium">📦 5개 일괄 구매 (할인)</span>
+                        <span class="text-white font-black text-sm">65,000원</span>
+                    </div>
+                    <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-medium">📦 10개 일괄 구매 (할인)</span>
+                        <span class="text-white font-black text-sm">120,000원</span>
                     </div>
                 </div>
 
@@ -64,12 +76,19 @@
                     <div class="flex items-center gap-2 text-amber-400 font-bold text-xs">
                         <span>🛡️</span> 송금 및 거래 안내 (3자 사기 방지)
                     </div>
-                    <p class="text-slate-400 leading-relaxed">
+                    <p class="text-slate-400 leading-relaxed space-y-1">
                         • <strong>카카오페이 익명송금</strong>을 이용합니다.<br>
-                        • <strong>번개장터</strong>를 통한 거래도 가능합니다. <span class="text-amber-300/90">(단, 2개 이상 구매 시에만 가능)</span>
+                        • <strong>번개장터</strong>를 통한 거래도 가능합니다. <span class="text-amber-300/90">(단, 2개 이상 구매 시에만 가능)</span><br>
+                        • <span class="text-sky-300 font-semibold">구매하시는 금액 만큼 오픈채팅 송금 주시면 됩니다.</span>
                     </p>
                 </div>
             </div>
+
+            <!-- 고객센터 바로가기 버튼 추가 -->
+            <a href="https://open.kakao.com/o/sjPGWOFi" target="_blank" 
+                class="w-full bg-slate-900/80 hover:bg-slate-800 text-sky-400 border border-sky-500/30 hover:border-sky-500/60 font-bold py-3 rounded-2xl transition-all flex items-center justify-center gap-2 text-xs shadow-inner">
+                <span>💬</span> 1:1 고객센터 문의하기 (오픈채팅)
+            </a>
 
             <!-- 가격 확인 동의 체크박스 -->
             <div class="flex items-center gap-2.5 bg-slate-900/60 border border-slate-800 p-3 rounded-2xl hover:border-slate-700 transition-colors">
@@ -88,7 +107,6 @@
 
         <!-- ==================== STEP 1: 약관 및 동의 화면 ==================== -->
         <div id="step-agreement" class="hidden space-y-4">
-            <!-- 이전으로 돌아가기 버튼 -->
             <div class="flex justify-between items-center mb-1">
                 <button onclick="goToPriceStep()" class="text-xs text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors font-medium">
                     ← 가격표 다시보기
@@ -139,7 +157,6 @@
         <!-- ==================== STEP 2: 계정 조회 화면 ==================== -->
         <div id="step-query" class="hidden space-y-4">
             
-            <!-- 상단 약관 다시보기 버튼 -->
             <div class="flex justify-between items-center mb-1">
                 <button onclick="goToAgreementStepFromQuery()" class="text-xs text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors font-medium">
                     ← 약관 다시보기
@@ -258,7 +275,6 @@
             console.error("Supabase 초기화 실패", e);
         }
 
-        // STEP 0 -> STEP 1 체크박스 로직
         function checkPriceAgreement() {
             const isChecked = document.getElementById('agree-price-checkbox').checked;
             const btnNext = document.getElementById('btn-next-price');
@@ -284,7 +300,6 @@
             document.getElementById('sub-title').innerText = "계정 가격 및 거래 안내를 확인해 주세요.";
         }
 
-        // STEP 1 -> STEP 2 체크박스 로직
         function checkAgreement() {
             const isChecked = document.getElementById('agree-checkbox').checked;
             const btnNext = document.getElementById('btn-next');
