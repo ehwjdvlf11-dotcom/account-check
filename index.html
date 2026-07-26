@@ -79,7 +79,7 @@
                     <p class="text-slate-400 leading-relaxed space-y-1">
                         • <strong>카카오페이 익명송금</strong>을 이용합니다.<br>
                         • <strong>번개장터</strong>를 통한 거래도 가능합니다. <span class="text-amber-300/90">(단, 2개 이상 구매 시에만 가능)</span><br>
-                        • <span class="text-sky-300 font-semibold">구매하시는 금액 만큼 오픈채팅 송금 주시면 됩니다.</span>
+                        • <span class="text-sky-300 font-semibold">구매하시는 금액 만큼 오픈채팅 송금 후 관리자에게 발급 받은 코드를 입력하시면 계정 정보가 제공됩니다.</span>
                     </p>
                 </div>
             </div>
@@ -326,7 +326,6 @@
             }
         }
 
-        // '조회하기' 누를 때 코드 입력 검사 후 팝업 열기
         function openAgreementModal() {
             const code = document.getElementById('input-code').value.trim();
             if (!code) {
@@ -334,13 +333,11 @@
                 return;
             }
 
-            // 모달 초기화
             document.getElementById('modal-agree-checkbox').checked = false;
             const btnConfirm = document.getElementById('btn-modal-confirm');
             btnConfirm.disabled = true;
             btnConfirm.className = "w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm";
 
-            // 팝업 띄우기
             document.getElementById('agreement-modal').classList.remove('hidden');
         }
 
@@ -361,7 +358,6 @@
             }
         }
 
-        // 모달에서 동의 후 최종 조회 실행
         async function confirmSearch() {
             closeAgreementModal();
 
