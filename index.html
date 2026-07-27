@@ -12,92 +12,140 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.3.2/otpauth.umd.min.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
         body { 
             font-family: 'Pretendard', sans-serif; 
-            background-color: #010307; 
-            background-image: 
-                radial-gradient(circle at 50% -10%, rgba(29, 155, 240, 0.3) 0%, transparent 45%),
-                radial-gradient(circle at 100% 90%, rgba(147, 51, 234, 0.2) 0%, transparent 45%),
-                radial-gradient(circle at 0% 90%, rgba(56, 189, 248, 0.2) 0%, transparent 45%),
-                linear-gradient(to bottom, #020617 0%, #010307 100%);
-            background-attachment: fixed;
+            background-color: #000208; 
             overflow-x: hidden;
+            perspective: 1000px;
         }
 
-        /* 입체감을 살린 X 글래스 디자인 */
+        /* 배경 유영하는 X 로고 패턴 컨테이너 */
+        .x-bg-pattern {
+            position: fixed;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            width: 200%; height: 200%;
+            background-image: radial-gradient(rgba(29, 155, 240, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* 대각선으로 흘러가는 거대한 X 로고들 */
+        .floating-x-logos {
+            position: absolute;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-around;
+            opacity: 0.12;
+            transform: rotate(-15deg) scale(1.2);
+            animation: bg-scroll 30s linear infinite;
+        }
+
+        .bg-x-item {
+            font-size: 120px;
+            font-weight: 900;
+            color: #1d9bf0;
+            text-shadow: 0 0 30px rgba(29, 155, 240, 0.8);
+            user-select: none;
+        }
+
+        @keyframes bg-scroll {
+            0% { transform: rotate(-15deg) translateY(0); }
+            100% { transform: rotate(-15deg) translateY(-200px); }
+        }
+
+        /* 3D 입체 글래스 패널 */
         .x-glass {
-            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(3, 7, 18, 0.95) 100%);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(2, 6, 23, 0.95) 100%);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             box-shadow: 
-                0 40px 100px -20px rgba(0, 0, 0, 0.95), 
-                0 0 60px rgba(29, 155, 240, 0.18),
-                inset 0 1px 1px rgba(255, 255, 255, 0.25),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.8);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                0 50px 100px -20px rgba(0, 0, 0, 0.95),
+                0 0 80px rgba(29, 155, 240, 0.25),
+                inset 0 1px 2px rgba(255, 255, 255, 0.4),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.8);
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
         }
 
-        /* 내부 카드 입체 효과 및 호버 시 살짝 떠오르는 애니메이션 */
+        /* 내부 입체 카드 (네온 엣지) */
         .x-inner-card {
-            background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.65) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            backdrop-filter: blur(16px);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.06), 0 10px 25px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.7) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .x-inner-card:hover {
-            border-color: rgba(29, 155, 240, 0.3);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12), 0 15px 30px rgba(29, 155, 240, 0.1);
-            transform: translateY(-2px);
+            border-color: rgba(29, 155, 240, 0.6);
+            box-shadow: inset 0 1px 2px rgba(29, 155, 240, 0.3), 0 15px 35px rgba(29, 155, 240, 0.2);
+            transform: translateY(-3px) scale(1.01);
         }
 
-        /* X 네온 버튼 스타일 */
+        /* 입체 네온 버튼 */
         .neon-btn {
-            background: linear-gradient(135deg, #1d9bf0 0%, #0052cc 100%);
-            box-shadow: 0 12px 30px -5px rgba(29, 155, 240, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #1d9bf0 0%, #004aad 100%);
+            box-shadow: 0 15px 35px -5px rgba(29, 155, 240, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.5);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .neon-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg) translateY(-100%);
+            transition: transform 0.6s;
+        }
+        .neon-btn:hover::after {
+            transform: rotate(45deg) translateY(100%);
         }
         .neon-btn:hover:not(:disabled) {
             background: linear-gradient(135deg, #38bdf8 0%, #1d9bf0 100%);
-            box-shadow: 0 18px 40px -5px rgba(29, 155, 240, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
+            box-shadow: 0 20px 45px -5px rgba(29, 155, 240, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
         }
 
         .sub-neon-btn {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
-            border: 1px solid rgba(29, 155, 240, 0.4);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(29, 155, 240, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.15);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .sub-neon-btn:hover {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 1) 0%, rgba(29, 155, 240, 0.25) 100%);
-            border-color: rgba(29, 155, 240, 0.9);
-            box-shadow: 0 12px 30px -5px rgba(29, 155, 240, 0.3);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 1) 0%, rgba(29, 155, 240, 0.3) 100%);
+            border-color: rgba(29, 155, 240, 1);
+            box-shadow: 0 15px 35px -5px rgba(29, 155, 240, 0.4);
+            transform: translateY(-3px);
         }
 
-        /* 스크롤바 커스텀 */
+        /* 스크롤바 */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 9999px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(29, 155, 240, 0.7); }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.6); }
+        ::-webkit-scrollbar-thumb { background: rgba(29, 155, 240, 0.5); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(29, 155, 240, 0.9); }
 
-        /* 배경 및 로고 애니메이션 */
+        /* 다이내믹 애니메이션 */
         @keyframes pulse-glow {
             0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
+            50% { opacity: 0.7; transform: scale(1.15); }
         }
         .animate-pulse-glow {
             animation: pulse-glow 6s infinite ease-in-out;
         }
 
-        @keyframes float-slow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        @keyframes float-3d {
+            0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+            50% { transform: translateY(-8px) rotateX(2deg) rotateY(-2deg); }
         }
-        .animate-float {
-            animation: float-slow 4s infinite ease-in-out;
+        .animate-float-3d {
+            animation: float-3d 4s infinite ease-in-out;
         }
 
         @keyframes shimmer {
@@ -105,29 +153,51 @@
             100% { background-position: 200% 0; }
         }
         .shimmer-text {
-            background: linear-gradient(90deg, #ffffff 0%, #38bdf8 50%, #ffffff 100%);
+            background: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #818cf8 50%, #38bdf8 70%, #ffffff 100%);
             background-size: 200% auto;
             color: transparent;
             -webkit-background-clip: text;
-            animation: shimmer 4s linear infinite;
+            animation: shimmer 5s linear infinite;
+        }
+
+        .input-cyber {
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9);
+            transition: all 0.3s ease;
+        }
+        .input-cyber:focus {
+            border-color: #1d9bf0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 20px rgba(29, 155, 240, 0.4);
         }
     </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white relative">
 
-    <!-- 화려한 배경 빛 번짐 효과 -->
-    <div class="absolute w-[600px] h-[600px] bg-sky-500/15 rounded-full blur-[150px] pointer-events-none animate-pulse-glow -top-20 -left-20"></div>
-    <div class="absolute w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow -bottom-20 -right-20" style="animation-delay: 3s;"></div>
+    <!-- 움직이는 배경 레이어 (트위터 X 로고 패턴 + 네온 광원) -->
+    <div class="x-bg-pattern">
+        <div class="floating-x-logos">
+            <span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span>
+            <span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span>
+            <span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span>
+            <span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span><span class="bg-x-item">𝕏</span>
+        </div>
+    </div>
+    
+    <!-- 배경 은은한 컬러 글로우 오버레이 -->
+    <div class="absolute w-[700px] h-[700px] bg-sky-500/15 rounded-full blur-[180px] pointer-events-none animate-pulse-glow -top-32 -left-32 z-0"></div>
+    <div class="absolute w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[180px] pointer-events-none animate-pulse-glow -bottom-32 -right-32 z-0" style="animation-delay: 3s;"></div>
 
-    <div class="w-full max-w-lg x-glass rounded-[40px] p-7 md:p-10 relative overflow-hidden z-10 my-6">
+    <!-- 메인 컨테이너 (3D 글래스) -->
+    <div id="main-card" class="w-full max-w-lg x-glass rounded-[40px] p-7 md:p-10 relative overflow-hidden z-10 my-6 animate-float-3d">
         
-        <!-- 상단 네온 광원 바 -->
-        <div class="absolute top-0 left-0 right-0 h-[6px] bg-gradient-to-r from-transparent via-[#1d9bf0] to-transparent shadow-[0_0_35px_#1d9bf0]"></div>
+        <!-- 상단 네온 레이저 바 -->
+        <div class="absolute top-0 left-0 right-0 h-[6px] bg-gradient-to-r from-transparent via-[#1d9bf0] to-transparent shadow-[0_0_40px_#1d9bf0]"></div>
 
-        <!-- 공통 헤더 (입체 로고 및 타이틀) -->
+        <!-- 공통 헤더 -->
         <div class="text-center mb-7 relative">
-            <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-slate-900 via-black to-slate-950 border border-slate-700/80 text-white text-4xl font-black mb-4 shadow-2xl shadow-[#1d9bf0]/40 animate-float group">
-                <span class="group-hover:scale-110 transition-transform duration-300 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-500">𝕏</span>
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-slate-900 via-black to-slate-950 border border-slate-700/80 text-white text-4xl font-black mb-4 shadow-2xl shadow-[#1d9bf0]/50 group cursor-pointer">
+                <span class="group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-400 drop-shadow-[0_0_15px_rgba(29,155,240,0.8)]">𝕏</span>
             </div>
             <h1 class="text-2xl md:text-3xl font-black tracking-tight text-white flex items-center justify-center gap-2 drop-shadow-lg">
                 <span class="shimmer-text">⚡ X 계정 구매 및 실시간 조회</span>
@@ -137,19 +207,19 @@
 
         <!-- STEP -1 (필독 안내 화면) -->
         <div id="step-intro" class="space-y-5 transition-all duration-500">
-            <div class="x-inner-card border-amber-500/40 rounded-3xl p-6 text-xs md:text-sm text-slate-300 space-y-4 shadow-2xl bg-gradient-to-b from-amber-500/[0.08] to-transparent">
-                <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+            <div class="x-inner-card border-amber-500/40 rounded-3xl p-6 text-xs md:text-sm text-slate-300 space-y-4 bg-gradient-to-b from-amber-500/[0.1] to-transparent shadow-2xl">
+                <div class="flex items-center justify-between border-b border-amber-500/30 pb-3">
                     <span class="text-amber-400 font-black text-sm md:text-base tracking-tight flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-amber-400 animate-ping"></span> 🚨 필수 필독 안내
                     </span>
-                    <span class="text-[11px] text-amber-300 font-bold bg-amber-500/20 px-3 py-1.5 rounded-full border border-amber-500/40 shadow-sm">
+                    <span class="text-[11px] text-amber-300 font-bold bg-amber-500/25 px-3 py-1.5 rounded-full border border-amber-500/40 shadow-md">
                         💸 송금 선행 필수
                     </span>
                 </div>
                 <p class="text-slate-200 leading-relaxed space-y-2 pt-0.5">
-                    🛍️ 구매하실 금액만큼 <strong class="text-sky-400 underline decoration-sky-400/60 underline-offset-4 font-black">오픈채팅으로 송금해주신 뒤</strong> 관리자에게 발급받은 코드를 입력하시면 계정 정보가 즉시 제공됩니다.
+                    🛍️ 구매하실 금액만큼 <strong class="text-sky-400 underline decoration-sky-400/80 underline-offset-4 font-black">오픈채팅으로 송금해주신 뒤</strong> 관리자에게 발급받은 코드를 입력하시면 계정 정보가 즉시 제공됩니다.
                 </p>
-                <div class="bg-black/90 p-4 rounded-2xl border border-rose-500/40 text-rose-300 font-bold text-center tracking-tight shadow-inner flex items-center justify-center gap-2 text-xs md:text-sm">
+                <div class="bg-black/90 p-4 rounded-2xl border border-rose-500/50 text-rose-300 font-bold text-center tracking-tight shadow-inner flex items-center justify-center gap-2 text-xs md:text-sm">
                     <span>❌</span> "송금하면 되나요?", "이 가격 송금하면 되나요?" 문의 금지!
                 </div>
             </div>
@@ -157,11 +227,11 @@
             <!-- 버튼 그룹 -->
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="goToPriceStep()" 
-                    class="w-full neon-btn text-white font-black py-4 rounded-2xl text-xs md:text-sm cursor-pointer active:scale-[0.98] tracking-tight flex flex-col items-center justify-center gap-1 shadow-xl text-center">
+                    class="w-full neon-btn text-white font-black py-4 rounded-2xl text-xs md:text-sm cursor-pointer active:scale-[0.97] tracking-tight flex flex-col items-center justify-center gap-1 shadow-xl text-center">
                     <span class="text-base">💰</span> 가격표 및 거래 방식
                 </button>
                 <button onclick="goToQueryStep()" 
-                    class="w-full sub-neon-btn text-sky-300 hover:text-white font-black py-4 rounded-2xl text-xs md:text-sm cursor-pointer active:scale-[0.98] tracking-tight flex flex-col items-center justify-center gap-1 text-center">
+                    class="w-full sub-neon-btn text-sky-300 hover:text-white font-black py-4 rounded-2xl text-xs md:text-sm cursor-pointer active:scale-[0.97] tracking-tight flex flex-col items-center justify-center gap-1 text-center">
                     <span class="text-base">🔑</span> 코드 입력 바로가기
                 </button>
             </div>
@@ -193,11 +263,11 @@
                         <span class="text-sky-400 font-black text-sm md:text-base shrink-0">20,000원</span>
                     </div>
                     <div class="x-inner-card p-4 rounded-2xl flex justify-between items-center">
-                        <span class="text-slate-200 font-bold flex items-center gap-2"><span>📦</span> 5개 일괄 구매 <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">할인</span></span>
+                        <span class="text-slate-200 font-bold flex items-center gap-2"><span>📦</span> 5개 일괄 구매 <span class="text-[10px] text-emerald-400 bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30">할인</span></span>
                         <span class="text-sky-400 font-black text-sm md:text-base">65,000원</span>
                     </div>
                     <div class="x-inner-card p-4 rounded-2xl flex justify-between items-center">
-                        <span class="text-slate-200 font-bold flex items-center gap-2"><span>📦</span> 10개 일괄 구매 <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">할인</span></span>
+                        <span class="text-slate-200 font-bold flex items-center gap-2"><span>📦</span> 10개 일괄 구매 <span class="text-[10px] text-emerald-400 bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30">할인</span></span>
                         <span class="text-sky-400 font-black text-sm md:text-base">120,000원</span>
                     </div>
                 </div>
@@ -214,7 +284,7 @@
             </div>
 
             <a href="https://open.kakao.com/o/sjPGWOFi" target="_blank" 
-                class="w-full bg-black/70 hover:bg-black text-sky-400 border border-[#1d9bf0]/50 hover:border-[#1d9bf0] font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm shadow-xl hover:scale-[1.01]">
+                class="w-full bg-black/80 hover:bg-black text-sky-400 border border-[#1d9bf0]/60 hover:border-[#1d9bf0] font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm shadow-xl hover:scale-[1.01]">
                 <span>💬</span> <strong>1:1 고객센터 문의하기 (오픈채팅 바로가기)</strong>
             </a>
 
@@ -239,8 +309,8 @@
                 </button>
             </div>
 
-            <div class="flex rounded-2xl bg-black/70 p-1.5 border border-slate-800 shadow-inner">
-                <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow-md">
+            <div class="flex rounded-2xl bg-black/80 p-1.5 border border-slate-800 shadow-inner">
+                <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow-lg shadow-[#1d9bf0]/30">
                     👤 일반 계정 조회
                 </button>
                 <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all text-slate-400 hover:text-white">
@@ -252,10 +322,10 @@
                 <div>
                     <label id="input-label" class="block text-xs font-black text-sky-400 uppercase tracking-wider mb-2 ml-1">🔑 발급 코드 입력</label>
                     <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
-                        class="w-full bg-black/80 border border-slate-800/90 rounded-2xl px-5 py-4 text-sm md:text-base text-white placeholder-slate-600 focus:outline-none focus:border-[#1d9bf0] focus:ring-2 focus:ring-[#1d9bf0]/30 transition-all shadow-inner">
+                        class="w-full input-cyber rounded-2xl px-5 py-4 text-sm md:text-base text-white placeholder-slate-600 focus:outline-none transition-all">
                 </div>
                 <button onclick="openAgreementModal()" 
-                    class="w-full neon-btn text-white font-black py-4 rounded-2xl text-sm md:text-base active:scale-[0.98] tracking-wide flex items-center justify-center gap-2 shadow-xl">
+                    class="w-full neon-btn text-white font-black py-4 rounded-2xl text-sm md:text-base active:scale-[0.97] tracking-wide flex items-center justify-center gap-2 shadow-xl">
                     <span>🔍</span> 계정 정보 조회하기
                 </button>
             </div>
@@ -302,7 +372,7 @@
                     <div class="overflow-hidden mr-3 flex-1">
                         <span class="block text-xs font-bold text-slate-400 mb-1">🛡️ 실시간 2차 인증 (OTP) 번호</span>
                         <div class="flex items-center gap-3">
-                            <div id="res-otp" class="text-sky-400 font-black tracking-widest text-lg md:text-xl drop-shadow">--- ---</div>
+                            <div id="res-otp" class="text-sky-400 font-black tracking-widest text-lg md:text-xl drop-shadow-[0_0_10px_rgba(56,189,248,0.5)]">--- ---</div>
                             <span id="res-otp-timer" class="text-xs text-amber-400 font-mono font-bold"></span>
                         </div>
                     </div>
@@ -310,7 +380,7 @@
                 </div>
             </div>
 
-            <div id="error-box" class="mt-4 hidden p-4 bg-rose-950/40 border border-rose-900/60 rounded-2xl text-center text-rose-400 text-xs md:text-sm font-bold shadow-inner">
+            <div id="error-box" class="mt-4 hidden p-4 bg-rose-950/50 border border-rose-900/80 rounded-2xl text-center text-rose-400 text-xs md:text-sm font-bold shadow-inner">
                 ❌ 일치하는 정보를 찾을 수 없습니다. 코드를 다시 확인해 주세요!
             </div>
         </div>
@@ -326,8 +396,8 @@
                 <button onclick="closeAgreementModal()" class="text-slate-400 hover:text-white text-2xl font-bold px-2">×</button>
             </div>
 
-            <div class="border border-amber-500/30 bg-amber-500/[0.03] rounded-2xl p-4 text-xs md:text-sm text-slate-300 space-y-3 max-h-[280px] overflow-y-auto shadow-inner">
-                <div class="bg-black/80 p-4 rounded-xl border border-amber-500/20 space-y-2">
+            <div class="border border-amber-500/30 bg-amber-500/[0.04] rounded-2xl p-4 text-xs md:text-sm text-slate-300 space-y-3 max-h-[280px] overflow-y-auto shadow-inner">
+                <div class="bg-black/90 p-4 rounded-xl border border-amber-500/30 space-y-2">
                     <p class="text-amber-300 font-black flex items-center gap-1"><span>🚨</span> 계정 양도 이용 주의사항</p>
                     <p>• 계정 양도 이후 발생하는 모든 사용 책임(닉네임, 아이디, 이메일, 비밀번호 변경 및 게시글 삭제 포함)은 <strong class="text-white underline">구매자 본인</strong>에게 있습니다.</p>
                     <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong class="text-rose-400 font-bold">즉시 회수</strong>됩니다.</p>
@@ -385,6 +455,17 @@
             }
         } catch (e) { console.error(e); }
 
+        // 마우스 움직임에 따른 3D 틸트(입체 회전) 효과
+        const mainCard = document.getElementById('main-card');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+            mainCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+        document.addEventListener('mouseleave', () => {
+            mainCard.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
+
         function goToIntroStep() {
             document.getElementById('step-price').classList.add('hidden');
             document.getElementById('step-query').classList.add('hidden');
@@ -431,11 +512,11 @@
             if (otpInterval) clearInterval(otpInterval);
 
             if (mode === 'general') {
-                tabGeneral.className = "flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow-md";
+                tabGeneral.className = "flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow-lg shadow-[#1d9bf0]/30";
                 tabEmail.className = "flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all text-slate-400 hover:text-white";
                 inputLabel.innerText = "🔑 발급 코드 입력";
             } else {
-                tabEmail.className = "flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow-md";
+                tabEmail.className = "flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow-lg shadow-[#1d9bf0]/30";
                 tabGeneral.className = "flex-1 py-3 text-xs md:text-sm font-bold rounded-xl transition-all text-slate-400 hover:text-white";
                 inputLabel.innerText = "📧 이메일 주문번호 / 코드 입력";
             }
