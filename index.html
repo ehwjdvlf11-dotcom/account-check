@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X 계정 조회</title>
+    <title>X 계정 구매 조회</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase JS SDK -->
@@ -16,45 +16,97 @@
             font-family: 'Pretendard', sans-serif; 
             background-color: #000000; 
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(29, 155, 240, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 50% -20%, rgba(29, 155, 240, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(29, 155, 240, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(255, 215, 0, 0.04) 0%, transparent 40%);
             background-attachment: fixed;
+        }
+        /* 은은하게 빛나는 트위터 블루 글라스 효과 */
+        .x-glass {
+            background: rgba(13, 17, 23, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(29, 155, 240, 0.05);
+        }
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(29, 155, 240, 0.5);
         }
     </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-sky-500 selection:text-white">
 
     <!-- 메인 컨테이너 카드 -->
-    <div class="w-full max-w-md bg-black/60 backdrop-blur-xl border border-slate-800/80 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] p-6 md:p-8 relative overflow-hidden">
+    <div class="w-full max-w-md x-glass rounded-3xl p-6 md:p-8 relative overflow-hidden">
         
-        <!-- 상단 장식용 은은한 빛 라인 -->
-        <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-500 to-transparent opacity-75"></div>
+        <!-- 상단 트위터 블루 그라데이션 라인 -->
+        <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#1d9bf0] to-transparent opacity-90 shadow-[0_0_15px_#1d9bf0]"></div>
 
         <!-- 상단 타이틀 -->
-        <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 text-white text-3xl font-black mb-3 shadow-lg shadow-sky-500/10 group">
-                <span class="group-hover:scale-110 transition-transform duration-300">𝕏</span>
+        <div class="text-center mb-6 relative">
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-16 bg-[#1d9bf0]/10 blur-2xl rounded-full pointer-events-none"></div>
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-900 to-black border border-slate-800 text-white text-3xl font-black mb-3 shadow-xl shadow-[#1d9bf0]/10 group">
+                <span class="group-hover:scale-110 transition-transform duration-300 text-sky-400">𝕏</span>
             </div>
             <h1 class="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
                 X 계정 구매 조회
             </h1>
-            <p id="sub-title" class="text-slate-400 text-xs mt-1.5 font-medium">계정 가격 및 거래 안내를 확인해 주세요.</p>
+            <p id="sub-title" class="text-slate-400 text-xs mt-1.5 font-medium">필독 안내 사항을 먼저 확인해 주세요.</p>
+        </div>
+
+        <!-- ==================== STEP -1: 맨 처음 필독 안내 화면 ==================== -->
+        <div id="step-intro" class="space-y-4">
+            <div class="border border-amber-500/40 bg-amber-500/[0.04] backdrop-blur rounded-2xl p-4 text-xs text-slate-300 space-y-3 shadow-inner">
+                <div class="flex items-center gap-2 text-amber-400 font-bold text-sm mb-1">
+                    <span>⛔</span> 필독 ❗
+                </div>
+                <p class="text-slate-200 leading-relaxed space-y-2">
+                    구매하시는 금액 만큼 <strong class="text-sky-400 underline decoration-sky-400/60 underline-offset-4 font-bold">오픈채팅 송금 주시고</strong> 관리자에게 발급 받은 코드를 입력하시면 계정 정보가 제공됩니다.
+                </p>
+                <div class="bg-black/60 p-3 rounded-xl border border-rose-500/30 text-rose-300 font-semibold text-center tracking-tight shadow-sm">
+                    ❌ ex) 송금하면 되나요? 이가격 송금하면 되나요? 금지입니다.
+                </div>
+            </div>
+
+            <!-- 가격표 보러가기 버튼 -->
+            <button onclick="goToPriceStep()" 
+                class="w-full bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-[#1d9bf0]/25 text-sm cursor-pointer active:scale-[0.99]">
+                가격표 보러가기 →
+            </button>
         </div>
 
         <!-- ==================== STEP 0: 가격표 및 거래 안내 화면 ==================== -->
-        <div id="step-price" class="space-y-4">
-            <div class="border border-sky-500/30 bg-sky-500/[0.03] backdrop-blur rounded-2xl p-4 text-xs text-slate-300 space-y-3">
+        <div id="step-price" class="hidden space-y-4">
+            
+            <div class="flex justify-between items-center mb-1">
+                <button onclick="goToIntroStep()" class="text-xs text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors font-medium">
+                    ← 필독 안내 다시보기
+                </button>
+            </div>
+
+            <div class="border border-[#1d9bf0]/30 bg-[#1d9bf0]/[0.02] backdrop-blur rounded-2xl p-4 text-xs text-slate-300 space-y-3">
                 <div class="flex items-center gap-2 text-sky-400 font-bold text-sm mb-1">
                     <span>💳</span> X 계정 양도 가격표
                 </div>
                 
                 <!-- 가격표 박스 -->
                 <div class="space-y-2">
-                    <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="bg-black/40 p-3 rounded-xl border border-slate-800/80 flex justify-between items-center hover:border-slate-700 transition-colors">
                         <span class="text-slate-300 font-medium">🔹 일반 계정</span>
                         <span class="text-white font-black text-sm">15,000원</span>
                     </div>
-                    <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="bg-black/40 p-3 rounded-xl border border-slate-800/80 flex justify-between items-center hover:border-slate-700 transition-colors">
                         <div class="mr-2">
                             <span class="text-slate-300 font-medium block">🔹 이메일 지급 계정</span>
                             <span class="text-[10px] text-sky-400 font-medium">(이메일 잠김시 해결 가능)</span>
@@ -62,11 +114,11 @@
                         <span class="text-white font-black text-sm shrink-0">20,000원</span>
                     </div>
                     <!-- 일괄 구매 할인 가격표 -->
-                    <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="bg-black/40 p-3 rounded-xl border border-slate-800/80 flex justify-between items-center hover:border-slate-700 transition-colors">
                         <span class="text-slate-300 font-medium">📦 5개 일괄 구매 (할인)</span>
                         <span class="text-white font-black text-sm">65,000원</span>
                     </div>
-                    <div class="bg-black/50 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="bg-black/40 p-3 rounded-xl border border-slate-800/80 flex justify-between items-center hover:border-slate-700 transition-colors">
                         <span class="text-slate-300 font-medium">📦 10개 일괄 구매 (할인)</span>
                         <span class="text-white font-black text-sm">120,000원</span>
                     </div>
@@ -78,21 +130,20 @@
                     </div>
                     <p class="text-slate-400 leading-relaxed space-y-1">
                         • <strong>카카오페이 익명송금</strong>을 이용합니다.<br>
-                        • <strong>번개장터</strong>를 통한 거래도 가능합니다. <span class="text-amber-300/90">(단, 2개 이상 구매 시에만 가능)</span><br>
-                        • <span class="text-sky-300 font-semibold">구매하시는 금액 만큼 오픈채팅 송금 후 관리자에게 발급 받은 코드를 입력하시면 계정 정보가 제공됩니다.</span>
+                        • <strong>번개장터</strong>를 통한 거래도 가능합니다. <span class="text-amber-300/90">(단, 2개 이상 구매 시에만 가능)</span>
                     </p>
                 </div>
             </div>
 
             <!-- 고객센터 바로가기 버튼 -->
             <a href="https://open.kakao.com/o/sjPGWOFi" target="_blank" 
-                class="w-full bg-slate-900/80 hover:bg-slate-800 text-sky-400 border border-sky-500/30 hover:border-sky-500/60 font-bold py-3 rounded-2xl transition-all flex items-center justify-center gap-2 text-xs shadow-inner">
+                class="w-full bg-black/60 hover:bg-black text-sky-400 border border-[#1d9bf0]/30 hover:border-[#1d9bf0]/60 font-bold py-3 rounded-2xl transition-all flex items-center justify-center gap-2 text-xs shadow-inner">
                 <span>💬</span> 1:1 고객센터 문의하기 (오픈채팅)
             </a>
 
             <!-- 가격 확인 동의 체크박스 -->
-            <div class="flex items-center gap-2.5 bg-slate-900/60 border border-slate-800 p-3 rounded-2xl hover:border-slate-700 transition-colors">
-                <input type="checkbox" id="agree-price-checkbox" onchange="checkPriceAgreement()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+            <div class="flex items-center gap-2.5 bg-black/40 border border-slate-800/80 p-3 rounded-2xl hover:border-slate-700 transition-colors">
+                <input type="checkbox" id="agree-price-checkbox" onchange="checkPriceAgreement()" class="w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer">
                 <label for="agree-price-checkbox" class="text-slate-200 font-semibold text-xs cursor-pointer select-none">
                     위 가격 및 거래 방식을 확인했습니다.
                 </label>
@@ -115,8 +166,8 @@
             </div>
 
             <!-- 탭 버튼 영역 -->
-            <div class="flex rounded-2xl bg-slate-950 p-1 border border-slate-800/80 shadow-inner">
-                <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-xs font-bold rounded-xl transition-all bg-white text-black shadow">
+            <div class="flex rounded-2xl bg-black/50 p-1 border border-slate-800/80 shadow-inner">
+                <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2.5 text-xs font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow">
                     계정 조회
                 </button>
                 <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2.5 text-xs font-bold rounded-xl transition-all text-slate-400 hover:text-white">
@@ -129,11 +180,11 @@
                 <div>
                     <label id="input-label" class="block text-[11px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 ml-1">발급 코드 입력</label>
                     <input type="text" id="input-code" placeholder="발급 코드를 입력하세요" 
-                        class="w-full bg-slate-950/80 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all">
+                        class="w-full bg-black/70 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] transition-all">
                 </div>
                 <!-- 조회하기 버튼 (클릭 시 약관 동의 팝업 호출) -->
                 <button onclick="openAgreementModal()" 
-                    class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-sky-500/20 text-sm active:scale-[0.99]">
+                    class="w-full bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-[#1d9bf0]/20 text-sm active:scale-[0.99]">
                     조회하기
                 </button>
             </div>
@@ -142,49 +193,49 @@
             <div id="result-box" class="mt-5 hidden space-y-2.5">
                 
                 <!-- 상품 종류 -->
-                <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5">
+                <div class="bg-black/40 border border-slate-800/80 rounded-2xl p-3.5">
                     <span class="block text-[11px] font-semibold text-slate-500 mb-1">상품 종류</span>
                     <div id="res-product-type" class="text-slate-200 font-semibold text-sm">정보 없음</div>
                 </div>
 
                 <!-- 계정 ID -->
-                <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
+                <div class="bg-black/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
                     <div class="overflow-hidden mr-2 flex-1">
                         <span class="block text-[11px] font-semibold text-slate-500 mb-1">계정 ID</span>
                         <div id="res-account-id" class="text-slate-200 font-semibold text-sm truncate">정보 없음</div>
                     </div>
-                    <button onclick="copyText('res-account-id')" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
+                    <button id="btn-copy-account-id" onclick="copyText('res-account-id', this)" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
                 </div>
 
                 <!-- 비밀번호 -->
-                <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
+                <div class="bg-black/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
                     <div class="overflow-hidden mr-2 flex-1">
                         <span class="block text-[11px] font-semibold text-slate-500 mb-1">비밀번호</span>
                         <div id="res-account-pw" class="text-slate-200 font-semibold text-sm truncate">정보 없음</div>
                     </div>
-                    <button onclick="copyText('res-account-pw')" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
+                    <button id="btn-copy-account-pw" onclick="copyText('res-account-pw', this)" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
                 </div>
 
                 <!-- 이메일 아이디 (이메일 계정 전용) -->
-                <div id="email-id-container" class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between hidden">
+                <div id="email-id-container" class="bg-black/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between hidden">
                     <div class="overflow-hidden mr-2 flex-1">
                         <span class="block text-[11px] font-semibold text-slate-500 mb-1">이메일 아이디</span>
                         <div id="res-email-id" class="text-slate-200 font-semibold text-sm truncate">정보 없음</div>
                     </div>
-                    <button onclick="copyText('res-email-id')" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
+                    <button id="btn-copy-email-id" onclick="copyText('res-email-id', this)" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
                 </div>
 
                 <!-- 이메일 비밀번호 (이메일 계정 전용) -->
-                <div id="email-pw-container" class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between hidden">
+                <div id="email-pw-container" class="bg-black/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between hidden">
                     <div class="overflow-hidden mr-2 flex-1">
                         <span class="block text-[11px] font-semibold text-slate-500 mb-1">이메일 비밀번호</span>
                         <div id="res-email-pw" class="text-slate-200 font-semibold text-sm truncate">정보 없음</div>
                     </div>
-                    <button onclick="copyText('res-email-pw')" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
+                    <button id="btn-copy-email-pw" onclick="copyText('res-email-pw', this)" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
                 </div>
 
                 <!-- 실시간 OTP -->
-                <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
+                <div class="bg-black/40 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
                     <div class="overflow-hidden mr-2 flex-1">
                         <span class="block text-[11px] font-semibold text-slate-500 mb-1">실시간 2차 인증 (OTP) 번호</span>
                         <div class="flex items-center gap-2">
@@ -192,7 +243,7 @@
                             <span id="res-otp-timer" class="text-[11px] text-slate-500 font-mono"></span>
                         </div>
                     </div>
-                    <button onclick="copyText('res-otp')" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
+                    <button id="btn-copy-otp" onclick="copyText('res-otp', this)" class="bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium">복사</button>
                 </div>
 
             </div>
@@ -207,8 +258,8 @@
     </div>
 
     <!-- ==================== 약관 동의 팝업 (모달) ==================== -->
-    <div id="agreement-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-md bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+    <div id="agreement-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md x-glass rounded-3xl p-6 shadow-2xl space-y-4 border border-slate-800">
             
             <div class="flex items-center justify-between">
                 <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
@@ -219,7 +270,7 @@
 
             <!-- 약관 내용 박스 -->
             <div class="border border-amber-500/30 bg-amber-500/[0.03] rounded-2xl p-4 text-xs text-slate-300 space-y-3 max-h-[220px] overflow-y-auto">
-                <div class="bg-black/50 p-3 rounded-xl border border-amber-500/20 space-y-2">
+                <div class="bg-black/60 p-3 rounded-xl border border-amber-500/20 space-y-2">
                     <p class="text-amber-300 font-bold">⚠️ 주의사항</p>
                     <p>• 계정 양도 이후 발생하는 모든 사용 책임(닉네임, 아이디, 이메일, 비밀번호 변경 및 게시글 삭제 포함)은 <strong>구매자 본인</strong>에게 있습니다.</p>
                     <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong>즉시 회수</strong>됩니다.</p>
@@ -241,8 +292,8 @@
             </div>
 
             <!-- 동의 체크박스 -->
-            <div class="flex items-center gap-2.5 bg-slate-900/60 border border-slate-800 p-3 rounded-2xl hover:border-slate-700 transition-colors">
-                <input type="checkbox" id="modal-agree-checkbox" onchange="checkModalAgreement()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+            <div class="flex items-center gap-2.5 bg-black/40 border border-slate-800 p-3 rounded-2xl hover:border-slate-700 transition-colors">
+                <input type="checkbox" id="modal-agree-checkbox" onchange="checkModalAgreement()" class="w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer">
                 <label for="modal-agree-checkbox" class="text-slate-200 font-semibold text-xs cursor-pointer select-none">
                     위 내용을 모두 숙지하였으며 이에 동의합니다.
                 </label>
@@ -277,13 +328,26 @@
             console.error("Supabase 초기화 실패", e);
         }
 
+        function goToIntroStep() {
+            document.getElementById('step-price').classList.add('hidden');
+            document.getElementById('step-intro').classList.remove('hidden');
+            document.getElementById('sub-title').innerText = "필독 안내 사항을 먼저 확인해 주세요.";
+        }
+
+        function goToPriceStep() {
+            document.getElementById('step-intro').classList.add('hidden');
+            document.getElementById('step-query').classList.add('hidden');
+            document.getElementById('step-price').classList.remove('hidden');
+            document.getElementById('sub-title').innerText = "계정 가격 및 거래 안내를 확인해 주세요.";
+        }
+
         function checkPriceAgreement() {
             const isChecked = document.getElementById('agree-price-checkbox').checked;
             const btnNext = document.getElementById('btn-next-price');
 
             if (isChecked) {
                 btnNext.disabled = false;
-                btnNext.className = "w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-sky-500/25 text-sm cursor-pointer";
+                btnNext.className = "w-full bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-[#1d9bf0]/25 text-sm cursor-pointer";
             } else {
                 btnNext.disabled = true;
                 btnNext.className = "w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm";
@@ -294,12 +358,6 @@
             document.getElementById('step-price').classList.add('hidden');
             document.getElementById('step-query').classList.remove('hidden');
             document.getElementById('sub-title').innerText = "발급 코드를 입력하여 계정을 조회하세요.";
-        }
-
-        function goToPriceStep() {
-            document.getElementById('step-query').classList.add('hidden');
-            document.getElementById('step-price').classList.remove('hidden');
-            document.getElementById('sub-title').innerText = "계정 가격 및 거래 안내를 확인해 주세요.";
         }
 
         function switchTab(mode) {
@@ -316,11 +374,11 @@
             if (otpInterval) clearInterval(otpInterval);
 
             if (mode === 'general') {
-                tabGeneral.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all bg-white text-black shadow";
+                tabGeneral.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow";
                 tabEmail.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all text-slate-400 hover:text-white";
                 inputLabel.innerText = "발급 코드 입력";
             } else {
-                tabEmail.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all bg-white text-black shadow";
+                tabEmail.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all bg-[#1d9bf0] text-white shadow";
                 tabGeneral.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all text-slate-400 hover:text-white";
                 inputLabel.innerText = "이메일 주문번호 / 코드 입력";
             }
@@ -351,7 +409,7 @@
 
             if (isChecked) {
                 btnConfirm.disabled = false;
-                btnConfirm.className = "w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-sky-500/25 text-sm cursor-pointer";
+                btnConfirm.className = "w-full bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white font-bold py-3.5 rounded-full transition-all shadow-lg shadow-[#1d9bf0]/25 text-sm cursor-pointer";
             } else {
                 btnConfirm.disabled = true;
                 btnConfirm.className = "w-full bg-slate-900 text-slate-600 font-bold py-3.5 rounded-full transition-all cursor-not-allowed border border-slate-800 text-sm";
@@ -479,14 +537,20 @@
             }
         }
 
-        function copyText(elementId) {
+        function copyText(elementId, btnElement) {
             const text = document.getElementById(elementId).innerText;
             if (!text || text === '정보 없음' || text === '미등록' || text === '--- ---') {
-                alert('복사할 내용이 없습니다.');
                 return;
             }
             navigator.clipboard.writeText(text).then(() => {
-                alert('클립보드에 복사되었습니다!');
+                const originalText = btnElement.innerText;
+                btnElement.innerText = '복사됨!';
+                btnElement.className = "bg-[#1d9bf0] text-white text-xs px-3 py-2 rounded-xl transition-colors shrink-0 font-bold";
+                
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.className = "bg-slate-900 hover:bg-slate-800 text-xs px-3 py-2 rounded-xl text-slate-300 hover:text-white border border-slate-800 transition-colors shrink-0 font-medium";
+                }, 1200);
             }).catch(err => {
                 console.error('복사 실패:', err);
             });
