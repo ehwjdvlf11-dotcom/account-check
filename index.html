@@ -1760,6 +1760,18 @@ body{line-height:1.55!important;}
       .premium-service-badge .premium-badge-icon svg{width:14px;height:14px;stroke-width:2;}
       button .premium-icon{pointer-events:none;}
     </style>
+
+<style id="native-paste-input">
+.code-input-row{position:relative;width:100%}
+.code-input-row #input-code{width:100%;min-width:0}
+@media(max-width:520px){.code-input-row{width:100%}}
+</style>
+
+
+<style id="paste-hint-style">
+.paste-hint{margin-top:7px;color:#66737f;font-size:9px;line-height:1.45;text-align:right;letter-spacing:-.01em}
+@media(max-width:520px){.paste-hint{font-size:8px;text-align:center}}
+</style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <div class="ambient-bg" aria-hidden="true">
@@ -1953,13 +1965,16 @@ body{line-height:1.55!important;}
                     <span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>발급 코드 입력</span></span>
                 </label>
                 
-                <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요" 
-                    class="w-full x-input text-sm">
+                <div class="code-input-row">
+                    <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요"
+                        class="w-full x-input text-sm" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+                </div>
                 
                 <button onclick="openAgreementModal()" 
                     class="w-full x-btn-white py-3.5 text-sm cursor-pointer shadow-md verify-btn">
                     <span><span class="icon-inline"><i data-lucide="search-check" class="premium-icon blue"></i><span>계정 정보 안전 조회하기</span></span></span><span class="arrow">→</span>
                 </button>
+                <div id="paste-hint" class="paste-hint">클립보드 권한이 허용된 HTTPS 환경에서 자동 붙여넣기가 지원됩니다.</div>
             </div>
         </div>
 
@@ -2355,7 +2370,38 @@ body{line-height:1.55!important;}
                 setTimeout(() => { btnElement.innerText = orig; }, 1200);
             });
         }
-    </script>
+    
+
+        function cleanAccessCode(value){
+            return String(value || '')
+                .replace(/[\u200B-\u200D\uFEFF]/g, '')
+                .replace(/\r?\n/g, '')
+                .replace(/\t/g, '')
+                .trim();
+        }
+
+        // 사용자가 직접 Ctrl+V / 모바일 '붙여넣기'를 하면 값만 정리
+        document.addEventListener('paste', function(e){
+            const input = e.target;
+            if (!input || input.id !== 'input-code') return;
+
+            const pasted = (e.clipboardData || window.clipboardData)?.getData('text') || '';
+            const cleaned = cleanAccessCode(pasted);
+            if (!cleaned) return;
+
+            e.preventDefault();
+
+            const start = input.selectionStart ?? input.value.length;
+            const end = input.selectionEnd ?? input.value.length;
+            input.value = input.value.slice(0, start) + cleaned + input.value.slice(end);
+            input.focus();
+            const pos = start + cleaned.length;
+            input.setSelectionRange(pos, pos);
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }, true);
+
+
+</script>
 
 
 <style id="ultimate-premium-v16">
@@ -3807,3 +3853,100 @@ button[data-state="loading"].verify-btn::before{
   }
 })();
 </script>
+
+<style id="v31-mobile-header-balanced">
+/* ===== MOBILE HEADER BALANCE ===== */
+@media (max-width: 760px){
+  #header-section.premium-header{
+    width:100% !important;
+    padding:8px !important;
+    margin-bottom:12px !important;
+    overflow:hidden !important;
+  }
+  .premium-brand-lockup{
+    display:grid !important;
+    grid-template-columns:82px minmax(0,1fr) !important;
+    align-items:center !important;
+    gap:11px !important;
+  }
+  .premium-brand-lockup::before{
+    left:92px !important;
+    top:7px !important;
+    bottom:7px !important;
+  }
+  .premium-hero-logo{
+    width:82px !important;
+    height:82px !important;
+    margin:0 !important;
+    border-radius:10px !important;
+  }
+  .premium-hero-logo .x-logo-svg{
+    width:52px !important;
+    height:52px !important;
+  }
+  .premium-brand-content{
+    min-width:0 !important;
+    overflow:hidden !important;
+  }
+  .premium-brand-content .premium-kicker{
+    max-width:100% !important;
+    width:max-content !important;
+    font-size:6px !important;
+    padding:4px 6px !important;
+    letter-spacing:.14em !important;
+    white-space:nowrap !important;
+  }
+  .premium-system-status{
+    margin-left:5px !important;
+    padding:3px 5px !important;
+    font-size:5.5px !important;
+    letter-spacing:.09em !important;
+  }
+  .premium-brand-line{
+    width:34px !important;
+    height:1px !important;
+    margin:5px 0 6px !important;
+  }
+  .premium-brand-title{
+    font-size:18px !important;
+    line-height:1.05 !important;
+    letter-spacing:-.045em !important;
+    white-space:nowrap !important;
+  }
+  .premium-service-badge{
+    display:inline-flex !important;
+    max-width:100% !important;
+    margin-top:6px !important;
+    padding:4px 6px !important;
+    font-size:5.5px !important;
+    letter-spacing:.02em !important;
+    white-space:nowrap !important;
+  }
+  .premium-badge-icon{
+    width:12px !important;
+    height:12px !important;
+    font-size:7px !important;
+  }
+  #header-section.premium-header::after{
+    font-size:76px !important;
+    right:-8px !important;
+    top:-10px !important;
+    opacity:.12 !important;
+  }
+}
+
+@media (max-width: 380px){
+  #header-section.premium-header{padding:7px !important}
+  .premium-brand-lockup{
+    grid-template-columns:74px minmax(0,1fr) !important;
+    gap:10px !important;
+  }
+  .premium-brand-lockup::before{left:84px !important}
+  .premium-hero-logo{width:74px !important;height:74px !important}
+  .premium-hero-logo .x-logo-svg{width:47px !important;height:47px !important}
+  .premium-brand-content .premium-kicker{font-size:5.5px !important}
+  .premium-brand-title{font-size:16px !important}
+  .premium-service-badge{font-size:5px !important;padding:3px 5px !important}
+  .premium-system-status{font-size:5px !important}
+}
+</style>
