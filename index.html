@@ -1965,9 +1965,9 @@ body{line-height:1.55!important;}
                     <span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>발급 코드 입력</span></span>
                 </label>
                 
-                <div class="code-input-row">
-                    <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요"
-                        class="w-full x-input text-sm" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+                <div class="code-input-row v41-paste-row">
+                    <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요" class="w-full x-input text-sm" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+                    <button type="button" id="btn-paste-code" class="v41-paste-btn" aria-label="클립보드에서 코드 붙여넣기">붙여넣기</button>
                 </div>
                 
                 <div id="code-invalid-inline" role="alert">유효하지 않은 코드입니다. 발급받은 코드를 다시 확인해 주세요.</div>
@@ -2393,6 +2393,17 @@ body{line-height:1.55!important;}
         }
     
 
+        function pasteAccessCodeV41(){
+            const input=document.getElementById('input-code');
+            if(!input)return;
+            if(navigator.clipboard&&navigator.clipboard.readText){
+                navigator.clipboard.readText().then(function(text){
+                    const cleaned=cleanAccessCode(text);
+                    if(cleaned){input.value=cleaned;input.focus();input.dispatchEvent(new Event('input',{bubbles:true}));}
+                }).catch(function(){input.focus();});
+            }else{input.focus();}
+        }
+
         function cleanAccessCode(value){
             return String(value || '')
                 .replace(/[\u200B-\u200D\uFEFF]/g, '')
@@ -2400,6 +2411,8 @@ body{line-height:1.55!important;}
                 .replace(/\t/g, '')
                 .trim();
         }
+
+        document.getElementById('btn-paste-code')?.addEventListener('click', pasteAccessCodeV41);
 
         // 사용자가 직접 Ctrl+V / 모바일 '붙여넣기'를 하면 값만 정리
         document.addEventListener('paste', function(e){
@@ -4183,4 +4196,7 @@ button[data-state="loading"].verify-btn::before{
   text-align:center;
 }
 #code-invalid-inline.show{display:block;animation:contentIn .2s ease both}
+
+/* V41 기준 코드 입력창 붙여넣기 */
+.v41-paste-row{display:flex!important;align-items:center!important;gap:8px!important}.v41-paste-row #input-code{min-width:0!important;flex:1 1 auto!important}.v41-paste-btn{flex:0 0 auto!important;height:44px!important;padding:0 14px!important;border:1px solid #536471!important;border-radius:9999px!important;background:#16181c!important;color:#e7e9ea!important;font-size:12px!important;font-weight:700!important;white-space:nowrap!important;cursor:pointer!important}.v41-paste-btn:hover{background:rgba(239,243,244,.1)!important;border-color:#8b98a5!important}.v41-paste-btn:active{transform:scale(.97)!important}@media(max-width:420px){.v41-paste-row{gap:6px!important}.v41-paste-btn{height:42px!important;padding:0 11px!important;font-size:11px!important}.v41-paste-row #input-code{font-size:13px!important}}@media(max-width:360px){.v41-paste-btn{padding:0 9px!important;font-size:10px!important}.v41-paste-row{gap:5px!important}}
 </style>
