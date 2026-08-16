@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- TOTP 생성을 위한 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.3.2/otpauth.umd.min.js"></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
@@ -365,6 +366,7 @@
             text-shadow:0 0 90px rgba(29,155,240,.08); user-select:none;
         }
         .ambient-word {
+        display:none !important;
             position:absolute; left:50%; bottom:2.5%; transform:translateX(-50%);
             font-size:10px; letter-spacing:.55em; white-space:nowrap; color:rgba(255,255,255,.13); font-weight:800;
         }
@@ -400,7 +402,8 @@
             #main-card { padding:22px !important; border-radius:26px !important; }
             #header-section .x-logo-wrap { width:126px; height:126px; border-radius:36px; }
             #header-section .x-logo-svg { width:76px; height:76px; }
-            .ambient-word { font-size:8px; letter-spacing:.28em; }
+            .ambient-word {
+        display:none !important; font-size:8px; letter-spacing:.28em; }
         }
 
     
@@ -634,7 +637,7 @@ body{
 #terms-box .bg-\[\#16181c\]{background:#0d1014!important}
 
 /* Footer-like micro hierarchy */
-#main-card::after{content:"X ACCOUNT ACCESS  /  SECURE DELIVERY  /  REAL-TIME VERIFICATION";display:block;text-align:center;margin-top:18px;padding-top:12px;border-top:1px solid #1d2329;color:#414b55;font:700 8px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em}
+#main-card::after{content:none !important;display:none !important}
 
 @media(max-width:560px){
   #main-card{padding:20px!important}
@@ -1013,6 +1016,7 @@ body {
     }
 
     .ambient-word {
+        display:none !important;
         font-size: 7px !important;
         letter-spacing: .22em !important;
     }
@@ -1743,6 +1747,19 @@ body{line-height:1.55!important;}
 }
 </style>
 
+
+    <style id="premium-icon-system">
+      .premium-icon{width:16px;height:16px;stroke-width:1.9;vertical-align:-3px;flex:0 0 auto;}
+      .premium-icon.sm{width:14px;height:14px;stroke-width:2;}
+      .premium-icon.lg{width:18px;height:18px;stroke-width:2;}
+      .premium-icon.blue{color:#69c7ff;filter:drop-shadow(0 0 7px rgba(29,155,240,.35));}
+      .premium-icon.gold{color:#d9ba73;}
+      .premium-icon.green{color:#45d5a5;filter:drop-shadow(0 0 7px rgba(69,213,165,.28));}
+      .icon-inline{display:inline-flex;align-items:center;gap:7px;}
+      .premium-service-badge .premium-badge-icon{display:inline-grid;place-items:center;}
+      .premium-service-badge .premium-badge-icon svg{width:14px;height:14px;stroke-width:2;}
+      button .premium-icon{pointer-events:none;}
+    </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <div class="ambient-bg" aria-hidden="true">
@@ -1760,7 +1777,7 @@ body{line-height:1.55!important;}
             <i></i><i></i><i></i><i></i><i></i><i></i>
         </div>
         <div class="ambient-x">𝕏</div>
-        <div class="ambient-word">POST • CONNECT • CREATE</div>
+        
     </div>
     <div aria-hidden="true" style="position:fixed;inset:auto auto 10% -140px;width:320px;height:320px;border-radius:9999px;background:radial-gradient(circle,rgba(29,155,240,.12),transparent 68%);filter:blur(18px);pointer-events:none;z-index:0;animation:floatOrbA 9s ease-in-out infinite;"></div>
     <div aria-hidden="true" style="position:fixed;inset:8% -130px auto auto;width:300px;height:300px;border-radius:9999px;background:radial-gradient(circle,rgba(168,85,247,.10),transparent 68%);filter:blur(22px);pointer-events:none;z-index:0;animation:floatOrbB 11s ease-in-out infinite;"></div>
@@ -1769,26 +1786,40 @@ body{line-height:1.55!important;}
     <!-- 메인 컨테이너 -->
     <div id="main-card" class="w-full max-w-md x-card p-6 md:p-8 relative z-10 my-6">
         
-        <div id="header-section" class="text-center mb-6 relative">
-            <!-- X 프리미엄 심볼 로고 -->
-            <div class="x-logo-wrap" aria-label="X 로고">
-                <svg class="x-logo-svg" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="xLogoGradient" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
-                            <stop offset="0" stop-color="#ffffff"/>
-                            <stop offset="0.48" stop-color="#f5f7f8"/>
-                            <stop offset="1" stop-color="#aeb4b9"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817-5.963 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/>
-                </svg>
+        <div id="header-section" class="premium-header mb-6 relative">
+            <div class="premium-brand-lockup">
+                <div class="x-logo-wrap premium-hero-logo" aria-label="X 로고">
+                    <svg class="x-logo-svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="xLogoGradient" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop offset="0" stop-color="#ffffff"/>
+                                <stop offset="0.48" stop-color="#f5f7f8"/>
+                                <stop offset="1" stop-color="#aeb4b9"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817-5.963 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/>
+                    </svg>
+                </div>
+                <div class="premium-brand-content">
+                    <div class="premium-kicker">SECURE ACCOUNT SERVICE</div>
+                    <div class="premium-brand-line" aria-hidden="true"></div>
+                    <h1 class="premium-brand-title">
+                        X ACCOUNT ACCESS
+                    </h1>
+                    
+                    <div class="premium-service-badge">
+                        <span class="premium-badge-icon">✓</span>
+                        <span>안전한 거래&nbsp;&nbsp;·&nbsp;&nbsp;실시간 발급&nbsp;&nbsp;·&nbsp;&nbsp;실시간 인증</span>
+                    </div>
+                    <p id="sub-title" class="text-[#858991] text-xs md:text-sm mt-3"><span class="icon-inline"><i data-lucide="lightbulb" class="premium-icon gold"></i><span>아래 필독 안내 사항을 먼저 확인해 주세요.</span></span></p>
+                </div>
             </div>
-            <div class="premium-kicker mb-3">PREMIUM ACCOUNT SERVICE</div>
-            <h1 class="text-xl md:text-2xl font-black tracking-[-0.04em] text-white leading-tight">
-                X ACCOUNT ACCESS
-            </h1>
-            <div class="text-[10px] md:text-[11px] text-[#5f636b] mt-2 tracking-[0.12em] uppercase">SECURE DELIVERY · REAL-TIME VERIFICATION</div>
-            <p id="sub-title" class="text-[#858991] text-xs md:text-sm mt-3">💡 아래 필독 안내 사항을 먼저 확인해 주세요.</p>
+
+            <div id="step-indicator" class="premium-step-indicator" aria-label="구매 진행 단계">
+                <span class="step-dot active" data-step="intro">01</span><i></i>
+                <span class="step-dot" data-step="price">02</span><i></i>
+                <span class="step-dot" data-step="query">03</span>
+            </div>
         </div>
 
         <!-- STEP -1 (필독 안내 화면) -->
@@ -1796,7 +1827,7 @@ body{line-height:1.55!important;}
             <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3">
                 <div class="flex items-center justify-between border-b border-[#2f3336] pb-2.5">
                     <span class="font-bold text-white flex items-center gap-1.5">
-                        🚨 필수 필독 안내
+                        <span class="icon-inline"><i data-lucide="alert-triangle" class="premium-icon gold"></i><span>필수 필독 안내</span></span>
                     </span>
                     <span class="text-[11px] text-[#1d9bf0] font-bold bg-[#1d9bf0]/10 px-2 py-0.5 rounded-full border border-[#1d9bf0]/30">
                         송금 선행 필수
@@ -1806,18 +1837,18 @@ body{line-height:1.55!important;}
                     🛍️ 구매하실 금액만큼 <strong class="text-white underline underline-offset-4">오픈채팅으로 송금해주신 뒤</strong> 관리자에게 발급받은 코드를 입력하시면 계정 정보가 즉시 제공됩니다.
                 </p>
                 <div class="bg-black p-3 rounded-xl border border-[#2f3336] text-[#8b98a5] text-center text-xs">
-                    <div>⚠️ "송금하면 되나요?" 등의 불필요한 문의 금지</div>
+                    <div><span class="icon-inline"><i data-lucide="triangle-alert" class="premium-icon gold"></i><span>"송금하면 되나요?" 등의 불필요한 문의 금지</span></span></div>
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="goToPriceStep()" 
                     class="w-full x-btn-white text-xs md:text-sm py-3 cursor-pointer shadow-sm">
-                    💰 가격표 및 거래 방식
+                    <span class="icon-inline"><i data-lucide="badge-dollar-sign" class="premium-icon blue"></i><span>가격표 및 거래 방식</span></span>
                 </button>
                 <button onclick="goToQueryStep()" 
                     class="w-full x-btn-dark text-xs md:text-sm py-3 cursor-pointer">
-                    🔑 코드 입력 바로가기
+                    <span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>코드 입력 바로가기</span></span>
                 </button>
             </div>
         </div>
@@ -1832,7 +1863,7 @@ body{line-height:1.55!important;}
 
             <div class="step-head">
                 <div>
-                    <div class="step-code">💳 PRICE LIST</div>
+                    <div class="step-code"><span class="icon-inline"><i data-lucide="credit-card" class="premium-icon blue"></i><span>PRICE LIST</span></span></div>
                     <div class="text-white font-black text-lg tracking-tight mt-1">X 계정 양도 가격표 안내</div>
                 </div>
                 <div class="access-status">거래 가능</div>
@@ -1840,7 +1871,7 @@ body{line-height:1.55!important;}
 
             <div class="product-grid">
                 <div class="x-inner product-card featured">
-                    <span class="product-badge hot">👤 일반 계정</span>
+                    <span class="product-badge hot"><span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span></span>
                     <div>
                         <div class="product-name mt-3">🔹 일반 계정</div>
                         <div class="product-note">일반 계정 정보 제공</div>
@@ -1860,7 +1891,7 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card">
                     <span class="product-badge">BULK 05</span>
                     <div>
-                        <div class="product-name mt-3">📦 5개 일괄 구매 (할인)</div>
+                        <div class="product-name mt-3"><span class="icon-inline"><i data-lucide="package" class="premium-icon blue"></i><span>5개 일괄 구매 (할인)</span></span></div>
                         <div class="product-note">5개 일괄 구매 할인</div>
                     </div>
                     <div class="product-price mt-4">70,000<small> KRW</small></div>
@@ -1869,7 +1900,7 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card">
                     <span class="product-badge hot">BULK 10 · BEST</span>
                     <div>
-                        <div class="product-name mt-3">📦 10개 일괄 구매 (할인)</div>
+                        <div class="product-name mt-3"><span class="icon-inline"><i data-lucide="package" class="premium-icon gold"></i><span>10개 일괄 구매 (할인)</span></span></div>
                         <div class="product-note">10개 일괄 구매 할인</div>
                     </div>
                     <div class="product-price mt-4">130,000<small> KRW</small></div>
@@ -1877,13 +1908,13 @@ body{line-height:1.55!important;}
             </div>
 
                 <div class="border-t border-[#2f3336] pt-3 space-y-1 text-xs text-[#71767b]">
-                    <p class="text-[#e7e9ea] font-bold">🛡️ 송금 및 안전 거래 안내</p>
+                    <p class="text-[#e7e9ea] font-bold"><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>송금 및 안전 거래 안내</span></span></p>
                     <p>• 카카오페이 익명송금 및 번개장터(2개 이상 구매 시) 이용 가능</p>
                 </div>
 
 <a href="https://open.kakao.com/o/sjPGWOFi" target="_blank" 
                 class="w-full x-btn-dark py-3.5 flex items-center justify-center gap-2 text-xs md:text-sm">
-                💬 1:1 고객센터 문의하기 (오픈채팅)
+                <span class="icon-inline"><i data-lucide="message-circle" class="premium-icon blue"></i><span>1:1 고객센터 문의하기 (오픈채팅)</span></span>
             </a>
 
             <div class="flex items-center gap-3 x-inner p-3">
@@ -1909,17 +1940,17 @@ body{line-height:1.55!important;}
 
             <div class="flex rounded-full bg-black p-1 border border-[#2f3336] gap-1">
                 <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black">
-                    👤 일반 계정
+                    <span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span>
                 </button>
                 <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white">
-                    📧 이메일 계정
+                    <span class="icon-inline"><i data-lucide="mail" class="premium-icon blue"></i><span>이메일 계정</span></span>
                 </button>
             </div>
 
             <div class="x-inner access-panel p-5 space-y-3">
-                <div class="access-status">🔐 SECURE ACCESS</div>
+                <div class="access-status"><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>SECURE ACCESS</span></span></div>
                 <label id="input-label" class="text-xs md:text-sm font-bold text-[#e7e9ea] block">
-                    🔑 발급 코드 입력
+                    <span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>발급 코드 입력</span></span>
                 </label>
                 
                 <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요" 
@@ -1927,7 +1958,7 @@ body{line-height:1.55!important;}
                 
                 <button onclick="openAgreementModal()" 
                     class="w-full x-btn-white py-3.5 text-sm cursor-pointer shadow-md verify-btn">
-                    <span>🔍 계정 정보 안전 조회하기</span><span class="arrow">→</span>
+                    <span><span class="icon-inline"><i data-lucide="search-check" class="premium-icon blue"></i><span>계정 정보 안전 조회하기</span></span></span><span class="arrow">→</span>
                 </button>
             </div>
         </div>
@@ -1935,13 +1966,13 @@ body{line-height:1.55!important;}
         <!-- 결과 박스 -->
         <div id="result-box" class="mt-2 hidden space-y-3">
             <div class="x-inner p-3.5">
-                <span class="block text-[11px] text-[#71767b] mb-0.5">📦 상품 종류</span>
+                <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="package" class="premium-icon blue"></i><span>상품 종류</span></span></span><em>DELIVERY</em></span>
                 <div id="res-product-type" class="text-white font-bold text-sm">정보 없음</div>
             </div>
 
             <div class="x-inner result-field p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-[11px] text-[#71767b] mb-0.5">🆔 계정 ID</span>
+                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="badge-id" class="premium-icon blue"></i><span>계정 ID</span></span></span><em>IDENTIFIER</em></span>
                     <div id="res-account-id" class="text-white font-bold text-sm truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-account-id', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
@@ -1949,7 +1980,7 @@ body{line-height:1.55!important;}
 
             <div class="x-inner result-field p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-[11px] text-[#71767b] mb-0.5">🔑 비밀번호</span>
+                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>비밀번호</span></span></span><em>CREDENTIAL</em></span>
                     <div id="res-account-pw" class="text-white font-bold text-sm truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-account-pw', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
@@ -1957,7 +1988,7 @@ body{line-height:1.55!important;}
 
             <div id="email-id-container" class="x-inner p-3.5 flex items-center justify-between hidden">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-[11px] text-[#71767b] mb-0.5">📧 이메일 계정 ID</span>
+                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="mail" class="premium-icon blue"></i><span>이메일 계정</span></span> ID</span><em>MAIL ID</em></span>
                     <div id="res-email-id" class="text-white font-bold text-sm truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-email-id', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
@@ -1965,7 +1996,7 @@ body{line-height:1.55!important;}
 
             <div id="email-pw-container" class="x-inner p-3.5 flex items-center justify-between hidden">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-[11px] text-[#71767b] mb-0.5">🔒 이메일 비밀번호</span>
+                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>이메일 비밀번호</span></span></span><em>MAIL PASS</em></span>
                     <div id="res-email-pw" class="text-white font-bold text-sm truncate">정보 없음</div>
                 </div>
                 <button onclick="copyText('res-email-pw', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
@@ -1973,10 +2004,10 @@ body{line-height:1.55!important;}
 
             <div class="x-inner result-field p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="block text-[11px] text-[#71767b] mb-0.5">🛡️ 실시간 2차 인증 (OTP) 번호</span>
+                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>실시간 2차 인증 (OTP) 번호</span></span></span><em>LIVE 2FA</em></span>
                     <div class="flex items-center gap-2">
                         <div id="res-otp" class="otp-code text-[#1d9bf0] font-bold tracking-wider text-base">--- ---</div>
-                        <span id="res-otp-timer" class="text-xs text-[#71767b] font-mono"></span>
+                        <span id="otp-ring" class="otp-ring" aria-label="OTP 남은 시간"><span id="res-otp-timer">30</span></span>
                     </div>
                 </div>
                 <button onclick="copyText('res-otp', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
@@ -1984,12 +2015,12 @@ body{line-height:1.55!important;}
 
             <button onclick="resetToHome()" 
                 class="w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer">
-                🏠 처음으로 돌아가기
+                <span class="icon-inline"><i data-lucide="house" class="premium-icon"></i><span>처음으로 돌아가기</span></span>
             </button>
         </div>
 
         <div id="error-box" class="mt-4 hidden p-3.5 bg-black border border-[#2f3336] rounded-2xl text-center text-[#71767b] text-xs">
-            ⚠ 🔑 발급 코드 입력를 확인해 주세요. 일치하는 발급 정보를 찾지 못했습니다.
+            <span class="icon-inline"><i data-lucide="circle-alert" class="premium-icon gold"></i><span>발급 코드를 확인해 주세요. 일치하는 발급 정보를 찾지 못했습니다.</span></span>
             <button onclick="resetToHome()" class="mt-2 w-full x-btn-dark py-2 text-xs">처음으로 가기</button>
         </div>
     </div>
@@ -1999,7 +2030,7 @@ body{line-height:1.55!important;}
         <div class="w-full max-w-md x-card p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-[#2f3336] pb-3">
                 <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-                    ⚠️ 필수 숙지사항 및 이용약관 동의
+                    <span class="icon-inline"><i data-lucide="file-warning" class="premium-icon gold"></i><span>필수 숙지사항 및 이용약관 동의</span></span>
                 </h3>
                 <button onclick="closeAgreementModal()" class="text-[#71767b] hover:text-white text-xl font-bold px-1">×</button>
             </div>
@@ -2007,7 +2038,7 @@ body{line-height:1.55!important;}
             <!-- 스크롤 영역 -->
             <div id="terms-box" onscroll="checkScrollBottom()" class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto">
                 <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1">
-                    <p class="text-white font-bold">🚨 계정 양도 이용 주의사항</p>
+                    <p class="text-white font-bold"><span class="icon-inline"><i data-lucide="triangle-alert" class="premium-icon gold"></i><span>계정 양도 이용 주의사항</span></span></p>
                     <p>• 계정 양도 이후 발생하는 모든 사용 책임(ID, PW, E-mail 변경 및 게시글, 팔로워, 팔로우 삭제)은 <strong class="text-white underline">구매자 본인</strong>에게 있습니다. <strong class="text-white underline">양도자에게 되묻지 말아주세요.</strong></p>
                     <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong class="text-white font-bold underline">즉시 회수</strong>됩니다.</p>
                 </div>
@@ -2036,7 +2067,7 @@ body{line-height:1.55!important;}
             <div class="flex items-center gap-2.5 x-inner p-3">
                 <input type="checkbox" id="modal-agree-checkbox" onchange="checkModalAgreement()" disabled class="w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50">
                 <label id="modal-label" for="modal-agree-checkbox" class="text-[#71767b] text-xs cursor-not-allowed select-none">
-                    🔒 약관을 맨 아래로 내려주세요!
+                    <span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>약관을 맨 아래로 내려주세요!</span></span>
                 </label>
             </div>
 
@@ -2092,9 +2123,9 @@ body{line-height:1.55!important;}
 
         function goToIntroStep() {
             showStep('step-intro');
-            document.getElementById('main-card').classList.remove('query-mode');
+            document.getElementById('main-card').classList.remove('query-mode', 'price-mode');
             document.getElementById('header-section').classList.remove('hidden');
-            document.getElementById('sub-title').innerText = '💡 아래 필독 안내 사항을 먼저 확인해 주세요.';
+            document.getElementById('sub-title').innerText = '<span class="icon-inline"><i data-lucide="lightbulb" class="premium-icon gold"></i><span>아래 필독 안내 사항을 먼저 확인해 주세요.</span></span>';
             if (otpInterval) { clearInterval(otpInterval); otpInterval = null; }
         }
 
@@ -2108,29 +2139,31 @@ body{line-height:1.55!important;}
         function goToPriceStep() {
             showStep('step-price');
             document.getElementById('main-card').classList.remove('query-mode');
-            document.getElementById('header-section').classList.remove('hidden');
+            document.getElementById('main-card').classList.add('price-mode');
+            document.getElementById('header-section').classList.add('hidden');
             document.getElementById('sub-title').innerText = '💳 계정 가격 및 거래 안내를 확인해 주세요.';
         }
 
         function checkPriceAgreement() {
-            const isChecked = document.getElementById('agree-price-checkbox').checked;
-            const btnNext = document.getElementById('btn-next-price');
-            if (isChecked) {
-                btnNext.disabled = false;
-                btnNext.className = "w-full x-btn-white py-3.5 text-xs md:text-sm cursor-pointer shadow-sm";
-                btnNext.innerHTML = "다음 단계로 넘어가기";
-            } else {
-                btnNext.disabled = true;
-                btnNext.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-                btnNext.innerHTML = "다음 단계로 넘어가기";
-            }
-        }
+    const isChecked = document.getElementById('agree-price-checkbox').checked;
+    const btnNext = document.getElementById('btn-next-price');
+    if (isChecked) {
+        btnNext.disabled = false;
+        btnNext.className = "w-full x-btn-white py-3.5 text-xs md:text-sm cursor-pointer shadow-sm";
+        btnNext.innerHTML = 'CONTINUE <span class="btn-arrow">→</span>';
+    } else {
+        btnNext.disabled = true;
+        btnNext.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
+        btnNext.innerHTML = "다음 단계로 넘어가기";
+    }
+}
 
         function goToQueryStep() {
             showStep('step-query');
+            document.getElementById('main-card').classList.remove('price-mode');
             document.getElementById('main-card').classList.add('query-mode');
             document.getElementById('header-section').classList.add('hidden');
-            document.getElementById('sub-title').innerText = '🔍 발급 코드를 입력하여 계정을 조회하세요.';
+            document.getElementById('sub-title').innerText = '<span class="icon-inline"><i data-lucide="scan-search" class="premium-icon blue"></i><span>발급 코드를 입력하여 계정을 조회하세요.</span></span>';
             setTimeout(() => document.getElementById('input-code')?.focus(), 120);
         }
 
@@ -2147,17 +2180,17 @@ body{line-height:1.55!important;}
             if (mode === 'general') {
                 tabGeneral.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black";
                 tabEmail.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white";
-                inputLabel.innerHTML = `🔑 발급 코드 입력`;
+                inputLabel.innerHTML = `<span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>발급 코드 입력</span></span>`;
             } else {
                 tabEmail.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black";
                 tabGeneral.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white";
-                inputLabel.innerHTML = `📧 이메일 주문번호 / 코드 입력`;
+                inputLabel.innerHTML = `<span class="icon-inline"><i data-lucide="mail" class="premium-icon blue"></i><span>이메일 주문번호 / 코드 입력</span></span>`; if(window.lucide) lucide.createIcons();
             }
         }
 
         function openAgreementModal() {
             if (!document.getElementById('input-code').value.trim()) {
-                alert('⚠️ 코드를 입력해주세요!');
+                alert('코드를 입력해주세요!');
                 return;
             }
             
@@ -2169,7 +2202,7 @@ body{line-height:1.55!important;}
             checkbox.disabled = true;
             checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
             label.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
-            label.innerText = "🔒 약관을 맨 아래로 내려주세요!";
+            label.innerHTML = '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>약관을 맨 아래로 내려주세요!</span></span>'; if(window.lucide) lucide.createIcons();
             
             termsBox.scrollTop = 0;
 
@@ -2228,13 +2261,15 @@ body{line-height:1.55!important;}
 
             const originalBtnText = btnConfirm.innerHTML;
             btnConfirm.disabled = true;
-            btnConfirm.innerHTML = `조회 중…`;
+            btnConfirm.dataset.state = 'loading';
+            btnConfirm.innerHTML = `VERIFYING…`;
 
             try {
                 const { data, error } = await supabaseClient.from('orders').select('*').eq('search_key', code).single();
                 
                 closeAgreementModal();
                 btnConfirm.disabled = false;
+                btnConfirm.removeAttribute('data-state');
                 btnConfirm.innerHTML = originalBtnText;
 
                 if (error || !data) { showStep('step-query'); errorBox.classList.add('is-active'); errorBox.style.display = 'block'; return; }
@@ -2274,6 +2309,8 @@ body{line-height:1.55!important;}
                 } else {
                     document.getElementById('res-otp').innerText = '미등록';
                     document.getElementById('res-otp-timer').innerText = '';
+                    const ring = document.getElementById('otp-ring');
+                    if(ring) ring.style.setProperty('--otp-progress','360deg');
                 }
 
                 document.getElementById('header-section').classList.add('hidden');
@@ -2283,6 +2320,7 @@ body{line-height:1.55!important;}
             } catch (err) {
                 closeAgreementModal();
                 btnConfirm.disabled = false;
+                btnConfirm.removeAttribute('data-state');
                 btnConfirm.innerHTML = originalBtnText;
                 errorBox.classList.add('is-active');
             }
@@ -2295,7 +2333,10 @@ body{line-height:1.55!important;}
                     const token = totp.generate();
                     const remaining = 30 - (Math.floor(Date.now() / 1000) % 30);
                     document.getElementById('res-otp').innerText = token;
-                    document.getElementById('res-otp-timer').innerText = `${remaining}초 남음`;
+                    const timerEl = document.getElementById('res-otp-timer');
+                    if(timerEl) timerEl.innerText = remaining;
+                    const ring = document.getElementById('otp-ring');
+                    if(ring) ring.style.setProperty('--otp-progress', `${(remaining/30)*360}deg`);
                 }
                 updateOtp();
                 otpInterval = setInterval(updateOtp, 1000);
@@ -2316,6 +2357,170 @@ body{line-height:1.55!important;}
         }
     </script>
 
+
+<style id="ultimate-premium-v16">
+/* =========================================================
+   ULTIMATE PREMIUM V16
+   ========================================================= */
+:root{
+  --gold:#d7b56d;
+  --blue:#1d9bf0;
+  --green:#38d39f;
+  --line-soft:rgba(255,255,255,.085);
+}
+
+/* Step indicator / progress */
+.premium-step-indicator{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin:0 auto 13px;
+  width:max-content;
+  padding:6px 9px;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.012);
+  box-shadow:inset 0 1px rgba(255,255,255,.025),0 6px 20px rgba(0,0,0,.16);
+}
+.premium-step-indicator .step-dot{
+  width:24px;height:20px;display:grid;place-items:center;
+  border:1px solid #2b323a;color:#65717b;background:#090c10;
+  font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.08em;transition:.25s ease;
+}
+.premium-step-indicator .step-dot.active{
+  border-color:rgba(29,155,240,.65);color:#7fd0ff;background:rgba(29,155,240,.10);
+  box-shadow:0 0 18px rgba(29,155,240,.12),inset 0 0 12px rgba(29,155,240,.05);
+}
+.premium-step-indicator i{
+  width:22px;height:1px;background:#252c34;position:relative;overflow:hidden;
+}
+.premium-step-indicator i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#1d9bf0,transparent);transform:translateX(-100%);animation:stepFlow 3.5s linear infinite}
+@keyframes stepFlow{to{transform:translateX(100%)}}
+
+/* Step section polish */
+#step-intro > .x-inner:first-child,
+#step-price .x-inner,
+.access-panel,
+#result-box .x-inner{
+  box-shadow:inset 0 1px rgba(255,255,255,.035),0 14px 36px rgba(0,0,0,.22);
+}
+#step-intro > .x-inner:first-child::before{
+  content:"";display:block;width:42px;height:2px;margin-bottom:12px;
+  background:linear-gradient(90deg,#1d9bf0,transparent);box-shadow:0 0 16px rgba(29,155,240,.35)
+}
+
+/* Premium cards */
+.product-card{
+  min-height:146px!important;
+  border-color:rgba(255,255,255,.10)!important;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.005) 55%),
+    linear-gradient(180deg,#0e1217,#080b0f)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.03),0 16px 34px rgba(0,0,0,.28)!important;
+}
+.product-card:hover{
+  transform:translateY(-3px)!important;
+  border-color:rgba(255,255,255,.17)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 18px 42px rgba(0,0,0,.34),0 0 28px rgba(29,155,240,.05)!important;
+}
+.product-card.featured{
+  border-color:rgba(29,155,240,.50)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.04),0 18px 42px rgba(0,0,0,.32),0 0 34px rgba(29,155,240,.08)!important;
+}
+.product-card.featured::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:#1d9bf0;box-shadow:0 0 16px rgba(29,155,240,.55)
+}
+.product-card:nth-child(4){border-color:rgba(215,181,109,.30)!important}
+.product-card:nth-child(4)::after{border-color:rgba(215,181,109,.22)!important}
+.product-card:nth-child(4) .product-badge{color:#e5cd96!important;border-color:rgba(215,181,109,.38)!important;background:rgba(215,181,109,.07)!important}
+.product-price{font-size:24px!important}
+.product-price::first-letter{color:#fff}
+.product-note{max-width:92%}
+
+/* Product labels */
+.product-card .product-badge{font-size:8px!important;letter-spacing:.18em!important}
+.product-card .product-name{font-size:14px!important}
+.product-card .product-note{font-size:10px!important}
+
+/* Query: terminal-like access panel */
+#main-card.query-mode #step-query .access-panel{
+  padding:20px!important;
+  border-color:rgba(29,155,240,.24)!important;
+  background:
+    linear-gradient(180deg,rgba(29,155,240,.035),transparent 24%),
+    linear-gradient(180deg,#0b1015,#070a0e)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.04),0 20px 48px rgba(0,0,0,.28),0 0 34px rgba(29,155,240,.04)!important;
+}
+#main-card.query-mode .access-panel::before{color:#293745!important}
+#main-card.query-mode #input-label{display:flex!important;align-items:center;justify-content:space-between;margin-top:4px!important}
+#main-card.query-mode #input-label::after{
+  content:"SECURE INPUT";font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;color:#4c5c69;
+}
+#input-code{
+  min-height:58px!important;height:58px!important;padding:0 16px!important;
+  font-size:15px!important;font-weight:800!important;letter-spacing:.08em!important;
+  border-color:#36414b!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.03),0 10px 24px rgba(0,0,0,.20)!important;
+}
+#input-code::placeholder{color:#5f6c78!important;letter-spacing:.03em!important}
+#input-code:focus{box-shadow:0 0 0 1px var(--blue),0 0 32px rgba(29,155,240,.14),inset 0 1px rgba(255,255,255,.04)!important}
+.verify-btn{
+  min-height:54px!important;height:54px!important;font-weight:900!important;
+  letter-spacing:.015em!important;
+}
+.verify-btn .arrow{opacity:.7}
+
+/* Status-led buttons */
+.x-btn-white .btn-arrow,.x-btn-dark .btn-arrow{font-size:17px;opacity:.65;transition:transform .18s ease}
+.x-btn-white:hover .btn-arrow,.x-btn-dark:hover .btn-arrow{transform:translateX(4px)}
+button[data-state="loading"]{cursor:wait!important;pointer-events:none!important}
+button[data-state="loading"]::after{content:"";width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:currentColor;animation:spin .7s linear infinite;margin-left:8px;border-radius:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Result information hierarchy */
+.result-label-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.result-label-line>span{font-size:11px;color:#7d8791}
+.result-label-line em{font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;color:#394652;font-style:normal}
+#result-box .result-field,
+#result-box .x-inner{border-color:rgba(255,255,255,.10)!important;background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,0)),#0a0d11!important}
+#result-box .result-field:hover{border-color:rgba(255,255,255,.17)!important}
+#result-box .result-field>div:first-child > div:not(.flex){font-size:15px!important;letter-spacing:.01em}
+#result-box .x-inner:first-child{border-color:rgba(29,155,240,.25)!important}
+
+/* OTP centerpiece + circular countdown */
+.otp-ring{
+  --otp-progress:100deg;
+  width:34px;height:34px;border-radius:50%;display:inline-grid;place-items:center;flex:0 0 auto;
+  background:conic-gradient(#1d9bf0 var(--otp-progress),#222a32 0deg);
+  position:relative;box-shadow:0 0 20px rgba(29,155,240,.10);
+}
+.otp-ring::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#080b0f}
+.otp-ring span{position:relative;z-index:1;font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#84cff7}
+.otp-code{font-size:27px!important;letter-spacing:.20em!important;text-shadow:0 0 20px rgba(29,155,240,.42)!important}
+
+/* Modal premium progress */
+#agreement-modal>div{position:relative}
+#agreement-modal>div::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#1d9bf0,#fff,#1d9bf0,transparent);opacity:.8}
+#terms-box{scroll-behavior:smooth}
+
+/* Mobile refinement */
+@media(max-width:640px){
+  .premium-step-indicator{margin-bottom:10px}
+  .premium-step-indicator .step-dot{width:22px;height:19px;font-size:8px}
+  .premium-step-indicator i{width:15px}
+  .product-card{min-height:124px!important;padding:12px!important}
+  .product-price{font-size:20px!important}
+  #main-card.query-mode #step-query .access-panel{padding:16px!important}
+  #input-code{min-height:56px!important;height:56px!important;font-size:14px!important}
+  .verify-btn{min-height:52px!important;height:52px!important}
+  .otp-code{font-size:22px!important}
+}
+@media(max-width:380px){
+  .premium-step-indicator{transform:scale(.94);transform-origin:center top;margin-bottom:7px}
+  .product-card{min-height:112px!important;padding:10px!important}
+  .product-card .product-name{font-size:12px!important}
+  .product-card .product-note{font-size:9px!important}
+  .product-price{font-size:18px!important}
+}
+</style>
 <script id="final-stage-lock">
 (function(){
   function forceDisplay(el, show){
@@ -2323,7 +2528,13 @@ body{line-height:1.55!important;}
     el.style.setProperty('display', show ? 'block' : 'none', 'important');
   }
 
+  function updatePremiumIndicator(stepId){
+    const dots=document.querySelectorAll('#step-indicator .step-dot');
+    dots.forEach(d=>d.classList.toggle('active', d.dataset.step === (stepId==='step-intro'?'intro':stepId==='step-price'?'price':stepId==='step-query'?'query':'')));
+  }
+
   window.showStep = function(stepId){
+    updatePremiumIndicator(stepId);
     const intro=document.getElementById('step-intro');
     const price=document.getElementById('step-price');
     const query=document.getElementById('step-query');
@@ -2342,9 +2553,10 @@ body{line-height:1.55!important;}
       forceDisplay(intro,true);
       card.classList.remove('query-mode');
     } else if(stepId==='step-price'){
-      forceDisplay(header,true);
+      forceDisplay(header,false);
       forceDisplay(price,true);
       card.classList.remove('query-mode');
+      card.classList.add('price-mode');
     } else if(stepId==='step-query'){
       forceDisplay(query,true);
       card.classList.add('query-mode');
@@ -2361,26 +2573,35 @@ body{line-height:1.55!important;}
 
   window.goToQueryStep = function(){
     window.showStep('step-query');
+    document.getElementById('main-card').classList.remove('price-mode');
     const input=document.getElementById('input-code');
     setTimeout(()=>input && input.focus(),120);
   };
 
   window.goToPriceStep = function(){
     window.showStep('step-price');
+    document.getElementById('main-card').classList.add('price-mode');
+    document.getElementById('main-card').classList.remove('query-mode');
+    document.getElementById('header-section')?.classList.add('hidden');
     const sub=document.getElementById('sub-title');
     if(sub) sub.innerText='💳 계정 가격 및 거래 안내를 확인해 주세요.';
   };
 
   window.goToIntroStep = function(){
     window.showStep('step-intro');
+    document.getElementById('main-card').classList.remove('price-mode');
     const sub=document.getElementById('sub-title');
-    if(sub) sub.innerText='💡 아래 필독 안내 사항을 먼저 확인해 주세요.';
+    if(sub) sub.innerText='<span class="icon-inline"><i data-lucide="lightbulb" class="premium-icon gold"></i><span>아래 필독 안내 사항을 먼저 확인해 주세요.</span></span>';
     if(window.otpInterval){ clearInterval(window.otpInterval); window.otpInterval=null; }
   };
 
   window.resetToHome = function(){
     const input=document.getElementById('input-code');
     if(input) input.value='';
+    const q=document.getElementById('input-code');
+    if(q) q.removeAttribute('data-state');
+    const btn=document.querySelector('.verify-btn');
+    if(btn){btn.removeAttribute('data-state');btn.innerHTML='<span><span class="icon-inline"><i data-lucide="search-check" class="premium-icon blue"></i><span>계정 정보 안전 조회하기</span></span></span><span class="arrow">→</span>';}
     window.goToIntroStep();
   };
 
@@ -2413,5 +2634,1176 @@ body{line-height:1.55!important;}
 #main-card.result-mode > *:not(#result-box) { display:none !important; }
 #main-card.result-mode #result-box { display:block !important; }
 </style>
+
+<style id="premium-header-v19">
+/* ===== PREMIUM HEADER V19 ===== */
+.premium-header{
+  margin-bottom:26px!important;
+}
+.premium-brand-lockup{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  align-items:center;
+  gap:28px;
+  position:relative;
+}
+.premium-brand-lockup::after{
+  content:"";
+  position:absolute;
+  inset:-18px -18px auto -18px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(29,155,240,.18),rgba(124,58,237,.12),transparent);
+}
+.premium-hero-logo{
+  width:150px!important;height:150px!important;
+  margin:0!important;
+  border-radius:10px!important;
+  justify-self:start;
+  background:
+    radial-gradient(circle at 28% 22%,rgba(255,255,255,.11),transparent 38%),
+    linear-gradient(145deg,#181d23 0%,#0b0e12 58%,#050608 100%)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  box-shadow:
+    0 22px 70px rgba(0,0,0,.68),
+    0 0 0 1px rgba(255,255,255,.035) inset,
+    0 0 42px rgba(29,155,240,.12),
+    0 0 34px rgba(124,58,237,.07)!important;
+}
+.premium-hero-logo::before{
+  inset:-7px!important;
+  border-radius:12px!important;
+  background:radial-gradient(circle,rgba(29,155,240,.16),transparent 68%)!important;
+}
+.premium-hero-logo::after{
+  inset:1px!important;
+  border-radius:9px!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.09),transparent 34%,transparent 68%,rgba(29,155,240,.04))!important;
+}
+.premium-hero-logo .x-logo-svg{
+  width:92px!important;height:92px!important;
+  filter:drop-shadow(0 3px 16px rgba(255,255,255,.12))!important;
+}
+.premium-brand-content{
+  min-width:0;
+  text-align:left;
+}
+.premium-brand-content .premium-kicker{
+  width:max-content;
+  margin:0!important;
+  padding:7px 10px!important;
+  border-radius:3px!important;
+  background:rgba(29,155,240,.05)!important;
+  border-color:rgba(29,155,240,.22)!important;
+  color:#8aa6b9!important;
+}
+.premium-brand-line{
+  width:72px;height:2px;margin:16px 0 14px;
+  background:linear-gradient(90deg,#43b6ff,#8b5cf6,transparent);
+  box-shadow:0 0 16px rgba(29,155,240,.25);
+}
+.premium-brand-title{
+  margin:0;
+  font-size:clamp(28px,4.6vw,46px);
+  line-height:1.02;
+  font-weight:950;
+  letter-spacing:-.055em;
+  color:#fff;
+  text-wrap:balance;
+}
+.premium-brand-title span{
+  color:#cfd7de;
+}
+.premium-brand-meta{
+  margin-top:11px;
+  font:800 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.20em;
+  color:#5d6872;
+}
+.premium-service-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-top:16px;
+  padding:10px 14px;
+  border:1px solid rgba(29,155,240,.24);
+  border-radius:5px;
+  background:linear-gradient(90deg,rgba(29,155,240,.06),rgba(124,58,237,.025));
+  color:#9eaab4;
+  font-size:11px;font-weight:800;
+  box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+.premium-badge-icon{
+  width:20px;height:20px;display:grid;place-items:center;
+  border:1px solid rgba(29,155,240,.55);
+  color:#62c5ff;
+  font-size:11px;font-weight:900;
+  background:rgba(29,155,240,.09);
+}
+.premium-brand-content #sub-title{
+  max-width:540px;
+  color:#7f8993!important;
+  line-height:1.6;
+}
+.premium-header .premium-step-indicator{
+  margin-top:22px!important;
+  margin-bottom:0!important;
+}
+@media(max-width:640px){
+  .premium-brand-lockup{grid-template-columns:1fr;gap:18px;text-align:center}
+  .premium-hero-logo{justify-self:center;width:126px!important;height:126px!important}
+  .premium-hero-logo .x-logo-svg{width:76px!important;height:76px!important}
+  .premium-brand-content{text-align:center}
+  .premium-brand-content .premium-kicker{margin:0 auto!important}
+  .premium-brand-line{margin:13px auto 12px;width:58px}
+  .premium-brand-title{font-size:26px;line-height:1.06}
+  .premium-brand-meta{font-size:8px;letter-spacing:.13em}
+  .premium-service-badge{font-size:10px;padding:9px 10px;gap:8px;justify-content:center;max-width:100%}
+  .premium-brand-content #sub-title{font-size:11px!important;margin-left:auto!important;margin-right:auto!important}
+  .desktop-break{display:none}
+}
+@media(max-width:380px){
+  .premium-hero-logo{width:112px!important;height:112px!important}
+  .premium-hero-logo .x-logo-svg{width:68px!important;height:68px!important}
+  .premium-brand-title{font-size:22px}
+  .premium-service-badge{font-size:9px}
+}
+</style>
+
+
+<style id="header-match-v20">
+/* ===== HEADER MATCH V20 : closely follow the supplied reference image ===== */
+#main-card:not(.query-mode):not(.result-mode){
+  max-width:780px !important;
+  padding:30px !important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.022),rgba(255,255,255,.006)),
+    linear-gradient(180deg,#080b10,#040608) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:
+    0 32px 100px rgba(0,0,0,.70),
+    0 0 0 1px rgba(255,255,255,.025) inset,
+    0 0 85px rgba(29,155,240,.06),
+    0 0 85px rgba(124,58,237,.04) !important;
+}
+
+#header-section.premium-header{
+  position:relative;
+  margin-bottom:22px !important;
+  padding:18px 18px 16px !important;
+  background:
+    radial-gradient(circle at 18% 20%,rgba(29,155,240,.09),transparent 30%),
+    radial-gradient(circle at 82% 70%,rgba(124,58,237,.07),transparent 35%),
+    linear-gradient(135deg,rgba(255,255,255,.018),rgba(255,255,255,.004));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:inset 0 1px rgba(255,255,255,.03),0 18px 48px rgba(0,0,0,.22);
+  overflow:hidden;
+}
+
+#header-section.premium-header::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(29,155,240,.35),transparent 22%,transparent 78%,rgba(124,58,237,.25)),
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 34%);
+}
+
+#header-section.premium-header::after{
+  content:"𝕏";
+  position:absolute;
+  right:-8px;
+  top:-18px;
+  font:900 150px/1 Arial,Helvetica,sans-serif;
+  color:rgba(255,255,255,.028);
+  transform:rotate(-9deg);
+  pointer-events:none;
+}
+
+.premium-brand-lockup{
+  grid-template-columns:168px minmax(0,1fr) !important;
+  gap:34px !important;
+  align-items:center !important;
+  position:relative;
+  z-index:1;
+}
+
+.premium-brand-lockup::before{
+  content:"";
+  position:absolute;
+  left:194px;
+  top:8px;
+  bottom:8px;
+  width:1px;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.16),transparent);
+}
+
+.premium-brand-lockup::after{display:none !important;}
+
+.premium-hero-logo{
+  width:168px !important;
+  height:168px !important;
+  border-radius:14px !important;
+  justify-self:start !important;
+  background:
+    radial-gradient(circle at 28% 20%,rgba(255,255,255,.12),transparent 40%),
+    linear-gradient(145deg,#1a2027 0%,#0c1015 58%,#050608 100%) !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.68),
+    0 0 0 1px rgba(255,255,255,.03) inset,
+    0 0 34px rgba(29,155,240,.18),
+    0 0 28px rgba(124,58,237,.09) !important;
+}
+
+.premium-hero-logo::before{
+  inset:-9px !important;
+  border-radius:16px !important;
+  background:radial-gradient(circle,rgba(29,155,240,.18),transparent 67%) !important;
+  filter:blur(9px) !important;
+}
+
+.premium-hero-logo::after{
+  inset:1px !important;
+  border-radius:13px !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.10),transparent 28%,transparent 72%,rgba(29,155,240,.035)) !important;
+}
+
+.premium-hero-logo .x-logo-svg{
+  width:104px !important;
+  height:104px !important;
+  filter:drop-shadow(0 4px 20px rgba(255,255,255,.16)) !important;
+}
+
+.premium-brand-content{text-align:left !important;}
+
+.premium-brand-content .premium-kicker{
+  padding:8px 11px !important;
+  font-size:9px !important;
+  letter-spacing:.24em !important;
+  border-color:rgba(29,155,240,.28) !important;
+  background:rgba(29,155,240,.045) !important;
+  color:#8db4c9 !important;
+}
+
+.premium-brand-line{
+  width:84px !important;
+  height:3px !important;
+  margin:16px 0 15px !important;
+  background:linear-gradient(90deg,#42b8ff,#8b5cf6) !important;
+  box-shadow:0 0 18px rgba(29,155,240,.30) !important;
+}
+
+.premium-brand-title{
+  font-size:clamp(31px,4.15vw,47px) !important;
+  line-height:1.02 !important;
+  letter-spacing:-.055em !important;
+  font-weight:950 !important;
+  white-space:normal !important;
+}
+
+.premium-brand-title span{color:#f0f3f5 !important;}
+
+.premium-brand-meta{
+  margin-top:12px !important;
+  font-size:9px !important;
+  letter-spacing:.25em !important;
+  color:#5e6b76 !important;
+}
+
+.premium-service-badge{
+  margin-top:18px !important;
+  padding:10px 14px !important;
+  border:1px solid rgba(29,155,240,.30) !important;
+  background:linear-gradient(90deg,rgba(29,155,240,.07),rgba(124,58,237,.05)) !important;
+  border-radius:6px !important;
+  font-size:11px !important;
+  color:#adb8c1 !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.03),0 8px 22px rgba(0,0,0,.14);
+}
+
+.premium-badge-icon{
+  width:21px !important;height:21px !important;
+  border-radius:50% !important;
+  background:rgba(29,155,240,.12) !important;
+  color:#62c5ff !important;
+  border-color:rgba(29,155,240,.55) !important;
+}
+
+.premium-brand-content #sub-title{
+  max-width:none !important;
+  margin-top:12px !important;
+  font-size:11px !important;
+  color:#68747e !important;
+}
+
+/* The reference banner is clean; keep the stage indicator below the content rather than in the hero */
+.premium-header .premium-step-indicator{display:none !important;}
+
+@media(max-width:760px){
+  #main-card:not(.query-mode):not(.result-mode){
+    max-width:calc(100vw - 18px) !important;
+    padding:14px !important;
+  }
+  #header-section.premium-header{padding:16px 14px 15px !important;}
+  .premium-brand-lockup{
+    grid-template-columns:104px minmax(0,1fr) !important;
+    gap:18px !important;
+  }
+  .premium-brand-lockup::before{left:121px;}
+  .premium-hero-logo{
+    width:104px !important;
+    height:104px !important;
+    border-radius:10px !important;
+  }
+  .premium-hero-logo .x-logo-svg{width:66px !important;height:66px !important;}
+  .premium-brand-content{text-align:left !important;}
+  .premium-brand-title{font-size:22px !important;line-height:1.04 !important;}
+  .premium-brand-meta{font-size:7px !important;letter-spacing:.15em !important;}
+  .premium-service-badge{font-size:9px !important;padding:8px 9px !important;}
+  .premium-brand-content #sub-title{font-size:9px !important;line-height:1.4 !important;}
+}
+
+@media(max-width:520px){
+  #header-section.premium-header{padding:14px 12px !important;}
+  .premium-brand-lockup{grid-template-columns:88px minmax(0,1fr) !important;gap:14px !important;}
+  .premium-brand-lockup::before{left:103px;}
+  .premium-hero-logo{width:88px !important;height:88px !important;}
+  .premium-hero-logo .x-logo-svg{width:57px !important;height:57px !important;}
+  .premium-brand-content .premium-kicker{font-size:7px !important;letter-spacing:.16em !important;padding:6px 8px !important;}
+  .premium-brand-line{width:52px !important;height:2px !important;margin:10px 0 !important;}
+  .premium-brand-title{font-size:18px !important;}
+  .premium-brand-meta{font-size:6px !important;letter-spacing:.11em !important;}
+  .premium-service-badge{font-size:8px !important;margin-top:10px !important;padding:7px 8px !important;}
+  .premium-badge-icon{width:17px !important;height:17px !important;font-size:9px !important;}
+}
+
+@media(max-width:380px){
+  .premium-brand-lockup{grid-template-columns:78px minmax(0,1fr) !important;gap:11px !important;}
+  .premium-brand-lockup::before{left:91px;}
+  .premium-hero-logo{width:78px !important;height:78px !important;}
+  .premium-hero-logo .x-logo-svg{width:51px !important;height:51px !important;}
+  .premium-brand-title{font-size:16px !important;}
+  .premium-brand-meta{font-size:5px !important;}
+  .premium-service-badge{font-size:7px !important;}
+}
+</style>
+
+<style id="v26-ultra-polished">
+/* =========================
+   V26 ULTRA POLISHED THEME
+   Reference-inspired compact X header + refined global hierarchy
+   ========================= */
+:root{
+  --v26-blue:#32a8ff;
+  --v26-blue2:#76d2ff;
+  --v26-violet:#8b6cff;
+  --v26-ink:#05070a;
+  --v26-panel:#0a0e13;
+  --v26-line:rgba(255,255,255,.10);
+  --v26-muted:#78848f;
+}
+
+/* tighter overall visual scale */
+#main-card:not(.query-mode):not(.result-mode){
+  max-width:660px !important;
+  padding:12px !important;
+  background:linear-gradient(180deg,rgba(8,11,15,.96),rgba(3,5,8,.94)) !important;
+  border:1px solid rgba(255,255,255,.11) !important;
+  box-shadow:0 26px 70px rgba(0,0,0,.65),0 0 60px rgba(35,126,255,.045)!important;
+}
+
+/* exact visual language: compact horizontal hero */
+#header-section.premium-header{
+  margin:0 0 14px !important;
+  padding:10px 11px !important;
+  min-height:0 !important;
+  border-radius:8px !important;
+  background:
+    radial-gradient(circle at 10% 18%,rgba(41,160,255,.14),transparent 24%),
+    radial-gradient(circle at 86% 76%,rgba(117,72,255,.12),transparent 30%),
+    linear-gradient(135deg,#09131c 0%,#081017 43%,#0b0818 100%) !important;
+  border:1px solid rgba(85,159,255,.16) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.045),0 14px 36px rgba(0,0,0,.34) !important;
+}
+
+#header-section.premium-header::before{
+  background:
+    linear-gradient(90deg,rgba(49,166,255,.20),transparent 30%,transparent 74%,rgba(126,92,255,.18)),
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 42%) !important;
+}
+
+#header-section.premium-header::after{
+  content:"𝕏" !important;
+  font-size:108px !important;
+  right:-10px !important;
+  top:-22px !important;
+  color:rgba(255,255,255,.026) !important;
+  transform:rotate(-10deg) !important;
+}
+
+.premium-brand-lockup{
+  grid-template-columns:106px minmax(0,1fr) !important;
+  gap:17px !important;
+  align-items:center !important;
+}
+.premium-brand-lockup::before{
+  left:123px !important;
+  top:6px !important;
+  bottom:6px !important;
+  background:linear-gradient(180deg,transparent,rgba(94,170,255,.22),transparent)!important;
+}
+
+.premium-hero-logo{
+  width:106px !important;
+  height:106px !important;
+  border-radius:10px !important;
+  background:
+    radial-gradient(circle at 28% 18%,rgba(255,255,255,.16),transparent 35%),
+    linear-gradient(145deg,#182129 0%,#0b1015 58%,#05070a 100%) !important;
+  border:1px solid rgba(255,255,255,.20) !important;
+  box-shadow:
+    0 16px 36px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.035) inset,
+    0 0 28px rgba(33,165,255,.15),
+    0 0 18px rgba(126,92,255,.07) !important;
+}
+
+.premium-hero-logo::before{
+  inset:-8px !important;
+  border-radius:12px !important;
+  background:radial-gradient(circle,rgba(41,166,255,.16),transparent 68%) !important;
+  filter:blur(7px) !important;
+}
+
+.premium-hero-logo .x-logo-svg{
+  width:70px !important;
+  height:70px !important;
+  filter:drop-shadow(0 3px 14px rgba(255,255,255,.18)) !important;
+}
+
+.premium-brand-content{padding-top:1px !important;text-align:left !important;}
+
+.premium-brand-content .premium-kicker{
+  display:inline-flex !important;
+  padding:5px 8px !important;
+  font-size:7px !important;
+  letter-spacing:.18em !important;
+  border-radius:3px !important;
+  border:1px solid rgba(50,168,255,.20) !important;
+  background:rgba(50,168,255,.035) !important;
+  color:#8aa0af !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.03) !important;
+}
+.premium-brand-content .premium-kicker::before{
+  width:5px !important;height:5px !important;background:#27a8ff !important;box-shadow:0 0 8px rgba(39,168,255,.8) !important;
+}
+
+.premium-brand-line{
+  width:44px !important;
+  height:2px !important;
+  margin:7px 0 8px !important;
+  background:linear-gradient(90deg,#43b6ff,#8c70ff) !important;
+  box-shadow:0 0 13px rgba(44,157,255,.22) !important;
+}
+
+.premium-brand-title{
+  font-size:31px !important;
+  line-height:1 !important;
+  letter-spacing:-.055em !important;
+  font-weight:950 !important;
+  color:#f3f6f8 !important;
+  white-space:nowrap !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.04) !important;
+}
+.premium-brand-title span{color:#f3f6f8 !important;}
+
+.premium-brand-meta{display:none !important;}
+
+.premium-service-badge{
+  margin-top:8px !important;
+  padding:6px 9px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  border-radius:4px !important;
+  border:1px solid rgba(53,163,255,.28) !important;
+  background:linear-gradient(90deg,rgba(33,155,255,.07),rgba(116,87,255,.045)) !important;
+  font-size:8px !important;
+  color:#aab7c0 !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025),0 6px 16px rgba(0,0,0,.14) !important;
+}
+.premium-badge-icon{
+  width:17px !important;height:17px !important;font-size:9px !important;
+  border-radius:50% !important;
+  background:rgba(33,155,255,.11) !important;
+  border:1px solid rgba(33,155,255,.42) !important;
+  color:#66caff !important;
+}
+
+/* make the first screen feel intentional, not crowded */
+#step-intro > .x-inner:first-child{
+  padding:15px !important;
+  border-radius:7px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.024),rgba(255,255,255,.008)),#090d11 !important;
+  border-color:#2b343d !important;
+}
+#step-intro .grid.grid-cols-2{gap:8px !important;}
+#step-intro .grid.grid-cols-2 button{min-height:48px !important;font-size:12px !important;}
+
+/* pricing cards: tighter and more expensive */
+.product-grid{gap:9px !important;}
+.product-card{
+  min-height:122px !important;
+  padding:13px !important;
+  border-radius:6px !important;
+  background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.006)),#0b0f14 !important;
+}
+.product-card .product-name{font-size:13px !important;}
+.product-card .product-note{font-size:9px !important;line-height:1.45 !important;}
+.product-price{font-size:21px !important;}
+.product-card.featured{box-shadow:inset 2px 0 #1d9bf0,0 10px 26px rgba(0,0,0,.24) !important;}
+.product-card:nth-child(4){box-shadow:inset 0 1px rgba(255,255,255,.03),0 10px 26px rgba(0,0,0,.24),0 0 22px rgba(215,181,109,.045) !important;}
+
+/* query screen */
+#main-card.query-mode{max-width:520px !important;}
+#main-card.query-mode #step-query .access-panel{padding:18px !important;border-radius:7px !important;}
+#input-code{min-height:58px !important;height:58px !important;font-size:15px !important;border-radius:5px !important;}
+.verify-btn{min-height:54px !important;height:54px !important;border-radius:5px !important;}
+
+/* result screen */
+#main-card.result-mode{max-width:520px !important;}
+#result-box .result-field,#result-box .x-inner{border-radius:6px !important;}
+#result-box .result-field>div:first-child > div:not(.flex){font-size:14px !important;}
+.otp-code{font-size:26px !important;}
+
+/* Remove any legacy secondary hero micro-copy that visually overlaps the banner */
+#header-section.premium-header .premium-brand-content #sub-title{display:none !important;}
+
+@media(max-width:760px){
+  #main-card:not(.query-mode):not(.result-mode){max-width:calc(100vw - 18px) !important;padding:8px !important;}
+  #header-section.premium-header{padding:8px !important;margin-bottom:10px !important;}
+  .premium-brand-lockup{grid-template-columns:88px minmax(0,1fr) !important;gap:12px !important;}
+  .premium-brand-lockup::before{left:100px !important;}
+  .premium-hero-logo{width:88px !important;height:88px !important;}
+  .premium-hero-logo .x-logo-svg{width:58px !important;height:58px !important;}
+  .premium-brand-title{font-size:21px !important;}
+  .premium-service-badge{font-size:7px !important;padding:5px 7px !important;}
+  .product-grid{grid-template-columns:1fr 1fr !important;gap:7px !important;}
+  .product-card{min-height:116px !important;padding:11px !important;}
+  .product-price{font-size:19px !important;}
+}
+@media(max-width:430px){
+  .premium-brand-lockup{grid-template-columns:76px minmax(0,1fr) !important;gap:10px !important;}
+  .premium-brand-lockup::before{left:87px !important;}
+  .premium-hero-logo{width:76px !important;height:76px !important;}
+  .premium-hero-logo .x-logo-svg{width:50px !important;height:50px !important;}
+  .premium-brand-title{font-size:18px !important;}
+  .premium-brand-content .premium-kicker{font-size:5.8px !important;padding:4px 6px !important;}
+  .premium-service-badge{font-size:6.5px !important;}
+  .product-card{min-height:108px !important;}
+}
+</style>
+
+<script id="premium-3d-interaction">
+(() => {
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+  function attachTilt(el, maxX, maxY, lift = 0) {
+    if (!el) return;
+    let raf = 0;
+    const reset = () => {
+      el.style.transform = '';
+    };
+    el.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - .5;
+      const py = (e.clientY - r.top) / r.height - .5;
+      const rx = clamp(-py * maxX, -maxX, maxX);
+      const ry = clamp(px * maxY, -maxY, maxY);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(${-lift}px)`;
+      });
+    });
+    el.addEventListener('pointerleave', reset);
+    el.addEventListener('blur', reset);
+  }
+
+  const init3D = () => {
+    attachTilt(document.querySelector('#header-section .x-logo-wrap'), 7, 9, 1);
+    document.querySelectorAll('.product-card').forEach((el) => attachTilt(el, 4.5, 5.5, 1.5));
+    document.querySelectorAll('#main-card.query-mode .access-panel, #result-box .result-field, #result-box .x-inner')
+      .forEach((el) => attachTilt(el, 3, 4, 1));
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init3D);
+  else init3D();
+})();
+</script>
+
+<script id="lucide-init">
+document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) lucide.createIcons(); });
+</script>
 </body>
 </html>
+
+<style id="next-step-hardfix">
+  #btn-next-price { pointer-events:auto !important; }
+</style>
+<script id="next-step-hardfix-script">
+(function(){
+  function wire(){
+    const checkbox=document.getElementById('agree-price-checkbox');
+    const btn=document.getElementById('btn-next-price');
+    if(!checkbox || !btn) return;
+    function sync(){
+      const ok=!!checkbox.checked;
+      btn.disabled=!ok;
+      btn.classList.toggle('cursor-not-allowed',!ok);
+      btn.classList.toggle('cursor-pointer',ok);
+      if(ok){
+        btn.className='w-full x-btn-white py-3.5 text-xs md:text-sm cursor-pointer shadow-sm';
+        btn.innerHTML='다음 단계로 넘어가기 <span class="btn-arrow">→</span>';
+      } else {
+        btn.className='w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]';
+        btn.innerHTML='다음 단계로 넘어가기';
+      }
+    }
+    checkbox.addEventListener('change',sync);
+    sync();
+    btn.onclick=function(e){
+      e.preventDefault();
+      if(btn.disabled) return;
+      if(typeof window.goToQueryStep==='function'){
+        window.goToQueryStep();
+      } else {
+        const q=document.getElementById('step-query');
+        const p=document.getElementById('step-price');
+        const i=document.getElementById('step-intro');
+        if(i) i.style.setProperty('display','none','important');
+        if(p) p.style.setProperty('display','none','important');
+        if(q) q.style.setProperty('display','block','important');
+      }
+    };
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wire); else wire();
+})();
+</script>
+<style id="header-compact-v21">
+/* ===== COMPACT HERO — reference proportions ===== */
+#main-card:not(.query-mode):not(.result-mode){
+  max-width:640px !important;
+  padding:16px !important;
+}
+#header-section.premium-header{
+  margin-bottom:16px !important;
+  padding:10px 12px 11px !important;
+  min-height:0 !important;
+}
+.premium-brand-lockup{
+  grid-template-columns:112px minmax(0,1fr) !important;
+  gap:18px !important;
+}
+.premium-brand-lockup::before{left:130px !important;top:8px;bottom:8px}
+.premium-hero-logo{
+  width:112px !important;
+  height:112px !important;
+  border-radius:11px !important;
+}
+.premium-hero-logo .x-logo-svg{width:72px !important;height:72px !important}
+.premium-brand-content .premium-kicker{
+  padding:5px 8px !important;
+  font-size:7px !important;
+  letter-spacing:.19em !important;
+}
+.premium-brand-line{
+  width:55px !important;
+  height:2px !important;
+  margin:8px 0 8px !important;
+}
+.premium-brand-title{
+  font-size:30px !important;
+  line-height:1 !important;
+  letter-spacing:-.052em !important;
+}
+.premium-brand-meta{
+  margin-top:7px !important;
+  font-size:7px !important;
+  letter-spacing:.16em !important;
+}
+.premium-service-badge{
+  margin-top:8px !important;
+  padding:6px 9px !important;
+  font-size:8px !important;
+  border-radius:4px !important;
+}
+.premium-badge-icon{width:16px !important;height:16px !important;font-size:9px !important}
+.premium-brand-content #sub-title{display:none !important}
+#header-section.premium-header::after{font-size:105px !important;right:-8px !important;top:-14px !important}
+
+@media(max-width:760px){
+  #main-card:not(.query-mode):not(.result-mode){max-width:calc(100vw - 24px) !important;padding:10px !important}
+  #header-section.premium-header{padding:9px 9px 10px !important}
+  .premium-brand-lockup{grid-template-columns:94px minmax(0,1fr) !important;gap:15px !important}
+  .premium-brand-lockup::before{left:109px !important}
+  .premium-hero-logo{width:94px !important;height:94px !important}
+  .premium-hero-logo .x-logo-svg{width:61px !important;height:61px !important}
+  .premium-brand-title{font-size:24px !important}
+  .premium-brand-meta{font-size:6px !important}
+  .premium-service-badge{font-size:7px !important;padding:5px 7px !important}
+}
+@media(max-width:520px){
+  #main-card:not(.query-mode):not(.result-mode){max-width:calc(100vw - 16px) !important;padding:8px !important}
+  #header-section.premium-header{padding:8px !important}
+  .premium-brand-lockup{grid-template-columns:82px minmax(0,1fr) !important;gap:12px !important}
+  .premium-brand-lockup::before{left:94px !important}
+  .premium-hero-logo{width:82px !important;height:82px !important;border-radius:9px !important}
+  .premium-hero-logo .x-logo-svg{width:53px !important;height:53px !important}
+  .premium-brand-title{font-size:20px !important}
+  .premium-brand-content .premium-kicker{font-size:6px !important;padding:4px 6px !important}
+  .premium-brand-line{width:42px !important;margin:6px 0 !important}
+  .premium-brand-meta{font-size:5.5px !important}
+  .premium-service-badge{font-size:6.5px !important;margin-top:6px !important;padding:4px 6px !important}
+  .premium-badge-icon{width:14px !important;height:14px !important}
+}
+
+/* ===== PRICE PAGE HEADER REMOVAL ===== */
+#main-card.price-mode #header-section {
+    display: none !important;
+}
+#main-card.price-mode {
+    padding-top: 22px !important;
+}
+#main-card.price-mode #step-price {
+    margin-top: 0 !important;
+}
+
+/* ===== PREMIUM 3D DEPTH LAYER ===== */
+:root{
+  --depth-blue: rgba(29,155,240,.28);
+  --depth-violet: rgba(124,58,237,.20);
+}
+
+/* Interactive depth surfaces */
+#header-section .x-logo-wrap,
+.product-card,
+#main-card.query-mode .access-panel,
+#result-box .result-field,
+#result-box .x-inner{
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+
+#header-section .x-logo-wrap{
+  transition:transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .25s ease;
+}
+#header-section .x-logo-wrap::before{
+  transform:translateZ(-12px) scale(.92);
+}
+#header-section .x-logo-svg{
+  transform:translateZ(18px);
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.42)) drop-shadow(0 0 10px rgba(255,255,255,.10));
+}
+
+.product-card,
+#main-card.query-mode .access-panel,
+#result-box .result-field,
+#result-box .x-inner{
+  transition:transform .20s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  box-shadow:inset 0 1px rgba(255,255,255,.035), 0 18px 40px rgba(0,0,0,.30), 0 0 0 rgba(29,155,240,0);
+}
+.product-card:hover,
+#main-card.query-mode .access-panel:hover,
+#result-box .result-field:hover,
+#result-box .x-inner:hover{
+  box-shadow:inset 0 1px rgba(255,255,255,.055), 0 24px 52px rgba(0,0,0,.38), 0 0 24px rgba(29,155,240,.07);
+}
+
+/* 3D layered shine */
+.product-card::before,
+#main-card.query-mode .access-panel::after,
+#result-box .result-field::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(125deg, rgba(255,255,255,.08), transparent 26%, transparent 62%, rgba(29,155,240,.035));
+  opacity:.35;
+  transform:translateZ(8px);
+}
+.product-card::before{mix-blend-mode:screen}
+
+/* Buttons feel slightly lifted */
+.x-btn-white,
+.x-btn-dark,
+.verify-btn,
+#btn-next-price,
+#btn-modal-confirm,
+#tab-general,
+#tab-email{
+  transform-style:preserve-3d;
+  transition:transform .16s ease, box-shadow .20s ease, background .20s ease, border-color .20s ease;
+}
+.x-btn-white:hover:not(:disabled),
+.x-btn-dark:hover:not(:disabled),
+.verify-btn:hover:not(:disabled),
+#btn-next-price:hover:not(:disabled),
+#btn-modal-confirm:hover:not(:disabled),
+#tab-general:hover,
+#tab-email:hover{
+  transform:translateY(-2px) translateZ(7px);
+  box-shadow:0 12px 24px rgba(0,0,0,.25), 0 0 22px rgba(29,155,240,.06);
+}
+
+/* Main shell gets visual depth without moving the layout */
+#main-card{
+  perspective:1200px;
+}
+#header-section,
+#step-intro,
+#step-price,
+#step-query,
+#result-box{
+  transform-style:preserve-3d;
+}
+
+/* A subtle floor shadow beneath the main shell */
+#main-card::after{
+  content:"";
+  position:absolute;
+  left:10%; right:10%; bottom:-20px; height:38px;
+  background:radial-gradient(ellipse, rgba(0,0,0,.55), transparent 70%);
+  filter:blur(12px);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* Respect reduced-motion and touch devices */
+@media (pointer:coarse){
+  #header-section .x-logo-wrap,
+  .product-card,
+  #main-card.query-mode .access-panel,
+  #result-box .result-field,
+  #result-box .x-inner{ transform:none !important; }
+}
+@media (prefers-reduced-motion:reduce){
+  #header-section .x-logo-wrap,
+  .product-card,
+  #main-card.query-mode .access-panel,
+  #result-box .result-field,
+  #result-box .x-inner,
+  .x-btn-white,.x-btn-dark,.verify-btn,#btn-next-price,#btn-modal-confirm,#tab-general,#tab-email{
+    transition:none !important;
+  }
+}
+</style>
+
+
+<!-- V28 ULTIMATE POLISH -->
+<style id="v28-ultimate-polish">
+:root{
+  --v28-blue:#2fa8ff;
+  --v28-blue-hi:#8ed8ff;
+  --v28-violet:#8a72ff;
+  --v28-green:#42d7a4;
+  --v28-gold:#d8b96b;
+}
+
+/* 1) Micro 3D: restrained, product-like depth */
+#header-section .x-logo-wrap,
+.product-card,
+#main-card.query-mode .access-panel,
+#result-box .result-field,
+#result-box .x-inner{
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  perspective:1200px;
+}
+#header-section .x-logo-svg{transform:translateZ(20px);}
+.product-card .product-badge,
+.product-card .product-name,
+.product-card .product-note,
+.product-card .product-price{position:relative;z-index:2;transform:translateZ(8px);}
+.product-card.selected{
+  border-color:rgba(47,168,255,.82)!important;
+  box-shadow:
+    inset 2px 0 var(--v28-blue),
+    0 22px 54px rgba(0,0,0,.40),
+    0 0 34px rgba(47,168,255,.13)!important;
+  background:
+    linear-gradient(145deg,rgba(47,168,255,.11),rgba(255,255,255,.012) 48%),
+    #0a1016!important;
+}
+.product-card.selected:nth-child(4){
+  border-color:rgba(216,185,107,.72)!important;
+  box-shadow:
+    inset 2px 0 var(--v28-gold),
+    0 22px 54px rgba(0,0,0,.40),
+    0 0 34px rgba(216,185,107,.10)!important;
+}
+.product-card.selected::after{opacity:1!important;}
+.product-card .product-selected-mark{
+  position:absolute;right:9px;bottom:9px;
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 6px;
+  border:1px solid rgba(47,168,255,.32);
+  background:rgba(47,168,255,.08);
+  color:#7bd1ff;
+  font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.15em;
+  z-index:5;
+  opacity:0;
+  transform:translateZ(14px) translateY(4px);
+  transition:.22s ease;
+}
+.product-card.selected .product-selected-mark{opacity:1;transform:translateZ(14px) translateY(0)}
+.product-card:nth-child(4) .product-selected-mark{border-color:rgba(216,185,107,.35);background:rgba(216,185,107,.07);color:#e4ce98}
+
+/* 2) Small system-online status in the hero */
+.premium-system-status{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-left:8px;padding:4px 7px;
+  border:1px solid rgba(66,215,164,.20);
+  background:rgba(66,215,164,.045);
+  color:#78b9a2;
+  font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.13em;text-transform:uppercase;
+  vertical-align:middle;
+}
+.premium-system-status::before{
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--v28-green);box-shadow:0 0 10px rgba(66,215,164,.75);
+}
+
+/* 3) Access Console styling */
+#main-card.query-mode .access-panel{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+#main-card.query-mode .access-panel::after{
+  content:"";
+  position:absolute;left:0;right:0;top:-2px;height:1px;
+  background:linear-gradient(90deg,transparent,#2fa8ff 24%,#8a72ff 76%,transparent);
+  opacity:.65;
+  z-index:1;
+  animation:consoleSweep 4.5s ease-in-out infinite;
+}
+@keyframes consoleSweep{0%,100%{transform:translateX(-8%);opacity:.25}50%{transform:translateX(8%);opacity:.9}}
+.v28-console-meta{
+  display:grid;grid-template-columns:1fr auto;
+  gap:8px;margin:-1px 0 2px;padding-bottom:9px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+.v28-console-meta .left{
+  color:#6e7b87;font:800 7px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.15em;text-transform:uppercase;
+}
+.v28-console-meta .right{
+  color:#4fd6a7;font:800 7px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+#input-code{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0)),
+    #070b0f!important;
+  color:#f4f7f9!important;
+  border-color:#2d3944!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.03),0 14px 28px rgba(0,0,0,.24)!important;
+}
+#input-code:focus{
+  border-color:rgba(47,168,255,.80)!important;
+  box-shadow:
+    0 0 0 1px rgba(47,168,255,.25),
+    0 0 34px rgba(47,168,255,.13),
+    inset 0 1px rgba(255,255,255,.04)!important;
+}
+#input-code::selection{background:rgba(47,168,255,.30)}
+
+/* 4) Verify button feedback */
+.verify-btn{position:relative;overflow:hidden;}
+.verify-btn::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.28) 48%,transparent 74%);
+  transform:translateX(-130%);transition:transform .6s ease;pointer-events:none;
+}
+.verify-btn:hover::before{transform:translateX(130%)}
+button[data-state="loading"].verify-btn{background:#111820!important;color:#9bdcff!important;border-color:rgba(47,168,255,.35)!important}
+button[data-state="loading"].verify-btn::before{
+  animation:verifySweep 1.15s linear infinite;
+}
+@keyframes verifySweep{to{transform:translateX(130%)}}
+
+/* 5) Result = secure console, not generic cards */
+#main-card.result-mode{
+  position:relative;
+}
+#main-card.result-mode::before{
+  content:"ACCOUNT DELIVERY / LIVE 2FA";
+  position:absolute;left:14px;top:10px;
+  color:#4e6272;
+  font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;
+  pointer-events:none;
+}
+#result-box{
+  position:relative;
+  padding-top:16px!important;
+}
+#result-box::before{
+  content:"ACCESS CONSOLE";
+  display:flex;align-items:center;
+  height:22px;margin-bottom:6px;
+  padding:0 2px;
+  color:#6c7a86;
+  font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;
+}
+#result-box .x-inner,
+#result-box .result-field{
+  position:relative;
+  overflow:hidden;
+}
+#result-box .x-inner::before,
+#result-box .result-field::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(47,168,255,.30),transparent);
+  opacity:.55;
+}
+#result-box .otp-code{
+  position:relative;z-index:2;
+  letter-spacing:.22em!important;
+}
+#result-box .otp-ring{box-shadow:0 0 24px rgba(47,168,255,.14),inset 0 0 10px rgba(47,168,255,.04)}
+
+/* Better state separation */
+#result-box .copy-btn{
+  border-color:#364553!important;
+  color:#b9c5ce!important;
+}
+#result-box .copy-btn:hover{border-color:#5b7082!important;color:#fff!important}
+
+/* Micro type system */
+.premium-kicker,.product-badge,.step-code,.result-label-line em,.v28-console-meta,.premium-system-status{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace!important;
+}
+
+/* Mobile: 3D remains subtle and layout stays calm */
+@media(max-width:760px){
+  .premium-system-status{font-size:6px;padding:4px 5px;margin-left:5px}
+  .v28-console-meta .left,.v28-console-meta .right{font-size:6px}
+  #result-box::before{font-size:7px}
+}
+@media (pointer:coarse){
+  #header-section .x-logo-wrap,
+  .product-card,
+  #main-card.query-mode .access-panel,
+  #result-box .result-field,
+  #result-box .x-inner{
+    transform:none!important;
+  }
+  .product-card:hover{transform:none!important;}
+}
+</style>
+
+<script id="v28-ultimate-behavior">
+(function(){
+  function addSystemStatus(){
+    const kicker=document.querySelector('.premium-kicker');
+    if(!kicker || kicker.parentElement.querySelector('.premium-system-status')) return;
+    const status=document.createElement('span');
+    status.className='premium-system-status';
+    status.textContent='SYSTEM ONLINE';
+    kicker.insertAdjacentElement('afterend',status);
+  }
+
+  function setupProductSelection(){
+    document.querySelectorAll('.product-card').forEach((card)=>{
+      card.setAttribute('role','button');
+      card.setAttribute('tabindex','0');
+      card.setAttribute('aria-pressed','false');
+      if(card.querySelector('.product-selected-mark')) return;
+      const mark=document.createElement('span');
+      mark.className='product-selected-mark';
+      mark.textContent='SELECTED ✓';
+      card.appendChild(mark);
+      const select=()=>{
+        document.querySelectorAll('.product-card').forEach(c=>{
+          const active=c===card;
+          c.classList.toggle('selected',active);
+          c.setAttribute('aria-pressed',String(active));
+        });
+      };
+      card.addEventListener('click',select);
+      card.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter' || e.key===' '){e.preventDefault();select();}
+      });
+    });
+  }
+
+  function setupConsoleMeta(){
+    const panel=document.querySelector('#main-card.query-mode .access-panel');
+    if(!panel || panel.querySelector('.v28-console-meta')) return;
+    const meta=document.createElement('div');
+    meta.className='v28-console-meta';
+    meta.innerHTML='<span class="left">ACCESS CONSOLE · SECURE CODE</span><span class="right">READY</span>';
+    const status=panel.querySelector('.access-status');
+    if(status) status.insertAdjacentElement('afterend',meta);
+    else panel.prepend(meta);
+  }
+
+  function setConsoleReady(){
+    const input=document.getElementById('input-code');
+    const meta=document.querySelector('.v28-console-meta .right');
+    if(!input || !meta) return;
+    const sync=()=>{ meta.textContent=input.value.trim() ? 'CODE READY' : 'READY'; };
+    input.addEventListener('input',sync);
+    sync();
+  }
+
+  function patchVerifyButton(){
+    const btn=document.querySelector('.verify-btn');
+    if(btn && !btn.dataset.v28Bound){
+      btn.dataset.v28Bound='1';
+      const syncState=()=>{
+        if(btn.dataset.state==='loading') btn.innerHTML='<span>VERIFYING…</span><span class="arrow">→</span>';
+      };
+      const observer=new MutationObserver(syncState);
+      observer.observe(btn,{attributes:true,attributeFilter:['data-state']});
+      syncState();
+    }
+
+    const modalBtn=document.getElementById('btn-modal-confirm');
+    if(modalBtn && !modalBtn.dataset.v28Bound){
+      modalBtn.dataset.v28Bound='1';
+      const syncModal=()=>{
+        if(modalBtn.dataset.state==='loading'){
+          modalBtn.innerHTML='<span>VERIFYING…</span><span class="arrow">→</span>';
+        }
+      };
+      const observer2=new MutationObserver(syncModal);
+      observer2.observe(modalBtn,{attributes:true,attributeFilter:['data-state']});
+      syncModal();
+    }
+  }
+
+  function init(){
+    addSystemStatus();
+    setupProductSelection();
+    setupConsoleMeta();
+    setConsoleReady();
+    patchVerifyButton();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+
+  // Re-run after stage transitions because query DOM becomes active later.
+  const originalQuery=window.goToQueryStep;
+  if(typeof originalQuery==='function'){
+    window.goToQueryStep=function(){
+      const result=originalQuery.apply(this,arguments);
+      setTimeout(()=>{setupConsoleMeta();setConsoleReady();patchVerifyButton();},80);
+      return result;
+    };
+  }
+})();
+</script>
