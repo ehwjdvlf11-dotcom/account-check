@@ -3950,3 +3950,102 @@ button[data-state="loading"].verify-btn::before{
   .premium-system-status{font-size:5px !important}
 }
 </style>
+
+
+<style id="v36-mobile-header-no-overlap">
+/* ===== V36: iPhone / mobile header spacing fix ===== */
+@media (max-width: 760px){
+  #main-card:not(.query-mode):not(.result-mode){
+    overflow:hidden !important;
+  }
+  #header-section.premium-header{
+    padding:10px 8px 12px !important;
+    overflow:visible !important;
+  }
+  .premium-brand-lockup{
+    display:grid !important;
+    grid-template-columns:76px minmax(0,1fr) !important;
+    align-items:center !important;
+    column-gap:16px !important;
+    width:100% !important;
+  }
+  .premium-brand-lockup::before{
+    left:92px !important;
+    top:5px !important;
+    bottom:5px !important;
+  }
+  .premium-hero-logo{
+    width:76px !important;
+    height:76px !important;
+    min-width:76px !important;
+    min-height:76px !important;
+    margin:0 !important;
+    border-radius:10px !important;
+    justify-self:start !important;
+  }
+  .premium-hero-logo .x-logo-svg{
+    width:49px !important;
+    height:49px !important;
+  }
+  .premium-brand-content{
+    min-width:0 !important;
+    width:100% !important;
+    overflow:hidden !important;
+    text-align:left !important;
+  }
+  .premium-brand-content .premium-kicker{
+    max-width:100% !important;
+    width:max-content !important;
+    font-size:6px !important;
+    padding:4px 6px !important;
+    letter-spacing:.13em !important;
+    white-space:nowrap !important;
+  }
+  .premium-brand-line{
+    width:38px !important;
+    margin:6px 0 7px !important;
+  }
+  .premium-brand-title{
+    display:block !important;
+    max-width:100% !important;
+    font-size:17px !important;
+    line-height:1.08 !important;
+    letter-spacing:-.04em !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:clip !important;
+  }
+  .premium-service-badge{
+    max-width:100% !important;
+    margin-top:7px !important;
+    padding:5px 7px !important;
+    font-size:5.5px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+  }
+  .premium-badge-icon{
+    flex:0 0 auto !important;
+    width:13px !important;
+    height:13px !important;
+  }
+}
+
+@media (max-width: 380px){
+  #header-section.premium-header{padding:8px 6px 10px !important;}
+  .premium-brand-lockup{
+    grid-template-columns:70px minmax(0,1fr) !important;
+    column-gap:14px !important;
+  }
+  .premium-brand-lockup::before{left:84px !important;}
+  .premium-hero-logo{
+    width:70px !important;
+    height:70px !important;
+    min-width:70px !important;
+    min-height:70px !important;
+  }
+  .premium-hero-logo .x-logo-svg{width:45px !important;height:45px !important;}
+  .premium-brand-title{font-size:15px !important;}
+  .premium-brand-content .premium-kicker{font-size:5.3px !important;}
+  .premium-service-badge{font-size:5px !important;}
+}
+</style>
