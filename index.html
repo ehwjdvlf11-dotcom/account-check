@@ -448,7 +448,7 @@
 .otp-field{border-color:rgba(29,155,240,.30)!important}
 .otp-code{font-size:25px!important;letter-spacing:.16em!important;color:#65c1ff!important;text-shadow:0 0 18px rgba(29,155,240,.40)}
 .modal-topline{height:2px;background:linear-gradient(90deg,transparent,#1d9bf0,transparent);margin:-6px 0 14px}
-@media(max-width:520px){.product-grid{grid-template-columns:1fr}.product-card{min-height:130px}.service-strip{grid-template-columns:1fr 1fr 1fr}.otp-code{font-size:22px!important}}
+@media(max-width:520px){.product-grid{grid-template-columns:1fr 1fr}.product-card{min-height:118px}.service-strip{grid-template-columns:1fr 1fr 1fr}.otp-code{font-size:22px!important}}
 
 </style>
 
@@ -856,13 +856,13 @@ body {
 
     /* 가격표 모바일은 1열 */
     .product-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
         gap: 8px !important;
     }
 
     .product-card {
-        min-height: 94px !important;
-        padding: 13px !important;
+        min-height: 118px !important;
+        padding: 12px !important;
     }
 
     .product-name {
@@ -1311,6 +1311,438 @@ body {
 }
 </style>
 
+
+<style id="mobile-centered-final">
+/* ===== MOBILE-FIRST / CENTERED FINAL LAYOUT ===== */
+html, body { width:100%; min-height:100%; }
+body {
+    margin:0;
+    min-height:100dvh !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:12px !important;
+}
+
+#main-card {
+    width:min(100%, 430px) !important;
+    max-width:430px !important;
+    margin:0 auto !important;
+    padding:20px !important;
+}
+
+#header-section .x-logo-wrap {
+    width:104px !important;
+    height:104px !important;
+    margin-bottom:16px !important;
+}
+#header-section .x-logo-svg { width:66px !important; height:66px !important; }
+#header-section h1 { font-size:22px !important; }
+#header-section #sub-title { font-size:12px !important; margin-top:8px !important; }
+
+#step-intro, #step-price, #step-query, #result-box, #error-box {
+    width:100% !important;
+}
+
+#step-intro .grid.grid-cols-2 {
+    grid-template-columns:1fr !important;
+    gap:9px !important;
+}
+#step-intro .grid.grid-cols-2 button { min-height:48px !important; }
+
+/* 모바일 가격표: 반드시 2 x 2 유지 */
+.product-grid {
+    display:grid !important;
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    gap:8px !important;
+    width:100% !important;
+}
+.product-card { min-height:108px !important; width:100% !important; }
+.product-name { font-size:12px !important; }
+.product-note { font-size:9px !important; }
+.product-price { font-size:18px !important; }
+
+#step-query .flex.rounded-full {
+    width:100% !important;
+}
+#step-query .access-panel {
+    width:100% !important;
+    padding:18px !important;
+}
+#step-query #input-code {
+    width:100% !important;
+    min-height:58px !important;
+    height:58px !important;
+    font-size:15px !important;
+}
+#step-query .verify-btn {
+    width:100% !important;
+    min-height:54px !important;
+    height:54px !important;
+}
+
+#result-box .result-hero,
+#result-box .x-inner,
+#error-box {
+    width:100% !important;
+}
+#result-box .result-title { font-size:19px !important; }
+#result-box .otp-code { font-size:21px !important; }
+
+#agreement-modal { padding:12px !important; }
+#agreement-modal > div {
+    width:min(100%, 430px) !important;
+    max-height:88dvh !important;
+    overflow:auto !important;
+    padding:18px !important;
+}
+#terms-box { max-height:42dvh !important; }
+
+/* Query mode: keep the compact panel centered and remove oversized outer whitespace. */
+#main-card.query-mode {
+    width:min(100%, 430px) !important;
+    max-width:430px !important;
+    margin:0 auto !important;
+    padding:14px !important;
+}
+#main-card.query-mode #step-query {
+    width:100% !important;
+    margin:0 !important;
+}
+#main-card.query-mode #step-query > .flex.justify-between.items-center.mb-1 {
+    width:100% !important;
+    margin-bottom:8px !important;
+}
+#main-card.query-mode #step-query .access-panel {
+    width:100% !important;
+    min-height:0 !important;
+    margin:0 !important;
+}
+
+@media (max-width:480px) {
+    body { padding:8px !important; }
+    #main-card { width:calc(100vw - 16px) !important; max-width:none !important; padding:16px !important; }
+    #header-section .x-logo-wrap { width:90px !important; height:90px !important; }
+    #header-section .x-logo-svg { width:58px !important; height:58px !important; }
+    #header-section h1 { font-size:20px !important; }
+    #header-section #sub-title { font-size:11px !important; }
+    .product-card { padding:14px !important; }
+}
+
+@media (max-width:360px) {
+    body { padding:6px !important; }
+    #main-card { width:calc(100vw - 12px) !important; padding:12px !important; }
+    #main-card.query-mode { width:calc(100vw - 12px) !important; padding:10px !important; }
+    #main-card.query-mode #step-query .access-panel { padding:14px !important; }
+    #step-query #input-code { min-height:54px !important; height:54px !important; font-size:14px !important; }
+    #step-query .verify-btn { min-height:50px !important; height:50px !important; font-size:12px !important; }
+}
+</style>
+
+
+<style id="premium-v15-polish">
+/* ===== V15 POLISH: premium hierarchy, mobile-first ===== */
+:root{
+  --v15-blue:#1d9bf0;
+  --v15-blue2:#69c8ff;
+  --v15-panel:#0b0e12;
+  --v15-panel2:#0f1318;
+  --v15-line:#27303a;
+  --v15-muted:#7b8792;
+}
+
+/* Global rhythm */
+body{line-height:1.55!important;}
+#main-card{isolation:isolate;}
+
+/* Intro: make the guide feel like a branded entry screen */
+#step-intro > .x-inner:first-child{
+  position:relative;
+  overflow:hidden;
+  padding:17px!important;
+  border-color:#303944!important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(29,155,240,.08), transparent 28%),
+    linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005)),
+    #0b0e12!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.035);
+}
+#step-intro > .x-inner:first-child::before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--v15-blue),rgba(29,155,240,.1));
+  box-shadow:0 0 16px rgba(29,155,240,.3);
+}
+#step-intro > .x-inner:first-child > .flex.items-center.justify-between{
+  padding-bottom:11px!important;
+  border-bottom-color:#222a31!important;
+}
+#step-intro > .x-inner:first-child p{
+  font-size:13px!important;
+  line-height:1.8!important;
+}
+#step-intro > .x-inner:first-child .bg-black{
+  margin-top:2px;
+  padding:11px 12px!important;
+  border-color:#242d36!important;
+  background:#07090c!important;
+}
+#step-intro .grid.grid-cols-2{
+  gap:10px!important;
+}
+#step-intro .grid.grid-cols-2 button{
+  min-height:50px!important;
+  font-weight:850!important;
+}
+
+/* Pricing: stronger hierarchy without changing the 2x2 layout */
+#step-price .step-head{
+  padding:8px 0 13px!important;
+  margin-bottom:2px!important;
+}
+#step-price .step-code{
+  color:#66737f!important;
+  letter-spacing:.2em!important;
+}
+#step-price .step-head .text-white{
+  font-size:20px!important;
+}
+#step-price .access-status{
+  color:#8a98a4!important;
+  font-size:9px!important;
+}
+
+.product-grid{
+  gap:10px!important;
+}
+.product-card{
+  min-height:128px!important;
+  padding:15px!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.022),rgba(255,255,255,.004)),
+    #0d1014!important;
+  border-color:#2b333c!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+.product-card:hover{
+  transform:translateY(-2px)!important;
+  border-color:#46515c!important;
+}
+.product-card.featured{
+  background:
+    radial-gradient(circle at 100% 0%,rgba(29,155,240,.10),transparent 34%),
+    linear-gradient(180deg,rgba(29,155,240,.075),rgba(16,19,24,.98))!important;
+  border-color:rgba(29,155,240,.48)!important;
+}
+.product-badge{
+  padding:5px 7px!important;
+  font-size:8px!important;
+  letter-spacing:.15em!important;
+}
+.product-name{
+  margin-top:13px!important;
+  font-size:13px!important;
+}
+.product-note{
+  max-width:92%;
+  font-size:9px!important;
+  line-height:1.55!important;
+  color:#75818b!important;
+}
+.product-price{
+  margin-top:13px!important;
+  font-size:20px!important;
+  letter-spacing:-.04em!important;
+  display:flex!important;
+  align-items:baseline!important;
+  gap:4px!important;
+}
+.product-price::before{
+  content:"₩";
+  color:#cfeaff;
+  font-size:13px;
+  font-weight:900;
+}
+.product-price small{
+  font-size:8px!important;
+  letter-spacing:.1em!important;
+  color:#59646f!important;
+}
+
+/* transaction area */
+#step-price > .border-t{
+  padding-top:12px!important;
+  margin-top:1px!important;
+  border-color:#202831!important;
+}
+#step-price > .border-t p:first-child{
+  letter-spacing:-.01em;
+}
+#step-price > a[href*="open.kakao.com"]{
+  min-height:48px!important;
+  border-color:#3a4651!important;
+  background:linear-gradient(180deg,#10151a,#0b0e12)!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.2)!important;
+}
+#step-price .x-inner:has(#agree-price-checkbox){
+  border-color:#2d3640!important;
+  background:#0d1115!important;
+}
+#btn-next-price{
+  min-height:50px!important;
+  font-weight:900!important;
+  letter-spacing:-.015em!important;
+}
+
+/* Query screen: clean security console feel */
+#main-card.query-mode{
+  width:min(100%,430px)!important;
+  max-width:430px!important;
+}
+#main-card.query-mode #step-query > .flex.justify-between.items-center.mb-1{
+  margin-bottom:10px!important;
+}
+#main-card.query-mode #step-query > .flex.justify-between.items-center.mb-1 button{
+  font-size:11px!important;
+  letter-spacing:.01em!important;
+}
+#main-card.query-mode #step-query > .flex.rounded-full{
+  box-shadow:0 10px 28px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#main-card.query-mode #step-query .access-panel{
+  min-height:262px!important;
+  padding:23px!important;
+  border-color:#3a4652!important;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(29,155,240,.10),transparent 28%),
+    linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.005)),
+    #0a0d11!important;
+}
+#main-card.query-mode #step-query .access-status{
+  font-size:9px!important;
+  color:#6e7b87!important;
+  margin-bottom:14px!important;
+}
+#main-card.query-mode #step-query #input-label{
+  font-size:15px!important;
+  line-height:1.3!important;
+}
+#main-card.query-mode #input-code{
+  min-height:68px!important;
+  height:68px!important;
+  font-size:16px!important;
+  padding:0 18px!important;
+  letter-spacing:.04em!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 14px 35px rgba(0,0,0,.18)!important;
+}
+#main-card.query-mode #input-code:focus{
+  box-shadow:0 0 0 2px rgba(29,155,240,.12),0 0 32px rgba(29,155,240,.14),inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+#main-card.query-mode .verify-btn{
+  min-height:60px!important;
+  height:60px!important;
+  margin-top:12px!important;
+  box-shadow:0 13px 32px rgba(255,255,255,.08)!important;
+}
+
+/* Result: no extra hero banner; make the data blocks premium */
+#result-box{
+  width:min(100%,430px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+#result-box > .x-inner:first-child{
+  padding:15px!important;
+  border-color:#34404b!important;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(29,155,240,.07),transparent 30%),
+    #0b0f13!important;
+}
+#result-box > .x-inner:first-child #res-product-type{
+  font-size:15px!important;
+  margin-top:3px!important;
+}
+#result-box .result-field{
+  min-height:66px!important;
+  padding:14px 15px!important;
+  border-color:#2a333c!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.017),rgba(255,255,255,.002)),#0b0e12!important;
+}
+#result-box .result-field:hover{
+  border-color:#3b4652!important;
+}
+#result-box .copy-btn{
+  min-width:54px!important;
+  min-height:34px!important;
+  border-radius:4px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+}
+#result-box #res-otp{
+  font-size:24px!important;
+  letter-spacing:.2em!important;
+  color:#6ac7ff!important;
+}
+#result-box #res-otp-timer{
+  color:#65717b!important;
+}
+#result-box > button:last-child{
+  min-height:50px!important;
+  border-color:#36414c!important;
+}
+
+/* Modal: sharper, denser, easier to scan */
+#agreement-modal > div{
+  max-width:430px!important;
+  border-color:#39434d!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.006)),
+    #090c10!important;
+  box-shadow:0 30px 90px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.025) inset!important;
+}
+#agreement-modal > div::before{
+  content:"";
+  display:block;
+  height:2px;
+  margin:-4px 0 2px;
+  background:linear-gradient(90deg,transparent,#1d9bf0,transparent);
+}
+#terms-box{
+  border-color:#2a333c!important;
+  background:#06080a!important;
+}
+#modal-label{font-size:10px!important;}
+#btn-modal-confirm{min-height:50px!important;font-weight:900!important;}
+
+/* Mobile: keep everything centered and comfortably tappable */
+@media(max-width:560px){
+  body{padding:10px!important;}
+  #main-card{width:min(100%,430px)!important;max-width:430px!important;padding:16px!important;}
+  #header-section .x-logo-wrap{width:96px!important;height:96px!important;}
+  #header-section .x-logo-svg{width:60px!important;height:60px!important;}
+  #header-section h1{font-size:21px!important;}
+  #step-intro > .x-inner:first-child p{font-size:12px!important;}
+  .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;}
+  .product-card{min-height:118px!important;padding:13px!important;}
+  .product-name{font-size:12px!important;}
+  .product-note{font-size:8.5px!important;}
+  .product-price{font-size:18px!important;}
+  #main-card.query-mode{width:calc(100vw - 20px)!important;max-width:none!important;padding:12px!important;}
+  #main-card.query-mode #step-query .access-panel{min-height:248px!important;padding:18px!important;}
+  #main-card.query-mode #input-code{min-height:60px!important;height:60px!important;font-size:15px!important;}
+  #main-card.query-mode .verify-btn{min-height:54px!important;height:54px!important;font-size:13px!important;}
+  #result-box{width:100%!important;}
+}
+
+@media(max-width:360px){
+  .product-card{min-height:112px!important;padding:11px!important;}
+  .product-price{font-size:17px!important;}
+  .product-name{font-size:11px!important;}
+  .product-note{font-size:8px!important;}
+  #main-card.query-mode #step-query .access-panel{padding:15px!important;}
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <div class="ambient-bg" aria-hidden="true">
@@ -1477,7 +1909,7 @@ body {
 
             <div class="flex rounded-full bg-black p-1 border border-[#2f3336] gap-1">
                 <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black">
-                    👤 👤 일반 계정
+                    👤 일반 계정
                 </button>
                 <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white">
                     📧 이메일 계정
@@ -1485,12 +1917,12 @@ body {
             </div>
 
             <div class="x-inner access-panel p-5 space-y-3">
-                <div class="access-status">🔐 발급 코드 조회 준비</div>
+                <div class="access-status">🔐 SECURE ACCESS</div>
                 <label id="input-label" class="text-xs md:text-sm font-bold text-[#e7e9ea] block">
                     🔑 발급 코드 입력
                 </label>
                 
-                <input type="text" id="input-code" placeholder="발급받은 🔑 발급 코드 입력를 입력하세요" 
+                <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요" 
                     class="w-full x-input text-sm">
                 
                 <button onclick="openAgreementModal()" 
