@@ -1825,19 +1825,227 @@ body{line-height:1.55!important;}
 </style>
 
 
-<style id="invalid-code-direct-flow">
-#code-invalid-inline{display:none!important}
-#code-invalid-inline.show{
-    display:block!important;
-    margin-top:8px;
-    padding:10px 12px;
-    border:1px solid rgba(246,195,68,.28);
-    background:rgba(246,195,68,.06);
-    color:#f6c344;
+<style id="agreement-premium-redesign">
+/* ===== AGREEMENT MODAL / PREMIUM REDESIGN ===== */
+#agreement-modal{
+    background:rgba(0,0,0,.88)!important;
+    backdrop-filter:blur(10px)!important;
+    -webkit-backdrop-filter:blur(10px)!important;
+}
+#agreement-modal > div{
+    position:relative!important;
+    width:min(100%, 520px)!important;
+    max-height:min(88dvh, 760px)!important;
+    padding:18px!important;
+    background:
+      radial-gradient(circle at 80% 0%, rgba(29,155,240,.09), transparent 34%),
+      linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.008)),
+      #090c10!important;
+    border:1px solid #39424c!important;
+    border-radius:10px!important;
+    box-shadow:
+      0 30px 90px rgba(0,0,0,.78),
+      0 0 0 1px rgba(255,255,255,.025) inset,
+      0 0 60px rgba(29,155,240,.08)!important;
+    overflow:hidden!important;
+}
+#agreement-modal > div::before{
+    content:"";
+    position:absolute;
+    left:0;right:0;top:0;
+    height:2px;
+    background:linear-gradient(90deg,transparent,#1d9bf0,#7dd3fc,#1d9bf0,transparent);
+    box-shadow:0 0 18px rgba(29,155,240,.28);
+}
+#agreement-modal .agreement-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:2px 2px 12px;
+    margin-bottom:10px;
+    border-bottom:1px solid #242b33;
+}
+#agreement-modal .agreement-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    color:#79caff;
+    font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+}
+#agreement-modal .agreement-kicker::before{
+    content:"";
+    width:6px;height:6px;
+    background:#1d9bf0;
+    box-shadow:0 0 10px rgba(29,155,240,.8);
+}
+#agreement-modal .agreement-title{
+    font-size:16px!important;
+    line-height:1.25!important;
+    font-weight:900!important;
+    letter-spacing:-.03em!important;
+    color:#f4f7f9!important;
+}
+#agreement-modal .agreement-sub{
+    margin-top:4px;
+    font-size:9px;
+    line-height:1.45;
+    color:#66717d;
+}
+#agreement-modal .agreement-close{
+    width:30px;height:30px;
+    flex:0 0 30px;
+    border:1px solid #303840;
+    background:#0d1014;
+    color:#7f8a95;
+    display:grid;
+    place-items:center;
     border-radius:6px;
-    font-size:10px;
-    line-height:1.4;
+    font-size:18px;
+}
+#agreement-modal .agreement-close:hover{
+    color:#fff;
+    border-color:#4a5661;
+    background:#141920;
+}
+#agreement-modal .agreement-progress{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin:0 0 9px;
+    padding:8px 10px;
+    border:1px solid #242c34;
+    background:#070a0d;
+    border-radius:6px;
+}
+#agreement-modal .agreement-progress-label{
+    font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.12em;
+    color:#6e7b87;
+}
+#agreement-modal .agreement-progress-value{
+    font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:#78c9ff;
+}
+#agreement-modal .agreement-progress-track{
+    flex:1;
+    height:4px;
+    border-radius:99px;
+    background:#151a20;
+    overflow:hidden;
+    border:1px solid #232a31;
+}
+#agreement-modal .agreement-progress-fill{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#1d9bf0,#7dd3fc);
+    box-shadow:0 0 10px rgba(29,155,240,.45);
+    transition:width .18s ease;
+}
+#agreement-modal #terms-box{
+    max-height:min(54dvh,460px)!important;
+    padding:12px!important;
+    background:#05070a!important;
+    border:1px solid #252e36!important;
+    border-radius:7px!important;
+    box-shadow:inset 0 0 35px rgba(0,0,0,.28);
+    scrollbar-width:thin;
+}
+#agreement-modal #terms-box > div{
+    position:relative;
+    padding:11px!important;
+    border-color:#252d35!important;
+    border-radius:6px!important;
+}
+#agreement-modal #terms-box > div + div{
+    margin-top:10px;
+    padding-left:12px!important;
+    border-left:2px solid #202832!important;
+    background:rgba(255,255,255,.008);
+}
+#agreement-modal #terms-box > div > p:first-child{
+    font-size:11px!important;
+    line-height:1.3!important;
+    letter-spacing:-.01em;
+}
+#agreement-modal #terms-box p{
+    margin:0;
+    line-height:1.6!important;
+    word-break:keep-all;
+}
+#agreement-modal #terms-box strong{
+    color:#f2f5f7!important;
+}
+#agreement-modal .agreement-number{
+    display:inline-grid;
+    place-items:center;
+    width:20px;height:20px;
+    margin-right:7px;
+    border:1px solid rgba(29,155,240,.35);
+    background:rgba(29,155,240,.08);
+    color:#77c8ff;
+    font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    vertical-align:middle;
+}
+#agreement-modal .agreement-accept{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    margin-top:10px;
+    padding:11px 12px;
+    border:1px solid #303840;
+    background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.008)),#0d1014;
+    border-radius:7px;
+}
+#agreement-modal #modal-agree-checkbox{
+    width:17px!important;
+    height:17px!important;
+    margin-top:1px;
+    flex:0 0 auto;
+}
+#agreement-modal #modal-label{
+    font-size:10px!important;
+    line-height:1.45!important;
+}
+#agreement-modal #btn-modal-confirm{
+    margin-top:10px;
+    min-height:48px!important;
+    font-size:11px!important;
+    letter-spacing:.02em;
+}
+#agreement-modal #btn-modal-confirm:disabled{
+    opacity:.8;
+}
+#agreement-modal .agreement-foot{
+    margin-top:8px;
     text-align:center;
+    font-size:8px;
+    line-height:1.4;
+    color:#56616c;
+}
+@media(max-width:560px){
+    #agreement-modal{
+        padding:8px!important;
+    }
+    #agreement-modal > div{
+        width:100%!important;
+        max-height:calc(100dvh - 16px)!important;
+        padding:13px!important;
+    }
+    #agreement-modal #terms-box{
+        max-height:49dvh!important;
+        padding:9px!important;
+    }
+    #agreement-modal #terms-box > div{
+        padding:9px!important;
+    }
+    #agreement-modal .agreement-title{
+        font-size:15px!important;
+    }
 }
 </style>
 
@@ -2114,46 +2322,76 @@ body{line-height:1.55!important;}
     <!-- Modal (약관 동의 화면) -->
     <div id="agreement-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="w-full max-w-md x-card p-6 space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-[#2f3336] pb-3">
-                <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-                    <span class="icon-inline"><i data-lucide="file-warning" class="premium-icon gold"></i><span>필수 숙지사항 및 이용약관 동의</span></span>
-                </h3>
-                <button onclick="closeAgreementModal()" class="text-[#71767b] hover:text-white text-xl font-bold px-1">×</button>
-            </div>
+            <div class="agreement-head">
+                    <div>
+                        <div class="agreement-kicker">SECURITY &amp; USAGE NOTICE</div>
+                        <div class="agreement-title">필수 숙지사항 및 이용약관 동의</div>
+                        <div class="agreement-sub">아래 안내사항을 끝까지 확인한 후 동의해 주세요.</div>
+                    </div>
+                    <button type="button" onclick="closeAgreementModal()" class="agreement-close" aria-label="닫기">×</button>
+                </div>
+                <div class="agreement-progress">
+                    <span class="agreement-progress-label">READ PROGRESS</span>
+                    <div class="agreement-progress-track"><div id="agreement-progress-fill" class="agreement-progress-fill"></div></div>
+                    <span id="agreement-progress-value" class="agreement-progress-value">0%</span>
+                </div>
 
             <!-- 스크롤 영역 -->
             <div id="terms-box" onscroll="checkScrollBottom()" class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto">
                 <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1">
-                    <p class="text-white font-bold"><span class="icon-inline"><i data-lucide="triangle-alert" class="premium-icon gold"></i><span>계정 양도 이용 주의사항</span></span></p>
-                    <p>• 계정 양도 이후 발생하는 모든 사용 책임(ID, PW, E-mail 변경 및 게시글, 팔로워, 팔로우 삭제)은 <strong class="text-white underline">구매자 본인</strong>에게 있습니다. <strong class="text-white underline">양도자에게 되묻지 말아주세요.</strong></p>
-                    <p>• 사기, 마약, 불법 홍보 등 타인에게 피해를 주는 용도로 사용 시 계정은 <strong class="text-white font-bold underline">즉시 회수</strong>됩니다.</p>
-                </div>
-                
-                <div class="space-y-1">
-                    <p class="text-white font-bold">1️⃣ 로그인 및 2차 보안 (2FA)</p>
-                    <p class="text-[#71767b]">- ID 및 PW 입력 후, 화면에 실시간으로 제공되는 2FA(OTP) 번호를 입력해 주세요.</p>
+                    <p class="text-white font-bold">계정 양도 및 이용 안내사항</p>
+                    <p class="text-[#71767b]">아래 안내사항을 반드시 확인하신 후 계정을 이용해 주시기 바랍니다. 본 안내사항은 계정 수령 후 발생할 수 있는 문제와 교환·환불 기준을 명확히 안내하기 위한 것입니다.</p>
                 </div>
 
-                <div class="space-y-1">
-                    <p class="text-white font-bold">2️⃣ 서치벤 테스트 및 환불 규정</p>
-                    <p class="text-[#71767b]">- 수령 직후 서치벤 테스트를 진행해 주시고, 노출되지 않을 경우 즉시 교환 및 환불이 가능합니다. <strong class="text-white">(노출 시 환불 불가)</strong></p>
+                <div class="space-y-1.5">
+                    <p class="text-white font-bold"><span class="agreement-number">01</span>로그인 및 2차 보안 인증(2FA)</p>
+                    <p class="text-[#71767b]">- 계정 수령 후 <strong class="text-white">ID 및 PW를 이용하여 로그인</strong>한 뒤, 화면에 안내되는 <strong class="text-white">2FA(OTP) 인증번호</strong>를 입력하여 추가 인증을 진행해 주세요.</p>
+                    <p class="text-[#71767b]">- <strong class="text-white">2FA(Two-Factor Authentication, 2단계 인증)</strong>란 비밀번호 외에 추가적인 인증 절차를 거쳐 계정의 보안을 강화하는 방식입니다.</p>
+                    <p class="text-[#71767b]">- 2FA는 계정의 보안 수준을 높이고 무단 접근을 방지하는 데 도움이 되는 보안 절차입니다. 다만 어떠한 보안 방식도 계정의 안전을 절대적으로 보장하는 것은 아니므로, 비밀번호 및 인증정보를 안전하게 관리해 주세요.</p>
                 </div>
 
-                <div class="space-y-1">
-                    <p class="text-white font-bold">3️⃣ 계정 활성화 필수 작업</p>
-                    <p class="text-[#71767b]">- 수령 직후 팔로우, 리트윗 등 활동 흔적을 반드시 남겨주셔야 안전합니다.</p>
+                <div class="space-y-1.5">
+                    <p class="text-white font-bold"><span class="agreement-number">02</span>서치벤 테스트 및 확인</p>
+                    <p class="text-[#71767b]">- 계정 수령 즉시 <strong class="text-white">서치벤(Search Ban) 여부를 직접 확인</strong>해 주세요.</p>
+                    <p class="text-[#71767b]">- 테스트 결과 계정의 정상적인 노출이 확인되지 않는 경우, <strong class="text-white">수령 직후 관리자에게 즉시 문의</strong>해 주시기 바랍니다.</p>
+                    <p class="text-[#71767b]">- 수령 후 별도의 문제 제보 없이 정상적으로 이용을 진행한 경우, 해당 계정에 특별한 문제가 없는 것으로 간주될 수 있습니다.</p>
+                    <p class="text-[#71767b]">- 특히 계정 수령 후 일정 시간이 경과한 뒤 발생한 노출 제한, 검색 제한 또는 X의 운영정책에 따른 조치는 교환·환불 사유와 별도로 판단될 수 있습니다.</p>
                 </div>
 
-                <div class="space-y-1">
-                    <p class="text-white font-bold">4️⃣ E-mail 미구매자 안내</p>
-                    <p class="text-[#71767b]">- 이메일 미구매자는 계정 잠김 대비 로그인 후 48시간 뒤 메일 변경을 권장합니다.</p>
+                <div class="space-y-1.5">
+                    <p class="text-white font-bold"><span class="agreement-number">03</span>교환 및 환불 규정</p>
+                    <p class="text-[#71767b]">- 본 거래는 <strong class="text-white">서치벤(Search Ban) 서비스 자체를 제공하는 것이 아니라, 정상적으로 노출 가능한 상태의 X 계정을 양도하는 거래</strong>입니다.</p>
+                    <p class="text-[#71767b]">- 계정 수령 후 정상적인 노출 상태가 확인된 경우, 이후 X의 운영정책 또는 시스템 판단에 따라 발생하는 검색 제한, 노출 제한, 계정 정지 등의 사유만으로는 교환 또는 환불이 제한될 수 있습니다.</p>
+                    <p class="text-[#71767b]">- X의 검색 제한, 노출 제한 및 계정 제재 여부는 <strong class="text-white">X의 시스템 및 운영정책에 따라 결정되는 사항</strong>이며, 양도자가 임의로 결정하거나 조정할 수 있는 사항이 아닙니다.</p>
+                    <p class="text-[#71767b]">- 다만 구매자 보호를 위해 <strong class="text-white">코드 수령 시점으로부터 24시간 이내에 계정 자체의 중대한 문제가 확인되는 경우 최초 1회에 한하여 계정 교환을 제공</strong>합니다.</p>
+                    <p class="text-[#71767b]">- 단, <strong class="text-white">X의 운영정책에 위반되는 행위로 인해 발생한 문제, 구매자의 이용 과정에서 발생한 문제 또는 구매자의 과실로 발생한 문제는 교환 대상에서 제외</strong>될 수 있습니다.</p>
+                    <p class="text-[#71767b]">- 교환 및 환불 여부는 위 기준과 실제 발생 경위를 종합하여 판단합니다.</p>
                 </div>
-            </div>
 
-            <div class="flex items-center gap-2.5 x-inner p-3">
+                <div class="space-y-1.5">
+                    <p class="text-white font-bold"><span class="agreement-number">04</span>계정 활성화를 위한 필수 이용 안내</p>
+                    <p class="text-[#71767b]">- 계정 수령 후 정상적인 계정 활동을 위해 <strong class="text-white">X 내에서 일정 수준의 일반적인 활동</strong>을 진행해 주세요.</p>
+                    <p class="text-[#71767b]">- 예를 들어 팔로우, 팔로워 활동, 게시글 작성, 좋아요, 리포스트(RT) 등의 정상적인 이용을 권장합니다.</p>
+                    <p class="text-[#71767b]">- 단기간에 과도하거나 비정상적인 활동을 반복할 경우 X의 시스템에 의해 제한 또는 제재가 발생할 수 있으므로, <strong class="text-white">자연스럽고 정상적인 범위에서 이용</strong>해 주세요.</p>
+                </div>
+
+                <div class="space-y-1.5">
+                    <p class="text-white font-bold"><span class="agreement-number">05</span>E-mail 미구매자 안내</p>
+                    <p class="text-[#71767b]">- 이메일이 포함되지 않은 계정을 구매한 경우, 계정 잠금 또는 보안 확인 등에 대비하여 <strong class="text-white">로그인 후 48시간이 경과한 뒤 본인이 사용하는 이메일 주소로 이메일 정보를 변경</strong>해 주시기 바랍니다.</p>
+                    <p class="text-[#71767b]">- 이메일 변경 전까지는 계정의 로그인 정보 및 보안 정보를 안전하게 관리해 주세요.</p>
+                    <p class="text-[#71767b]">- 이메일 변경 과정에서 X가 별도의 본인 확인 또는 보안 절차를 요구할 수 있으며, 해당 절차는 X의 정책에 따라 진행됩니다.</p>
+                </div>
+
+                <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1.5">
+                    <p class="text-white font-bold"><span class="agreement-number">!</span>최종 안내</p>
+                    <p class="text-[#71767b]">계정 수령 후에는 위 내용을 반드시 확인하고, <strong class="text-white">수령 즉시 로그인 및 계정 상태를 확인</strong>해 주세요.</p>
+                    <p class="text-[#71767b]">특히 서치벤 여부와 계정 정상 노출 여부에 문제가 있는 경우 가능한 한 <strong class="text-white">수령 직후 관리자에게 문의</strong>해 주시기 바랍니다.</p>
+                    <p class="text-[#71767b]">본 안내는 거래 과정에서의 책임 범위와 교환 기준을 명확히 안내하기 위한 것이며, <strong class="text-white">X의 운영정책이나 관련 법령에 우선하여 적용되는 것은 아닙니다.</strong></p>
+                </div>
+            <div class="agreement-accept">
                 <input type="checkbox" id="modal-agree-checkbox" onchange="checkModalAgreement()" disabled class="w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50">
                 <label id="modal-label" for="modal-agree-checkbox" class="text-[#71767b] text-xs cursor-not-allowed select-none">
-                    <span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>약관을 맨 아래로 내려주세요!</span></span>
+                    <span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>위 안내사항을 모두 확인했으며 동의합니다.</span></span>
                 </label>
             </div>
 
@@ -2289,94 +2527,33 @@ body{line-height:1.55!important;}
             const error=document.getElementById('error-box');
             if(error){ error.classList.add('is-active'); error.classList.remove('hidden'); error.style.display='block'; }
         }
-        async function openAgreementModal() {
-            const codeInput = document.getElementById('input-code');
-            const rawCode = codeInput ? codeInput.value : '';
-            const code = typeof cleanAccessCode === 'function'
-                ? cleanAccessCode(rawCode)
-                : rawCode.trim();
 
-            if (!code) {
+        function openAgreementModal() {
+            const codeInput=document.getElementById('input-code');
+            if (!codeInput.value.trim()) {
                 alert('코드를 입력해주세요!');
                 return;
             }
-
             hideInvalidCode();
+            
+            const checkbox = document.getElementById('modal-agree-checkbox');
+            const label = document.getElementById('modal-label');
+            const termsBox = document.getElementById('terms-box');
+            
+            checkbox.checked = false;
+            checkbox.disabled = true;
+            checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
+            label.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
+            label.innerHTML = '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>위 안내사항을 모두 확인했으며 동의합니다.</span></span>'; if(window.lucide) lucide.createIcons();
+            
+            termsBox.scrollTop = 0;
 
-            const verifyButton = document.querySelector('#step-query .verify-btn');
-            const originalText = verifyButton ? verifyButton.innerHTML : '';
-
-            try {
-                /* 1) 먼저 코드 유효성 확인 */
-                if (!supabaseClient) {
-                    showInvalidCode();
-                    return;
-                }
-
-                if (verifyButton) {
-                    verifyButton.disabled = true;
-                    verifyButton.dataset.state = 'checking';
-                    verifyButton.innerHTML = '<span>코드 확인 중…</span>';
-                }
-
-                const { data, error } = await supabaseClient
-                    .from('orders')
-                    .select('*')
-                    .eq('search_key', code)
-                    .single();
-
-                if (error || !data) {
-                    /* 유효하지 않은 코드는 안내문 없이 바로 오류 표시 */
-                    showInvalidCode();
-                    return;
-                }
-
-                /* 2) 현재 선택한 상품 유형과 코드 유형이 일치하는지 확인 */
-                const productType = String(data.product_type || '').toLowerCase();
-                const accountIdStr = String(data.account_id || '').toLowerCase();
-                const isEmailAccount =
-                    productType.includes('이메일') ||
-                    accountIdStr.includes('@') ||
-                    Boolean(data.email_type);
-
-                if (
-                    (currentTab === 'general' && isEmailAccount) ||
-                    (currentTab === 'email' && !isEmailAccount)
-                ) {
-                    showInvalidCode();
-                    return;
-                }
-
-                /* 3) 유효한 코드일 때만 안내문/동의창 표시 */
-                const checkbox = document.getElementById('modal-agree-checkbox');
-                const label = document.getElementById('modal-label');
-                const termsBox = document.getElementById('terms-box');
-
-                checkbox.checked = false;
-                checkbox.disabled = true;
-                checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
-                label.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
-                label.innerHTML = '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>약관을 맨 아래로 내려주세요!</span></span>';
-                if (window.lucide) lucide.createIcons();
-
-                termsBox.scrollTop = 0;
-
-                const btnConfirm = document.getElementById('btn-modal-confirm');
-                btnConfirm.disabled = true;
-                btnConfirm.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-                btnConfirm.innerHTML = "동의하고 계정 발급(조회)하기";
-
-                document.getElementById('agreement-modal').classList.remove('hidden');
-
-            } catch (err) {
-                showInvalidCode();
-            } finally {
-                if (verifyButton) {
-                    verifyButton.disabled = false;
-                    verifyButton.removeAttribute('data-state');
-                    if (originalText) verifyButton.innerHTML = originalText;
-                }
-            }
+            const btnConfirm = document.getElementById('btn-modal-confirm');
+            btnConfirm.disabled = true;
+            btnConfirm.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
+            btnConfirm.innerHTML = "동의하고 계정 발급(조회)하기";
+            
+            document.getElementById('agreement-modal').classList.remove('hidden');
         }
 
         function checkScrollBottom() {
@@ -2384,6 +2561,7 @@ body{line-height:1.55!important;}
             if (termsBox.scrollTop + termsBox.clientHeight >= termsBox.scrollHeight - 2) {
                 enableCheckbox();
             }
+            if (window.updateAgreementProgress) window.updateAgreementProgress();
         }
 
         function enableCheckbox() {
@@ -2415,8 +2593,7 @@ body{line-height:1.55!important;}
         }
 
         async function confirmSearch() {
-            const rawCode = document.getElementById('input-code').value;
-            const code = typeof cleanAccessCode === 'function' ? cleanAccessCode(rawCode) : rawCode.trim();
+            const code = document.getElementById('input-code').value.trim();
             hideInvalidCode();
             const resultBox = document.getElementById('result-box');
             const errorBox = document.getElementById('error-box');
@@ -2787,6 +2964,46 @@ button[data-state="loading"]::after{content:"";width:13px;height:13px;border:2px
       if(cleaned !== e.target.value) e.target.value = cleaned;
     }
   }, true);
+})();
+</script>
+
+
+<script id="agreement-progress-handler">
+(function(){
+  function updateAgreementProgress(){
+    const box = document.getElementById('terms-box');
+    const fill = document.getElementById('agreement-progress-fill');
+    const value = document.getElementById('agreement-progress-value');
+    if(!box || !fill || !value) return;
+    const max = Math.max(1, box.scrollHeight - box.clientHeight);
+    const pct = Math.min(100, Math.round((box.scrollTop / max) * 100));
+    fill.style.width = pct + '%';
+    value.textContent = pct + '%';
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const box = document.getElementById('terms-box');
+    if(box){
+      box.addEventListener('scroll', updateAgreementProgress, {passive:true});
+      setTimeout(updateAgreementProgress, 0);
+    }
+  });
+
+  const originalOpen = window.openAgreementModal;
+  window.openAgreementModal = function(){
+    if(typeof originalOpen === 'function') originalOpen();
+    const box = document.getElementById('terms-box');
+    const fill = document.getElementById('agreement-progress-fill');
+    const value = document.getElementById('agreement-progress-value');
+    if(box){
+      box.scrollTop = 0;
+      if(fill) fill.style.width='0%';
+      if(value) value.textContent='0%';
+      setTimeout(updateAgreementProgress, 50);
+    }
+  };
+
+  window.updateAgreementProgress = updateAgreementProgress;
 })();
 </script>
 
