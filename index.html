@@ -2049,6 +2049,52 @@ body{line-height:1.55!important;}
 }
 </style>
 
+
+<style id="important-warning-red">
+.important-warning{
+    display:block !important;
+    margin-top:7px !important;
+    padding:9px 10px !important;
+    border:1px solid rgba(255,77,95,.26) !important;
+    border-left:3px solid #ff4d5f !important;
+    background:rgba(255,77,95,.065) !important;
+    border-radius:5px !important;
+    color:#ff6373 !important;
+    font-weight:800 !important;
+    line-height:1.55 !important;
+    text-shadow:0 0 10px rgba(255,77,95,.12);
+}
+</style>
+
+<style id="purchase-warning-premium-refine">
+.purchase-warning{
+    margin:6px 0 0 !important;
+    padding:8px 10px !important;
+    color:#ff6675 !important;
+    background:linear-gradient(180deg,rgba(255,77,95,.055),rgba(255,77,95,.025)) !important;
+    border:1px solid rgba(255,77,95,.20) !important;
+    border-left:2px solid rgba(255,77,95,.72) !important;
+    border-radius:5px !important;
+    font-size:10px !important;
+    line-height:1.55 !important;
+    font-weight:700 !important;
+    letter-spacing:-.015em !important;
+    text-shadow:0 0 8px rgba(255,77,95,.08);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.purchase-warning strong{
+    color:#ff7a86 !important;
+    font-weight:800 !important;
+}
+@media(max-width:560px){
+    .purchase-warning{
+        padding:7px 9px !important;
+        font-size:9px !important;
+        line-height:1.5 !important;
+    }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <div class="ambient-bg" aria-hidden="true">
@@ -2113,6 +2159,8 @@ body{line-height:1.55!important;}
 
         <!-- STEP -1 (필독 안내 화면) -->
         <div id="step-intro" class="step-screen is-active space-y-4">
+<p class="purchase-warning">⚠️ 계정 코드를 발급받으신 이후에는 <strong>단순 변심에 따른 환불이 어려우니</strong>, 구매 전 내용을 충분히 확인하신 후 신중하게 구매해 주세요.</p>
+
             <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3">
                 <div class="flex items-center justify-between border-b border-[#2f3336] pb-2.5">
                     <span class="font-bold text-white flex items-center gap-1.5">
@@ -2371,7 +2419,8 @@ body{line-height:1.55!important;}
                 <div class="space-y-1.5">
                     <p class="text-white font-bold"><span class="agreement-number">04</span>계정 활성화를 위한 필수 이용 안내</p>
                     <p class="text-[#71767b]">- 계정 수령 후 정상적인 계정 활동을 위해 <strong class="text-white">X 내에서 일정 수준의 일반적인 활동</strong>을 진행해 주세요.</p>
-                    <p class="text-[#71767b]">- 예를 들어 팔로우, 팔로워 활동, 게시글 작성, 좋아요, 리포스트(RT) 등의 정상적인 이용을 권장합니다.</p>
+                    <p class="text-[#71767b]">- 예를 들어 팔로우, 팔로워 활동, 게시글 작성, 좋아요, 리포스트(RT) 등의 정상적인 이용을 권장합니다.
+                    <p class="important-warning">⚠ - 계정 양도 후 계정 정보 관련 변경(아이디,닉네임,프사)은 구매자 마음이며 이후 발생하는 문제는 양도자가 책임지지 않습니다.</p></p>
                     <p class="text-[#71767b]">- 단기간에 과도하거나 비정상적인 활동을 반복할 경우 X의 시스템에 의해 제한 또는 제재가 발생할 수 있으므로, <strong class="text-white">자연스럽고 정상적인 범위에서 이용</strong>해 주세요.</p>
                 </div>
 
@@ -2527,33 +2576,103 @@ body{line-height:1.55!important;}
             const error=document.getElementById('error-box');
             if(error){ error.classList.add('is-active'); error.classList.remove('hidden'); error.style.display='block'; }
         }
+        async function openAgreementModal() {
+            const codeInput = document.getElementById('input-code');
+            const rawCode = codeInput ? codeInput.value : '';
+            const code = typeof cleanAccessCode === 'function'
+                ? cleanAccessCode(rawCode)
+                : rawCode.trim();
 
-        function openAgreementModal() {
-            const codeInput=document.getElementById('input-code');
-            if (!codeInput.value.trim()) {
-                alert('코드를 입력해주세요!');
+            if (!code) {
+                showInvalidCode();
                 return;
             }
-            hideInvalidCode();
-            
-            const checkbox = document.getElementById('modal-agree-checkbox');
-            const label = document.getElementById('modal-label');
-            const termsBox = document.getElementById('terms-box');
-            
-            checkbox.checked = false;
-            checkbox.disabled = true;
-            checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
-            label.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
-            label.innerHTML = '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>위 안내사항을 모두 확인했으며 동의합니다.</span></span>'; if(window.lucide) lucide.createIcons();
-            
-            termsBox.scrollTop = 0;
 
-            const btnConfirm = document.getElementById('btn-modal-confirm');
-            btnConfirm.disabled = true;
-            btnConfirm.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-            btnConfirm.innerHTML = "동의하고 계정 발급(조회)하기";
-            
-            document.getElementById('agreement-modal').classList.remove('hidden');
+            hideInvalidCode();
+
+            const verifyButton = document.querySelector('#step-query .verify-btn');
+            const originalText = verifyButton ? verifyButton.innerHTML : '';
+
+            try {
+                // 등록된 코드인지 먼저 확인합니다.
+                if (!supabaseClient) {
+                    showInvalidCode();
+                    return;
+                }
+
+                if (verifyButton) {
+                    verifyButton.disabled = true;
+                    verifyButton.dataset.state = 'checking';
+                    verifyButton.innerHTML = '<span>코드 확인 중…</span>';
+                }
+
+                const { data, error } = await supabaseClient
+                    .from('orders')
+                    .select('search_key, product_type, account_id, email_type')
+                    .eq('search_key', code)
+                    .single();
+
+                if (error || !data) {
+                    // 미등록 코드: 안내문을 절대 열지 않고 바로 오류 표시
+                    showInvalidCode();
+                    return;
+                }
+
+                // 선택한 탭과 등록된 코드의 상품 유형이 맞는지 확인합니다.
+                const productType = String(data.product_type || '').toLowerCase();
+                const accountIdStr = String(data.account_id || '').toLowerCase();
+                const isEmailAccount =
+                    productType.includes('이메일') ||
+                    accountIdStr.includes('@') ||
+                    Boolean(data.email_type);
+
+                if (
+                    (currentTab === 'general' && isEmailAccount) ||
+                    (currentTab === 'email' && !isEmailAccount)
+                ) {
+                    showInvalidCode();
+                    return;
+                }
+
+                // 등록된 코드만 안내문/동의창을 표시합니다.
+                const checkbox = document.getElementById('modal-agree-checkbox');
+                const label = document.getElementById('modal-label');
+                const termsBox = document.getElementById('terms-box');
+                const btnConfirm = document.getElementById('btn-modal-confirm');
+
+                if (checkbox) {
+                    checkbox.checked = false;
+                    checkbox.disabled = true;
+                    checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
+                }
+
+                if (label) {
+                    label.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
+                    label.innerHTML =
+                        '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>위 안내사항을 끝까지 확인해 주세요.</span></span>';
+                    if (window.lucide) lucide.createIcons();
+                }
+
+                if (termsBox) termsBox.scrollTop = 0;
+
+                if (btnConfirm) {
+                    btnConfirm.disabled = true;
+                    btnConfirm.className =
+                        "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
+                    btnConfirm.innerHTML = "내용을 확인했으며 동의하고 계정 발급(조회)하기";
+                }
+
+                document.getElementById('agreement-modal')?.classList.remove('hidden');
+
+            } catch (err) {
+                showInvalidCode();
+            } finally {
+                if (verifyButton) {
+                    verifyButton.disabled = false;
+                    verifyButton.removeAttribute('data-state');
+                    if (originalText) verifyButton.innerHTML = originalText;
+                }
+            }
         }
 
         function checkScrollBottom() {
