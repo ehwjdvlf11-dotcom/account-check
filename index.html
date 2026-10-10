@@ -2344,6 +2344,10 @@ body{line-height:1.55!important;}
                 <button onclick="copyText('res-email-pw', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
             </div>
 
+            <button id="btn-open-inbox" onclick="openInbox()" class="hidden w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer" style="border-color:#1d9bf0;color:#8ecdf8">
+                <span class="icon-inline"><i data-lucide="inbox" class="premium-icon blue"></i><span>이메일 확인함 열기</span></span>
+            </button>
+
             <div class="x-inner result-field p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>실시간 2차 인증 (OTP) 번호</span></span></span><em>LIVE 2FA</em></span>
@@ -2364,6 +2368,39 @@ body{line-height:1.55!important;}
         <div id="error-box" class="mt-4 hidden p-3.5 bg-black border border-[#2f3336] rounded-2xl text-center text-[#71767b] text-xs">
             <span class="icon-inline"><i data-lucide="circle-alert" class="premium-icon gold"></i><span>유효하지 않은 코드입니다. 발급받은 코드를 다시 확인해 주세요.</span></span>
             <button onclick="resetToHome()" class="mt-2 w-full x-btn-dark py-2 text-xs">처음으로 가기</button>
+        </div>
+    </div>
+
+    <!-- 이메일 확인함 -->
+    <style id="inbox-style">
+        #inbox-modal .ib-item{border:1px solid #2f3336;border-radius:14px;background:#0b0e12;overflow:hidden}
+        #inbox-modal .ib-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;width:100%;padding:12px 14px;text-align:left;cursor:pointer;background:transparent;border:0;color:#e7e9ea}
+        #inbox-modal .ib-subject{font-weight:700;font-size:13px;line-height:1.4;word-break:break-word}
+        #inbox-modal .ib-date{font-size:11px;color:#71767b;margin-top:2px}
+        #inbox-modal .ib-body{display:none;border-top:1px solid #2f3336;padding:12px 14px;font-size:12px;color:#c4c7cc}
+        #inbox-modal .ib-item.open .ib-body{display:block}
+        #inbox-modal .ib-meta{font-size:11px;color:#8b98a5;line-height:1.6;margin-bottom:8px;word-break:break-all}
+        #inbox-modal .ib-text{white-space:pre-wrap;word-break:break-word;background:#16181c;border-radius:10px;padding:10px 12px;max-height:260px;overflow:auto;line-height:1.55}
+        #inbox-modal .ib-code{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding:10px 12px;border-radius:10px;border:1px solid rgba(29,155,240,.4);background:rgba(29,155,240,.08)}
+        #inbox-modal .ib-code b{font-family:ui-monospace,Menlo,monospace;letter-spacing:.16em;font-size:18px;color:#8ecdf8}
+        #inbox-modal .ib-tag{font-size:10px;font-weight:800;padding:2px 7px;border-radius:9999px;border:1px solid #536471;color:#8b98a5;white-space:nowrap}
+        #inbox-modal .ib-tag.x{border-color:#1d9bf0;color:#8ecdf8}
+    </style>
+    <div id="inbox-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-3 hidden">
+        <div class="w-full max-w-md x-card p-4 md:p-5 shadow-2xl flex flex-col" style="max-height:92vh">
+            <div class="flex items-center justify-between mb-3">
+                <div class="text-white font-black text-base">이메일 확인함</div>
+                <button onclick="closeInbox()" class="x-btn-dark text-xs px-3 py-1.5">닫기</button>
+            </div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+                <label class="flex items-center gap-2 text-xs text-[#8b98a5] cursor-pointer select-none">
+                    <input type="checkbox" id="inbox-only-x" checked onchange="renderInbox()" class="w-4 h-4 accent-[#1d9bf0]">
+                    <span>X 메일만 보기</span>
+                </label>
+                <button id="inbox-refresh" onclick="loadInbox()" class="x-btn-white text-xs px-4 py-2 disabled:opacity-50">새로고침</button>
+            </div>
+            <div id="inbox-status" class="text-xs text-[#71767b] mb-2" role="status"></div>
+            <div id="inbox-list" class="space-y-2 overflow-y-auto pr-1" style="min-height:80px"></div>
         </div>
     </div>
 
@@ -2606,11 +2643,7 @@ body{line-height:1.55!important;}
                     verifyButton.innerHTML = '<span>코드 확인 중…</span>';
                 }
 
-                const { data, error } = await supabaseClient
-                    .from('orders')
-                    .select('search_key, product_type, account_id, email_type')
-                    .eq('search_key', code)
-                    .single();
+                const { data, error } = await fetchOrder(code);
 
                 if (error || !data) {
                     // 미등록 코드: 안내문을 절대 열지 않고 바로 오류 표시
@@ -2728,7 +2761,8 @@ body{line-height:1.55!important;}
             btnConfirm.innerHTML = `VERIFYING…`;
 
             try {
-                const { data, error } = await supabaseClient.from('orders').select('*').eq('search_key', code).single();
+                const { data, error } = await fetchOrder(code);
+                currentSearchKey = code;
                 
                 closeAgreementModal();
                 btnConfirm.disabled = false;
@@ -2748,7 +2782,14 @@ body{line-height:1.55!important;}
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
-                if (currentTab === 'email' && data.email_type) {
+                // GMX 메일은 확인함으로 메일을 볼 수 있으니 ID/비밀번호 칸은 숨기고 버튼만 보여줘요.
+                // 확인함이 지원되지 않는 메일(hotmail 등)은 기존처럼 ID/비밀번호 칸을 보여줘요.
+                const mailIdText = String(data.email_type || '').split('/')[0].trim();
+                const inboxSupported = currentTab === 'email' && /@gmx\./i.test(mailIdText);
+                const inboxBtn = document.getElementById('btn-open-inbox');
+                if (inboxBtn) inboxBtn.classList.toggle('hidden', !inboxSupported);
+
+                if (currentTab === 'email' && data.email_type && !inboxSupported) {
                     document.getElementById('email-id-container').classList.remove('hidden');
                     document.getElementById('email-pw-container').classList.remove('hidden');
                     const parts = data.email_type.split('/');
@@ -2807,6 +2848,139 @@ body{line-height:1.55!important;}
                 document.getElementById('res-otp').innerText = secret;
                 document.getElementById('res-otp-timer').innerText = '';
             }
+        }
+
+        // ===== 이메일 확인함 =====
+        let currentSearchKey = '';
+        let inboxMails = [];
+        const MAIL_FN_URL = SUPABASE_URL + '/functions/v1/fetch-mai';
+
+        // 주문 조회: 서버 함수(get_order)가 있으면 사용, 아직 없으면 기존 방식으로 조회
+        async function fetchOrder(code) {
+            try {
+                const r = await supabaseClient.rpc('get_order', { p_key: code }).single();
+                if (!r.error) return r;
+                const missing = r.error.code === 'PGRST202' || /Could not find the function/i.test(r.error.message || '');
+                if (!missing) return r;
+            } catch (e) { /* 아래 기존 방식으로 진행 */ }
+            return await supabaseClient.from('orders').select('*').eq('search_key', code).single();
+        }
+
+        function inboxErrorText(code) {
+            const map = {
+                AUTH_FAILED: '메일 로그인에 실패했어요. 메일 설정에서 POP3/IMAP 접근이 꺼져 있거나 비밀번호가 변경되었을 수 있어요. 판매자에게 문의해 주세요.',
+                NO_MAIL_ACCOUNT: '이 주문에는 확인할 메일 계정이 등록되어 있지 않아요.',
+                UNSUPPORTED_MAIL: '이 메일은 확인함을 지원하지 않아요. 메일 사이트에 직접 로그인해서 확인해 주세요.',
+                NOT_FOUND: '주문 정보를 찾을 수 없어요.',
+                CONNECT_FAILED: '메일 서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.',
+                TIMEOUT: '메일 서버 응답이 늦어지고 있어요. 잠시 후 다시 시도해 주세요.',
+                TOO_FAST: '너무 빠르게 눌렀어요. 3초 뒤에 다시 시도해 주세요.',
+                CONNECTION_CLOSED: '메일 서버와 연결이 끊어졌어요. 다시 시도해 주세요.'
+            };
+            return map[code] || '메일을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.';
+        }
+
+        function openInbox() {
+            if (!currentSearchKey) return;
+            document.getElementById('inbox-modal').classList.remove('hidden');
+            loadInbox();
+        }
+        function closeInbox() {
+            document.getElementById('inbox-modal').classList.add('hidden');
+        }
+
+        async function loadInbox() {
+            const status = document.getElementById('inbox-status');
+            const list = document.getElementById('inbox-list');
+            const btn = document.getElementById('inbox-refresh');
+            btn.disabled = true;
+            status.textContent = '메일함 확인 중… (최대 20초)';
+            list.replaceChildren();
+            try {
+                const res = await fetch(MAIL_FN_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
+                    body: JSON.stringify({ search_key: currentSearchKey })
+                });
+                const j = await res.json();
+                if (!j.ok) { status.textContent = inboxErrorText(j.error); return; }
+                inboxMails = j.mails || [];
+                renderInbox();
+            } catch (e) {
+                status.textContent = '네트워크 오류가 발생했어요. 잠시 후 다시 시도해 주세요.';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function renderInbox() {
+            const status = document.getElementById('inbox-status');
+            const list = document.getElementById('inbox-list');
+            const onlyX = document.getElementById('inbox-only-x').checked;
+            const mails = inboxMails.filter(m => !onlyX || m.isX);
+            list.replaceChildren();
+            if (!mails.length) {
+                status.textContent = inboxMails.length
+                    ? 'X에서 온 메일이 아직 없어요. "X 메일만 보기"를 끄면 전체 ' + inboxMails.length + '개를 볼 수 있어요.'
+                    : '받은 메일이 아직 없어요. X에서 인증 메일을 요청한 뒤 새로고침해 주세요.';
+                return;
+            }
+            status.textContent = mails.length + '개의 메일';
+
+            mails.forEach((m, idx) => {
+                const item = document.createElement('div');
+                item.className = 'ib-item' + (idx === 0 ? ' open' : '');
+
+                const head = document.createElement('button');
+                head.type = 'button';
+                head.className = 'ib-head';
+                const left = document.createElement('div');
+                const subj = document.createElement('div');
+                subj.className = 'ib-subject';
+                subj.textContent = m.subject || '(제목 없음)';
+                const date = document.createElement('div');
+                date.className = 'ib-date';
+                const d = m.date ? new Date(m.date) : null;
+                date.textContent = d && !isNaN(d) ? d.toLocaleString('ko-KR') : '';
+                left.append(subj, date);
+                const tag = document.createElement('span');
+                tag.className = 'ib-tag' + (m.isX ? ' x' : '');
+                tag.textContent = m.folder === 'Spam' ? '스팸함' : (m.isX ? 'X' : '일반');
+                head.append(left, tag);
+                head.addEventListener('click', () => item.classList.toggle('open'));
+
+                const body = document.createElement('div');
+                body.className = 'ib-body';
+                if (m.code) {
+                    const box = document.createElement('div');
+                    box.className = 'ib-code';
+                    const c = document.createElement('b');
+                    c.textContent = m.code;
+                    const cb = document.createElement('button');
+                    cb.type = 'button';
+                    cb.className = 'x-btn-dark text-xs px-3 py-1.5';
+                    cb.textContent = '코드 복사';
+                    cb.addEventListener('click', () => {
+                        navigator.clipboard.writeText(m.code).then(() => {
+                            cb.textContent = '복사완료!';
+                            setTimeout(() => { cb.textContent = '코드 복사'; }, 1200);
+                        });
+                    });
+                    box.append(c, cb);
+                    body.appendChild(box);
+                }
+                const meta = document.createElement('div');
+                meta.className = 'ib-meta';
+                meta.textContent = 'From: ' + (m.from || '') + '\nTo: ' + (m.to || '');
+                meta.style.whiteSpace = 'pre-line';
+                const text = document.createElement('div');
+                text.className = 'ib-text';
+                text.textContent = m.text || '(본문 없음)';
+                body.append(meta, text);
+
+                item.append(head, body);
+                list.appendChild(item);
+            });
         }
 
         function copyText(elementId, btnElement) {
