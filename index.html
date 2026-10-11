@@ -2174,7 +2174,7 @@ body{line-height:1.55!important;}
                     🛍️ 구매하실 금액만큼 <strong class="text-white underline underline-offset-4">오픈채팅으로 송금해주신 뒤</strong> 관리자에게 발급받은 코드를 입력하시면 계정 정보가 즉시 제공됩니다.
                 </p>
                 <div class="bg-black p-3 rounded-xl border border-[#2f3336] text-[#8b98a5] text-center text-xs">
-                    <div><span class="icon-inline"><i data-lucide="triangle-alert" class="premium-icon gold"></i><span>"송금하면 되나요?" 등의 불필요한 문의 금지</span></span></div>
+                    <div class="flex flex-col items-center gap-1"><i data-lucide="triangle-alert" class="premium-icon gold"></i><span>"송금하면 되나요?" 등의 불필요한 문의 금지</span><span>송금 주시면 확인 후 코드 바로 전송해드립니다.</span></div>
                 </div>
             </div>
 
@@ -2210,8 +2210,8 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card featured">
                     <span class="product-badge hot"><span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span></span>
                     <div>
-                        <div class="product-name mt-3">🔹 일반 계정</div>
-                        <div class="product-note">일반 계정 정보 제공</div>
+                        <div class="product-name mt-3">🔹 일반 계정<span class="product-name-note">(이메일 수정 불가)</span></div>
+                        
                     </div>
                     <div class="product-price mt-4">15,000<small> KRW</small></div>
                 </div>
@@ -2219,8 +2219,8 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card">
                     <span class="product-badge">SECURE MAIL</span>
                     <div>
-                        <div class="product-name mt-3">🔹 이메일 지급 계정</div>
-                        <div class="product-note">X계정 잠김 시 해제 가능한 전용 메일 지급</div>
+                        <div class="product-name mt-3">🔹 이메일 지급 계정<span class="product-name-note">(이메일 변경 가능)</span></div>
+                        
                     </div>
                     <div class="product-price mt-4">20,000<small> KRW</small></div>
                 </div>
@@ -2246,7 +2246,10 @@ body{line-height:1.55!important;}
 
                 <div class="border-t border-[#2f3336] pt-3 space-y-1 text-xs text-[#71767b]">
                     <p class="text-[#e7e9ea] font-bold"><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>송금 및 안전 거래 안내</span></span></p>
-                    <p>• 카카오페이 익명송금 및 번개장터(2개 이상 구매 시) 이용 가능</p>
+                    <div class="pay-badges">
+                    <div class="pay-badge"><div class="pay-badge-icon kakao">Pay</div><div class="pay-badge-text"><div class="pay-badge-title">카카오페이송금</div><div class="pay-badge-sub">오픈채팅으로 실시간 문의 가능</div></div></div>
+                    <div class="pay-badge"><div class="pay-badge-icon culture">CL</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div></div></div>
+                </div>
                 </div>
 
 <a href="https://open.kakao.com/o/sjPGWOFi" target="_blank" 
@@ -2425,7 +2428,7 @@ body{line-height:1.55!important;}
             <div id="terms-box" onscroll="checkScrollBottom()" class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto">
                 <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1">
                     <p class="text-white font-bold">계정 양도 및 이용 안내사항</p>
-                    <p class="text-[#71767b]">아래 안내사항을 반드시 확인하신 후 계정을 이용해 주시기 바랍니다. 본 안내사항은 계정 수령 후 발생할 수 있는 문제와 교환·환불 기준을 명확히 안내하기 위한 것입니다.</p>
+                    <p class="text-[#71767b]">아래 안내사항을 반드시 확인하신 후 계정을 이용해 주시기 바랍니다. 본 안내사항은 계정 수령 후 발생할 수 있는 문제와 교환·환불 기준을 명확히 안내하기 위한 것입니다.</p><p class="text-[#71767b]">사기, 마약, 기타 불법행위 등으로 제3자에게 피해가 발생하는 것을 방지하기 위해, <strong class="text-white">불건전한 목적으로 계정을 사용하는 경우 해당 계정은 회수</strong>하고 있습니다. 건전한 목적으로 이용해 주시기 바랍니다.</p>
                 </div>
 
                 <div class="space-y-1.5">
@@ -2459,13 +2462,6 @@ body{line-height:1.55!important;}
                     <p class="text-[#71767b]">- 예를 들어 팔로우, 팔로워 활동, 게시글 작성, 좋아요, 리포스트(RT) 등의 정상적인 이용을 권장합니다.
                     <p class="important-warning">⚠ - 계정 양도 후 계정 정보 관련 변경(아이디,닉네임,프사)은 구매자 마음이며 이후 발생하는 문제는 양도자가 책임지지 않습니다.</p></p>
                     <p class="text-[#71767b]">- 단기간에 과도하거나 비정상적인 활동을 반복할 경우 X의 시스템에 의해 제한 또는 제재가 발생할 수 있으므로, <strong class="text-white">자연스럽고 정상적인 범위에서 이용</strong>해 주세요.</p>
-                </div>
-
-                <div class="space-y-1.5">
-                    <p class="text-white font-bold"><span class="agreement-number">05</span>E-mail 미구매자 안내</p>
-                    <p class="text-[#71767b]">- 이메일이 포함되지 않은 계정을 구매한 경우, 계정 잠금 또는 보안 확인 등에 대비하여 <strong class="text-white">로그인 후 48시간이 경과한 뒤 본인이 사용하는 이메일 주소로 이메일 정보를 변경</strong>해 주시기 바랍니다.</p>
-                    <p class="text-[#71767b]">- 이메일 변경 전까지는 계정의 로그인 정보 및 보안 정보를 안전하게 관리해 주세요.</p>
-                    <p class="text-[#71767b]">- 이메일 변경 과정에서 X가 별도의 본인 확인 또는 보안 절차를 요구할 수 있으며, 해당 절차는 X의 정책에 따라 진행됩니다.</p>
                 </div>
 
                 <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1.5">
@@ -2723,7 +2719,7 @@ body{line-height:1.55!important;}
                 checkbox.disabled = false;
                 checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer";
                 label.className = "text-white text-xs cursor-pointer select-none";
-                label.innerText = "위 내용을 모두 숙지하였으며 이에 동의합니다.";
+                label.innerText = "위 내용을 숙지하였으며 회수 정책에 동의합니다.";
             }
         }
 
@@ -2785,7 +2781,7 @@ body{line-height:1.55!important;}
                 // GMX 메일은 확인함으로 메일을 볼 수 있으니 ID/비밀번호 칸은 숨기고 버튼만 보여줘요.
                 // 확인함이 지원되지 않는 메일(hotmail 등)은 기존처럼 ID/비밀번호 칸을 보여줘요.
                 const mailIdText = String(data.email_type || '').split('/')[0].trim();
-                const inboxSupported = currentTab === 'email' && /@gmx\./i.test(mailIdText);
+                const inboxSupported = currentTab === 'email' && /@/.test(mailIdText) && !/@(hotmail\.|outlook\.|live\.|msn\.)/i.test(mailIdText);
                 const inboxBtn = document.getElementById('btn-open-inbox');
                 if (inboxBtn) inboxBtn.classList.toggle('hidden', !inboxSupported);
 
@@ -4898,4 +4894,16 @@ button[data-state="loading"].verify-btn::before{
 
 /* V41 기준 코드 입력창 붙여넣기 */
 .v41-paste-row{display:flex!important;align-items:center!important;gap:8px!important}.v41-paste-row #input-code{min-width:0!important;flex:1 1 auto!important}.v41-paste-btn{flex:0 0 auto!important;height:44px!important;padding:0 14px!important;border:1px solid #536471!important;border-radius:9999px!important;background:#16181c!important;color:#e7e9ea!important;font-size:12px!important;font-weight:700!important;white-space:nowrap!important;cursor:pointer!important}.v41-paste-btn:hover{background:rgba(239,243,244,.1)!important;border-color:#8b98a5!important}.v41-paste-btn:active{transform:scale(.97)!important}@media(max-width:420px){.v41-paste-row{gap:6px!important}.v41-paste-btn{height:42px!important;padding:0 11px!important;font-size:11px!important}.v41-paste-row #input-code{font-size:13px!important}}@media(max-width:360px){.v41-paste-btn{padding:0 9px!important;font-size:10px!important}.v41-paste-row{gap:5px!important}}
+</style>
+<style id="name-note-style">.product-name .product-name-note{display:block;margin-top:3px;font-size:11px;font-weight:600;letter-spacing:0;color:#73c4ff;opacity:.9}@media(max-width:480px){.product-name .product-name-note{font-size:9.5px}}</style>
+<style id="pay-badges-style">
+.pay-badges{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 10px}
+.pay-badge{display:flex;align-items:center;gap:9px;padding:10px 11px;border-radius:14px;background:#0f1114;border:1px solid #2f3336;min-width:0}
+.pay-badge-icon{flex:0 0 auto;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:10px;letter-spacing:-.02em}
+.pay-badge-icon.kakao{background:#FEE500;color:#391B1B}
+.pay-badge-icon.culture{background:#E8344A;color:#fff}
+.pay-badge-text{min-width:0}
+.pay-badge-title{font-size:11.5px;font-weight:800;color:#e7e9ea;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pay-badge-sub{font-size:9.5px;color:#71767b;line-height:1.35;margin-top:1px}
+@media(max-width:380px){.pay-badge-title{font-size:10.5px}.pay-badge-sub{font-size:8.5px}}
 </style>
