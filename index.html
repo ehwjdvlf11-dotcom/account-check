@@ -2095,6 +2095,43 @@ body{line-height:1.55!important;}
 }
 </style>
 
+
+<style id="terms-restriction-alert-style">
+#agreement-modal .terms-restriction-alert{
+    margin-top: 4px;
+    padding: 10px 11px;
+    border: 1px solid rgba(255, 91, 105, .27);
+    border-left: 3px solid #f05d6c;
+    background: linear-gradient(135deg, rgba(240, 93, 108, .10), rgba(240, 93, 108, .035));
+    border-radius: 6px;
+    color: #c7cbd0;
+    line-height: 1.65;
+}
+#agreement-modal .terms-restriction-title{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 5px;
+    color: #ff8994;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .04em;
+}
+#agreement-modal .terms-restriction-title span{
+    display: inline-flex;
+    width: 15px;
+    height: 15px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 137, 148, .65);
+    border-radius: 50%;
+    font-size: 10px;
+    line-height: 1;
+}
+#agreement-modal .terms-restriction-alert p:last-child{font-size: 10px; line-height: 1.7;}
+#agreement-modal .terms-restriction-alert strong{color:#fff;font-weight:800;}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <div class="ambient-bg" aria-hidden="true">
@@ -2161,20 +2198,27 @@ body{line-height:1.55!important;}
         <div id="step-intro" class="step-screen is-active space-y-4">
 <p class="purchase-warning">⚠️ 계정 코드를 발급받으신 이후에는 <strong>단순 변심에 따른 환불이 어려우니</strong>, 구매 전 내용을 충분히 확인하신 후 신중하게 구매해 주세요.</p>
 
-            <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3">
-                <div class="flex items-center justify-between border-b border-[#2f3336] pb-2.5">
-                    <span class="font-bold text-white flex items-center gap-1.5">
-                        <span class="icon-inline"><i data-lucide="alert-triangle" class="premium-icon gold"></i><span>필수 필독 안내</span></span>
+            <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3" style="background:linear-gradient(145deg,#17191c 0%,#101113 100%);border:1px solid #34383d;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.18);">
+                <div class="flex items-center justify-between pb-3" style="border-bottom:1px solid #30343a;gap:12px;">
+                    <span class="font-bold text-white flex items-center gap-2">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.28);">
+                            <i data-lucide="shield-check" class="premium-icon gold"></i>
+                        </span>
+                        <span style="letter-spacing:-.02em;">구매 전 안내</span>
                     </span>
-                    <span class="text-[11px] text-[#1d9bf0] font-bold bg-[#1d9bf0]/10 px-2 py-0.5 rounded-full border border-[#1d9bf0]/30">
-                        송금 선행 필수
+                    <span style="font-size:10px;letter-spacing:.08em;font-weight:700;color:#d8bd72;background:rgba(212,175,55,.08);padding:7px 10px;border:1px solid rgba(212,175,55,.25);border-radius:999px;white-space:nowrap;">
+                        PAYMENT FIRST
                     </span>
                 </div>
-                <p class="text-[#c4c7cc] leading-relaxed">
-                    🛍️ 구매하실 금액만큼 <strong class="text-white underline underline-offset-4">오픈채팅으로 송금해주신 뒤</strong> 관리자에게 발급받은 코드를 입력하시면 계정 정보가 즉시 제공됩니다.
+                <p class="leading-relaxed" style="color:#c6c9ce;padding:2px 1px 4px;">
+                    구매 금액을 오픈채팅으로 송금한 뒤, 관리자에게 발급받은 코드를 입력해 주세요. 확인이 완료되면 계정 정보가 제공됩니다.
                 </p>
-                <div class="bg-black p-3 rounded-xl border border-[#2f3336] text-[#8b98a5] text-center text-xs">
-                    <div class="flex flex-col items-center gap-1"><i data-lucide="triangle-alert" class="premium-icon gold"></i><span>"송금하면 되나요?" 등의 불필요한 문의 금지</span><span>송금 주시면 확인 후 코드 바로 전송해드립니다.</span></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 13px;background:rgba(212,175,55,.055);border:1px solid rgba(212,175,55,.18);border-radius:11px;">
+                    <i data-lucide="info" class="premium-icon gold" style="flex-shrink:0;margin-top:1px;"></i>
+                    <div style="display:flex;flex-direction:column;gap:5px;color:#aeb4bd;line-height:1.6;">
+                        <span style="color:#e0d4ad;font-weight:600;">송금 전 금액과 거래 내용을 확인해 주세요.</span>
+                        <span>송금 확인 후 관리자가 코드를 안내해 드립니다.</span>
+                    </div>
                 </div>
             </div>
 
@@ -2210,7 +2254,7 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card featured">
                     <span class="product-badge hot"><span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span></span>
                     <div>
-                        <div class="product-name mt-3">🔹 일반 계정<span class="product-name-note">(이메일 수정 불가)</span></div>
+                        <div class="product-name mt-3">🔹 일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div>
                         
                     </div>
                     <div class="product-price mt-4">15,000<small> KRW</small></div>
@@ -2413,7 +2457,7 @@ body{line-height:1.55!important;}
             <div class="agreement-head">
                     <div>
                         <div class="agreement-kicker">SECURITY &amp; USAGE NOTICE</div>
-                        <div class="agreement-title">필수 숙지사항 및 이용약관 동의</div>
+                        <div class="agreement-title">필수 이용 안내 및 약관 동의</div>
                         <div class="agreement-sub">아래 안내사항을 끝까지 확인한 후 동의해 주세요.</div>
                     </div>
                     <button type="button" onclick="closeAgreementModal()" class="agreement-close" aria-label="닫기">×</button>
@@ -2426,9 +2470,13 @@ body{line-height:1.55!important;}
 
             <!-- 스크롤 영역 -->
             <div id="terms-box" onscroll="checkScrollBottom()" class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto">
-                <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1">
+                <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-2.5">
                     <p class="text-white font-bold">계정 양도 및 이용 안내사항</p>
-                    <p class="text-[#71767b]">아래 안내사항을 반드시 확인하신 후 계정을 이용해 주시기 바랍니다. 본 안내사항은 계정 수령 후 발생할 수 있는 문제와 교환·환불 기준을 명확히 안내하기 위한 것입니다.</p><p class="text-[#71767b]">사기, 마약, 기타 불법행위 등으로 제3자에게 피해가 발생하는 것을 방지하기 위해, <strong class="text-white">불건전한 목적으로 계정을 사용하는 경우 해당 계정은 회수</strong>하고 있습니다. 건전한 목적으로 이용해 주시기 바랍니다.</p>
+                    <p class="text-[#71767b]">아래 안내사항을 반드시 확인하신 후 계정을 이용해 주시기 바랍니다. 본 안내사항은 계정 수령 후 발생할 수 있는 문제와 교환·환불 기준을 명확히 안내하기 위한 것입니다.</p>
+                    <div class="terms-restriction-alert">
+                        <p class="terms-restriction-title"><span aria-hidden="true">!</span> 금지 행위 및 이용 제한</p>
+                        <p>사기, 마약, 기타 불법행위 등으로 제3자에게 피해가 발생하는 것을 방지하기 위해, <strong>불건전한 목적으로 계정을 사용하는 경우 해당 계정은 회수</strong>하고 있습니다. 건전한 목적으로 이용해 주시기 바랍니다.</p>
+                    </div>
                 </div>
 
                 <div class="space-y-1.5">
@@ -2451,7 +2499,7 @@ body{line-height:1.55!important;}
                     <p class="text-[#71767b]">- 본 거래는 <strong class="text-white">서치벤(Search Ban) 서비스 자체를 제공하는 것이 아니라, 정상적으로 노출 가능한 상태의 X 계정을 양도하는 거래</strong>입니다.</p>
                     <p class="text-[#71767b]">- 계정 수령 후 정상적인 노출 상태가 확인된 경우, 이후 X의 운영정책 또는 시스템 판단에 따라 발생하는 검색 제한, 노출 제한, 계정 정지 등의 사유만으로는 교환 또는 환불이 제한될 수 있습니다.</p>
                     <p class="text-[#71767b]">- X의 검색 제한, 노출 제한 및 계정 제재 여부는 <strong class="text-white">X의 시스템 및 운영정책에 따라 결정되는 사항</strong>이며, 양도자가 임의로 결정하거나 조정할 수 있는 사항이 아닙니다.</p>
-                    <p class="text-[#71767b]">- 다만 구매자 보호를 위해 <strong class="text-white">코드 수령 시점으로부터 24시간 이내에 계정 자체의 중대한 문제가 확인되는 경우 최초 1회에 한하여 계정 교환을 제공</strong>합니다.</p>
+                    <p class="text-[#71767b]">- 다만 구매자 보호를 위해 <strong class="text-white">코드 수령 시점으로부터 12시간 이내에 계정 자체의 중대한 문제가 확인되는 경우 최초 1회에 한하여 계정 교환을 제공</strong>합니다.</p>
                     <p class="text-[#71767b]">- 단, <strong class="text-white">X의 운영정책에 위반되는 행위로 인해 발생한 문제, 구매자의 이용 과정에서 발생한 문제 또는 구매자의 과실로 발생한 문제는 교환 대상에서 제외</strong>될 수 있습니다.</p>
                     <p class="text-[#71767b]">- 교환 및 환불 여부는 위 기준과 실제 발생 경위를 종합하여 판단합니다.</p>
                 </div>
