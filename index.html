@@ -2384,10 +2384,11 @@ body.gated #agreement-modal{display:none!important}
 }
 </style>
 
+<style id="gate-ip-check-style">#gate.checking .gate-card{opacity:0}#gate .gate-card{transition:opacity .2s ease}</style>
 </head>
 <body class="gated min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <!-- 보안코드 잠금 화면 -->
-    <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div id="gate" class="checking" role="dialog" aria-modal="true" aria-labelledby="gate-title">
         <div class="gate-card">
             <div class="gate-icon" aria-hidden="true">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -2399,10 +2400,6 @@ body.gated #agreement-modal{display:none!important}
             <div class="gate-foot">SECURE ACCESS · AUTHENTICATION REQUIRED</div>
         </div>
     </div>
-    <script>
-        // 이미 인증한 탭이면 잠금 화면을 바로 건너뜀 (탭을 닫으면 다시 잠김)
-        try { if (sessionStorage.getItem('xaa_gate_ok') === '1') { document.body.classList.remove('gated'); document.getElementById('gate').style.display = 'none'; } } catch (e) {}
-    </script>
     <div class="ambient-bg" aria-hidden="true">
         <div class="ambient-grid"></div>
         <div class="ambient-orb orb-a"></div>
@@ -4342,7 +4339,7 @@ document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) luci
 (function () {
     var CODE_LEN = 4;                 // 보안코드 자릿수 (SQL의 코드 자릿수와 맞춰주세요)
     var gate = document.getElementById('gate');
-    if (!gate || gate.style.display === 'none') return;
+    if (!gate) return;
 
     var row = document.getElementById('gate-row');
     var msg = document.getElementById('gate-msg');
@@ -4405,7 +4402,6 @@ document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) luci
     }
 
     function unlock() {
-        try { sessionStorage.setItem('xaa_gate_ok', '1'); } catch (e) {}
         gate.classList.add('leaving');
         document.body.classList.remove('gated');
         setTimeout(function () { gate.style.display = 'none'; }, 300);
@@ -4441,7 +4437,30 @@ document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) luci
     gate.addEventListener('click', function () { if (!input.disabled) input.focus(); });
 
     render();
-    setTimeout(function () { input.focus(); }, 50);
+
+    // 허용된 IP(7일)인지 서버에 먼저 확인 → 허용이면 잠금 화면 없이 바로 통과
+    var decided = false;
+    function showGate() {
+        if (decided) return;
+        decided = true;
+        gate.classList.remove('checking');
+        setTimeout(function () { input.focus(); }, 50);
+    }
+    function openNow() {
+        if (decided) return;
+        decided = true;
+        document.body.classList.remove('gated');
+        gate.style.display = 'none';
+    }
+    setTimeout(showGate, 4000); // 확인이 늦어지면 잠금 화면을 보여줌
+    (async function () {
+        try {
+            if (typeof supabaseClient === 'undefined' || !supabaseClient) throw new Error('no client');
+            var r = await supabaseClient.rpc('check_ip_allowed');
+            if (!r.error && r.data === true) { openNow(); return; }
+        } catch (e) { console.error(e); }
+        showGate();
+    })();
 })();
 </script>
 
