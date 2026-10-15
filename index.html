@@ -2132,8 +2132,277 @@ body{line-height:1.55!important;}
 #agreement-modal .terms-restriction-alert strong{color:#fff;font-weight:800;}
 </style>
 
+<style id="access-gate-style">
+body.gated #main-card,
+body.gated #inbox-modal,
+body.gated #agreement-modal{display:none!important}
+#gate{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:16px;transition:opacity .28s ease,transform .28s ease}
+#gate.leaving{opacity:0;transform:scale(.98);pointer-events:none}
+#gate .gate-card{width:100%;max-width:448px;padding:38px 24px 30px;text-align:center;border:1px solid #1f2630;border-radius:20px;background:linear-gradient(180deg,#0b0e13,#07090c);box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 0 1px rgba(29,155,240,.05) inset}
+#gate .gate-icon{width:56px;height:56px;margin:0 auto 26px;display:flex;align-items:center;justify-content:center;border:1px solid #243246;border-radius:14px;background:#111821;color:#4da3f0}
+#gate .gate-title{font-size:21px;font-weight:900;letter-spacing:.02em;color:#fff;margin:0}
+#gate .gate-sub{margin:16px 0 26px;font-size:14px;color:#8b94a0}
+#gate .gate-row{position:relative;display:flex;justify-content:center;gap:12px}
+#gate .gate-box{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #2a313b;border-radius:10px;background:#141922;transition:border-color .15s,background .15s}
+#gate .gate-dot{width:14px;height:14px;border-radius:9999px;background:#6b7584;transition:background .15s,box-shadow .15s}
+#gate .gate-box.active{border-color:#1d9bf0;box-shadow:0 0 0 3px rgba(29,155,240,.15)}
+#gate .gate-box.filled .gate-dot{background:#4da3f0;box-shadow:0 0 10px rgba(77,163,240,.7)}
+#gate .gate-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;font-size:16px;border:0;outline:0;background:transparent;color:transparent;caret-color:transparent;cursor:pointer}
+#gate .gate-row.error .gate-box{border-color:#ef4444;background:rgba(127,29,29,.15)}
+#gate .gate-row.error .gate-dot{background:#ef4444;box-shadow:none}
+#gate .gate-row.error{animation:gateShake .38s ease}
+#gate .gate-row.busy .gate-dot{animation:gatePulse .8s ease-in-out infinite}
+#gate .gate-msg{min-height:18px;margin:18px 0 0;font-size:12px;font-weight:700;color:#ff9a9a}
+#gate .gate-foot{margin-top:14px;font-size:11px;letter-spacing:.06em;color:#4d9de0}
+@keyframes gateShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes gatePulse{0%,100%{opacity:.4}50%{opacity:1}}
+@media(max-width:380px){#gate .gate-box{width:44px;height:44px}#gate .gate-row{gap:9px}#gate .gate-title{font-size:19px}}
+</style>
+
+
+<style id="access-gate-premium-v2">
+/* Premium access-gate visual refresh — styling only; validation logic unchanged */
+#gate {
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 18%, rgba(29,155,240,.12), transparent 35%),
+      radial-gradient(ellipse at 12% 82%, rgba(91,67,190,.10), transparent 32%),
+      rgba(2,4,8,.82);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+}
+#gate::before,
+#gate::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+}
+#gate::before {
+    inset: 0;
+    opacity: .24;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse at center, #000 0%, transparent 76%);
+    z-index: -1;
+}
+#gate::after {
+    width: min(72vw, 540px);
+    aspect-ratio: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-56%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,155,240,.13), rgba(29,155,240,.035) 35%, transparent 70%);
+    filter: blur(12px);
+    z-index: -1;
+}
+#gate .gate-card {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 432px);
+    padding: 46px 34px 30px;
+    border: 1px solid rgba(148,163,184,.22);
+    border-radius: 24px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(29,155,240,.095), transparent 42%),
+      linear-gradient(155deg, rgba(17,22,30,.98), rgba(5,7,11,.985) 58%, rgba(8,10,15,.99));
+    box-shadow:
+      0 38px 110px rgba(0,0,0,.72),
+      0 0 0 1px rgba(255,255,255,.025) inset,
+      0 18px 58px rgba(29,155,240,.065);
+    animation: gatePremiumIn .6s cubic-bezier(.2,.8,.2,1) both;
+}
+#gate .gate-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(29,155,240,.95), rgba(216,239,255,.65), rgba(29,155,240,.35), transparent);
+    box-shadow: 0 0 22px rgba(29,155,240,.22);
+}
+#gate .gate-card::after {
+    content: "SECURITY LAYER  /  01";
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    color: #5f7183;
+    font: 800 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .16em;
+}
+#gate .gate-icon {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 25px;
+    border: 1px solid rgba(104,177,255,.32);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(28,45,65,.96), rgba(10,17,27,.98));
+    color: #8acbff;
+    box-shadow:
+      0 12px 32px rgba(0,0,0,.32),
+      0 0 0 6px rgba(29,155,240,.035),
+      0 0 38px rgba(29,155,240,.12),
+      inset 0 1px 0 rgba(255,255,255,.10);
+}
+#gate .gate-icon::before {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border: 1px solid rgba(73,160,235,.12);
+    border-radius: 27px;
+    pointer-events: none;
+}
+#gate .gate-icon svg {
+    width: 31px;
+    height: 31px;
+    filter: drop-shadow(0 0 10px rgba(77,163,240,.34));
+}
+#gate .gate-title {
+    color: #f7faff;
+    font-size: clamp(20px, 4vw, 24px);
+    line-height: 1.2;
+    font-weight: 850;
+    letter-spacing: -.045em;
+    text-shadow: 0 2px 24px rgba(255,255,255,.06);
+}
+#gate .gate-sub {
+    max-width: 280px;
+    margin: 13px auto 28px;
+    color: #9aa8b8;
+    font-size: 13px;
+    line-height: 1.75;
+    word-break: keep-all;
+}
+#gate .gate-row {
+    gap: 13px;
+    padding: 5px 0;
+    max-width: 270px;
+    margin: 0 auto;
+}
+#gate .gate-box {
+    position: relative;
+    width: 54px;
+    height: 58px;
+    border: 1px solid #303c4a;
+    border-radius: 13px;
+    background: linear-gradient(180deg, rgba(21,29,40,.94), rgba(11,15,22,.96));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 5px 16px rgba(0,0,0,.16);
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+#gate .gate-dot {
+    width: 8px;
+    height: 8px;
+    background: #526274;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.14);
+    transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+#gate .gate-box.active {
+    transform: translateY(-2px);
+    border-color: rgba(73,169,248,.9);
+    background: linear-gradient(180deg, rgba(20,42,62,.98), rgba(11,22,34,.98));
+    box-shadow: 0 0 0 3px rgba(29,155,240,.11), 0 8px 20px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.06);
+}
+#gate .gate-box.active .gate-dot {
+    background: #9bd7ff;
+    box-shadow: 0 0 14px rgba(77,163,240,.55);
+}
+#gate .gate-box.filled {
+    border-color: rgba(68,154,222,.56);
+    background: linear-gradient(180deg, rgba(17,39,59,.98), rgba(9,19,30,.98));
+}
+#gate .gate-box.filled .gate-dot {
+    width: 11px;
+    height: 11px;
+    background: #6fc2ff;
+    box-shadow: 0 0 16px rgba(77,163,240,.65);
+}
+#gate .gate-row.error .gate-box {
+    border-color: rgba(248,113,113,.92);
+    background: linear-gradient(180deg, rgba(65,20,27,.92), rgba(29,11,15,.96));
+}
+#gate .gate-row.error .gate-dot { background: #ff8c96; box-shadow: 0 0 10px rgba(248,113,113,.24); }
+#gate .gate-row.busy .gate-dot { animation: gatePulse .8s ease-in-out infinite; }
+#gate .gate-msg {
+    min-height: 19px;
+    margin: 17px 0 0;
+    color: #ff9ba5;
+    font-size: 11px;
+    line-height: 1.55;
+    font-weight: 700;
+}
+#gate .gate-foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: max-content;
+    max-width: 100%;
+    margin: 18px auto 0;
+    padding: 9px 12px;
+    border: 1px solid rgba(109,133,158,.15);
+    border-radius: 999px;
+    background: rgba(255,255,255,.018);
+    color: #71869a;
+    font: 800 8px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .12em;
+}
+#gate .gate-foot::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: #42d6a0;
+    box-shadow: 0 0 10px rgba(66,214,160,.48);
+}
+#gate .gate-input:focus-visible { outline: none; }
+@keyframes gatePremiumIn {
+    from { opacity: 0; transform: translateY(12px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media(max-width: 480px) {
+    #gate { padding: 18px; }
+    #gate .gate-card { padding: 43px 22px 25px; border-radius: 21px; }
+    #gate .gate-card::after { top: 17px; right: 18px; font-size: 8px; }
+    #gate .gate-icon { width: 68px; height: 68px; border-radius: 19px; margin-bottom: 22px; }
+    #gate .gate-box { width: 51px; height: 55px; }
+    #gate .gate-row { gap: 10px; }
+}
+@media(max-width: 360px) {
+    #gate .gate-card { padding-left: 16px; padding-right: 16px; }
+    #gate .gate-box { width: 46px; height: 51px; }
+    #gate .gate-row { gap: 8px; }
+}
+@media(prefers-reduced-motion: reduce) {
+    #gate .gate-card { animation: none; }
+    #gate .gate-box, #gate .gate-dot { transition: none; }
+}
+</style>
+
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
+<body class="gated min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
+    <!-- 보안코드 잠금 화면 -->
+    <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+        <div class="gate-card">
+            <div class="gate-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h1 id="gate-title" class="gate-title">X ACCOUNT ACCESS</h1>
+            <p class="gate-sub">접속하려면 보안코드를 입력하세요.</p>
+            <div id="gate-row" class="gate-row"></div>
+            <p id="gate-msg" class="gate-msg" role="alert"></p>
+            <div class="gate-foot">SECURE ACCESS · AUTHENTICATION REQUIRED</div>
+        </div>
+    </div>
+    <script>
+        // 이미 인증한 탭이면 잠금 화면을 바로 건너뜀 (탭을 닫으면 다시 잠김)
+        try { if (sessionStorage.getItem('xaa_gate_ok') === '1') { document.body.classList.remove('gated'); document.getElementById('gate').style.display = 'none'; } } catch (e) {}
+    </script>
     <div class="ambient-bg" aria-hidden="true">
         <div class="ambient-grid"></div>
         <div class="ambient-orb orb-a"></div>
@@ -4068,6 +4337,113 @@ document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) luci
 </script>
 
 
+
+<script id="access-gate-script">
+(function () {
+    var CODE_LEN = 4;                 // 보안코드 자릿수 (SQL의 코드 자릿수와 맞춰주세요)
+    var gate = document.getElementById('gate');
+    if (!gate || gate.style.display === 'none') return;
+
+    var row = document.getElementById('gate-row');
+    var msg = document.getElementById('gate-msg');
+    var boxes = [];
+    for (var i = 0; i < CODE_LEN; i++) {
+        var b = document.createElement('div');
+        b.className = 'gate-box';
+        b.innerHTML = '<span class="gate-dot"></span>';
+        row.appendChild(b);
+        boxes.push(b);
+    }
+    var input = document.createElement('input');
+    input.className = 'gate-input';
+    input.type = 'text';
+    input.inputMode = 'numeric';
+    input.maxLength = CODE_LEN;
+    input.autocomplete = 'one-time-code';
+    input.setAttribute('aria-label', '보안코드 입력');
+    row.appendChild(input);
+
+    var busy = false, lockTimer = null;
+
+    function render() {
+        var n = input.value.length;
+        boxes.forEach(function (b, idx) {
+            b.classList.toggle('filled', idx < n);
+            b.classList.toggle('active', idx === n && !input.disabled);
+        });
+    }
+    function setMsg(t) { msg.textContent = t || ''; }
+    function clearInput() { input.value = ''; render(); }
+
+    function startLock(seconds) {
+        input.disabled = true;
+        var left = Math.max(1, seconds | 0);
+        function tick() {
+            if (left <= 0) {
+                clearInterval(lockTimer); lockTimer = null;
+                input.disabled = false; setMsg(''); clearInput(); input.focus();
+                return;
+            }
+            var m = Math.floor(left / 60), s = left % 60;
+            setMsg('시도 횟수를 초과했어요. ' + (m ? m + '분 ' : '') + s + '초 후 다시 시도해 주세요.');
+            left--;
+        }
+        tick();
+        lockTimer = setInterval(tick, 1000);
+    }
+
+    function fail(text, lockSeconds) {
+        row.classList.remove('busy');
+        row.classList.add('error');
+        setMsg(text);
+        setTimeout(function () {
+            row.classList.remove('error');
+            busy = false;
+            clearInput();
+            if (lockSeconds) startLock(lockSeconds); else input.focus();
+        }, 650);
+    }
+
+    function unlock() {
+        try { sessionStorage.setItem('xaa_gate_ok', '1'); } catch (e) {}
+        gate.classList.add('leaving');
+        document.body.classList.remove('gated');
+        setTimeout(function () { gate.style.display = 'none'; }, 300);
+    }
+
+    async function submit(code) {
+        if (busy) return;
+        busy = true;
+        row.classList.add('busy');
+        setMsg('');
+        try {
+            if (typeof supabaseClient === 'undefined' || !supabaseClient) throw new Error('no client');
+            var r = await supabaseClient.rpc('check_access_code', { p_code: code });
+            if (r.error) throw r.error;
+            var d = r.data || {};
+            if (d.ok) { row.classList.remove('busy'); unlock(); return; }
+            if (d.locked) { fail('', d.retry_after || 600); return; }
+            var rem = (typeof d.remaining === 'number') ? ' (남은 시도 ' + d.remaining + '회)' : '';
+            fail('보안코드가 올바르지 않습니다.' + rem);
+        } catch (e) {
+            console.error(e);
+            fail('확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.');
+        }
+    }
+
+    input.addEventListener('input', function () {
+        input.value = input.value.replace(/\D/g, '').slice(0, CODE_LEN);
+        render();
+        if (input.value.length === CODE_LEN) submit(input.value);
+    });
+    input.addEventListener('focus', render);
+    input.addEventListener('blur', function () { boxes.forEach(function (b) { b.classList.remove('active'); }); });
+    gate.addEventListener('click', function () { if (!input.disabled) input.focus(); });
+
+    render();
+    setTimeout(function () { input.focus(); }, 50);
+})();
+</script>
 
 </body>
 </html>
