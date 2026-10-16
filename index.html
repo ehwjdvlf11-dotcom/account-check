@@ -2384,11 +2384,10 @@ body.gated #agreement-modal{display:none!important}
 }
 </style>
 
-<style id="gate-ip-check-style">#gate.checking .gate-card{opacity:0}#gate .gate-card{transition:opacity .2s ease}</style>
 </head>
-<body class="gated min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
     <!-- 보안코드 잠금 화면 -->
-    <div id="gate" class="checking" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div id="gate" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="gate-title" style="display:none;">
         <div class="gate-card">
             <div class="gate-icon" aria-hidden="true">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -2400,6 +2399,10 @@ body.gated #agreement-modal{display:none!important}
             <div class="gate-foot">SECURE ACCESS · AUTHENTICATION REQUIRED</div>
         </div>
     </div>
+    <script>
+        // 이미 인증한 탭이면 잠금 화면을 바로 건너뜀 (탭을 닫으면 다시 잠김)
+        try { if (sessionStorage.getItem('xaa_gate_ok') === '1') { document.body.classList.remove('gated'); document.getElementById('gate').style.display = 'none'; } } catch (e) {}
+    </script>
     <div class="ambient-bg" aria-hidden="true">
         <div class="ambient-grid"></div>
         <div class="ambient-orb orb-a"></div>
@@ -2424,7 +2427,7 @@ body.gated #agreement-modal{display:none!important}
     <!-- 메인 컨테이너 -->
     <div id="main-card" class="w-full max-w-md x-card p-6 md:p-8 relative z-10 my-6">
         
-        <div id="header-section" class="premium-header mb-6 relative">
+        <div id="header-section" class="premium-header mb-6 relative hidden">
             <div class="premium-brand-lockup">
                 <div class="x-logo-wrap premium-hero-logo" aria-label="X 로고">
                     <svg class="x-logo-svg" viewBox="0 0 24 24" aria-hidden="true">
@@ -2454,14 +2457,14 @@ body.gated #agreement-modal{display:none!important}
             </div>
 
             <div id="step-indicator" class="premium-step-indicator" aria-label="구매 진행 단계">
-                <span class="step-dot active" data-step="intro">01</span><i></i>
-                <span class="step-dot" data-step="price">02</span><i></i>
+                <span class="step-dot" data-step="intro">01</span><i></i>
+                <span class="step-dot active" data-step="price">02</span><i></i>
                 <span class="step-dot" data-step="query">03</span>
             </div>
         </div>
 
         <!-- STEP -1 (필독 안내 화면) -->
-        <div id="step-intro" class="step-screen is-active space-y-4">
+        <div id="step-intro" class="step-screen space-y-4">
 <p class="purchase-warning">⚠️ 계정 코드를 발급받으신 이후에는 <strong>단순 변심에 따른 환불이 어려우니</strong>, 구매 전 내용을 충분히 확인하신 후 신중하게 구매해 주세요.</p>
 
             <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3" style="background:linear-gradient(145deg,#17191c 0%,#101113 100%);border:1px solid #34383d;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.18);">
@@ -2501,7 +2504,7 @@ body.gated #agreement-modal{display:none!important}
         </div>
 
         <!-- STEP 0 (가격표 화면) -->
-        <div id="step-price" class="step-screen space-y-4">
+        <div id="step-price" class="step-screen is-active space-y-4">
             <div class="flex justify-between items-center mb-1">
                 <button onclick="goToIntroStep()" class="text-xs text-[#71767b] hover:text-white flex items-center gap-1">
                     ← 필독 안내 다시보기
@@ -2774,7 +2777,7 @@ body.gated #agreement-modal{display:none!important}
                     <p class="text-white font-bold"><span class="agreement-number">04</span>계정 활성화를 위한 필수 이용 안내</p>
                     <p class="text-[#71767b]">- 계정 수령 후 정상적인 계정 활동을 위해 <strong class="text-white">X 내에서 일정 수준의 일반적인 활동</strong>을 진행해 주세요.</p>
                     <p class="text-[#71767b]">- 예를 들어 팔로우, 팔로워 활동, 게시글 작성, 좋아요, 리포스트(RT) 등의 정상적인 이용을 권장합니다.
-                    <p class="important-warning">⚠ - 계정 양도 후 계정 정보 관련 변경(아이디,닉네임,프사)은 구매자 마음이며 이후 발생하는 문제는 양도자가 책임지지 않습니다.</p></p>
+                    <p class="important-warning">⚠ 계정 양도 후 계정 정보 관련 변경(아이디·닉네임·프로필 사진)은 구매자 판단에 따르며, 이후 발생하는 문제는 양도자가 책임지지 않습니다.<br><br>⚠ 단, 생일 정보는 변경하지 마세요. 계정에 피해가 발생할 수 있습니다.<br><br>⚠ 전달받은 코드와 아이디·비밀번호는 본인이 별도로 기록하여 안전하게 보관해 주세요. 분실 시 책임지지 않습니다.</p>
                     <p class="text-[#71767b]">- 단기간에 과도하거나 비정상적인 활동을 반복할 경우 X의 시스템에 의해 제한 또는 제재가 발생할 수 있으므로, <strong class="text-white">자연스럽고 정상적인 범위에서 이용</strong>해 주세요.</p>
                 </div>
 
@@ -4402,9 +4405,16 @@ document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) luci
     }
 
     function unlock() {
+        try { sessionStorage.setItem('xaa_gate_ok', '1'); } catch (e) {}
+        var afterUnlock = window.__xaaAfterGateUnlock;
+        window.__xaaAfterGateUnlock = null;
         gate.classList.add('leaving');
         document.body.classList.remove('gated');
-        setTimeout(function () { gate.style.display = 'none'; }, 300);
+        setTimeout(function () {
+            gate.style.display = 'none';
+            gate.setAttribute('aria-hidden', 'true');
+            if (typeof afterUnlock === 'function') afterUnlock();
+        }, 300);
     }
 
     async function submit(code) {
@@ -4437,30 +4447,7 @@ document.addEventListener('DOMContentLoaded', function(){ if(window.lucide) luci
     gate.addEventListener('click', function () { if (!input.disabled) input.focus(); });
 
     render();
-
-    // 허용된 IP(7일)인지 서버에 먼저 확인 → 허용이면 잠금 화면 없이 바로 통과
-    var decided = false;
-    function showGate() {
-        if (decided) return;
-        decided = true;
-        gate.classList.remove('checking');
-        setTimeout(function () { input.focus(); }, 50);
-    }
-    function openNow() {
-        if (decided) return;
-        decided = true;
-        document.body.classList.remove('gated');
-        gate.style.display = 'none';
-    }
-    setTimeout(showGate, 4000); // 확인이 늦어지면 잠금 화면을 보여줌
-    (async function () {
-        try {
-            if (typeof supabaseClient === 'undefined' || !supabaseClient) throw new Error('no client');
-            var r = await supabaseClient.rpc('check_ip_allowed');
-            if (!r.error && r.data === true) { openNow(); return; }
-        } catch (e) { console.error(e); }
-        showGate();
-    })();
+    setTimeout(function () { if (document.body.classList.contains('gated')) input.focus(); }, 50);
 })();
 </script>
 
@@ -5350,3 +5337,59 @@ button[data-state="loading"].verify-btn::before{
 .pay-badge-sub{font-size:9.5px;color:#71767b;line-height:1.35;margin-top:1px}
 @media(max-width:380px){.pay-badge-title{font-size:10.5px}.pay-badge-sub{font-size:8.5px}}
 </style>
+
+<!-- PRICE-FIRST FLOW: show the price list on load; require server-verified PIN before opening account lookup. -->
+<style id="price-first-gate-visibility">
+  /* Keep the gate hidden until the buyer continues from the price list. */
+  #gate[aria-hidden="true"] { display: none !important; }
+  body.gated #main-card,
+  body.gated #inbox-modal,
+  body.gated #agreement-modal { display: none !important; }
+</style>
+<script id="price-first-gate-flow">
+(function () {
+  var pinPassForQuery = false;
+
+  function openGateForQuery() {
+    var gate = document.getElementById('gate');
+    if (!gate) return;
+    gate.classList.remove('leaving');
+    gate.style.display = 'flex';
+    gate.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gated');
+    window.__xaaAfterGateUnlock = function () {
+      pinPassForQuery = true;
+      window.goToQueryStep();
+    };
+    setTimeout(function () {
+      var input = gate.querySelector('.gate-input');
+      if (input && !input.disabled) input.focus();
+    }, 60);
+  }
+
+  // All normal attempts to open the lookup screen go through the PIN prompt.
+  var directGoToQuery = window.goToQueryStep;
+  window.goToQueryStep = function () {
+    if (pinPassForQuery) {
+      pinPassForQuery = false;
+      return typeof directGoToQuery === 'function' ? directGoToQuery.apply(this, arguments) : undefined;
+    }
+    openGateForQuery();
+  };
+
+  // The price page is the first screen; keep the existing checkbox requirement.
+  function showPriceFirst() {
+    if (typeof window.goToPriceStep === 'function') {
+      window.goToPriceStep();
+    } else if (typeof window.showStep === 'function') {
+      window.showStep('step-price');
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showPriceFirst, { once: true });
+  } else {
+    showPriceFirst();
+  }
+})();
+</script>
+
