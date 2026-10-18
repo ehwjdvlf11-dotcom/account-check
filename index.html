@@ -5049,3 +5049,52 @@ button[data-state="loading"].verify-btn::before{
 })();
 </script>
 
+<!-- STABLE BUTTON INTERACTIONS: prevent hover jump while preserving existing actions/layout -->
+<style id="stable-premium-button-interactions">
+  /* Buttons get visual feedback without physically shifting on hover. */
+  .x-btn-white,
+  .x-btn-dark,
+  .verify-btn,
+  #btn-next-price,
+  #btn-modal-confirm,
+  #tab-general,
+  #tab-email,
+  .copy-btn,
+  .v41-paste-btn {
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease !important;
+    will-change: auto !important;
+  }
+
+  .x-btn-white:hover:not(:disabled),
+  .x-btn-dark:hover:not(:disabled),
+  .verify-btn:hover:not(:disabled),
+  #btn-next-price:hover:not(:disabled),
+  #btn-modal-confirm:hover:not(:disabled),
+  #tab-general:hover,
+  #tab-email:hover,
+  .copy-btn:hover,
+  .v41-paste-btn:hover {
+    transform: none !important;
+  }
+
+  /* Result-row copy buttons are vertically centered by their existing transform;
+     preserve that centering while cancelling the added hover-lift effect. */
+  #result-box .result-field .copy-btn:hover {
+    transform: translateY(-50%) !important;
+  }
+
+  /* Keep tap/click feedback through color and border, not movement. */
+  .x-btn-dark:hover:not(:disabled),
+  .copy-btn:hover,
+  .v41-paste-btn:hover {
+    filter: brightness(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .x-btn-white, .x-btn-dark, .verify-btn, #btn-next-price, #btn-modal-confirm,
+    #tab-general, #tab-email, .copy-btn, .v41-paste-btn {
+      transition: none !important;
+    }
+  }
+</style>
+
