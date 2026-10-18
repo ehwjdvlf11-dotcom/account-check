@@ -2137,6 +2137,29 @@ body{line-height:1.55!important;}
 
 
 
+
+
+<style id="result-storage-notice-style">
+#result-storage-notice.result-storage-notice{
+  margin-top: 4px;
+  padding: 14px 15px;
+  border: 1px solid rgba(248,113,113,.30);
+  border-left: 3px solid #f87171;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(127,29,29,.16), rgba(12,14,18,.94));
+  color: #d7dce3;
+  font-size: 12px;
+  line-height: 1.65;
+}
+#result-storage-notice .result-storage-notice__heading{
+  display:flex;align-items:center;gap:8px;margin-bottom:6px;
+  color:#ff929b;font-weight:800;font-size:12px;letter-spacing:-.01em;
+}
+#result-storage-notice p{margin:0}
+#result-storage-notice .result-storage-notice__muted{margin-top:3px;color:#9ca6b2}
+@media(max-width:560px){#result-storage-notice.result-storage-notice{padding:12px;font-size:11px}}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
 
@@ -2425,6 +2448,15 @@ body{line-height:1.55!important;}
                 class="w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer">
                 <span class="icon-inline"><i data-lucide="house" class="premium-icon"></i><span>처음으로 돌아가기</span></span>
             </button>
+
+<div id="result-storage-notice" class="result-storage-notice" role="note" aria-label="계정 정보 보관 안내">
+                <div class="result-storage-notice__heading">
+                    <i data-lucide="shield-alert" class="premium-icon gold"></i>
+                    <span>계정 정보 보관 안내</span>
+                </div>
+                <p>전달받은 코드와 아이디·비밀번호는 본인이 별도로 기록하여 안전하게 보관해 주세요.</p>
+                <p class="result-storage-notice__muted">분실 시 책임지지 않습니다.</p>
+            </div>
         </div>
 
         <div id="error-box" class="mt-4 hidden p-3.5 bg-black border border-[#2f3336] rounded-2xl text-center text-[#71767b] text-xs">
