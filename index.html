@@ -5809,5 +5809,62 @@ button .premium-icon,
 }
 </style>
 
+
+<style id="mobile-usability-v6">
+/* Mobile-first usability refinement: reduce decoration and prioritize readable content. */
+@media (max-width: 640px) {
+  #step-price .step-head { margin-bottom: 2px !important; }
+  #step-price .step-head::before,
+  #step-price .step-head::after { opacity: .65 !important; }
+  /* Keep the two-column price overview, but make cards less cramped. */
+  .product-grid { gap: 8px !important; }
+  .product-card {
+    min-height: 132px !important;
+    padding: 11px 10px !important;
+    background-image: none !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.035), 0 5px 14px rgba(0,0,0,.14) !important;
+  }
+  .product-card::before, .product-card::after { opacity: .18 !important; }
+  .product-badge { padding: 4px 7px !important; font-size: 8.5px !important; }
+  .product-card .product-name { font-size: 12.5px !important; line-height: 1.42 !important; }
+  .product-name-note { font-size: 10.5px !important; }
+  .product-card .product-note { font-size: 10.5px !important; line-height: 1.4 !important; }
+  .product-price { margin-top: 10px !important; font-size: clamp(19px, 5.5vw, 22px) !important; }
+  .product-price small { font-size: 8px !important; }
+
+  /* Payment methods are full-width rows on phones, preventing narrow multi-line text. */
+  .pay-badges { grid-template-columns: minmax(0, 1fr) !important; gap: 8px !important; }
+  .pay-badge {
+    display: flex !important; flex-direction: row !important; align-items: center !important;
+    padding: 11px 12px !important; gap: 11px !important; min-height: 66px !important;
+    background-image: none !important;
+  }
+  .pay-badge-icon { width: 34px !important; height: 34px !important; flex: 0 0 34px !important; }
+  .pay-badge-title { font-size: 13px !important; line-height: 1.4 !important; }
+  .pay-badge-sub, .pay-badge-cta { font-size: 11.5px !important; line-height: 1.45 !important; }
+
+  /* Shorter, calmer notice panel and a clear agreement row. */
+  .purchase-warning, .purchase-policy-notice {
+    padding: 14px !important; border-radius: 15px !important;
+    line-height: 1.62 !important; background-image: none !important;
+  }
+  #step-price .flex.items-center.gap-3.x-inner { padding: 12px !important; gap: 10px !important; }
+  #agree-price-checkbox { width: 20px !important; height: 20px !important; flex-basis: 20px !important; }
+  #btn-next-price { margin-top: 12px !important; width: 100% !important; }
+
+  /* Suppress decorative rings/diagonal lines that compete with product text. */
+  .product-card .decorative-ring, .product-card .decorative-line,
+  .product-card .card-orbit, .product-card .card-grid-overlay { display: none !important; }
+  #main-card { box-shadow: 0 12px 36px rgba(0,0,0,.28) !important; }
+}
+@media (max-width: 380px) {
+  .product-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .product-card { min-height: 108px !important; padding: 13px !important; }
+  .product-card .product-name { font-size: 14px !important; }
+  .product-card .product-note, .product-name-note { font-size: 12px !important; }
+  .product-price { font-size: 23px !important; }
+}
+</style>
+
 </body>
 </html>
