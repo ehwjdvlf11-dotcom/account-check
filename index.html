@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>X ACCOUNT ACCESS — Premium Motion</title>
+    <meta name="theme-color" content="#080d14">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080d14'/%3E%3Cpath d='M9 13L28 51M28 13L9 51M35 51L47 13L59 51M39 39H55' fill='none' stroke='%2375dfff' stroke-width='5.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase JS SDK -->
@@ -2189,16 +2191,17 @@ body{line-height:1.55!important;}
         
         <div id="header-section" class="premium-header mb-6 relative hidden">
             <div class="premium-brand-lockup">
-                <div class="x-logo-wrap premium-hero-logo" aria-label="X 로고">
-                    <svg class="x-logo-svg" viewBox="0 0 24 24" aria-hidden="true">
+                <div class="x-logo-wrap premium-hero-logo" aria-label="X Account Access 서비스 심볼">
+                    <svg class="x-logo-svg" viewBox="0 0 64 64" role="img" aria-label="X Account Access 서비스 심볼">
                         <defs>
-                            <linearGradient id="xLogoGradient" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
-                                <stop offset="0" stop-color="#ffffff"/>
-                                <stop offset="0.48" stop-color="#f5f7f8"/>
-                                <stop offset="1" stop-color="#aeb4b9"/>
+                            <linearGradient id="xaLogoGradient" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#d8fbff"/>
+                                <stop offset="0.48" stop-color="#75dfff"/>
+                                <stop offset="1" stop-color="#8e8bff"/>
                             </linearGradient>
                         </defs>
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817-5.963 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/>
+                        <path d="M9 13 L28 51 M28 13 L9 51" fill="none" stroke="url(#xaLogoGradient)" stroke-width="5.4" stroke-linecap="round"/>
+                        <path d="M35 51 L47 13 L59 51 M39 39 H55" fill="none" stroke="url(#xaLogoGradient)" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
                 <div class="premium-brand-content">
@@ -2225,7 +2228,7 @@ body{line-height:1.55!important;}
 
         <!-- STEP -1 (필독 안내 화면) -->
         <div id="step-intro" class="step-screen space-y-4">
-<p class="purchase-warning">⚠️ 계정 코드를 발급받으신 이후에는 <strong>단순 변심에 따른 환불이 어려우니</strong>, 구매 전 내용을 충분히 확인하신 후 신중하게 구매해 주세요.</p>
+<p class="purchase-warning">⚠ 계정 코드를 발급받으신 이후에는 <strong>단순 변심에 따른 환불이 어려우니</strong>, 구매 전 내용을 충분히 확인하신 후 신중하게 구매해 주세요.</p>
 
             <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3" style="background:linear-gradient(145deg,#17191c 0%,#101113 100%);border:1px solid #34383d;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.18);">
                 <div class="flex items-center justify-between pb-3" style="border-bottom:1px solid #30343a;gap:12px;">
@@ -2283,7 +2286,7 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card featured">
                     <span class="product-badge hot"><span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span></span>
                     <div>
-                        <div class="product-name mt-3">🔹 일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div>
+                        <div class="product-name mt-3">일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div>
                         
                     </div>
                     <div class="product-price mt-4">15,000<small> KRW</small></div>
@@ -2292,7 +2295,7 @@ body{line-height:1.55!important;}
                 <div class="x-inner product-card">
                     <span class="product-badge">SECURE MAIL</span>
                     <div>
-                        <div class="product-name mt-3">🔹 이메일 지급 계정<span class="product-name-note">(이메일 변경 가능)</span></div>
+                        <div class="product-name mt-3">이메일 지급 계정<span class="product-name-note">(이메일 변경 가능)</span></div>
                         
                     </div>
                     <div class="product-price mt-4">20,000<small> KRW</small></div>
@@ -2360,11 +2363,11 @@ body{line-height:1.55!important;}
                 </button>
             </div>
 
-            <div class="flex rounded-full bg-black p-1 border border-[#2f3336] gap-1">
-                <button id="tab-general" onclick="switchTab('general')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black">
+            <div class="flex rounded-full bg-black p-1 border border-[#2f3336] gap-1" role="group" aria-label="계정 유형 선택">
+                <button id="tab-general" type="button" aria-pressed="true" onclick="switchTab('general')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black">
                     <span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span>
                 </button>
-                <button id="tab-email" onclick="switchTab('email')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white">
+                <button id="tab-email" type="button" aria-pressed="false" onclick="switchTab('email')" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white">
                     <span class="icon-inline"><i data-lucide="mail" class="premium-icon blue"></i><span>이메일 계정</span></span>
                 </button>
             </div>
@@ -2651,7 +2654,7 @@ body{line-height:1.55!important;}
             document.getElementById('main-card').classList.remove('query-mode');
             document.getElementById('main-card').classList.add('price-mode');
             document.getElementById('header-section').classList.add('hidden');
-            document.getElementById('sub-title').innerText = '💳 계정 가격 및 거래 안내를 확인해 주세요.';
+            document.getElementById('sub-title').innerText = '계정 가격 및 거래 안내를 확인해 주세요.';
         }
 
         function checkPriceAgreement() {
@@ -2682,6 +2685,9 @@ body{line-height:1.55!important;}
             const tabGeneral = document.getElementById('tab-general');
             const tabEmail = document.getElementById('tab-email');
             const inputLabel = document.getElementById('input-label');
+            // Keep the selected account type explicit for visual styling and accessibility.
+            tabGeneral.setAttribute('aria-pressed', String(mode === 'general'));
+            tabEmail.setAttribute('aria-pressed', String(mode === 'email'));
             document.getElementById('result-box').classList.add('hidden');
             document.getElementById('error-box').classList.add('hidden');
             document.getElementById('input-code').value = '';
@@ -3464,7 +3470,7 @@ button[data-state="loading"]::after{content:"";width:13px;height:13px;border:2px
     document.getElementById('main-card').classList.remove('query-mode');
     document.getElementById('header-section')?.classList.add('hidden');
     const sub=document.getElementById('sub-title');
-    if(sub) sub.innerText='💳 계정 가격 및 거래 안내를 확인해 주세요.';
+    if(sub) sub.innerText='계정 가격 및 거래 안내를 확인해 주세요.';
   };
 
   window.goToIntroStep = function(){
@@ -5582,6 +5588,224 @@ img,svg,video,canvas{max-width:100%}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto!important}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+
+
+
+<!-- V4 TAB & BRAND POLISH: clearer mobile selection state and refined existing mark -->
+<style id="v4-tab-and-brand-polish">
+  /* Use a real state attribute instead of relying on mutable utility classes alone. */
+  #main-card.query-mode #step-query > .flex.rounded-full[aria-label="계정 유형 선택"]{
+    display:flex!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+    gap:7px!important;
+    padding:5px!important;
+    border-radius:15px!important;
+    border:1px solid rgba(125,157,195,.3)!important;
+    background:linear-gradient(145deg,rgba(18,28,44,.98),rgba(7,12,20,.98))!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 24px rgba(0,0,0,.18)!important;
+  }
+  #main-card.query-mode #step-query #tab-general,
+  #main-card.query-mode #step-query #tab-email{
+    flex:1 1 0!important;
+    min-width:0!important;
+    min-height:48px!important;
+    height:auto!important;
+    padding:10px 8px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:8px!important;
+    border-radius:11px!important;
+    border:1px solid transparent!important;
+    font-size:13px!important;
+    font-weight:800!important;
+    line-height:1.25!important;
+    letter-spacing:-.015em!important;
+    white-space:normal!important;
+    box-shadow:none!important;
+    opacity:1!important;
+    transition:background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+  }
+  #main-card.query-mode #step-query #tab-general[aria-pressed="true"],
+  #main-card.query-mode #step-query #tab-email[aria-pressed="true"]{
+    color:#091522!important;
+    background:linear-gradient(135deg,#d9fbff 0%,#f7fbff 52%,#dfe8ff 100%)!important;
+    border-color:rgba(108,233,255,.9)!important;
+    box-shadow:0 0 0 1px rgba(108,233,255,.14),0 7px 18px rgba(0,0,0,.22),0 0 20px rgba(70,185,255,.13)!important;
+  }
+  #main-card.query-mode #step-query #tab-general[aria-pressed="false"],
+  #main-card.query-mode #step-query #tab-email[aria-pressed="false"]{
+    color:#a9b8ca!important;
+    background:linear-gradient(155deg,rgba(23,34,50,.82),rgba(12,18,29,.92))!important;
+    border-color:rgba(131,158,193,.13)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+  }
+  #main-card.query-mode #step-query #tab-general[aria-pressed="true"] .premium-icon,
+  #main-card.query-mode #step-query #tab-email[aria-pressed="true"] .premium-icon{
+    color:#0876a6!important;
+    stroke:#0876a6!important;
+    opacity:1!important;
+  }
+  #main-card.query-mode #step-query #tab-general[aria-pressed="false"] .premium-icon,
+  #main-card.query-mode #step-query #tab-email[aria-pressed="false"] .premium-icon{
+    color:#6ce9ff!important;
+    stroke:#6ce9ff!important;
+    opacity:1!important;
+  }
+  #main-card.query-mode #step-query #tab-general:hover,
+  #main-card.query-mode #step-query #tab-email:hover{
+    filter:brightness(1.06)!important;
+    transform:none!important;
+  }
+  #main-card.query-mode #step-query #tab-general:focus-visible,
+  #main-card.query-mode #step-query #tab-email:focus-visible{
+    outline:2px solid #6ce9ff!important;
+    outline-offset:3px!important;
+  }
+
+  /* Refine the existing brand mark without adding clutter to the mobile header. */
+  #header-section .premium-hero-logo,
+  #header-section .x-logo-wrap.premium-hero-logo{
+    border:1px solid rgba(108,233,255,.48)!important;
+    background:
+      radial-gradient(circle at 23% 15%,rgba(108,233,255,.15),transparent 52%),
+      linear-gradient(145deg,rgba(16,28,45,.98),rgba(8,12,21,.98))!important;
+    box-shadow:
+      0 16px 36px rgba(0,0,0,.42),
+      0 0 0 1px rgba(165,139,255,.1),
+      0 0 25px rgba(65,171,255,.14),
+      inset 0 1px 0 rgba(255,255,255,.08)!important;
+  }
+  #header-section .premium-hero-logo .x-logo-svg{
+    filter:drop-shadow(0 0 7px rgba(108,233,255,.17));
+  }
+  #header-section .premium-service-badge{
+    border-color:rgba(108,233,255,.22)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 5px 18px rgba(0,0,0,.13)!important;
+  }
+  @media(max-width:380px){
+    #main-card.query-mode #step-query #tab-general,
+    #main-card.query-mode #step-query #tab-email{
+      min-height:47px!important;
+      padding:9px 5px!important;
+      gap:6px!important;
+      font-size:12px!important;
+    }
+  }
+  @media(prefers-reduced-motion:reduce){
+    #main-card.query-mode #step-query #tab-general,
+    #main-card.query-mode #step-query #tab-email{transition:none!important}
+  }
+</style>
+
+
+
+<style id="brand-icon-consistency-v5">
+/* Brand & icon refinement: distinct XA service mark, unified blue-violet accents, no decorative emoji clutter. */
+#header-section .x-logo-wrap {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border-radius: 23px !important;
+  border: 1px solid rgba(132, 216, 255, .34) !important;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(117, 223, 255, .16), transparent 42%),
+    linear-gradient(145deg, #172333 0%, #0b121d 56%, #080b12 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.09),
+    0 18px 46px rgba(0,0,0,.44),
+    0 0 0 1px rgba(117,223,255,.035),
+    0 0 30px rgba(75,160,255,.13) !important;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease !important;
+}
+#header-section .x-logo-wrap::before {
+  inset: 5px !important;
+  border-radius: 17px !important;
+  border: 1px solid rgba(185, 225, 255, .11) !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.035), transparent 56%) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  animation: none !important;
+  pointer-events: none !important;
+}
+#header-section .x-logo-wrap::after {
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.045), transparent 46%, rgba(142,139,255,.045)) !important;
+  opacity: 1 !important;
+}
+#header-section .x-logo-svg {
+  width: 66px !important;
+  height: 66px !important;
+  fill: none !important;
+  filter: drop-shadow(0 0 9px rgba(117,223,255,.28)) !important;
+  z-index: 2 !important;
+}
+#header-section .x-logo-wrap:hover {
+  border-color: rgba(151, 226, 255, .62) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 20px 50px rgba(0,0,0,.5), 0 0 34px rgba(75,160,255,.19) !important;
+  transform: translateY(-1px) !important;
+}
+#header-section .premium-kicker::before {
+  content: "" !important;
+  display: inline-block !important;
+  width: 5px !important;
+  height: 5px !important;
+  flex: 0 0 5px !important;
+  border-radius: 50% !important;
+  background: #75dfff !important;
+  box-shadow: 0 0 9px rgba(117,223,255,.68) !important;
+  font-size: 0 !important;
+}
+/* Use a single small geometric marker instead of a platform-dependent colored diamond emoji. */
+.product-name::before {
+  content: "" !important;
+  display: inline-block !important;
+  width: 6px !important;
+  height: 6px !important;
+  margin: 0 9px 2px 0 !important;
+  vertical-align: middle !important;
+  border-radius: 1.5px !important;
+  transform: rotate(45deg) !important;
+  background: linear-gradient(135deg, #a8f0ff, #7b8dff) !important;
+  box-shadow: 0 0 9px rgba(117,223,255,.2) !important;
+}
+/* Keep Lucide line icons visually consistent across controls and labels. */
+.icon-inline { gap: 8px !important; }
+.icon-inline .premium-icon,
+button .premium-icon,
+#tab-general svg,
+#tab-email svg {
+  width: 17px !important;
+  height: 17px !important;
+  stroke-width: 1.85 !important;
+  flex: 0 0 auto !important;
+}
+.premium-badge-icon {
+  border-radius: 7px !important;
+  border-color: rgba(117,223,255,.38) !important;
+  background: linear-gradient(145deg, rgba(117,223,255,.15), rgba(117,223,255,.045)) !important;
+  color: #a8efff !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.06) !important;
+}
+/* Text-style caution marks remain clear without colorful emoji rendering differences by OS. */
+.purchase-warning,
+.important-warning { font-variant-emoji: text; }
+.purchase-warning::first-letter {
+  color: #ffc978 !important;
+  font-weight: 900 !important;
+}
+@media (max-width: 520px) {
+  #header-section .x-logo-wrap { border-radius: 19px !important; }
+  #header-section .x-logo-wrap::before { border-radius: 14px !important; }
+  #header-section .x-logo-svg { width: 61px !important; height: 61px !important; }
+  .product-name::before { margin-right: 7px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #header-section .x-logo-wrap { transition: none !important; }
 }
 </style>
 
