@@ -2300,25 +2300,9 @@ body{line-height:1.55!important;}
                     </div>
                     <div class="product-price mt-4">20,000<small> KRW</small></div>
                 </div>
-
-                <div class="x-inner product-card">
-                    <span class="product-badge">BULK 05</span>
-                    <div>
-                        <div class="product-name mt-3"><span class="icon-inline"><i data-lucide="package" class="premium-icon blue"></i><span>5개 일괄 구매 (할인)</span></span></div>
-                        <div class="product-note">5개 일괄 구매 할인</div>
-                    </div>
-                    <div class="product-price mt-4">70,000<small> KRW</small></div>
-                </div>
-
-                <div class="x-inner product-card">
-                    <span class="product-badge hot">BULK 10 · BEST</span>
-                    <div>
-                        <div class="product-name mt-3"><span class="icon-inline"><i data-lucide="package" class="premium-icon gold"></i><span>10개 일괄 구매 (할인)</span></span></div>
-                        <div class="product-note">10개 일괄 구매 할인</div>
-                    </div>
-                    <div class="product-price mt-4">130,000<small> KRW</small></div>
-                </div>
             </div>
+
+            <p class="text-xs md:text-sm text-[#aeb7c2] leading-relaxed">5개 이상 구매는 할인 가능하니 개별적으로 문의 주시길 바랍니다.</p>
 
                 <div class="border-t border-[#2f3336] pt-3 space-y-1 text-xs text-[#71767b]">
                     <p class="text-[#e7e9ea] font-bold"><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>송금 및 안전 거래 안내</span></span></p>
@@ -2402,14 +2386,6 @@ body{line-height:1.55!important;}
 
             <div class="x-inner result-field p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
-                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="hash" class="premium-icon blue"></i><span>발급 코드</span></span></span><em>ISSUED CODE</em></span>
-                    <div id="res-search-key" class="text-white font-bold text-sm truncate">정보 없음</div>
-                </div>
-                <button onclick="copyText('res-search-key', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
-            </div>
-
-            <div class="x-inner result-field p-3.5 flex items-center justify-between">
-                <div class="overflow-hidden mr-2 flex-1">
                     <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="badge-id" class="premium-icon blue"></i><span>계정 ID</span></span></span><em>IDENTIFIER</em></span>
                     <div id="res-account-id" class="text-white font-bold text-sm truncate">정보 없음</div>
                 </div>
@@ -2440,10 +2416,6 @@ body{line-height:1.55!important;}
                 <button onclick="copyText('res-email-pw', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
             </div>
 
-            <button id="btn-open-inbox" onclick="openInbox()" class="hidden w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer" style="border-color:#1d9bf0;color:#8ecdf8">
-                <span class="icon-inline"><i data-lucide="inbox" class="premium-icon blue"></i><span>이메일 확인함 열기</span></span>
-            </button>
-
             <div class="x-inner result-field p-3.5 flex items-center justify-between">
                 <div class="overflow-hidden mr-2 flex-1">
                     <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>실시간 2차 인증 (OTP) 번호</span></span></span><em>LIVE 2FA</em></span>
@@ -2454,6 +2426,18 @@ body{line-height:1.55!important;}
                 </div>
                 <button onclick="copyText('res-otp', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
             </div>
+
+            <div class="x-inner result-field p-3.5 flex items-center justify-between">
+                <div class="overflow-hidden mr-2 flex-1">
+                    <span class="result-label-line"><span><span class="icon-inline"><i data-lucide="hash" class="premium-icon blue"></i><span>발급 코드</span></span></span><em>ISSUED CODE</em></span>
+                    <div id="res-search-key" class="text-white font-bold text-sm truncate">정보 없음</div>
+                </div>
+                <button onclick="copyText('res-search-key', this)" class="x-btn-dark copy-btn text-xs px-3 py-1.5 shrink-0">복사</button>
+            </div>
+
+            <button id="btn-open-inbox" onclick="openInbox()" class="hidden w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer" style="border-color:#1d9bf0;color:#8ecdf8">
+                <span class="icon-inline"><i data-lucide="inbox" class="premium-icon blue"></i><span>이메일 확인함 열기</span></span>
+            </button>
 
             <button onclick="resetToHome()" 
                 class="w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer">
@@ -5120,6 +5104,7 @@ button[data-state="loading"].verify-btn::before{
 a.pay-badge-link{text-decoration:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 a.pay-badge-link:hover{border-color:#5b7082;background:#14181d}
 a.pay-badge-link:focus-visible{outline:2px solid #1d9bf0;outline-offset:2px}
+html body .pay-badges{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 @media(max-width:380px){.pay-badge-title{font-size:10.5px}.pay-badge-sub{font-size:8.5px}}
 </style>
 
@@ -5863,6 +5848,88 @@ button .premium-icon,
   .product-card .product-name { font-size: 14px !important; }
   .product-card .product-note, .product-name-note { font-size: 12px !important; }
   .product-price { font-size: 23px !important; }
+}
+</style>
+
+
+<style id="index-1321-final-design-polish">
+/* Final visual polish applied specifically to index 1321.html; no application logic changed. */
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+#main-card {
+  width: min(100% - 28px, 520px);
+  margin-inline: auto;
+  border-color: rgba(148,163,184,.18) !important;
+  box-shadow: 0 28px 90px rgba(0,0,0,.42), 0 1px 0 rgba(255,255,255,.035) inset !important;
+}
+.product-grid { gap: 12px !important; }
+.product-card {
+  min-width: 0;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease !important;
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(29,155,240,.48) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.2);
+}
+.x-input, input, select, textarea {
+  font-size: 16px;
+  max-width: 100%;
+}
+.x-input:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid rgba(29,155,240,.24);
+  outline-offset: 1px;
+}
+button, [role="button"], .copy-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: filter .16s ease, transform .16s ease, border-color .16s ease;
+}
+button:focus-visible, [role="button"]:focus-visible, a:focus-visible {
+  outline: 2px solid #1d9bf0 !important;
+  outline-offset: 3px;
+}
+#tab-general, #tab-email {
+  min-height: 42px;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+#result-box .result-field, .result-field {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#agreement-modal {
+  padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+}
+#agreement-modal > div {
+  max-height: calc(100dvh - 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+@media (max-width: 640px) {
+  #main-card {
+    width: calc(100% - 24px) !important;
+    margin: 12px auto !important;
+    padding: 20px !important;
+    border-radius: 20px !important;
+  }
+  #header-section .x-logo-wrap { transform: scale(.9); transform-origin: center; }
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 9px !important; }
+  .product-card { padding: 13px !important; min-height: 116px !important; }
+  .product-price { font-size: clamp(17px, 5vw, 21px) !important; }
+  .service-strip { gap: 6px !important; }
+  #result-box .result-field { padding-right: 66px !important; }
+  .copy-btn { right: 8px !important; }
+}
+@media (max-width: 380px) {
+  #main-card { width: calc(100% - 16px) !important; padding: 15px !important; }
+  .product-grid { gap: 7px !important; }
+  .product-card { padding: 10px !important; }
+  .product-note { font-size: 9px !important; }
+  #tab-general, #tab-email { font-size: 11px !important; letter-spacing: .02em !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 </style>
 
