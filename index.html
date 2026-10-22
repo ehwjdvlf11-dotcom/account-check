@@ -2284,7 +2284,7 @@ body{line-height:1.55!important;}
 
             <div class="product-grid">
                 <div class="x-inner product-card featured">
-                    <span class="product-badge hot"><span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>일반 계정</span></span></span>
+                    <span class="product-badge hot"><span class="icon-inline"><i data-lucide="user-round" class="premium-icon blue"></i><span>STANDARD</span></span></span>
                     <div>
                         <div class="product-name mt-3">일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div>
                         
@@ -2307,8 +2307,9 @@ body{line-height:1.55!important;}
                 <div class="border-t border-[#2f3336] pt-3 space-y-1 text-xs text-[#71767b]">
                     <p class="text-[#e7e9ea] font-bold"><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>송금 및 안전 거래 안내</span></span></p>
                     <div class="pay-badges">
-                    <a class="pay-badge pay-badge-link" href="https://open.kakao.com/o/sjPGWOFi" target="_blank" rel="noopener noreferrer" aria-label="카카오페이송금 구매하기 (오픈채팅, 새 창으로 열림)"><div class="pay-badge-icon kakao">Pay</div><div class="pay-badge-text"><div class="pay-badge-title">카카오페이송금</div><div class="pay-badge-sub">오픈채팅으로 실시간 문의 가능</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div></a>
-                    <a class="pay-badge pay-badge-link" href="https://kko.to/CPZG4qil-x" target="_blank" rel="noopener noreferrer" aria-label="컬쳐랜드 문화상품권 구매하기 (새 창으로 열림)"><div class="pay-badge-icon culture">CL</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div></a>
+                    <a class="pay-badge pay-badge-link" href="https://open.kakao.com/o/sjPGWOFi" target="_blank" rel="noopener noreferrer" aria-label="카카오페이 익명 송금 구매하기 (오픈채팅, 새 창으로 열림)"><div class="pay-badge-icon kakao">Pay</div><div class="pay-badge-text"><div class="pay-badge-title">카카오페이 익명 송금</div><div class="pay-badge-sub">오픈채팅으로 실시간 문의 가능</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div></a>
+                    <a class="pay-badge pay-badge-link pay-badge-with-integration" href="https://kko.to/CPZG4qil-x" target="_blank" rel="noopener noreferrer" aria-label="컬쳐랜드 문화상품권 구매하기 (카카오톡 선물하기 연동, 새 창으로 열림)"><div class="pay-badge-icon culture">CL</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div><div class="pay-integration-stamp" aria-label="카카오톡 선물하기 연동"><span class="pay-integration-logo talk-logo" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M20 5.5c-8.4 0-15.2 5.4-15.2 12.1 0 4.2 2.9 7.9 7.3 10l-1.6 6.3c-.1.5.4.8.8.5l7.1-4.4h1.6c8.4 0 15.2-5.4 15.2-12.1S28.4 5.5 20 5.5Z" fill="#241e18"/><path d="M14.3 16.1h11.4M20 16.1v9" stroke="#FEE500" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="pay-integration-label">카카오톡<br>선물하기 연동</span></div></a>
+                    <a class="pay-badge pay-badge-link kakaobank-coupon pay-badge-with-integration" href="https://kakaobank.onelink.me/0qMi/9lmr101v" target="_blank" rel="noopener noreferrer" aria-label="카카오뱅크 컬쳐랜드 문화상품권 구매하기 (카카오뱅크 연동, 새 창으로 열림)"><div class="pay-badge-icon kakaobank">KB</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div><div class="pay-integration-stamp" aria-label="카카오뱅크 연동"><span class="pay-integration-logo bank-logo" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><rect x="3" y="3" width="34" height="34" rx="11" fill="#FEE500"/><path d="M10 16.2 20 10l10 6.2v2H10z" fill="#2b2617"/><path d="M12.5 19.5h15M14 20v8m5-8v8m5-8v8M10.5 30h19" stroke="#2b2617" stroke-width="2.3" stroke-linecap="round"/></svg></span><span class="pay-integration-label">카카오뱅크<br>연동</span></div></a>
                 </div>
                 </div>
 
@@ -6168,6 +6169,380 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
   #step-price .pay-badge-icon { flex-basis: 40px !important; width: 40px !important; height: 40px !important; }
   #step-price .pay-badge-text { width: auto !important; }
+}
+</style>
+
+
+<style id="index-1321-v4-mobile-price-layout">
+/* Price cards: clean hierarchy, explicit second line for email-change details. */
+#step-price .product-card {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  align-items: stretch !important;
+  min-width: 0 !important;
+}
+#step-price .product-card > div:nth-of-type(1) {
+  min-width: 0 !important;
+  margin-top: 2px !important;
+}
+#step-price .product-name {
+  display: block !important;
+  min-width: 0 !important;
+  margin-top: 12px !important;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -.035em !important;
+  color: #f4f6fb !important;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+}
+#step-price .product-name-note {
+  display: block !important;
+  margin: 5px 0 0 !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  font-weight: 650 !important;
+  letter-spacing: -.015em !important;
+  color: #9ecbd9 !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
+}
+#step-price .product-price {
+  display: flex !important;
+  align-items: baseline !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+  margin-top: auto !important;
+  padding-top: 18px !important;
+  line-height: 1.08 !important;
+  white-space: nowrap !important;
+  font-size: clamp(21px, 5.8vw, 27px) !important;
+}
+#step-price .product-price small {
+  font-size: 10px !important;
+  line-height: 1.3 !important;
+  white-space: nowrap !important;
+}
+#step-price .product-badge {
+  align-self: flex-start !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+}
+@media (max-width: 520px) {
+  #step-price .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+  #step-price .product-card {
+    min-height: 176px !important;
+    height: 100% !important;
+    padding: 13px 12px 14px !important;
+    gap: 8px !important;
+    border-radius: 17px !important;
+  }
+  #step-price .product-badge {
+    padding: 6px 8px !important;
+    font-size: 8px !important;
+    letter-spacing: .08em !important;
+  }
+  #step-price .product-name {
+    margin-top: 10px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+  #step-price .product-name-note {
+    margin-top: 4px !important;
+    font-size: 10.5px !important;
+    line-height: 1.5 !important;
+  }
+  #step-price .product-price {
+    padding-top: 14px !important;
+    font-size: clamp(19px, 5.25vw, 23px) !important;
+    letter-spacing: -.055em !important;
+  }
+  #step-price .product-price small { font-size: 9px !important; }
+}
+@media (max-width: 360px) {
+  #step-price .product-grid { gap: 8px !important; }
+  #step-price .product-card { padding: 12px 10px 13px !important; min-height: 172px !important; }
+  #step-price .product-name { font-size: 12px !important; }
+  #step-price .product-name-note { font-size: 10px !important; }
+  #step-price .product-price { font-size: 18px !important; }
+  #step-price .product-price small { font-size: 8.5px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #step-price .product-card { transition: none !important; }
+}
+</style>
+
+<style id="v5-kakaobank-cultureland-card">
+/* Keep trade methods in individual, full-width rows for readable text. */
+#step-price .pay-badges{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+#step-price .pay-badge{width:100%!important;box-sizing:border-box!important;min-height:92px!important;padding:15px 16px!important;gap:14px!important}
+#step-price .pay-badge-text{flex:1 1 auto!important;min-width:0!important}
+#step-price .pay-badge-title{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+#step-price .pay-badge-icon.kakaobank{background:linear-gradient(145deg,#fff46b 0%,#ffe500 58%,#f4d400 100%)!important;color:#292513!important;border:1px solid rgba(255,239,99,.85)!important;border-radius:14px!important;font-size:11px!important;letter-spacing:-.05em!important;box-shadow:0 7px 18px rgba(251,221,0,.11),inset 0 1px 0 rgba(255,255,255,.72),inset 0 -2px 0 rgba(113,89,0,.08)!important}
+#step-price .pay-badge.kakaobank-coupon{border-color:rgba(255,229,0,.25)!important}
+#step-price .pay-badge.kakaobank-coupon:hover{border-color:rgba(255,229,0,.55)!important}
+@media(max-width:380px){#step-price .pay-badge{padding:13px 12px!important;gap:11px!important;min-height:86px!important}}
+</style>
+
+<style id="v6-integration-marks-compact">
+/* Compact premium payment rows; integration marks are centered in the right-hand segment. */
+#step-price .pay-badges {
+  gap: 8px !important;
+  margin-bottom: 13px !important;
+}
+#step-price .pay-badge {
+  min-height: 78px !important;
+  height: auto !important;
+  padding: 9px 12px !important;
+  gap: 11px !important;
+  border-radius: 15px !important;
+}
+#step-price .pay-badge-icon {
+  flex: 0 0 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+}
+#step-price .pay-badge-text {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+#step-price .pay-badge-title {
+  font-size: 12.5px !important;
+  line-height: 1.35 !important;
+  letter-spacing: -.03em !important;
+}
+#step-price .pay-badge-sub {
+  margin-top: 2px !important;
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+}
+#step-price .pay-badge-cta {
+  margin-top: 4px !important;
+  font-size: 10.5px !important;
+  line-height: 1.3 !important;
+}
+#step-price .pay-integration-stamp {
+  position: relative !important;
+  z-index: 1 !important;
+  flex: 0 0 112px !important;
+  width: 112px !important;
+  min-width: 0 !important;
+  align-self: stretch !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  margin-left: 3px !important;
+  padding-left: 11px !important;
+  border-left: 1px solid rgba(151, 174, 202, .2) !important;
+  text-align: center !important;
+}
+#step-price .pay-integration-logo {
+  flex: 0 0 29px !important;
+  width: 29px !important;
+  height: 29px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 9px !important;
+  overflow: hidden !important;
+  box-shadow: 0 3px 9px rgba(0,0,0,.17) !important;
+}
+#step-price .pay-integration-logo svg { display: block !important; width: 100% !important; height: 100% !important; }
+#step-price .pay-integration-logo.talk-logo { background: #FEE500 !important; }
+#step-price .pay-integration-logo.bank-logo { background: #FEE500 !important; }
+#step-price .pay-integration-label {
+  display: block !important;
+  max-width: 75px !important;
+  color: #c4cfde !important;
+  font-size: 9.5px !important;
+  font-weight: 750 !important;
+  line-height: 1.45 !important;
+  letter-spacing: -.035em !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+#step-price .pay-badge-with-integration:hover .pay-integration-stamp {
+  border-left-color: rgba(108, 233, 255, .35) !important;
+}
+@media (max-width: 420px) {
+  #step-price .pay-badge { min-height: 74px !important; padding: 8px 9px !important; gap: 8px !important; }
+  #step-price .pay-badge-icon { flex-basis: 36px !important; width: 36px !important; height: 36px !important; border-radius: 11px !important; }
+  #step-price .pay-badge-title { font-size: 11.5px !important; line-height: 1.35 !important; }
+  #step-price .pay-badge-sub { font-size: 9.5px !important; line-height: 1.35 !important; }
+  #step-price .pay-badge-cta { margin-top: 4px !important; font-size: 9.5px !important; }
+  #step-price .pay-integration-stamp { flex-basis: 103px !important; width: 103px !important; gap: 5px !important; margin-left: 1px !important; padding-left: 7px !important; }
+  #step-price .pay-integration-logo { flex-basis: 25px !important; width: 25px !important; height: 25px !important; border-radius: 8px !important; }
+  #step-price .pay-integration-label { max-width: 68px !important; font-size: 8.8px !important; }
+}
+@media (max-width: 350px) {
+  #step-price .pay-badge { gap: 6px !important; padding: 8px 7px !important; }
+  #step-price .pay-badge-icon { flex-basis: 32px !important; width: 32px !important; height: 32px !important; }
+  #step-price .pay-badge-title { font-size: 10.5px !important; }
+  #step-price .pay-badge-sub, #step-price .pay-badge-cta { font-size: 8.8px !important; }
+  #step-price .pay-integration-stamp { flex-basis: 91px !important; width: 91px !important; gap: 4px !important; padding-left: 5px !important; }
+  #step-price .pay-integration-logo { flex-basis: 22px !important; width: 22px !important; height: 22px !important; }
+  #step-price .pay-integration-label { max-width: 61px !important; font-size: 8.1px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #step-price .pay-badge { transition: none !important; }
+}
+</style>
+
+
+<style id="v8-modern-mobile-average-optimization">
+/* Tuned for common modern-phone CSS widths (390–430px), with fallbacks for 360–389px. */
+#step-price .product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+#step-price .product-card {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  min-height: 166px !important;
+  padding: 14px 12px 15px !important;
+}
+#step-price .product-card > div:nth-of-type(1) { width: 100% !important; min-width: 0 !important; }
+#step-price .product-card .product-name {
+  display: block !important;
+  margin-top: 12px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  letter-spacing: -.025em !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+}
+#step-price .product-card .product-name-note {
+  display: block !important;
+  margin-top: 4px !important;
+  font-size: 10.5px !important;
+  line-height: 1.4 !important;
+  font-weight: 650 !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+}
+#step-price .product-card .product-price {
+  margin-top: auto !important;
+  padding-top: 15px !important;
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  letter-spacing: -.035em !important;
+}
+#step-price .product-card .product-price small { font-size: 9px !important; }
+#step-price .product-card .product-badge { max-width: 100% !important; font-size: 9px !important; }
+
+/* Payment rows stay compact but readable; the integration mark has its own stable column. */
+#step-price .pay-badges { gap: 9px !important; }
+#step-price .pay-badge {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  min-height: 78px !important;
+  padding: 9px 11px !important;
+  gap: 9px !important;
+}
+#step-price .pay-badge-icon {
+  flex: 0 0 36px !important;
+  width: 36px !important;
+  height: 36px !important;
+}
+#step-price .pay-badge-text { flex: 1 1 auto !important; width: auto !important; min-width: 0 !important; }
+#step-price .pay-badge-title { font-size: 12px !important; line-height: 1.4 !important; }
+#step-price .pay-badge-sub { margin-top: 3px !important; font-size: 10.2px !important; line-height: 1.4 !important; }
+#step-price .pay-badge-cta { margin-top: 5px !important; font-size: 10.8px !important; line-height: 1.35 !important; }
+#step-price .pay-integration-stamp {
+  flex: 0 0 106px !important;
+  width: 106px !important;
+  box-sizing: border-box !important;
+  gap: 5px !important;
+  margin-left: 0 !important;
+  padding-left: 8px !important;
+}
+#step-price .pay-integration-logo { flex: 0 0 26px !important; width: 26px !important; height: 26px !important; }
+#step-price .pay-integration-label {
+  max-width: 71px !important;
+  font-size: 9px !important;
+  line-height: 1.4 !important;
+  letter-spacing: -.025em !important;
+  word-break: keep-all !important;
+}
+
+/* Common current-phone range. */
+@media (min-width: 390px) and (max-width: 430px) {
+  #step-price .product-grid { gap: 11px !important; }
+  #step-price .product-card { min-height: 170px !important; padding: 15px 13px 16px !important; }
+  #step-price .product-card .product-name { font-size: 13.2px !important; }
+  #step-price .product-card .product-name-note { font-size: 10.8px !important; }
+  #step-price .product-card .product-price { font-size: 21px !important; }
+  #step-price .pay-badge { min-height: 80px !important; padding: 10px 12px !important; gap: 10px !important; }
+  #step-price .pay-badge-icon { flex-basis: 37px !important; width: 37px !important; height: 37px !important; }
+  #step-price .pay-badge-title { font-size: 12.2px !important; }
+  #step-price .pay-badge-sub { font-size: 10.4px !important; }
+  #step-price .pay-badge-cta { font-size: 11px !important; }
+  #step-price .pay-integration-stamp { flex-basis: 108px !important; width: 108px !important; padding-left: 9px !important; }
+  #step-price .pay-integration-logo { flex-basis: 27px !important; width: 27px !important; height: 27px !important; }
+  #step-price .pay-integration-label { font-size: 9.2px !important; }
+}
+
+/* Slightly narrower Android/iPhone viewport widths: reduce padding before reducing type. */
+@media (min-width: 360px) and (max-width: 389px) {
+  #step-price .product-grid { gap: 8px !important; }
+  #step-price .product-card { min-height: 162px !important; padding: 12px 10px 13px !important; }
+  #step-price .product-card .product-name { font-size: 12.4px !important; }
+  #step-price .product-card .product-name-note { font-size: 10px !important; }
+  #step-price .product-card .product-price { font-size: 19px !important; }
+  #step-price .pay-badge { padding: 8px 9px !important; gap: 7px !important; min-height: 76px !important; }
+  #step-price .pay-badge-icon { flex-basis: 33px !important; width: 33px !important; height: 33px !important; }
+  #step-price .pay-badge-title { font-size: 11.3px !important; }
+  #step-price .pay-badge-sub { font-size: 9.6px !important; }
+  #step-price .pay-badge-cta { font-size: 10px !important; }
+  #step-price .pay-integration-stamp { flex-basis: 96px !important; width: 96px !important; gap: 4px !important; padding-left: 6px !important; }
+  #step-price .pay-integration-logo { flex-basis: 24px !important; width: 24px !important; height: 24px !important; }
+  #step-price .pay-integration-label { max-width: 62px !important; font-size: 8.6px !important; }
+}
+
+/* Narrowest phones: use a vertical logo + label in the integration column to keep both sides legible. */
+@media (max-width: 359px) {
+  #step-price .product-grid { gap: 7px !important; }
+  #step-price .product-card { min-height: 158px !important; padding: 11px 8px 12px !important; }
+  #step-price .product-card .product-name { font-size: 11.6px !important; }
+  #step-price .product-card .product-name-note { font-size: 9.5px !important; }
+  #step-price .product-card .product-price { font-size: 18px !important; }
+  #step-price .pay-badge { padding: 8px 7px !important; gap: 6px !important; min-height: 82px !important; }
+  #step-price .pay-badge-icon { flex-basis: 30px !important; width: 30px !important; height: 30px !important; }
+  #step-price .pay-badge-title { font-size: 10.4px !important; }
+  #step-price .pay-badge-sub { font-size: 9px !important; }
+  #step-price .pay-badge-cta { font-size: 9.4px !important; }
+  #step-price .pay-integration-stamp {
+    flex: 0 0 64px !important;
+    width: 64px !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    padding-left: 5px !important;
+    justify-content: center !important;
+  }
+  #step-price .pay-integration-logo { flex-basis: 23px !important; width: 23px !important; height: 23px !important; }
+  #step-price .pay-integration-label { max-width: 58px !important; font-size: 8.8px !important; line-height: 1.25 !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #step-price .pay-badge, #step-price .product-card { transition: none !important; }
 }
 </style>
 
