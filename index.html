@@ -2310,6 +2310,17 @@ body{line-height:1.55!important;}
                     <a class="pay-badge pay-badge-link" href="https://open.kakao.com/o/sjPGWOFi" target="_blank" rel="noopener noreferrer" aria-label="카카오페이 익명 송금 구매하기 (오픈채팅, 새 창으로 열림)"><div class="pay-badge-icon kakao">Pay</div><div class="pay-badge-text"><div class="pay-badge-title">카카오페이 익명 송금</div><div class="pay-badge-sub">오픈채팅으로 실시간 문의 가능</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div></a>
                     <a class="pay-badge pay-badge-link pay-badge-with-integration" href="https://kko.to/CPZG4qil-x" target="_blank" rel="noopener noreferrer" aria-label="컬쳐랜드 문화상품권 구매하기 (카카오톡 선물하기 연동, 새 창으로 열림)"><div class="pay-badge-icon culture">CL</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div><div class="pay-integration-stamp" aria-label="카카오톡 선물하기 연동"><span class="pay-integration-logo talk-logo" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M20 5.5c-8.4 0-15.2 5.4-15.2 12.1 0 4.2 2.9 7.9 7.3 10l-1.6 6.3c-.1.5.4.8.8.5l7.1-4.4h1.6c8.4 0 15.2-5.4 15.2-12.1S28.4 5.5 20 5.5Z" fill="#241e18"/><path d="M14.3 16.1h11.4M20 16.1v9" stroke="#FEE500" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="pay-integration-label">카카오톡<br>선물하기 연동</span></div></a>
                     <a class="pay-badge pay-badge-link kakaobank-coupon pay-badge-with-integration" href="https://kakaobank.onelink.me/0qMi/9lmr101v" target="_blank" rel="noopener noreferrer" aria-label="카카오뱅크 컬쳐랜드 문화상품권 구매하기 (카카오뱅크 연동, 새 창으로 열림)"><div class="pay-badge-icon kakaobank">KB</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div><div class="pay-integration-stamp" aria-label="카카오뱅크 연동"><span class="pay-integration-logo bank-logo" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><rect x="3" y="3" width="34" height="34" rx="11" fill="#FEE500"/><path d="M10 16.2 20 10l10 6.2v2H10z" fill="#2b2617"/><path d="M12.5 19.5h15M14 20v8m5-8v8m5-8v8M10.5 30h19" stroke="#2b2617" stroke-width="2.3" stroke-linecap="round"/></svg></span><span class="pay-integration-label">카카오뱅크<br>연동</span></div></a>
+                    <a class="pay-badge pay-badge-link pay-badge-with-integration naverpay-option" href="https://pay.naver.com/point-gift/send?inflowType=NPAY&amp;sessionId=u096qtnuwz" target="_blank" rel="noopener noreferrer" aria-label="네이버페이 포인트 선물하기 (네이버 연동, 새 창으로 열림)">
+                        <div class="pay-badge-icon naverpay" aria-hidden="true">N</div>
+                        <div class="pay-badge-text">
+                            <div class="pay-badge-title">네이버페이 포인트 선물</div>
+                            <div class="pay-badge-cta">눌러서 구매하기 ›</div>
+                        </div>
+                        <div class="pay-integration-stamp naver-integration" aria-label="네이버 연동">
+                            <span class="pay-integration-logo naver-logo" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><rect x="3" y="3" width="34" height="34" rx="10" fill="#03C75A"/><path d="M11 9h5.7L24 20V9h5v22h-5.7L16 19v12h-5z" fill="#fff"/></svg></span>
+                            <span class="pay-integration-label">네이버<br>연동</span>
+                        </div>
+                    </a>
                 </div>
                 </div>
 
@@ -2320,7 +2331,7 @@ body{line-height:1.55!important;}
                 </div>
                 <p class="text-[#c4c7cc] leading-relaxed">
                     <strong class="text-[#ff7b86]">단순 변심으로 인한 환불은 진행하지 않습니다.</strong>
-                    신중히 생각하고 구매해 주세요. <strong style="color:#7cc4ff;font-weight:800;">송금 확인 후 발급 코드를 전달해드립니다.</strong>
+                    신중히 생각하고 구매해 주세요. <strong class="notice-blue-line" style="color:#7cc4ff;font-weight:800;">송금 확인 후 발급 코드를 전달해드립니다.</strong>
                 </p>
                 <p class="text-[#aeb7c2] leading-relaxed">
                     양도받을 계정을 선택한 후, 해당 금액에 맞게 송금하고 카카오톡으로 메시지를 보내 주세요.
@@ -6543,6 +6554,778 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 @media (prefers-reduced-motion: reduce) {
   #step-price .pay-badge, #step-price .product-card { transition: none !important; }
+}
+</style>
+
+
+<style id="v9-naverpay-four-methods-two-by-two">
+/* Four premium payment choices in a clear 2 x 2 grid. */
+#step-price .pay-badges {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-rows: 1fr !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  margin: 8px 0 14px !important;
+}
+#step-price .pay-badge {
+  position: relative !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 188px !important;
+  height: 100% !important;
+  gap: 9px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+#step-price .pay-badge-icon {
+  flex: 0 0 34px !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  border-radius: 11px !important;
+  font-size: 11px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#step-price .pay-badge-icon.naverpay {
+  color: #fff !important;
+  background: linear-gradient(145deg, #16d66d 0%, #03c75a 60%, #00a84d 100%) !important;
+  border: 1px solid rgba(126,255,177,.42) !important;
+  box-shadow: 0 5px 14px rgba(3,199,90,.2), inset 0 1px 0 rgba(255,255,255,.28) !important;
+  font-size: 22px !important;
+  font-weight: 950 !important;
+  font-family: Arial, sans-serif !important;
+  line-height: 1 !important;
+}
+#step-price .pay-badge-text {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  gap: 0 !important;
+}
+#step-price .pay-badge-title {
+  width: 100% !important;
+  color: #f2f5fb !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  line-height: 1.42 !important;
+  letter-spacing: -.035em !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  overflow-wrap: anywhere !important;
+  word-break: keep-all !important;
+}
+#step-price .pay-badge-sub {
+  margin-top: 4px !important;
+  color: #a5b2c4 !important;
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: keep-all !important;
+}
+#step-price .pay-badge-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin-top: 7px !important;
+  color: #8eeaff !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+#step-price .pay-integration-stamp {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 31px !important;
+  margin: auto 0 0 !important;
+  padding: 8px 0 0 !important;
+  gap: 7px !important;
+  border-left: 0 !important;
+  border-top: 1px solid rgba(151,174,202,.19) !important;
+  text-align: left !important;
+}
+#step-price .pay-integration-logo {
+  display: grid !important;
+  flex: 0 0 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 7px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 7px rgba(0,0,0,.22) !important;
+}
+#step-price .pay-integration-logo svg { display: block !important; width: 100% !important; height: 100% !important; }
+#step-price .pay-integration-label {
+  display: block !important;
+  max-width: calc(100% - 30px) !important;
+  color: #b7c5d7 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+  letter-spacing: -.02em !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+#step-price .pay-badge:not(.pay-badge-with-integration) .pay-badge-cta { margin-top: 9px !important; }
+#step-price .pay-badge.naverpay-option { border-color: rgba(3,199,90,.26) !important; }
+#step-price .pay-badge.naverpay-option:hover { border-color: rgba(3,199,90,.62) !important; }
+#step-price .pay-integration-logo.naver-logo { background: #03C75A !important; }
+@media (min-width: 390px) and (max-width: 430px) {
+  #step-price .pay-badges { gap: 11px !important; }
+  #step-price .pay-badge { min-height: 194px !important; padding: 13px !important; }
+  #step-price .pay-badge-title { font-size: 12.2px !important; }
+  #step-price .pay-badge-sub { font-size: 10.2px !important; }
+}
+@media (min-width: 360px) and (max-width: 389px) {
+  #step-price .pay-badges { gap: 8px !important; }
+  #step-price .pay-badge { min-height: 190px !important; padding: 10px !important; }
+  #step-price .pay-badge-title { font-size: 11.3px !important; }
+  #step-price .pay-badge-sub { font-size: 9.4px !important; }
+  #step-price .pay-badge-cta { font-size: 9.5px !important; }
+}
+@media (max-width: 359px) {
+  #step-price .pay-badges { gap: 7px !important; }
+  #step-price .pay-badge { min-height: 188px !important; padding: 9px !important; gap: 8px !important; }
+  #step-price .pay-badge-icon { flex-basis: 30px !important; width: 30px !important; height: 30px !important; min-width: 30px !important; }
+  #step-price .pay-badge-title { font-size: 10.2px !important; }
+  #step-price .pay-badge-sub { font-size: 8.8px !important; }
+  #step-price .pay-badge-cta { font-size: 8.9px !important; }
+  #step-price .pay-integration-label { font-size: 8.2px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #step-price .pay-badge { transition: none !important; }
+}
+</style>
+
+
+
+<style id="v10-compact-premium-payment-cards">
+/* Refined, compact, consistent 2 x 2 payment cards. */
+#step-price .pay-badges {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-rows: minmax(0, 1fr) !important;
+  gap: 9px !important;
+  margin: 7px 0 12px !important;
+}
+#step-price .pay-badge {
+  min-height: 0 !important;
+  height: 164px !important;
+  padding: 10px !important;
+  gap: 6px !important;
+  border-radius: 14px !important;
+  background-image: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,0) 58%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 5px 15px rgba(0,0,0,.13) !important;
+}
+#step-price .pay-badge-icon {
+  flex: 0 0 29px !important;
+  width: 29px !important;
+  height: 29px !important;
+  min-width: 29px !important;
+  border-radius: 9px !important;
+  font-size: 10px !important;
+  letter-spacing: -.035em !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.22) !important;
+}
+#step-price .pay-badge-icon.kakao {
+  color: #252116 !important;
+  background: linear-gradient(145deg, #fff078, #fee500 72%, #ebd000) !important;
+  font-weight: 950 !important;
+}
+#step-price .pay-badge-icon.culture {
+  color: #fff !important;
+  background: linear-gradient(145deg, #ff6b7e 0%, #dc2947 72%, #b91c36 100%) !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  font-weight: 900 !important;
+}
+#step-price .pay-badge-icon.kakaobank {
+  color: #2b2617 !important;
+  background: linear-gradient(145deg, #fff078, #fee500 72%, #ebd000) !important;
+  font-weight: 950 !important;
+}
+#step-price .pay-badge-icon.naverpay {
+  color: #fff !important;
+  background: linear-gradient(145deg, #28df78 0%, #03c75a 58%, #009e46 100%) !important;
+  border: 1px solid rgba(126,255,177,.42) !important;
+  box-shadow: 0 3px 10px rgba(3,199,90,.18), inset 0 1px 0 rgba(255,255,255,.25) !important;
+  font-size: 19px !important;
+  font-weight: 950 !important;
+}
+#step-price .pay-badge-text { gap: 0 !important; }
+#step-price .pay-badge-title {
+  font-size: 11.4px !important;
+  line-height: 1.32 !important;
+  letter-spacing: -.025em !important;
+  font-weight: 850 !important;
+}
+#step-price .pay-badge-sub {
+  margin-top: 3px !important;
+  font-size: 9.2px !important;
+  line-height: 1.3 !important;
+  color: #aebbc9 !important;
+}
+#step-price .pay-badge-cta {
+  margin-top: 5px !important;
+  font-size: 9.2px !important;
+  line-height: 1.25 !important;
+  letter-spacing: -.01em !important;
+}
+#step-price .pay-integration-stamp {
+  min-height: 25px !important;
+  margin-top: auto !important;
+  padding-top: 5px !important;
+  gap: 5px !important;
+}
+#step-price .pay-integration-logo {
+  flex-basis: 19px !important;
+  width: 19px !important;
+  height: 19px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,.18) !important;
+}
+#step-price .pay-integration-label {
+  font-size: 8.2px !important;
+  line-height: 1.2 !important;
+  color: #bfcbd8 !important;
+  letter-spacing: -.015em !important;
+}
+#step-price .pay-badge .naver-recipient-id {
+  color: #8ee9b4 !important;
+  font-weight: 900 !important;
+  letter-spacing: .015em !important;
+  overflow-wrap: anywhere !important;
+}
+#step-price .pay-badge.naverpay-option {
+  border-color: rgba(3,199,90,.30) !important;
+}
+#step-price .pay-badge.naverpay-option:hover {
+  border-color: rgba(3,199,90,.66) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 7px 18px rgba(3,199,90,.09) !important;
+}
+@media (min-width: 390px) and (max-width: 430px) {
+  #step-price .pay-badges { gap: 9px !important; }
+  #step-price .pay-badge { height: 166px !important; padding: 10px !important; }
+  #step-price .pay-badge-title { font-size: 11.6px !important; }
+  #step-price .pay-badge-sub { font-size: 9.3px !important; }
+}
+@media (min-width: 360px) and (max-width: 389px) {
+  #step-price .pay-badges { gap: 8px !important; }
+  #step-price .pay-badge { height: 160px !important; padding: 9px !important; gap: 5px !important; }
+  #step-price .pay-badge-title { font-size: 10.7px !important; }
+  #step-price .pay-badge-sub { font-size: 8.7px !important; }
+  #step-price .pay-badge-cta { font-size: 8.8px !important; }
+  #step-price .pay-integration-label { font-size: 7.8px !important; }
+}
+@media (max-width: 359px) {
+  #step-price .pay-badges { gap: 7px !important; }
+  #step-price .pay-badge { height: 158px !important; padding: 8px !important; gap: 5px !important; }
+  #step-price .pay-badge-icon { flex-basis: 27px !important; width: 27px !important; height: 27px !important; min-width: 27px !important; }
+  #step-price .pay-badge-title { font-size: 9.8px !important; }
+  #step-price .pay-badge-sub { font-size: 8.2px !important; }
+  #step-price .pay-badge-cta { font-size: 8.3px !important; }
+  #step-price .pay-integration-logo { flex-basis: 17px !important; width: 17px !important; height: 17px !important; }
+  #step-price .pay-integration-label { font-size: 7.2px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #step-price .pay-badge { transition: none !important; }
+}
+</style>
+
+
+<style id="v11-trade-cards-tight-fit">
+/* Tight-fit transaction cards: reduce unused vertical space while preserving readable labels. */
+#step-price .pay-badges {
+  gap: 8px !important;
+  margin: 6px 0 9px !important;
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+}
+#step-price .pay-badge {
+  height: auto !important;
+  min-height: 130px !important;
+  padding: 9px !important;
+  gap: 5px !important;
+  border-radius: 13px !important;
+}
+#step-price .pay-badge-icon {
+  flex-basis: 27px !important;
+  width: 27px !important;
+  height: 27px !important;
+  min-width: 27px !important;
+  border-radius: 8px !important;
+}
+#step-price .pay-badge-title {
+  font-size: 11.3px !important;
+  line-height: 1.28 !important;
+}
+#step-price .pay-badge-sub {
+  margin-top: 2px !important;
+  font-size: 9px !important;
+  line-height: 1.28 !important;
+}
+#step-price .pay-badge-cta {
+  margin-top: 4px !important;
+  font-size: 9px !important;
+  line-height: 1.25 !important;
+}
+#step-price .pay-integration-stamp {
+  min-height: 22px !important;
+  padding-top: 4px !important;
+  gap: 4px !important;
+}
+#step-price .pay-integration-logo {
+  flex-basis: 17px !important;
+  width: 17px !important;
+  height: 17px !important;
+  border-radius: 5px !important;
+}
+#step-price .pay-integration-label {
+  max-width: calc(100% - 23px) !important;
+  font-size: 7.9px !important;
+  line-height: 1.18 !important;
+}
+#step-price .pay-badge .naver-recipient-id { white-space: nowrap !important; }
+@media (min-width: 390px) and (max-width: 430px) {
+  #step-price .pay-badge { min-height: 132px !important; padding: 9px !important; }
+  #step-price .pay-badge-title { font-size: 11.5px !important; }
+  #step-price .pay-badge-sub { font-size: 9px !important; }
+}
+@media (min-width: 360px) and (max-width: 389px) {
+  #step-price .pay-badges { gap: 7px !important; }
+  #step-price .pay-badge { min-height: 128px !important; padding: 8px !important; }
+  #step-price .pay-badge-title { font-size: 10.6px !important; }
+  #step-price .pay-badge-sub { font-size: 8.6px !important; }
+  #step-price .pay-badge-cta { font-size: 8.6px !important; }
+  #step-price .pay-integration-label { font-size: 7.5px !important; }
+}
+@media (max-width: 359px) {
+  #step-price .pay-badges { gap: 6px !important; }
+  #step-price .pay-badge { min-height: 126px !important; padding: 7px !important; gap: 4px !important; }
+  #step-price .pay-badge-icon { flex-basis: 25px !important; width: 25px !important; height: 25px !important; min-width: 25px !important; }
+  #step-price .pay-badge-title { font-size: 9.7px !important; }
+  #step-price .pay-badge-sub { font-size: 8.1px !important; }
+  #step-price .pay-badge-cta { font-size: 8.2px !important; }
+  #step-price .pay-integration-logo { flex-basis: 16px !important; width: 16px !important; height: 16px !important; }
+  #step-price .pay-integration-label { font-size: 7.1px !important; }
+}
+</style>
+
+
+<style id="v12-notice-blue-second-line">
+/* 구매 전 확인사항의 파란 강조문을 항상 별도 두 번째 줄에 표시 */
+#step-price .purchase-policy-notice .notice-blue-line {
+  display: block !important;
+  margin-top: 3px !important;
+  white-space: normal !important;
+  line-height: 1.75 !important;
+}
+</style>
+
+
+<style id="v14-unified-premium-square-icons">
+/* Unified premium payment marks: same square footprint, corner radius and visual weight. */
+#step-price .pay-badge-icon {
+  box-sizing: border-box !important;
+  flex: 0 0 29px !important;
+  width: 29px !important;
+  min-width: 29px !important;
+  height: 29px !important;
+  aspect-ratio: 1 / 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 7px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(0,0,0,.08) !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+}
+#step-price .pay-badge-icon::before,
+#step-price .pay-badge-icon::after { content: none !important; display: none !important; }
+#step-price .pay-badge-icon.kakao,
+#step-price .pay-badge-icon.kakaobank {
+  background: linear-gradient(145deg, #fff27a 0%, #fee500 66%, #e7cf00 100%) !important;
+  color: #29251a !important;
+  font-size: 9px !important;
+  font-weight: 950 !important;
+  letter-spacing: -.04em !important;
+}
+#step-price .pay-badge-icon.culture {
+  background: linear-gradient(145deg, #ff647b 0%, #dc2947 62%, #ad1a34 100%) !important;
+  color: #fff !important;
+  font-size: 9px !important;
+  font-weight: 950 !important;
+  letter-spacing: -.035em !important;
+  border-color: rgba(255,255,255,.24) !important;
+}
+#step-price .pay-badge-icon.naverpay {
+  background: linear-gradient(145deg, #26d977 0%, #03c75a 62%, #009a45 100%) !important;
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 950 !important;
+  letter-spacing: -.06em !important;
+  border-color: rgba(185,255,213,.45) !important;
+  box-shadow: 0 3px 8px rgba(3,199,90,.16), inset 0 1px 0 rgba(255,255,255,.28) !important;
+}
+/* Small integration marks use the same square silhouette across brands. */
+#step-price .pay-integration-logo {
+  box-sizing: border-box !important;
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  aspect-ratio: 1 / 1 !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  border-radius: 5px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,255,255,.19) !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.2) !important;
+}
+#step-price .pay-integration-logo svg { display: block !important; width: 100% !important; height: 100% !important; }
+#step-price .pay-integration-logo svg rect { rx: 4px !important; }
+#step-price .pay-integration-logo.talk-logo,
+#step-price .pay-integration-logo.bank-logo { background: #FEE500 !important; }
+#step-price .pay-integration-logo.naver-logo { background: #03C75A !important; }
+@media (min-width: 360px) and (max-width: 389px) {
+  #step-price .pay-badge-icon { flex-basis: 27px !important; width: 27px !important; min-width: 27px !important; height: 27px !important; border-radius: 6px !important; }
+  #step-price .pay-integration-logo { flex-basis: 17px !important; width: 17px !important; min-width: 17px !important; height: 17px !important; border-radius: 4px !important; }
+}
+@media (max-width: 359px) {
+  #step-price .pay-badge-icon { flex-basis: 25px !important; width: 25px !important; min-width: 25px !important; height: 25px !important; border-radius: 6px !important; }
+  #step-price .pay-integration-logo { flex-basis: 16px !important; width: 16px !important; min-width: 16px !important; height: 16px !important; border-radius: 4px !important; }
+}
+</style>
+
+<style id="v15-premium-design-overhaul">
+/* V15 — precise square marks and cohesive premium visual refinement. CSS-only; preserve existing HTML, links and scripts. */
+:root {
+  color-scheme: dark;
+  --lux-bg: #070a10;
+  --lux-panel: #0c1119;
+  --lux-panel-raised: #111823;
+  --lux-line: rgba(159, 178, 204, .18);
+  --lux-line-strong: rgba(159, 178, 204, .29);
+  --lux-text: #f4f6fb;
+  --lux-muted: #a3afbf;
+  --lux-cyan: #8ce7f3;
+  --lux-blue: #8ebdff;
+  --lux-violet: #b5a3ff;
+  --lux-gold: #d7bd83;
+}
+html { background: var(--lux-bg) !important; }
+body {
+  color: var(--lux-text) !important;
+  background:
+    radial-gradient(ellipse at 7% 20%, rgba(47, 143, 166, .12), transparent 34%),
+    radial-gradient(ellipse at 94% 70%, rgba(108, 76, 172, .13), transparent 37%),
+    linear-gradient(155deg, #080b12 0%, #06080d 55%, #0b0b14 100%) !important;
+  line-height: 1.58 !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+#main-card, #main-card.x-card {
+  box-sizing: border-box !important;
+  border: 1px solid rgba(166, 190, 217, .22) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(155deg, rgba(18, 24, 34, .97), rgba(7, 10, 15, .985) 52%, rgba(12, 12, 23, .98)) !important;
+  box-shadow: 0 28px 80px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.055) inset, 0 0 0 1px rgba(255,255,255,.018) !important;
+}
+#main-card::before { opacity: .28 !important; }
+#main-card::after { opacity: .12 !important; }
+.x-inner, .access-panel, #error-box, .result-storage-notice {
+  border: 1px solid var(--lux-line) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.008) 55%), var(--lux-panel) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+.x-inner:hover, .access-panel:hover {
+  border-color: rgba(140, 231, 243, .28) !important;
+  background: linear-gradient(145deg, rgba(140,231,243,.045), rgba(255,255,255,.008) 60%), var(--lux-panel) !important;
+}
+#header-section.premium-header { margin-bottom: 22px !important; }
+.premium-brand-lockup { gap: 13px !important; }
+.premium-hero-logo, .x-logo-wrap.premium-hero-logo {
+  border-radius: 13px !important;
+  border: 1px solid rgba(140,231,243,.33) !important;
+  background: linear-gradient(145deg, #152634, #0d131e 70%) !important;
+  box-shadow: 0 12px 26px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+.premium-kicker, .step-code {
+  color: #9daec1 !important;
+  letter-spacing: .19em !important;
+  font-weight: 800 !important;
+}
+.premium-brand-title {
+  color: #f6f8fc !important;
+  text-shadow: 0 2px 20px rgba(0,0,0,.24) !important;
+  letter-spacing: -.045em !important;
+}
+.premium-brand-line { height: 2px !important; background: linear-gradient(90deg, var(--lux-cyan), var(--lux-violet) 58%, transparent) !important; opacity: .85 !important; }
+.premium-service-badge {
+  border: 1px solid rgba(110, 218, 183, .24) !important;
+  background: rgba(25, 98, 75, .17) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.step-screen h2, .step-screen h3 { letter-spacing: -.025em !important; }
+/* Product pricing blocks: quieter borders, clear type hierarchy, matched baselines. */
+#step-price .product-card {
+  box-sizing: border-box !important;
+  border: 1px solid rgba(154,177,205,.22) !important;
+  border-radius: 16px !important;
+  padding: 17px !important;
+  background: linear-gradient(150deg, rgba(255,255,255,.035), transparent 54%), #0b1017 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 9px 24px rgba(0,0,0,.17) !important;
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease !important;
+}
+#step-price .product-card.featured {
+  border-color: rgba(112, 209, 232, .53) !important;
+  background: linear-gradient(145deg, rgba(52,146,170,.16), rgba(255,255,255,.016) 60%), #0b1017 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 25px rgba(20,122,148,.09) !important;
+}
+#step-price .product-card::after { opacity: .4 !important; }
+#step-price .product-badge { border-radius: 5px !important; background: rgba(10,15,22,.84) !important; }
+#step-price .product-price { font-variant-numeric: tabular-nums; letter-spacing: -.045em !important; }
+#step-price .product-price small { color: #9ba8b8 !important; }
+/* Payment cards are a clean 2x2 set; each logo is a true square tile with only a tiny corner radius. */
+#step-price .pay-badges {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+#step-price .pay-badge {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  padding: 12px !important;
+  gap: 7px !important;
+  border: 1px solid rgba(155,176,203,.2) !important;
+  border-radius: 14px !important;
+  color: var(--lux-text) !important;
+  background: linear-gradient(150deg, rgba(255,255,255,.035), rgba(255,255,255,.006) 65%), #0a0f16 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 8px 20px rgba(0,0,0,.18) !important;
+  text-decoration: none !important;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease !important;
+}
+#step-price .pay-badge:hover, #step-price .pay-badge:focus-visible {
+  border-color: rgba(140,231,243,.48) !important;
+  background: linear-gradient(145deg, rgba(140,231,243,.07), rgba(255,255,255,.008) 70%), #0b111a !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 24px rgba(0,0,0,.26) !important;
+  transform: translateY(-1px);
+}
+#step-price .pay-badge-icon {
+  box-sizing: border-box !important;
+  flex: 0 0 34px !important;
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 0 1px !important;
+  border: 1px solid rgba(255,255,255,.21) !important;
+  box-shadow: 0 4px 9px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.3) !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+#step-price .pay-badge-icon.kakao, #step-price .pay-badge-icon.kakaobank {
+  color: #282416 !important;
+  background: linear-gradient(145deg, #fff078, #fee500 70%, #e8d000) !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  letter-spacing: -.045em !important;
+}
+#step-price .pay-badge-icon.culture {
+  color: #fff !important;
+  background: linear-gradient(145deg, #fa536c, #d82142 72%, #b81d38) !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  border-color: rgba(255,255,255,.25) !important;
+  letter-spacing: -.04em !important;
+}
+#step-price .pay-badge-icon.naverpay {
+  color: #fff !important;
+  background: linear-gradient(145deg, #19d66b, #03c75a 64%, #009c48) !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 950 !important;
+  border-color: rgba(190,255,212,.44) !important;
+  box-shadow: 0 4px 10px rgba(3,199,90,.15), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+#step-price .pay-badge-text { gap: 1px !important; }
+#step-price .pay-badge-title {
+  color: #f4f6fb !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  line-height: 1.42 !important;
+  letter-spacing: -.025em !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+}
+#step-price .pay-badge-sub {
+  margin-top: 2px !important;
+  color: #a6b3c4 !important;
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+  word-break: keep-all !important;
+}
+#step-price .pay-badge-cta {
+  margin-top: 5px !important;
+  color: #8ce7f3 !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  line-height: 1.4 !important;
+}
+#step-price .pay-integration-stamp {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 27px !important;
+  margin: auto 0 0 !important;
+  padding: 7px 0 0 !important;
+  gap: 6px !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(154,176,205,.17) !important;
+  align-self: stretch !important;
+  display: flex !important;
+  align-items: center !important;
+}
+#step-price .pay-integration-logo {
+  box-sizing: border-box !important;
+  flex: 0 0 22px !important;
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,255,255,.2) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.2) !important;
+}
+#step-price .pay-integration-logo svg { width: 100% !important; height: 100% !important; display: block !important; }
+#step-price .pay-integration-logo svg rect { rx: 2px !important; }
+#step-price .pay-integration-label {
+  max-width: calc(100% - 28px) !important;
+  color: #b8c5d5 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -.015em !important;
+  word-break: keep-all !important;
+}
+#step-price .pay-badge.naverpay-option { border-color: rgba(3,199,90,.25) !important; }
+#step-price .pay-badge.naverpay-option:hover { border-color: rgba(3,199,90,.58) !important; }
+/* Purchase notice, access form, result fields and modal share the same design vocabulary. */
+#step-price .purchase-policy-notice {
+  border: 1px solid rgba(160,177,199,.2) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.025), transparent 62%), #0a0e15 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  line-height: 1.8 !important;
+}
+#step-price .purchase-policy-notice strong { font-weight: 850 !important; }
+#step-price .purchase-policy-notice .notice-blue-line { display: block !important; margin-top: 4px !important; }
+#step-query .access-panel { border-radius: 16px !important; }
+#step-query .access-status { color: #92a9c1 !important; }
+.x-input, #input-code, input[type="text"], input[type="email"], input[type="password"] {
+  border: 1px solid rgba(151,174,202,.28) !important;
+  border-radius: 10px !important;
+  background: #080d14 !important;
+  color: #f3f6fb !important;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.24) !important;
+}
+.x-input:focus, #input-code:focus, input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  border-color: rgba(140,231,243,.62) !important;
+  box-shadow: 0 0 0 3px rgba(140,231,243,.09), inset 0 1px 3px rgba(0,0,0,.2) !important;
+  outline: none !important;
+}
+.x-btn-white, .x-btn-dark, .verify-btn, #agreement-modal button {
+  border-radius: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: -.015em !important;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease !important;
+}
+.x-btn-white, .verify-btn {
+  border: 1px solid rgba(196,226,255,.3) !important;
+  background: linear-gradient(110deg, #86e9f3 0%, #8dc8ff 50%, #b7a0ff 100%) !important;
+  color: #07111a !important;
+  box-shadow: 0 8px 22px rgba(102,191,225,.12), inset 0 1px 0 rgba(255,255,255,.35) !important;
+}
+.x-btn-dark {
+  border: 1px solid rgba(154,176,205,.2) !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012)), #10151d !important;
+  color: #e5ebf3 !important;
+}
+.x-btn-white:hover, .verify-btn:hover, .x-btn-dark:hover { transform: translateY(-1px); }
+.x-btn-dark:hover { border-color: rgba(140,231,243,.38) !important; }
+.copy-btn { border-radius: 7px !important; border: 1px solid rgba(152,174,202,.24) !important; }
+#agreement-modal > div {
+  border: 1px solid rgba(165,188,214,.24) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(150deg, #131a25, #080b11 75%) !important;
+  box-shadow: 0 25px 90px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+#terms-box { border-radius: 11px !important; border-color: rgba(154,176,205,.2) !important; background: #080c12 !important; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid rgba(140,231,243,.78) !important; outline-offset: 3px !important; }
+@media (min-width: 700px) {
+  #main-card { max-width: 470px !important; }
+  #step-price .pay-badge { padding: 14px !important; }
+}
+@media (min-width: 390px) and (max-width: 430px) {
+  #main-card { border-radius: 19px !important; }
+  #step-price .pay-badge { padding: 11px !important; }
+  #step-price .pay-badge-icon { flex-basis: 32px !important; width: 32px !important; min-width: 32px !important; height: 32px !important; }
+}
+@media (min-width: 360px) and (max-width: 389px) {
+  #step-price .pay-badges { gap: 8px !important; }
+  #step-price .pay-badge { padding: 9px !important; }
+  #step-price .pay-badge-icon { flex-basis: 29px !important; width: 29px !important; min-width: 29px !important; height: 29px !important; }
+  #step-price .pay-badge-title { font-size: 10.7px !important; }
+  #step-price .pay-badge-sub, #step-price .pay-badge-cta { font-size: 9px !important; }
+  #step-price .pay-integration-logo { flex-basis: 19px !important; width: 19px !important; min-width: 19px !important; height: 19px !important; }
+  #step-price .pay-integration-label { font-size: 8px !important; }
+}
+@media (max-width: 359px) {
+  #main-card { padding: 12px !important; }
+  #step-price .pay-badges { gap: 7px !important; }
+  #step-price .pay-badge { padding: 8px !important; }
+  #step-price .pay-badge-icon { flex-basis: 27px !important; width: 27px !important; min-width: 27px !important; height: 27px !important; border-radius: 2px !important; }
+  #step-price .pay-badge-title { font-size: 9.6px !important; }
+  #step-price .pay-badge-sub, #step-price .pay-badge-cta { font-size: 8.3px !important; }
+  #step-price .pay-integration-logo { flex-basis: 17px !important; width: 17px !important; min-width: 17px !important; height: 17px !important; border-radius: 2px !important; }
+  #step-price .pay-integration-label { font-size: 7.3px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
 </style>
 
