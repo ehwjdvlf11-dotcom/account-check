@@ -2322,7 +2322,7 @@ body{line-height:1.55!important;}
                     <p class="text-[#e7e9ea] font-bold"><span class="icon-inline"><i data-lucide="shield-check" class="premium-icon green"></i><span>송금 및 안전 거래 안내</span></span></p>
                     <div class="pay-badges">
                     <a class="pay-badge pay-badge-link" href="https://open.kakao.com/o/sjPGWOFi" target="_blank" rel="noopener noreferrer" aria-label="카카오페이 익명 송금 구매하기 (오픈채팅, 새 창으로 열림)"><div class="pay-badge-icon kakao">Pay</div><div class="pay-badge-text"><div class="pay-badge-title">카카오페이 익명 송금</div><div class="pay-badge-sub">오픈채팅으로 실시간 문의 가능</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div></a>
-                    <a class="pay-badge pay-badge-link pay-badge-with-integration" href="https://kko.to/CPZG4qil-x" target="_blank" rel="noopener noreferrer" aria-label="컬쳐랜드 문화상품권 구매하기 (카카오톡 선물하기 연동, 새 창으로 열림)"><div class="pay-badge-icon culture">CL</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div><div class="pay-integration-stamp" aria-label="카카오톡 선물하기 연동"><span class="pay-integration-logo talk-logo" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M20 5.5c-8.4 0-15.2 5.4-15.2 12.1 0 4.2 2.9 7.9 7.3 10l-1.6 6.3c-.1.5.4.8.8.5l7.1-4.4h1.6c8.4 0 15.2-5.4 15.2-12.1S28.4 5.5 20 5.5Z" fill="#241e18"/><path d="M14.3 16.1h11.4M20 16.1v9" stroke="#FEE500" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="pay-integration-label">카카오톡<br>선물하기 연동</span></div></a>
+                    <a class="pay-badge pay-badge-link" href="https://kko.to/CPZG4qil-x" target="_blank" rel="noopener noreferrer" aria-label="컬쳐랜드 문화상품권 구매하기, 새 창으로 열림"><div class="pay-badge-icon culture">CL</div><div class="pay-badge-text"><div class="pay-badge-title">컬쳐랜드 문화상품권</div><div class="pay-badge-sub">(+5,000원 추가금 발생)</div><div class="pay-badge-cta">눌러서 구매하기 ›</div></div></a>
                 </div>
                 </div>
 
@@ -8426,6 +8426,846 @@ button:disabled { cursor: not-allowed !important; filter: saturate(.55); }
   #main-card.result-mode .result-back-title { font-size:7px!important; letter-spacing:.09em!important; }
 }
 @media(prefers-reduced-motion:reduce){ #main-card.result-mode .result-back-button { transition:none!important; } }
+</style>
+
+<style id="v26-account-layout-typography">
+/* V26 — balanced mobile account-result layout and readable type. Result screen only. */
+#main-card.result-mode {
+  width:min(calc(100vw - 22px), 430px)!important; max-width:430px!important;
+  margin:6px auto!important; padding:13px!important; box-sizing:border-box!important;
+  border-radius:12px!important; border-color:rgba(154,178,199,.24)!important;
+  background:linear-gradient(150deg,rgba(255,255,255,.025),rgba(255,255,255,.004) 46%),#080b0f!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.035)!important;
+}
+#main-card.result-mode #result-box {
+  display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:stretch!important; gap:8px!important; width:100%!important;
+  margin:0!important; padding:0!important; min-width:0!important;
+}
+#main-card.result-mode #result-box > * { min-width:0!important; max-width:100%!important; margin:0!important; box-sizing:border-box!important; }
+#main-card.result-mode #result-box > .result-backbar {
+  grid-column:1/-1!important; display:flex!important; align-items:center!important; justify-content:space-between!important;
+  gap:8px!important; padding:0 0 9px!important; border-bottom:1px solid rgba(151,177,198,.17)!important;
+  margin-bottom:1px!important;
+}
+#main-card.result-mode .result-back-button {
+  min-height:34px!important; height:34px!important; padding:0 11px!important; gap:7px!important;
+  border-radius:6px!important; border:1px solid rgba(147,174,195,.22)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.008)),#0c1116!important;
+  color:#c4d0da!important; font:600 11px/1 'Pretendard',sans-serif!important; letter-spacing:-.02em!important;
+}
+#main-card.result-mode .result-back-arrow { font-size:16px!important; color:#86cce8!important; }
+#main-card.result-mode .result-back-title { font-size:8px!important; letter-spacing:.14em!important; color:#728394!important; }
+/* Product type becomes one compact horizontal summary row. */
+#main-card.result-mode #result-box > .result-backbar + .x-inner {
+  grid-column:1/-1!important; display:flex!important; align-items:center!important; justify-content:space-between!important;
+  gap:12px!important; min-height:50px!important; padding:9px 11px!important;
+  border:1px solid rgba(91,162,202,.23)!important; border-radius:8px!important;
+  background:linear-gradient(100deg,rgba(39,125,171,.10),rgba(255,255,255,.008) 66%),#0b1016!important;
+}
+#main-card.result-mode #result-box > .result-backbar + .x-inner .result-label-line {
+  display:flex!important; align-items:center!important; margin:0!important; gap:7px!important; white-space:nowrap!important;
+}
+#main-card.result-mode #result-box > .result-backbar + .x-inner .result-label-line > span { font-size:11px!important; color:#a8b7c5!important; }
+#main-card.result-mode #result-box > .result-backbar + .x-inner .result-label-line em { display:none!important; }
+#main-card.result-mode #result-box > .result-backbar + .x-inner #res-product-type {
+  width:auto!important; margin:0!important; text-align:right!important; font-size:14px!important;
+  line-height:1.25!important; font-weight:750!important; color:#f2f6f9!important; letter-spacing:-.025em!important;
+  overflow-wrap:anywhere!important;
+}
+/* Account ID + password share a row with aligned labels, values and copy controls. */
+#main-card.result-mode #result-box .result-field {
+  display:flex!important; align-items:center!important; justify-content:space-between!important; gap:7px!important;
+  min-height:72px!important; padding:10px 9px!important; border:1px solid rgba(145,166,184,.17)!important;
+  border-radius:8px!important; background:linear-gradient(145deg,rgba(255,255,255,.018),transparent 72%),#0b0f14!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.018)!important;
+}
+#main-card.result-mode #result-box .result-field > div:first-child { flex:1 1 auto!important; min-width:0!important; margin:0!important; align-self:center!important; }
+#main-card.result-mode #result-box .result-field .result-label-line {
+  display:flex!important; align-items:center!important; justify-content:flex-start!important; gap:6px!important;
+  width:100%!important; margin:0 0 6px!important; line-height:1.25!important; min-width:0!important;
+}
+#main-card.result-mode #result-box .result-field .result-label-line > span {
+  display:flex!important; align-items:center!important; min-width:0!important; font-size:10.5px!important;
+  font-weight:550!important; line-height:1.25!important; letter-spacing:-.025em!important; color:#9eafbd!important;
+  white-space:normal!important; overflow-wrap:anywhere!important;
+}
+#main-card.result-mode #result-box .result-field .result-label-line em { display:none!important; }
+#main-card.result-mode #result-box .result-field .result-label-line svg,
+#main-card.result-mode #result-box .result-field .result-label-line i { width:14px!important; height:14px!important; flex:0 0 14px!important; }
+#main-card.result-mode #result-box .result-field [id^="res-"]:not(#res-otp-timer) {
+  display:block!important; max-width:100%!important; min-width:0!important; overflow:hidden!important;
+  text-overflow:ellipsis!important; white-space:nowrap!important; color:#f1f5f8!important;
+  font-size:13.2px!important; font-weight:750!important; line-height:1.28!important;
+  letter-spacing:-.02em!important; font-variant-numeric:tabular-nums!important;
+}
+#main-card.result-mode #result-box .result-field .copy-btn {
+  position:static!important; flex:0 0 auto!important; transform:none!important; min-width:39px!important; width:39px!important;
+  max-width:39px!important; height:31px!important; min-height:31px!important; padding:0 4px!important;
+  border:1px solid rgba(154,178,197,.19)!important; border-radius:5px!important; background:#111820!important;
+  color:#c5d2dc!important; font-size:10px!important; font-weight:650!important; letter-spacing:-.02em!important;
+  box-shadow:none!important;
+}
+#main-card.result-mode #result-box .result-field .copy-btn:hover { border-color:rgba(111,196,227,.42)!important; color:#effaff!important; }
+/* OTP and issuance code are full-width emphasis rows. */
+#main-card.result-mode #result-box .result-field:has(#res-otp),
+#main-card.result-mode #result-box .result-field:has(#res-search-key) { grid-column:1/-1!important; }
+#main-card.result-mode #result-box .result-field:has(#res-otp) {
+  min-height:78px!important; padding:11px 12px!important; border-color:rgba(67,161,206,.32)!important;
+  background:linear-gradient(100deg,rgba(27,120,165,.12),rgba(255,255,255,.006) 74%),#0a1118!important;
+}
+#main-card.result-mode #result-box .result-field:has(#res-otp) .result-label-line { margin-bottom:7px!important; }
+#main-card.result-mode #result-box .result-field:has(#res-otp) .result-label-line > span { font-size:11px!important; }
+#main-card.result-mode #result-box #res-otp { font-size:25px!important; line-height:1!important; letter-spacing:.16em!important; color:#9bdcff!important; text-shadow:0 0 18px rgba(72,173,226,.13)!important; }
+#main-card.result-mode #result-box #otp-ring { width:31px!important; height:31px!important; flex:0 0 31px!important; }
+#main-card.result-mode #result-box #res-otp-timer { font-size:9px!important; }
+#main-card.result-mode #result-box .result-field:has(#res-search-key) { min-height:64px!important; }
+#main-card.result-mode #result-box #res-search-key { font-size:13.5px!important; letter-spacing:.025em!important; }
+/* Actions align as a pair when inbox is available, otherwise the main action spans full width. */
+#main-card.result-mode #result-box > #btn-open-inbox:not(.hidden),
+#main-card.result-mode #result-box > button:last-of-type { grid-column:span 1!important; }
+#main-card.result-mode #result-box:has(#btn-open-inbox.hidden) > button:last-of-type { grid-column:1/-1!important; }
+#main-card.result-mode #result-box > button {
+  display:flex!important; align-items:center!important; justify-content:center!important; gap:7px!important;
+  min-width:0!important; min-height:41px!important; height:41px!important; padding:0 9px!important;
+  border-radius:7px!important; font-size:11px!important; font-weight:650!important; letter-spacing:-.02em!important;
+  border-color:rgba(145,173,195,.2)!important; background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),#0d1319!important;
+}
+#main-card.result-mode #result-box > #btn-open-inbox:not(.hidden) { color:#9bd8f3!important; border-color:rgba(88,177,220,.34)!important; }
+#main-card.result-mode #result-storage-notice {
+  grid-column:1/-1!important; margin:0!important; padding:10px 11px!important; border:1px solid rgba(186,157,92,.24)!important;
+  border-left:3px solid #9b8857!important; border-radius:8px!important; background:linear-gradient(120deg,rgba(168,137,61,.055),transparent 65%),#0b0d0e!important;
+  color:#a9b3bc!important; font-size:10px!important; line-height:1.48!important;
+}
+#main-card.result-mode #result-storage-notice .result-storage-notice__heading { gap:7px!important; margin:0 0 5px!important; color:#d6c28d!important; font-size:11px!important; font-weight:700!important; }
+#main-card.result-mode #result-storage-notice .result-storage-notice__heading svg { width:14px!important; height:14px!important; }
+#main-card.result-mode #result-storage-notice p { margin:3px 0 0!important; font-size:10px!important; line-height:1.45!important; color:#a5afb8!important; overflow-wrap:anywhere!important; }
+#main-card.result-mode #result-storage-notice p.result-storage-notice__muted { color:#78858f!important; }
+@media(max-width:390px){
+  #main-card.result-mode { padding:10px!important; }
+  #main-card.result-mode #result-box { gap:6px!important; }
+  #main-card.result-mode #result-box .result-field { min-height:68px!important; padding:8px 7px!important; gap:5px!important; }
+  #main-card.result-mode #result-box .result-field .result-label-line > span { font-size:10px!important; }
+  #main-card.result-mode #result-box .result-field [id^="res-"]:not(#res-otp-timer) { font-size:12.5px!important; }
+  #main-card.result-mode #result-box .result-field .copy-btn { min-width:35px!important; width:35px!important; max-width:35px!important; height:29px!important; min-height:29px!important; font-size:9px!important; }
+  #main-card.result-mode #result-box .result-field:has(#res-otp) { min-height:72px!important; }
+  #main-card.result-mode #result-box #res-otp { font-size:23px!important; }
+  #main-card.result-mode #result-storage-notice { padding:8px 9px!important; }
+}
+@media(max-width:350px){
+  #main-card.result-mode #result-box .result-field { padding:7px 6px!important; }
+  #main-card.result-mode #result-box .result-field .copy-btn { min-width:32px!important; width:32px!important; max-width:32px!important; }
+  #main-card.result-mode #result-box .result-field [id^="res-"]:not(#res-otp-timer) { font-size:11.5px!important; }
+  #main-card.result-mode #result-box .result-label-line > span { font-size:9.5px!important; }
+}
+@media(prefers-reduced-motion:reduce){#main-card.result-mode,#main-card.result-mode *{animation:none!important;transition:none!important}}
+</style>
+
+<style id="v27-product-type-alignment-fix">
+/* V27: Keep the product type close to its label; avoid pushing the value to the far edge. */
+#main-card.result-mode #result-box > .result-backbar + .x-inner {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  gap:4px!important;
+  min-height:58px!important;
+  padding:9px 11px!important;
+}
+#main-card.result-mode #result-box > .result-backbar + .x-inner .result-label-line {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  width:100%!important;
+  margin:0!important;
+  text-align:left!important;
+  white-space:normal!important;
+}
+#main-card.result-mode #result-box > .result-backbar + .x-inner .result-label-line > span {
+  flex:0 1 auto!important;
+  width:auto!important;
+  text-align:left!important;
+}
+#main-card.result-mode #result-box > .result-backbar + .x-inner #res-product-type {
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  text-align:left!important;
+  font-size:14px!important;
+  line-height:1.3!important;
+  letter-spacing:-.02em!important;
+  overflow-wrap:anywhere!important;
+}
+</style>
+
+<style id="v28-price-screen-compact-spacing">
+/* V28: tighten vertical rhythm on the initial price / purchase screen without shrinking body text excessively. */
+#step-price.space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 8px !important; }
+#step-price > .flex.justify-between.items-center.mb-1 { margin: 0 !important; min-height: 18px !important; }
+#step-price .step-head { padding: 5px 0 8px !important; margin: 0 !important; }
+#step-price .step-head .text-lg,
+#step-price .step-head .text-xl { line-height: 1.25 !important; }
+#step-price .product-grid { gap: 8px !important; margin-top: 0 !important; }
+#step-price .product-card { min-height: 91px !important; padding: 10px !important; }
+#step-price .product-name { margin-top: 6px !important; line-height: 1.25 !important; }
+#step-price .product-name .product-name-note { margin-top: 2px !important; line-height: 1.25 !important; }
+#step-price .product-price { padding-top: 7px !important; margin-top: auto !important; line-height: 1 !important; }
+#step-price > p.text-xs { margin: 0 !important; line-height: 1.4 !important; }
+#step-price .purchase-policy-notice { padding: 9px 10px !important; }
+#step-price .purchase-policy-notice > .flex { margin-bottom: 0 !important; gap: 6px !important; }
+#step-price .purchase-policy-notice p { margin-top: 4px !important; line-height: 1.43 !important; }
+#step-price .purchase-policy-notice p:first-of-type { margin-top: 4px !important; }
+#step-price .purchase-policy-notice p:last-child { margin-bottom: 0 !important; }
+#step-price .purchase-policy-notice .notice-blue-line { margin-top: 2px !important; }
+#step-price > .border-t.border-\[\#2f3336\] { padding-top: 7px !important; margin-top: 7px !important; }
+#step-price > .border-t.border-\[\#2f3336\] > p { margin: 0 !important; line-height: 1.35 !important; }
+#step-price .pay-badges { gap: 7px !important; margin: 6px 0 0 !important; }
+#step-price .pay-badge { min-height: 92px !important; padding: 8px !important; gap: 6px !important; }
+#step-price .pay-badge-icon { width: 27px !important; min-width: 27px !important; height: 27px !important; flex-basis: 27px !important; }
+#step-price .pay-badge-title { line-height: 1.28 !important; }
+#step-price .pay-badge-sub { margin-top: 2px !important; line-height: 1.3 !important; }
+#step-price .pay-badge-cta { margin-top: 4px !important; line-height: 1.25 !important; }
+#step-price .pay-badge-with-integration .pay-integration-stamp { padding-top: 4px !important; gap: 4px !important; }
+#step-price .flex.items-center.gap-3.x-inner { padding: 8px 10px !important; gap: 8px !important; }
+#step-price label[for="agree-price-checkbox"] { line-height: 1.35 !important; }
+#step-price #btn-next-price { min-height: 40px !important; padding: 9px 12px !important; line-height: 1.2 !important; }
+@media (max-width: 560px) {
+  #step-price.space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 7px !important; }
+  #step-price .step-head { padding: 4px 0 7px !important; }
+  #step-price .product-card { min-height: 86px !important; padding: 9px !important; }
+  #step-price .product-name { font-size: 11.5px !important; }
+  #step-price .product-name .product-name-note { font-size: 9px !important; }
+  #step-price .product-price { font-size: 18px !important; padding-top: 6px !important; }
+  #step-price .purchase-policy-notice { padding: 8px 9px !important; }
+  #step-price .purchase-policy-notice p { font-size: 10px !important; line-height: 1.4 !important; }
+  #step-price .pay-badges { gap: 6px !important; }
+  #step-price .pay-badge { min-height: 86px !important; padding: 7px !important; }
+  #step-price .pay-badge-title { font-size: 9.7px !important; }
+  #step-price .pay-badge-sub { font-size: 8.5px !important; }
+  #step-price .pay-badge-cta { font-size: 8.8px !important; }
+  #step-price .pay-integration-label { font-size: 7.2px !important; }
+  #step-price .flex.items-center.gap-3.x-inner { padding: 7px 9px !important; }
+}
+@media (max-width: 380px) {
+  #step-price.space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 6px !important; }
+  #step-price .product-card { min-height: 82px !important; padding: 8px !important; }
+  #step-price .pay-badge { min-height: 82px !important; }
+}
+</style>
+
+
+<style id="v29-compact-premium-payment-rows">
+/* V29: compact, readable payment list. One method per horizontal row. */
+#step-price .pay-badges{
+  display:flex!important; flex-direction:column!important; align-items:stretch!important;
+  gap:7px!important; width:100%!important; margin:7px 0 8px!important;
+}
+#step-price .pay-badge{
+  display:grid!important;
+  grid-template-columns:38px minmax(0,1fr) auto!important;
+  grid-template-rows:auto auto auto!important;
+  align-items:center!important; align-content:center!important;
+  column-gap:10px!important; row-gap:2px!important;
+  width:100%!important; min-width:0!important; min-height:72px!important; height:auto!important;
+  padding:9px 11px!important; box-sizing:border-box!important;
+  border-radius:10px!important; border:1px solid rgba(164,184,207,.19)!important;
+  background:linear-gradient(100deg,rgba(124,231,245,.045),transparent 38%),linear-gradient(145deg,#101720,#0a0e14 76%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.04),0 5px 15px rgba(0,0,0,.16)!important;
+  text-decoration:none!important; overflow:hidden!important; position:relative!important;
+}
+#step-price .pay-badge::before{
+  content:""!important; position:absolute!important; left:0!important; top:12px!important; bottom:12px!important;
+  width:2px!important; background:linear-gradient(180deg,transparent,#78dbe9,transparent)!important; opacity:.8!important;
+  pointer-events:none!important;
+}
+#step-price .pay-badge::after{content:none!important;}
+#step-price .pay-badge-icon{
+  grid-column:1!important; grid-row:1 / 4!important; align-self:center!important; justify-self:start!important;
+  width:38px!important; min-width:38px!important; flex:0 0 38px!important; height:38px!important;
+  border-radius:8px!important; margin:0!important; font-size:10px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.26),0 4px 10px rgba(0,0,0,.22)!important;
+  position:relative!important; z-index:1!important;
+}
+#step-price .pay-badge-icon.kakao{border-radius:9px 9px 9px 4px!important;}
+#step-price .pay-badge-icon.kakao::after{left:3px!important;bottom:-3px!important;width:7px!important;height:7px!important;}
+#step-price .pay-badge-icon.culture{border-radius:8px!important;}
+#step-price .pay-badge-icon.culture::after{left:7px!important;right:7px!important;bottom:5px!important;height:1px!important;}
+#step-price .pay-badge-text{display:contents!important;}
+#step-price .pay-badge-title{
+  grid-column:2!important; grid-row:1!important; align-self:end!important; justify-self:stretch!important;
+  min-width:0!important; width:100%!important; margin:0!important;
+  color:#edf3f9!important; font-size:12.5px!important; font-weight:800!important; line-height:1.25!important;
+  letter-spacing:-.025em!important; overflow-wrap:anywhere!important; word-break:keep-all!important;
+}
+#step-price .pay-badge-sub{
+  grid-column:2!important; grid-row:2!important; align-self:start!important; justify-self:stretch!important;
+  min-width:0!important; width:100%!important; margin:0!important;
+  color:#9eacbd!important; font-size:10px!important; font-weight:500!important; line-height:1.3!important;
+  overflow-wrap:anywhere!important; word-break:keep-all!important;
+}
+#step-price .pay-badge-cta{
+  grid-column:3!important; grid-row:1 / 4!important; align-self:center!important; justify-self:end!important;
+  display:inline-flex!important; align-items:center!important; justify-content:center!important; gap:4px!important;
+  max-width:100%!important; min-width:0!important; margin:0!important; padding:8px 9px!important;
+  border-radius:6px!important; border:1px solid rgba(124,231,245,.20)!important;
+  background:rgba(40,103,122,.13)!important; color:#93e7f1!important;
+  font-size:9.5px!important; font-weight:800!important; line-height:1.2!important; white-space:nowrap!important;
+}
+#step-price .pay-badge-cta::after{content:"↗"!important; margin-left:1px!important; font-size:11px!important; opacity:.9!important;}
+#step-price .pay-badge-with-integration{min-height:82px!important;}
+#step-price .pay-badge-with-integration .pay-integration-stamp{
+  grid-column:2!important; grid-row:3!important; align-self:start!important; justify-self:start!important;
+  display:inline-flex!important; flex-direction:row!important; align-items:center!important; justify-content:flex-start!important;
+  width:auto!important; max-width:100%!important; min-width:0!important; min-height:0!important; height:auto!important;
+  margin:1px 0 0!important; padding:2px 6px 2px 0!important; gap:5px!important;
+  border:0!important; border-top:0!important; background:transparent!important; text-align:left!important;
+}
+#step-price .pay-integration-logo{
+  display:grid!important; flex:0 0 15px!important; width:15px!important; min-width:15px!important; height:15px!important;
+  border-radius:4px!important; box-shadow:none!important; overflow:hidden!important;
+}
+#step-price .pay-integration-logo svg{display:block!important;width:100%!important;height:100%!important;}
+#step-price .pay-integration-label{
+  display:inline-block!important; max-width:100%!important; color:#a8b9c9!important; font-size:8.5px!important;
+  font-weight:700!important; line-height:1.2!important; letter-spacing:-.015em!important; white-space:nowrap!important;
+}
+#step-price .pay-integration-label br{display:none!important;}
+#step-price .pay-badge:hover,#step-price .pay-badge:focus-visible{
+  border-color:rgba(124,231,245,.38)!important; background:linear-gradient(100deg,rgba(124,231,245,.07),transparent 42%),linear-gradient(145deg,#131d28,#0b1017 76%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 8px 20px rgba(0,0,0,.23)!important;
+}
+#step-price .pay-badge:active{transform:scale(.992)!important;}
+@media(max-width:420px){
+  #step-price .pay-badge{grid-template-columns:35px minmax(0,1fr) auto!important;column-gap:8px!important;min-height:68px!important;padding:8px 9px!important;}
+  #step-price .pay-badge-icon{width:35px!important;min-width:35px!important;flex-basis:35px!important;height:35px!important;}
+  #step-price .pay-badge-title{font-size:12px!important;}
+  #step-price .pay-badge-sub{font-size:9.5px!important;}
+  #step-price .pay-badge-cta{font-size:9px!important;padding:7px 7px!important;}
+  #step-price .pay-badge-with-integration{min-height:78px!important;}
+  #step-price .pay-integration-label{font-size:8px!important;}
+}
+@media(max-width:360px){
+  #step-price .pay-badge{grid-template-columns:31px minmax(0,1fr) auto!important;column-gap:7px!important;padding:8px!important;}
+  #step-price .pay-badge-icon{width:31px!important;min-width:31px!important;flex-basis:31px!important;height:31px!important;font-size:9px!important;}
+  #step-price .pay-badge-title{font-size:11.5px!important;}
+  #step-price .pay-badge-sub{font-size:9px!important;}
+  #step-price .pay-badge-cta{font-size:8.5px!important;padding:6px 6px!important;}
+  #step-price .pay-badge-with-integration{min-height:76px!important;}
+  #step-price .pay-integration-label{font-size:7.5px!important;}
+}
+@media(prefers-reduced-motion:reduce){#step-price .pay-badge{transition:none!important;}}
+</style>
+
+
+<style id="v30-slim-two-up-payment-cards">
+/* V30: compact two-up payment cards; preserve original destinations and handlers. */
+#step-price .pay-badges{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  gap:9px!important;
+  margin:7px 0 9px!important;
+}
+#step-price .pay-badge{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  grid-template-rows:28px auto auto auto!important;
+  align-content:start!important;
+  align-items:center!important;
+  column-gap:6px!important;
+  row-gap:3px!important;
+  min-width:0!important;
+  min-height:112px!important;
+  height:auto!important;
+  padding:10px!important;
+  border-radius:8px!important;
+  border:1px solid rgba(151,174,199,.20)!important;
+  background:linear-gradient(145deg,rgba(124,231,245,.045),transparent 52%),linear-gradient(160deg,#111820,#090d12 85%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.035),0 5px 13px rgba(0,0,0,.16)!important;
+  text-decoration:none!important;
+  overflow:hidden!important;
+}
+#step-price .pay-badge::before{
+  content:""!important;position:absolute!important;left:0!important;top:10px!important;bottom:10px!important;width:2px!important;
+  background:linear-gradient(180deg,transparent,#78dbe9,transparent)!important;opacity:.72!important;pointer-events:none!important;
+}
+#step-price .pay-badge::after{content:none!important;}
+#step-price .pay-badge-icon{
+  grid-column:1!important;grid-row:1!important;align-self:center!important;justify-self:start!important;
+  width:28px!important;min-width:28px!important;height:28px!important;flex:0 0 28px!important;
+  margin:0!important;border-radius:6px!important;font-size:8.5px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.22),0 3px 7px rgba(0,0,0,.22)!important;z-index:1!important;
+}
+#step-price .pay-badge-icon.kakao{border-radius:7px 7px 7px 3px!important;}
+#step-price .pay-badge-icon.kakao::after{left:2px!important;bottom:-2px!important;width:5px!important;height:5px!important;}
+#step-price .pay-badge-text{display:contents!important;}
+#step-price .pay-badge-title{
+  grid-column:1/-1!important;grid-row:2!important;align-self:end!important;justify-self:stretch!important;
+  min-width:0!important;width:100%!important;margin:1px 0 0!important;
+  color:#eef3f8!important;font-size:11px!important;font-weight:800!important;line-height:1.25!important;letter-spacing:-.025em!important;
+  word-break:keep-all!important;overflow-wrap:anywhere!important;
+}
+#step-price .pay-badge-sub{
+  grid-column:1/-1!important;grid-row:3!important;align-self:start!important;justify-self:stretch!important;
+  min-width:0!important;width:100%!important;margin:0!important;color:#9ba9b8!important;
+  font-size:9px!important;font-weight:500!important;line-height:1.3!important;
+  word-break:keep-all!important;overflow-wrap:anywhere!important;
+}
+#step-price .pay-badge-cta{
+  grid-column:1/-1!important;grid-row:4!important;justify-self:start!important;align-self:end!important;
+  display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;gap:3px!important;
+  max-width:100%!important;min-width:0!important;min-height:0!important;margin:2px 0 0!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;color:#8bdce9!important;
+  font-size:9px!important;font-weight:800!important;line-height:1.2!important;white-space:nowrap!important;
+}
+#step-price .pay-badge-cta::after{content:"↗"!important;margin-left:1px!important;font-size:10px!important;opacity:.8!important;}
+#step-price .pay-badge-with-integration{min-height:112px!important;}
+#step-price .pay-badge-with-integration .pay-integration-stamp{
+  grid-column:2!important;grid-row:1!important;align-self:center!important;justify-self:end!important;
+  display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-end!important;
+  width:auto!important;max-width:100%!important;min-width:0!important;height:auto!important;min-height:0!important;
+  margin:0!important;padding:3px 5px!important;gap:4px!important;
+  border:1px solid rgba(151,174,199,.16)!important;border-radius:4px!important;
+  background:rgba(255,255,255,.025)!important;text-align:right!important;
+}
+#step-price .pay-integration-logo{display:grid!important;flex:0 0 13px!important;width:13px!important;min-width:13px!important;height:13px!important;border-radius:3px!important;box-shadow:none!important;overflow:hidden!important;}
+#step-price .pay-integration-logo svg{display:block!important;width:100%!important;height:100%!important;}
+#step-price .pay-integration-label{display:inline-block!important;max-width:100%!important;color:#a6b7c7!important;font-size:7.5px!important;font-weight:700!important;line-height:1.15!important;letter-spacing:-.025em!important;white-space:nowrap!important;}
+#step-price .pay-integration-label br{display:none!important;}
+#step-price .pay-badge:hover,#step-price .pay-badge:focus-visible{
+  border-color:rgba(124,231,245,.38)!important;background:linear-gradient(145deg,rgba(124,231,245,.07),transparent 55%),linear-gradient(160deg,#141f29,#0b1016 85%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 8px 18px rgba(0,0,0,.22)!important;
+}
+#step-price .pay-badge:active{transform:scale(.992)!important;}
+@media(max-width:390px){
+ #step-price .pay-badges{gap:7px!important;margin:6px 0 8px!important;}
+ #step-price .pay-badge,#step-price .pay-badge-with-integration{min-height:108px!important;padding:8px!important;row-gap:3px!important;}
+ #step-price .pay-badge-title{font-size:10.5px!important;}
+ #step-price .pay-badge-sub{font-size:8.5px!important;}
+ #step-price .pay-badge-cta{font-size:8.5px!important;}
+ #step-price .pay-integration-label{font-size:7px!important;}
+ #step-price .pay-badge-with-integration .pay-integration-stamp{padding:2px 4px!important;gap:3px!important;}
+ #step-price .pay-integration-logo{width:12px!important;min-width:12px!important;height:12px!important;flex-basis:12px!important;}
+}
+@media(max-width:340px){
+ #step-price .pay-badge,#step-price .pay-badge-with-integration{min-height:106px!important;padding:7px!important;}
+ #step-price .pay-badge-title{font-size:10px!important;}
+ #step-price .pay-badge-sub{font-size:8px!important;}
+ #step-price .pay-integration-label{font-size:6.5px!important;}
+}
+@media(prefers-reduced-motion:reduce){#step-price .pay-badge{transition:none!important;}}
+</style>
+
+
+
+<style id="v31-remove-gap-and-inline-payment-layout">
+/* Remove the unwanted vertical blank gap above the purchase notice. */
+#step-price.space-y-4 > p + .purchase-policy-notice {
+  margin-top: 0 !important;
+}
+#step-price .purchase-policy-notice { margin-block-start: 0 !important; }
+
+/* Slim payment cards: brand mark on the left, all copy aligned beside it. */
+#step-price .pay-badges {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 5px 0 7px !important;
+  align-items: stretch !important;
+}
+#step-price .pay-badge,
+#step-price .pay-badge.pay-badge-with-integration {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr) !important;
+  grid-template-rows: auto auto auto auto !important;
+  grid-auto-flow: row !important;
+  align-content: center !important;
+  align-items: start !important;
+  justify-items: stretch !important;
+  column-gap: 8px !important;
+  row-gap: 3px !important;
+  min-width: 0 !important;
+  min-height: 94px !important;
+  height: auto !important;
+  padding: 9px 9px 8px !important;
+  border-radius: 7px !important;
+  border: 1px solid rgba(151,174,199,.20) !important;
+  background: linear-gradient(145deg, rgba(124,231,245,.045), transparent 55%), linear-gradient(160deg,#111820,#090d12 85%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.035), 0 4px 11px rgba(0,0,0,.15) !important;
+  text-decoration: none !important;
+  overflow: hidden !important;
+}
+#step-price .pay-badge::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important; top: 9px !important; bottom: 9px !important; width: 2px !important;
+  background: linear-gradient(180deg, transparent, #78dbe9, transparent) !important;
+  opacity: .72 !important; pointer-events: none !important;
+}
+#step-price .pay-badge::after { content: none !important; }
+#step-price .pay-badge-icon {
+  grid-column: 1 !important;
+  grid-row: 1 / span 4 !important;
+  justify-self: start !important;
+  align-self: center !important;
+  width: 30px !important; min-width: 30px !important; height: 30px !important;
+  flex: 0 0 30px !important; margin: 0 !important;
+  border-radius: 6px !important; font-size: 9px !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.22), 0 3px 7px rgba(0,0,0,.22) !important;
+  z-index: 1 !important;
+}
+#step-price .pay-badge-icon.kakao { border-radius: 7px 7px 7px 3px !important; }
+#step-price .pay-badge-icon.kakao::after { left: 2px !important; bottom: -2px !important; width: 5px !important; height: 5px !important; }
+#step-price .pay-badge-text { display: contents !important; }
+#step-price .pay-badge-title {
+  grid-column: 2 !important; grid-row: 1 !important;
+  align-self: end !important; justify-self: stretch !important;
+  min-width: 0 !important; width: 100% !important; margin: 0 !important;
+  color: #eef3f8 !important; font-size: 11px !important; font-weight: 800 !important;
+  line-height: 1.25 !important; letter-spacing: -.025em !important;
+  word-break: keep-all !important; overflow-wrap: anywhere !important;
+}
+#step-price .pay-badge-sub {
+  grid-column: 2 !important; grid-row: 2 !important;
+  align-self: start !important; justify-self: stretch !important;
+  min-width: 0 !important; width: 100% !important; margin: 0 !important;
+  color: #9ba9b8 !important; font-size: 9px !important; font-weight: 500 !important;
+  line-height: 1.3 !important; word-break: keep-all !important; overflow-wrap: anywhere !important;
+}
+#step-price .pay-badge-cta {
+  grid-column: 2 !important; grid-row: 3 !important;
+  justify-self: start !important; align-self: end !important;
+  display: inline-flex !important; align-items: center !important; justify-content: flex-start !important;
+  gap: 3px !important; max-width: 100% !important; min-width: 0 !important;
+  min-height: 0 !important; margin: 2px 0 0 !important; padding: 0 !important;
+  border: 0 !important; border-radius: 0 !important; background: transparent !important;
+  color: #8bdce9 !important; font-size: 9px !important; font-weight: 800 !important;
+  line-height: 1.2 !important; white-space: normal !important;
+}
+#step-price .pay-badge-cta::after { content: "↗" !important; margin-left: 1px !important; font-size: 10px !important; opacity: .8 !important; }
+#step-price .pay-badge-with-integration .pay-integration-stamp {
+  grid-column: 2 !important; grid-row: 3 !important;
+  align-self: start !important; justify-self: start !important;
+  display: inline-flex !important; flex-direction: row !important; align-items: center !important;
+  justify-content: flex-start !important; width: auto !important; max-width: 100% !important;
+  min-width: 0 !important; height: auto !important; min-height: 0 !important;
+  margin: 1px 0 0 !important; padding: 2px 4px !important; gap: 3px !important;
+  border: 1px solid rgba(151,174,199,.16) !important; border-radius: 3px !important;
+  background: rgba(255,255,255,.025) !important; text-align: left !important;
+}
+#step-price .pay-badge-with-integration .pay-badge-cta { grid-row: 4 !important; }
+#step-price .pay-integration-logo {
+  display: grid !important; flex: 0 0 11px !important; width: 11px !important; min-width: 11px !important;
+  height: 11px !important; border-radius: 3px !important; box-shadow: none !important; overflow: hidden !important;
+}
+#step-price .pay-integration-logo svg { display: block !important; width: 100% !important; height: 100% !important; }
+#step-price .pay-integration-label {
+  display: inline-block !important; max-width: 100% !important; color: #a6b7c7 !important;
+  font-size: 7px !important; font-weight: 700 !important; line-height: 1.1 !important;
+  letter-spacing: -.025em !important; white-space: normal !important;
+}
+#step-price .pay-integration-label br { display: none !important; }
+#step-price .pay-badge:hover, #step-price .pay-badge:focus-visible {
+  border-color: rgba(124,231,245,.38) !important;
+  background: linear-gradient(145deg,rgba(124,231,245,.07),transparent 55%),linear-gradient(160deg,#141f29,#0b1016 85%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.05),0 7px 15px rgba(0,0,0,.2) !important;
+}
+#step-price .pay-badge:active { transform: scale(.992) !important; }
+@media (max-width: 390px) {
+  #step-price .pay-badges { gap: 6px !important; }
+  #step-price .pay-badge, #step-price .pay-badge.pay-badge-with-integration {
+    grid-template-columns: 27px minmax(0, 1fr) !important; column-gap: 6px !important;
+    min-height: 92px !important; padding: 8px 7px !important;
+  }
+  #step-price .pay-badge-icon { width: 27px !important; min-width: 27px !important; height: 27px !important; flex-basis: 27px !important; }
+  #step-price .pay-badge-title { font-size: 10.5px !important; }
+  #step-price .pay-badge-sub { font-size: 8.5px !important; }
+  #step-price .pay-badge-cta { font-size: 8.5px !important; }
+  #step-price .pay-integration-label { font-size: 6.7px !important; }
+}
+@media (max-width: 340px) {
+  #step-price .pay-badge, #step-price .pay-badge.pay-badge-with-integration { min-height: 90px !important; padding: 7px 6px !important; }
+  #step-price .pay-badge-title { font-size: 10px !important; }
+  #step-price .pay-badge-sub { font-size: 8px !important; }
+  #step-price .pay-badge-cta { font-size: 8px !important; }
+}
+@media (prefers-reduced-motion: reduce) { #step-price .pay-badge { transition: none !important; } }
+</style>
+
+
+<style id="v32-tight-spacing-and-full-width-payment-rows">
+/* V32: remove excess space around the bulk-discount note and tighten the first screen. */
+#step-price.space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 5px !important; }
+#step-price.space-y-4 > p {
+  margin: 0 !important; padding: 0 !important; min-height: 0 !important;
+  font-size: 11px !important; line-height: 1.35 !important; letter-spacing: -.01em !important;
+}
+/* Higher-specificity override for the bulk-discount line: no inherited space-y gap. */
+#step-price.space-y-4 > p.text-xs.leading-relaxed {
+  margin-top: 1px !important; margin-bottom: 0 !important; padding-block: 0 !important;
+}
+#step-price.space-y-4 > .purchase-policy-notice:not([hidden]) {
+  margin-top: 4px !important; padding: 10px 11px !important;
+}
+#step-price > div:has(> .pay-badges) {
+  margin-top: 4px !important; padding-top: 6px !important; padding-bottom: 0 !important;
+}
+#step-price > div:has(> .pay-badges) > p:first-child { margin: 0 0 4px !important; line-height: 1.3 !important; }
+#step-price > div:has(> .pay-badges) > p:first-child .premium-icon { width: 15px !important; height: 15px !important; }
+#step-price .pay-badges {
+  display: flex !important; flex-direction: column !important; align-items: stretch !important;
+  gap: 5px !important; width: 100% !important; margin: 4px 0 0 !important;
+}
+/* Two full-width slim rows: icon on the left, text beside it, integration badge at the right. */
+#step-price .pay-badge,
+#step-price .pay-badge.pay-badge-with-integration {
+  box-sizing: border-box !important; position: relative !important;
+  display: flex !important; flex-direction: row !important; align-items: center !important;
+  gap: 9px !important; width: 100% !important; min-width: 0 !important;
+  min-height: 68px !important; height: auto !important; padding: 8px 10px !important;
+  border-radius: 7px !important; border: 1px solid rgba(151,174,199,.19) !important;
+  background: linear-gradient(100deg,rgba(124,231,245,.045),transparent 45%),linear-gradient(160deg,#111820,#090d12 85%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.035),0 3px 10px rgba(0,0,0,.14) !important;
+  text-decoration: none !important; overflow: hidden !important;
+}
+#step-price .pay-badge::before {
+  content: "" !important; position: absolute !important; left: 0 !important; top: 9px !important; bottom: 9px !important;
+  width: 2px !important; background: linear-gradient(180deg,transparent,#78dbe9,transparent) !important;
+  opacity: .7 !important; pointer-events: none !important;
+}
+#step-price .pay-badge::after { content: none !important; }
+#step-price .pay-badge-icon {
+  flex: 0 0 34px !important; width: 34px !important; min-width: 34px !important; height: 34px !important;
+  margin: 0 !important; border-radius: 7px !important; font-size: 9px !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.22),0 3px 7px rgba(0,0,0,.2) !important;
+  align-self: center !important; z-index: 1 !important;
+}
+#step-price .pay-badge-icon.kakao { border-radius: 8px 8px 8px 3px !important; }
+#step-price .pay-badge-icon.kakao::after { left: 2px !important; bottom: -2px !important; width: 5px !important; height: 5px !important; }
+#step-price .pay-badge-text {
+  display: flex !important; flex: 1 1 auto !important; flex-direction: column !important;
+  align-items: flex-start !important; justify-content: center !important; gap: 2px !important;
+  min-width: 0 !important; width: auto !important;
+}
+#step-price .pay-badge-title {
+  display: block !important; width: 100% !important; margin: 0 !important; min-width: 0 !important;
+  color: #eef3f8 !important; font-size: 12px !important; font-weight: 800 !important;
+  line-height: 1.25 !important; letter-spacing: -.025em !important;
+  word-break: keep-all !important; overflow-wrap: anywhere !important;
+}
+#step-price .pay-badge-sub {
+  display: block !important; width: 100% !important; margin: 0 !important; min-width: 0 !important;
+  color: #9ba9b8 !important; font-size: 10px !important; font-weight: 500 !important;
+  line-height: 1.25 !important; word-break: keep-all !important; overflow-wrap: anywhere !important;
+}
+#step-price .pay-badge-cta {
+  display: inline-flex !important; align-items: center !important; justify-content: flex-start !important;
+  gap: 3px !important; max-width: 100% !important; min-width: 0 !important; min-height: 0 !important;
+  margin: 1px 0 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important;
+  background: transparent !important; color: #8bdce9 !important; font-size: 9.5px !important;
+  font-weight: 800 !important; line-height: 1.2 !important; white-space: normal !important;
+}
+#step-price .pay-badge-cta::after { content: "↗" !important; margin-left: 1px !important; font-size: 10px !important; opacity: .8 !important; }
+#step-price .pay-badge-with-integration .pay-integration-stamp {
+  flex: 0 0 auto !important; display: inline-flex !important; flex-direction: row !important;
+  align-items: center !important; justify-content: center !important; gap: 4px !important;
+  width: auto !important; max-width: 90px !important; min-width: 0 !important; height: auto !important; min-height: 0 !important;
+  margin: 0 0 0 auto !important; padding: 4px 5px !important; border: 1px solid rgba(151,174,199,.16) !important;
+  border-radius: 4px !important; background: rgba(255,255,255,.025) !important; text-align: center !important;
+}
+#step-price .pay-integration-logo {
+  display: grid !important; flex: 0 0 13px !important; width: 13px !important; min-width: 13px !important;
+  height: 13px !important; border-radius: 3px !important; box-shadow: none !important; overflow: hidden !important;
+}
+#step-price .pay-integration-logo svg { display: block !important; width: 100% !important; height: 100% !important; }
+#step-price .pay-integration-label {
+  display: inline-block !important; max-width: 100% !important; color: #a6b7c7 !important;
+  font-size: 7.5px !important; font-weight: 700 !important; line-height: 1.15 !important;
+  letter-spacing: -.025em !important; white-space: normal !important;
+}
+#step-price .pay-integration-label br { display: none !important; }
+#step-price .pay-badge:hover, #step-price .pay-badge:focus-visible {
+  border-color: rgba(124,231,245,.38) !important;
+  background: linear-gradient(145deg,rgba(124,231,245,.07),transparent 55%),linear-gradient(160deg,#141f29,#0b1016 85%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.05),0 6px 14px rgba(0,0,0,.18) !important;
+}
+#step-price .pay-badge:active { transform: scale(.995) !important; }
+@media (max-width: 390px) {
+  #step-price.space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 4px !important; }
+  #step-price > p { font-size: 10.5px !important; }
+  #step-price .pay-badge, #step-price .pay-badge.pay-badge-with-integration { min-height: 66px !important; padding: 7px 8px !important; gap: 7px !important; }
+  #step-price .pay-badge-icon { flex-basis: 31px !important; width: 31px !important; min-width: 31px !important; height: 31px !important; }
+  #step-price .pay-badge-title { font-size: 11px !important; }
+  #step-price .pay-badge-sub { font-size: 9px !important; }
+  #step-price .pay-badge-cta { font-size: 9px !important; }
+  #step-price .pay-badge-with-integration .pay-integration-stamp { max-width: 73px !important; gap: 3px !important; padding: 3px 4px !important; }
+  #step-price .pay-integration-logo { flex-basis: 11px !important; width: 11px !important; min-width: 11px !important; height: 11px !important; }
+  #step-price .pay-integration-label { font-size: 6.7px !important; }
+}
+@media (max-width: 340px) {
+  #step-price .pay-badge, #step-price .pay-badge.pay-badge-with-integration { min-height: 64px !important; padding: 6px 7px !important; gap: 6px !important; }
+  #step-price .pay-badge-icon { flex-basis: 28px !important; width: 28px !important; min-width: 28px !important; height: 28px !important; }
+  #step-price .pay-badge-title { font-size: 10.5px !important; }
+  #step-price .pay-badge-sub { font-size: 8.5px !important; }
+  #step-price .pay-integration-label { font-size: 6.3px !important; }
+}
+@media (prefers-reduced-motion: reduce) { #step-price .pay-badge { transition: none !important; } }
+</style>
+
+
+<style id="v33-slim-clean-payment-cards">
+/* V33: remove the integration sticker and align all payment copy on a compact two-line grid. */
+#step-price > div:has(> .pay-badges) {
+  margin-top: 3px !important;
+  padding-top: 5px !important;
+  padding-bottom: 0 !important;
+  border-top-color: rgba(255,255,255,.08) !important;
+}
+#step-price > div:has(> .pay-badges) > p:first-child {
+  margin: 0 0 4px !important;
+  line-height: 1.25 !important;
+}
+#step-price .pay-badges {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#step-price .pay-badge,
+#step-price .pay-badge.pay-badge-with-integration {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 58px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  padding: 7px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid #29333d !important;
+  background: linear-gradient(100deg, rgba(100,210,235,.045), transparent 42%), #0b1015 !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.025) !important;
+  text-decoration: none !important;
+  overflow: hidden !important;
+}
+#step-price .pay-badge::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 8px !important;
+  bottom: 8px !important;
+  width: 2px !important;
+  background: #56b9d6 !important;
+  opacity: .65 !important;
+}
+#step-price .pay-badge::after { content: none !important; }
+#step-price .pay-badge-icon {
+  flex: 0 0 32px !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  margin: 0 !important;
+  border-radius: 6px !important;
+  font-size: 9px !important;
+  box-shadow: none !important;
+}
+#step-price .pay-badge-icon.kakao { border-radius: 7px 7px 7px 3px !important; }
+#step-price .pay-badge-text {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto !important;
+  align-items: center !important;
+  column-gap: 8px !important;
+  row-gap: 3px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+#step-price .pay-badge-title {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  color: #eef3f8 !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.025em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+#step-price .pay-badge-sub {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  display: block !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  color: #9ba7b4 !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.015em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+#step-price .pay-badge-cta {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #7bd7e7 !important;
+  font-size: 9.5px !important;
+  font-weight: 750 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+#step-price .pay-badge-cta::after {
+  content: "↗" !important;
+  margin-left: 3px !important;
+  font-size: 10px !important;
+  opacity: .8 !important;
+}
+#step-price .pay-integration-stamp { display: none !important; }
+#step-price .pay-badge:hover,
+#step-price .pay-badge:focus-visible {
+  border-color: rgba(112,205,225,.38) !important;
+  background: linear-gradient(100deg, rgba(100,210,235,.07), transparent 48%), #0d141b !important;
+  outline: none !important;
+}
+#step-price .pay-badge:focus-visible { box-shadow: 0 0 0 2px rgba(100,210,235,.18) !important; }
+#step-price .pay-badge:active { transform: scale(.997) !important; }
+@media (max-width: 390px) {
+  #step-price .pay-badge, #step-price .pay-badge.pay-badge-with-integration { min-height: 56px !important; padding: 6px 8px !important; gap: 8px !important; }
+  #step-price .pay-badge-icon { flex-basis: 29px !important; width: 29px !important; min-width: 29px !important; height: 29px !important; }
+  #step-price .pay-badge-text { column-gap: 5px !important; row-gap: 3px !important; }
+  #step-price .pay-badge-title { font-size: 11.5px !important; }
+  #step-price .pay-badge-sub { font-size: 9.5px !important; }
+  #step-price .pay-badge-cta { font-size: 9px !important; }
+}
+@media (max-width: 340px) {
+  #step-price .pay-badge, #step-price .pay-badge.pay-badge-with-integration { padding: 6px 7px !important; gap: 7px !important; }
+  #step-price .pay-badge-icon { flex-basis: 27px !important; width: 27px !important; min-width: 27px !important; height: 27px !important; }
+  #step-price .pay-badge-text { column-gap: 4px !important; }
+  #step-price .pay-badge-title { font-size: 10.5px !important; }
+  #step-price .pay-badge-sub { font-size: 8.8px !important; }
+  #step-price .pay-badge-cta { font-size: 8.5px !important; }
+}
+@media (prefers-reduced-motion: reduce) { #step-price .pay-badge { transition: none !important; } }
 </style>
 
 </body>
