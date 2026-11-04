@@ -2424,17 +2424,18 @@ body{line-height:1.55!important;}
             <div class="x-inner access-panel p-5 space-y-3">
                 <div class="access-status"><span class="access-status-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 19 6v5.1c0 4.5-2.9 7.8-7 9.4-4.1-1.6-7-4.9-7-9.4V6l7-2.5Z"/><path d="m9 12 2 2 4-4"/></svg></span><span class="access-status-text">SECURE ACCESS</span></div>
                 <label id="input-label" class="text-xs md:text-sm font-bold text-[#e7e9ea] block">
-                    <span class="code-label-leading"><span class="code-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z"/><path d="M14 3.75v4h4M8.5 12h7M8.5 15.5h5"/></svg></span><span>발급 코드 입력</span></span>
+                    <span class="code-label-leading"><span class="code-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z"/><path d="M14 3.75v4h4M8.5 12h7M8.5 15.5h5"/></svg></span><span>일반 계정 발급 코드</span></span>
                 </label>
                 
                 <div class="code-input-row v41-paste-row">
                     <input type="text" id="input-code" placeholder="발급받은 코드를 입력하세요" class="w-full x-input text-sm" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
                     <button type="button" id="btn-paste-code" class="v41-paste-btn" aria-label="클립보드에서 발급 코드 붙여넣기">코드 붙여넣기</button>
                 </div>
+<button type="button" id="btn-copy-code" class="x-btn-dark code-copy-btn" onclick="copyEnteredCode(this)" aria-label="입력한 발급 코드 복사">복사</button>
                 
                 <div id="code-invalid-inline" role="alert">유효하지 않은 코드입니다. 발급받은 코드를 다시 확인해 주세요.</div>
 
-                <button onclick="openAgreementModal()" aria-label="발급 코드 조회" 
+                <button onclick="handleVerifyClick(this)" aria-label="발급 코드 조회" 
                     class="w-full x-btn-white py-3.5 text-sm cursor-pointer shadow-md verify-btn">
                     <span class="verify-btn-label"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2M8 10.8h5.6M10.8 8v5.6"/></svg><span>코드 조회</span></span><span class="arrow">→</span>
                 </button>
@@ -2811,11 +2812,11 @@ body{line-height:1.55!important;}
             if (mode === 'general') {
                 tabGeneral.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black";
                 tabEmail.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white";
-                inputLabel.innerHTML = `<span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>발급 코드 입력</span></span>`;
+                inputLabel.innerHTML = `<span class="icon-inline"><i data-lucide="key-round" class="premium-icon gold"></i><span>일반 계정 발급 코드</span></span>`; if(window.lucide) lucide.createIcons();
             } else {
                 tabEmail.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black";
                 tabGeneral.className = "flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all text-[#71767b] hover:text-white";
-                inputLabel.innerHTML = `<span class="icon-inline"><i data-lucide="mail" class="premium-icon blue"></i><span>이메일 주문번호 / 코드 입력</span></span>`; if(window.lucide) lucide.createIcons();
+                inputLabel.innerHTML = `<span class="icon-inline"><i data-lucide="mail" class="premium-icon blue"></i><span>이메일 계정 발급 코드</span></span>`; if(window.lucide) lucide.createIcons();
             }
         }
 
@@ -10748,5 +10749,78 @@ button .icon-inline > .premium-icon {
 }
 </style>
 
+<style id="mobile-fit-fix">
+/* 모바일 맞춤 수정: 확대·넘침·정렬 보정 (기존 디자인 위에 덮어쓰기) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{max-width:100%;overflow-x:hidden}
+button,a,input,select,textarea{touch-action:manipulation}
+
+/* 1) iOS는 글자 크기 16px 미만 입력칸을 누르면 화면을 확대하므로 16px로 맞춤 */
+@media (max-width:820px){
+  html body #main-card#main-card #input-code#input-code{font-size:16px!important;letter-spacing:.02em!important}
+  html body #main-card#main-card #input-code#input-code::placeholder{font-size:13px!important;letter-spacing:0!important}
+  html body #main-card#main-card #input-code#input-code{text-overflow:ellipsis!important}
+}
+
+/* 2) 코드 입력 줄: 입력칸 + 붙여넣기 버튼이 카드 안에 들어오게 */
+@media (max-width:520px){
+  html body #main-card#main-card:not(.query-result-mode) #step-query .code-input-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;width:100%!important}
+  html body #main-card#main-card:not(.query-result-mode) #step-query .v41-paste-btn{width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:52px!important;align-self:stretch!important;padding:0 10px!important;font-size:12px!important;white-space:nowrap!important}
+  html body #main-card#main-card:not(.query-result-mode) #step-query #input-code#input-code{padding-left:38px!important;padding-right:8px!important}
+}
+
+/* 작은 폰(380px 이하): 붙여넣기 버튼 아이콘을 줄여 입력칸 폭 확보 */
+@media (max-width:380px){
+  html body #main-card#main-card:not(.query-result-mode) #step-query .v41-paste-btn::before{display:none!important}
+  html body #main-card#main-card #input-code#input-code::placeholder{font-size:12.5px!important}
+}
+
+/* 3) 조회 결과 화면: 입력칸 아이콘이 글자와 겹치지 않게, 비어 보이던 버튼에 글자 표시 */
+html body #main-card#main-card.query-result-mode #step-query #input-code#input-code{padding-left:40px!important}
+html body #main-card#main-card.query-result-mode #step-query .access-panel .verify-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;overflow:visible!important;grid-row:1!important;grid-column:2!important;align-self:center!important;justify-self:end!important}
+html body #main-card#main-card.query-result-mode #step-query .access-panel .verify-btn::before{display:block!important;position:static!important;width:auto!important;max-width:100%!important;font-size:11px!important;line-height:1!important;font-weight:800!important;letter-spacing:0!important;white-space:nowrap!important;text-align:center!important;color:#c9e8f5!important;transform:none!important;translate:none!important;left:auto!important;right:auto!important;margin:0!important}
+
+/* 4) 복사 버튼을 칸 가운데에 (아래로 삐져나오던 것 보정) */
+html body #result-box#result-box .result-field .copy-btn{top:0!important;bottom:0!important;margin:auto 0!important;transform:none!important}
+</style>
+<style id="code-copy-btn-style">
+/* 입력한 발급 코드 복사 버튼: 조회 결과 화면에서만 보이고, 입력칸 오른쪽 빈자리에 놓음 */
+#btn-copy-code{display:none}
+html body #main-card#main-card.query-result-mode #step-query .access-panel #btn-copy-code{display:inline-flex!important;grid-column:2!important;grid-row:3!important;align-self:stretch!important;justify-self:stretch!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;margin:0!important;padding:0 8px!important;font-size:12px!important;font-weight:800!important;white-space:nowrap!important}
+</style>
+<script id="code-copy-relookup">
+/* 입력한 발급 코드 복사 */
+function copyEnteredCode(btn){
+  var input=document.getElementById('input-code');
+  var text=(input&&input.value||'').trim();
+  if(!text) return;
+  function done(){
+    if(!btn) return;
+    if(!btn.dataset.label) btn.dataset.label=btn.innerText;
+    btn.innerText='복사완료!';
+    clearTimeout(btn._t);
+    btn._t=setTimeout(function(){ btn.innerText=btn.dataset.label; },1200);
+  }
+  function fallback(){
+    try{ input.focus(); input.select(); input.setSelectionRange(0,text.length); if(document.execCommand('copy')) done(); }catch(e){}
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  }else{ fallback(); }
+}
+
+/* 코드 조회 버튼: 처음 조회는 약관 동의 창을 거치고, 조회 결과 화면에서의 재조회는 바로 조회 */
+async function handleVerifyClick(btn){
+  var card=document.getElementById('main-card');
+  if(!(card&&card.classList.contains('query-result-mode'))){ return openAgreementModal(); }
+  var input=document.getElementById('input-code');
+  var code=(typeof cleanAccessCode==='function')?cleanAccessCode(input?input.value:''):String(input?input.value:'').trim();
+  if(!code){ showInvalidCode(); return; }
+  hideInvalidCode();
+  if(btn){ btn.disabled=true; btn.dataset.state='checking'; }
+  try{ await confirmSearch(); }
+  finally{ if(btn){ btn.disabled=false; btn.removeAttribute('data-state'); } }
+}
+</script>
 </body>
 </html>
