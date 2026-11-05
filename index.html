@@ -800,10 +800,6 @@
                     <div class="agreement-progress-track"><div id="agreement-progress-fill" class="agreement-progress-fill"></div></div>
                     <span id="agreement-progress-value" class="agreement-progress-value">0%</span>
                 </div>
-                <div class="agreement-optional-note">
-                    <i data-lucide="info" aria-hidden="true"></i>
-                    <span>약관 동의는 선택 사항이며, 동의하지 않아도 코드를 조회할 수 있습니다.</span>
-                </div>
 
             <!-- 스크롤 영역 -->
             <div id="terms-box" onscroll="checkScrollBottom()" class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto">
@@ -850,10 +846,6 @@
             </div>
 
             <div class="agreement-actions">
-                <button type="button" id="btn-modal-skip" onclick="lookupWithoutAgreement()" class="agreement-skip-btn">
-                    <i data-lucide="scan-search" aria-hidden="true"></i>
-                    동의 없이 조회
-                </button>
                 <button type="button" id="btn-modal-confirm" onclick="confirmSearch()" disabled
                     class="w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]">
                     동의하고 조회하기
@@ -3221,41 +3213,17 @@ button .premium-icon{pointer-events:none;}
 @media(prefers-reduced-motion:reduce){#agreement-modal>div,#email-notice-modal .email-notice-card{animation:none!important}}
 </style>
 
-<script id="v48-optional-terms-lookup">
-(function(){
-  window.lookupWithoutAgreement = async function(){
-    const skipButton = document.getElementById('btn-modal-skip');
-    if (skipButton && skipButton.disabled) return;
-    const originalLabel = skipButton ? skipButton.innerHTML : '';
-    if (skipButton) {
-      skipButton.disabled = true;
-      skipButton.innerHTML = '<i data-lucide="loader-circle" aria-hidden="true"></i><span>조회 중...</span>';
-      if (window.lucide) window.lucide.createIcons();
-    }
-    try {
-      if (typeof window.confirmSearch === 'function') {
-        await window.confirmSearch();
-      } else {
-        throw new Error('조회 기능을 불러오지 못했습니다.');
-      }
-    } catch (error) {
-      console.error('Optional lookup failed:', error);
-      const errorBox = document.getElementById('error-box');
-      if (errorBox) {
-        errorBox.classList.remove('hidden');
-        errorBox.classList.add('is-active');
-        errorBox.style.display = 'block';
-      }
-    } finally {
-      if (skipButton) {
-        skipButton.disabled = false;
-        skipButton.innerHTML = originalLabel;
-        if (window.lucide) window.lucide.createIcons();
-      }
-    }
-  };
-})();
-</script>
 
+<style id="layout-text-fix">
+/* 약관 창: 버튼이 하나만 남으므로 가득 채우고 글자를 한 줄로 */
+html body #agreement-modal .agreement-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}
+html body #agreement-modal #btn-modal-confirm{width:100%!important}
+/* 한글이 글자 중간에서 끊기지 않게 */
+html body #agreement-modal .agreement-sub,html body #agreement-modal #terms-box p,html body #agreement-modal .agreement-accept label,html body .result-storage-notice p{word-break:keep-all;overflow-wrap:break-word}
+/* 결과 화면(이메일 계정): 잘리던 '처음으로 돌아가기' 버튼을 '이메일 확인함 열기' 버튼과 같은 크기·글자로 */
+html body #result-box#result-box>#btn-open-inbox:not(.hidden)+button[onclick="resetToHome()"]{width:100%!important;min-width:0!important;max-width:100%!important;min-height:36px!important;padding:0 7px!important;font-size:9px!important;white-space:nowrap!important;justify-content:center!important}
+/* 결과 화면 '코드 조회' 버튼 글자 뒤에 비치던 얼룩(반짝임 배경) 제거 */
+html body #main-card#main-card.query-result-mode #step-query .access-panel .verify-btn::before{background:none!important;animation:none!important}
+</style>
 </body>
 </html>
