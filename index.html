@@ -811,7 +811,9 @@
                 <section class="space-y-1.5">
                     <p class="text-white font-bold"><span class="agreement-number">01</span>이용 제한</p>
                     <p class="text-[#a1a8b0]">- 사기, 마약 거래 등 불법적이거나 타인에게 피해를 주는 목적으로 계정을 이용할 수 없습니다.</p>
+<p class="text-[#a1a8b0]">- 예시: X(트위터)에서의 피싱·보이스피싱 유도, 마약·불법 약물 판매 및 홍보, 불법 도박·사설 토토 홍보, 불법 촬영물·성착취물 유포, 사칭·스팸, 협박·괴롭힘 등</p>
                     <p class="text-[#a1a8b0]">- 위반 행위가 확인될 경우 계정 이용 제한 또는 회수가 진행될 수 있습니다.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">불법·불건전 행위에 이용할 경우 제3자 피해자를 막기 위해 환불 절차 없이 계정을 회수 조치합니다. 꼭 숙지해 주세요.</strong></p>
                 </section>
 
                 <section class="space-y-1.5">
@@ -3219,11 +3221,22 @@ button .premium-icon{pointer-events:none;}
 html body #agreement-modal .agreement-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}
 html body #agreement-modal #btn-modal-confirm{width:100%!important}
 /* 한글이 글자 중간에서 끊기지 않게 */
-html body #agreement-modal .agreement-sub,html body #agreement-modal #terms-box p,html body #agreement-modal .agreement-accept label,html body .result-storage-notice p{word-break:keep-all;overflow-wrap:break-word}
+html body #agreement-modal .agreement-sub,html body #agreement-modal #terms-box p,html body #agreement-modal .agreement-accept label,html body .result-storage-notice p,html body #step-price>p{word-break:keep-all;overflow-wrap:break-word}
 /* 결과 화면(이메일 계정): 잘리던 '처음으로 돌아가기' 버튼을 '이메일 확인함 열기' 버튼과 같은 크기·글자로 */
 html body #result-box#result-box>#btn-open-inbox:not(.hidden)+button[onclick="resetToHome()"]{width:100%!important;min-width:0!important;max-width:100%!important;min-height:36px!important;padding:0 7px!important;font-size:9px!important;white-space:nowrap!important;justify-content:center!important}
 /* 결과 화면 '코드 조회' 버튼 글자 뒤에 비치던 얼룩(반짝임 배경) 제거 */
 html body #main-card#main-card.query-result-mode #step-query .access-panel .verify-btn::before{background:none!important;animation:none!important}
+</style>
+<style id="device-fit-fix">
+/* 최신 폰·카카오톡 앱 안 브라우저 대응 */
+/* 1) 가로 화면이나 아주 낮은 화면에서도 약관 창 아래 버튼까지 스크롤로 닿게 */
+@media (max-height:560px){
+  html body #agreement-modal>div{overflow-y:auto!important;-webkit-overflow-scrolling:touch}
+}
+/* 2) 긴 아이디·비밀번호·메일 주소는 말줄임(…) 대신 줄바꿈해서 전부 보이게 */
+html body #result-box #res-account-id,html body #result-box #res-account-pw{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:break-all!important}
+/* 3) 아주 좁은 폰에서 구매 전 확인사항 문구가 글자 중간에서 끊기지 않게 */
+html body #step-price .purchase-policy-notice p,html body #step-price .purchase-policy-notice span,html body #step-price .purchase-compact-notice p{word-break:keep-all;overflow-wrap:break-word}
 </style>
 </body>
 </html>
