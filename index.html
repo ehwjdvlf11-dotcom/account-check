@@ -871,11 +871,11 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 <p class="email-notice-intro" id="email-notice-intro">계정을 수령한 후 아래 안내를 확인하고 이용해 주세요.</p>
 <ul class="email-notice-list">
-<li>계정을 받은 후 X에서 정상적으로 노출되는지 먼저 확인해 주세요.</li>
-<li>X의 계정 상태 및 보안 정책에 따라 이메일 변경이 제한될 수 있습니다. 변경할 수 없다면 계정 수령 후 48시간이 지난 뒤 다시 시도해 주세요.</li>
-<li>이메일 확인함에 메일이 도착하지 않을 수도 있습니다. 계정을 수령한 후 이메일 변경을 진행하고 이용해 주세요.</li>
-<li>이메일이 오지 않는다면 코드 다시 보내기를 시도한 후 메일함을 다시 확인해 주세요.</li>
-<li>메일함에 이메일이 도착하지 않는 경우 교환해 드립니다. 관리자에게 문의해 주세요.</li>
+<li><span class="email-notice-index">01</span><span class="email-notice-copy"><strong>계정 노출 확인</strong><span>계정을 받은 후 X에서 정상적으로 노출되는지 먼저 확인해 주세요.</span></span></li>
+<li><span class="email-notice-index">02</span><span class="email-notice-copy"><strong>이메일 변경 제한</strong><span>X의 계정 상태 및 보안 정책에 따라 이메일 변경이 제한될 수 있습니다. 변경할 수 없다면 계정 수령 후 48시간이 지난 뒤 다시 시도해 주세요.</span></span></li>
+<li><span class="email-notice-index">03</span><span class="email-notice-copy"><strong>메일 수신 안내</strong><span>이메일 확인함에 메일이 도착하지 않을 수도 있습니다. 계정을 수령한 후 이메일 변경을 진행하고 이용해 주세요.</span></span></li>
+<li><span class="email-notice-index">04</span><span class="email-notice-copy"><strong>재전송 후 확인</strong><span>이메일이 오지 않는다면 코드 다시 보내기를 시도한 후 메일함을 다시 확인해 주세요.</span></span></li>
+<li class="email-notice-wide"><span class="email-notice-index">05</span><span class="email-notice-copy"><strong>교환 및 문의</strong><span>메일함에 이메일이 도착하지 않는 경우 교환해 드립니다. 관리자에게 문의해 주세요.</span></span></li>
 </ul>
 <p class="email-notice-foot">확인을 누르면 이메일 확인함이 열립니다. 메일이 오지 않는 경우 관리자에게 문의해 주세요.</p>
 <div class="email-notice-actions">
@@ -1087,13 +1087,31 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             if(error){ error.classList.add('hidden'); error.classList.remove('is-active'); error.style.display='none'; }
         }
 
-        function showInvalidCode(){
+        function showInvalidCode(message){
             closeAgreementModal();
             showStep('step-query');
             const el=document.getElementById('code-invalid-inline');
-            if(el) el.classList.add('show');
+            if(el){
+                if(message) el.textContent = message;
+                else el.textContent = '유효하지 않은 코드입니다. 발급받은 코드를 다시 확인해 주세요.';
+                el.classList.add('show');
+            }
             const error=document.getElementById('error-box');
             if(error){ error.classList.add('is-active'); error.classList.remove('hidden'); error.style.display='block'; }
+        }
+
+        // 발급 코드에 저장된 실제 계정 유형을 판별하고 현재 선택 탭과 비교합니다.
+        function getAccountTypeMismatch(data, selectedTab = currentTab){
+            const productType = String(data?.product_type || '').toLowerCase();
+            const accountId = String(data?.account_id || '').toLowerCase();
+            const isEmailAccount = productType.includes('이메일') || productType.includes('email') || accountId.includes('@') || Boolean(data?.email_type);
+            if(selectedTab === 'email' && !isEmailAccount){
+                return '일반 계정 발급 코드입니다. 일반 계정 탭에서 조회해 주세요.';
+            }
+            if(selectedTab === 'general' && isEmailAccount){
+                return '이메일 계정 발급 코드입니다. 이메일 계정 탭에서 조회해 주세요.';
+            }
+            return '';
         }
         async function openAgreementModal() {
             const codeInput = document.getElementById('input-code');
@@ -1133,15 +1151,12 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     return;
                 }
 
-                // 선택한 탭과 등록된 코드의 상품 유형이 맞는지 확인합니다.
-                const productType = String(data.product_type || '').toLowerCase();
-                const accountIdStr = String(data.account_id || '').toLowerCase();
-                const isEmailAccount =
-                    productType.includes('이메일') ||
-                    accountIdStr.includes('@') ||
-                    Boolean(data.email_type);
-
-                // 조회 탭과 무관하게 등록된 발급 코드는 모두 조회할 수 있습니다.
+                // 현재 선택한 탭과 발급 코드에 저장된 계정 유형이 다르면 조회를 중단합니다.
+                const typeMismatch = getAccountTypeMismatch(data, currentTab);
+                if(typeMismatch){
+                    showInvalidCode(typeMismatch);
+                    return;
+                }
 
                 // 등록된 코드만 안내문/동의창을 표시합니다.
                 const checkbox = document.getElementById('modal-agree-checkbox');
@@ -1249,9 +1264,14 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 
                 const productType = String(data.product_type || '').toLowerCase();
                 const accountIdStr = String(data.account_id || '').toLowerCase();
-                const isEmailAccount = productType.includes('이메일') || accountIdStr.includes('@') || Boolean(data.email_type);
+                const isEmailAccount = productType.includes('이메일') || productType.includes('email') || accountIdStr.includes('@') || Boolean(data.email_type);
 
-                // 일반/이메일 탭 선택과 실제 발급 코드의 계정 유형이 달라도 조회를 허용합니다.
+                // 확인 단계에서도 유형을 다시 검사해 탭과 다른 계정 코드가 결과로 노출되지 않게 합니다.
+                const typeMismatch = getAccountTypeMismatch(data, currentTab);
+                if(typeMismatch){
+                    showInvalidCode(typeMismatch);
+                    return;
+                }
 
                 document.getElementById('res-product-type').innerText = data.product_type || '구매 계정';
                 document.getElementById('res-search-key').innerText = currentSearchKey || code;
@@ -3224,5 +3244,159 @@ html body #result-box .result-storage-notice p{font-size:11px!important;line-hei
 html body #result-box .v35-status{font-size:10px!important}
 html body #result-box#result-box>button,html body #result-box#result-box>button span{font-size:11px!important}
 </style>
+
+<style id="email-notice-premium-compact-v2">
+/* Email confirmation notice only: compact editorial hierarchy, denser layout, clearer actions. */
+#email-notice-modal{
+  padding:clamp(10px,2.8vw,24px)!important;
+  background:rgba(1,5,10,.84)!important;
+  -webkit-backdrop-filter:blur(17px) saturate(128%)!important;
+  backdrop-filter:blur(17px) saturate(128%)!important;
+}
+#email-notice-modal .email-notice-card{
+  position:relative!important;isolation:isolate;
+  width:min(100%,560px)!important;max-width:560px!important;
+  max-height:min(92dvh,780px)!important;overflow-y:auto!important;
+  padding:clamp(17px,3vw,23px)!important;
+  display:flex!important;flex-direction:column!important;gap:0!important;
+  border:1px solid rgba(137,190,218,.32)!important;border-radius:17px!important;
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(83,164,202,.16),transparent 40%),
+    radial-gradient(ellipse at 100% 100%,rgba(57,108,147,.08),transparent 42%),
+    linear-gradient(150deg,#131f2b 0%,#0b121a 56%,#080e15 100%)!important;
+  box-shadow:0 34px 100px rgba(0,0,0,.72),0 0 55px rgba(73,160,207,.08),inset 0 1px 0 rgba(255,255,255,.065)!important;
+  scrollbar-width:thin;scrollbar-color:#3a5365 #0b1219;
+}
+#email-notice-modal .email-notice-card::before{
+  content:"";position:absolute;z-index:-1;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,#72c8e9 28%,#d8f2fb 50%,#72c8e9 72%,transparent);
+  opacity:.9;
+}
+#email-notice-modal .email-notice-head{
+  display:flex!important;align-items:center!important;gap:13px!important;
+  margin:0 0 13px!important;padding:1px 0 13px!important;
+  border-bottom:1px solid rgba(161,190,209,.15)!important;
+}
+#email-notice-modal .email-notice-icon{
+  width:48px!important;height:48px!important;flex:0 0 48px!important;
+  border:1px solid rgba(123,207,239,.34)!important;border-radius:13px!important;
+  color:#a8e5f8!important;
+  background:linear-gradient(145deg,rgba(78,160,200,.22),rgba(13,31,45,.88))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 23px rgba(44,144,185,.12)!important;
+}
+#email-notice-modal .email-notice-icon svg{width:22px!important;height:22px!important;color:#a8e5f8!important;stroke-width:1.7!important;}
+#email-notice-modal .email-notice-kicker{
+  color:#8dbbd1!important;font-size:9px!important;font-weight:850!important;
+  letter-spacing:.2em!important;line-height:1.2!important;
+}
+#email-notice-modal .email-notice-title{
+  margin:5px 0 0!important;color:#f4f8fb!important;
+  font-size:20px!important;line-height:1.25!important;font-weight:900!important;
+  letter-spacing:-.045em!important;
+}
+#email-notice-modal .email-notice-intro{
+  margin:0 0 12px!important;color:#aebfcb!important;
+  font-size:12.5px!important;line-height:1.6!important;letter-spacing:-.015em!important;
+}
+#email-notice-modal .email-notice-list{
+  counter-reset:email-notice-item;
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;margin:0!important;padding:0!important;
+  list-style:none!important;border:0!important;border-radius:0!important;background:transparent!important;
+}
+#email-notice-modal .email-notice-list li{
+  min-width:0!important;display:grid!important;grid-template-columns:26px minmax(0,1fr)!important;
+  align-items:start!important;gap:9px!important;margin:0!important;padding:11px 10px!important;
+  border:1px solid rgba(136,171,194,.17)!important;border-radius:10px!important;
+  background:linear-gradient(145deg,rgba(23,38,51,.88),rgba(10,18,26,.92))!important;
+  color:#d6e1e8!important;font-size:11px!important;line-height:1.55!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025)!important;
+}
+#email-notice-modal .email-notice-list li+li{border-top:1px solid rgba(136,171,194,.17)!important;}
+#email-notice-modal .email-notice-list li::before{display:none!important;content:none!important;}
+#email-notice-modal .email-notice-index{
+  display:grid!important;place-items:center!important;width:26px!important;height:26px!important;
+  border:1px solid rgba(120,199,232,.24)!important;border-radius:7px!important;
+  color:#9bd8f0!important;background:linear-gradient(145deg,rgba(77,157,195,.17),rgba(19,42,57,.4))!important;
+  font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.02em!important;
+}
+#email-notice-modal .email-notice-copy{display:grid!important;gap:4px!important;min-width:0!important;}
+#email-notice-modal .email-notice-copy strong{
+  display:block!important;color:#edf6fb!important;font-size:11.5px!important;
+  line-height:1.35!important;font-weight:850!important;letter-spacing:-.015em!important;
+}
+#email-notice-modal .email-notice-copy>span{
+  display:block!important;color:#c0ced8!important;font-size:11.2px!important;
+  line-height:1.55!important;word-break:keep-all!important;overflow-wrap:anywhere!important;
+}
+#email-notice-modal .email-notice-list li.email-notice-wide{grid-column:1/-1!important;}
+#email-notice-modal .email-notice-foot{
+  display:flex!important;align-items:flex-start!important;gap:8px!important;
+  margin:11px 0 0!important;padding:9px 11px!important;
+  border:1px solid rgba(120,191,221,.15)!important;border-radius:9px!important;
+  color:#9fb5c3!important;background:rgba(75,139,171,.075)!important;
+  font-size:10.5px!important;line-height:1.55!important;
+}
+#email-notice-modal .email-notice-foot::before{
+  content:"i";display:grid;place-items:center;flex:0 0 15px;width:15px;height:15px;
+  margin-top:1px;border:1px solid rgba(137,207,234,.32);border-radius:50%;
+  color:#9bdcf4;font:800 9px/1 Georgia,serif;
+}
+#email-notice-modal .email-notice-actions{
+  display:grid!important;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)!important;
+  gap:9px!important;margin:13px 0 0!important;padding-top:1px!important;
+}
+#email-notice-modal .email-notice-btn{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  min-width:0!important;min-height:46px!important;padding:10px 12px!important;
+  border-radius:9px!important;font-size:12px!important;font-weight:850!important;
+  letter-spacing:-.01em!important;line-height:1.2!important;
+  transition:transform .16s ease,filter .16s ease,border-color .16s ease!important;
+}
+#email-notice-modal .email-notice-cancel{
+  border:1px solid rgba(145,171,190,.24)!important;
+  color:#b7c5cf!important;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018))!important;
+}
+#email-notice-modal .email-notice-confirm{
+  border:1px solid rgba(137,218,244,.55)!important;
+  color:#071722!important;background:linear-gradient(120deg,#b7eaf8,#72c8e6)!important;
+  box-shadow:0 8px 22px rgba(63,164,205,.17),inset 0 1px rgba(255,255,255,.7)!important;
+}
+#email-notice-modal .email-notice-btn:hover{filter:brightness(1.045)!important;}
+#email-notice-modal .email-notice-btn:active{transform:scale(.985)!important;}
+#email-notice-modal .email-notice-btn:focus-visible{outline:2px solid #9adcf1!important;outline-offset:3px!important;}
+@media(max-width:560px){
+  #email-notice-modal{padding:10px!important;}
+  #email-notice-modal .email-notice-card{width:min(100%,500px)!important;max-height:94dvh!important;padding:15px!important;border-radius:14px!important;}
+  #email-notice-modal .email-notice-head{gap:11px!important;margin-bottom:11px!important;padding-bottom:11px!important;}
+  #email-notice-modal .email-notice-icon{width:42px!important;height:42px!important;flex-basis:42px!important;border-radius:11px!important;}
+  #email-notice-modal .email-notice-title{font-size:18px!important;}
+  #email-notice-modal .email-notice-intro{font-size:11.5px!important;margin-bottom:10px!important;}
+  #email-notice-modal .email-notice-list{grid-template-columns:minmax(0,1fr)!important;gap:6px!important;}
+  #email-notice-modal .email-notice-list li,#email-notice-modal .email-notice-list li.email-notice-wide{grid-column:1!important;padding:9px 10px!important;gap:8px!important;}
+  #email-notice-modal .email-notice-index{width:24px!important;height:24px!important;}
+  #email-notice-modal .email-notice-copy strong{font-size:10.7px!important;}
+  #email-notice-modal .email-notice-copy>span{font-size:10.8px!important;line-height:1.52!important;}
+  #email-notice-modal .email-notice-foot{font-size:10px!important;margin-top:9px!important;padding:8px 9px!important;}
+  #email-notice-modal .email-notice-actions{margin-top:10px!important;gap:7px!important;}
+  #email-notice-modal .email-notice-btn{min-height:43px!important;font-size:11.2px!important;}
+}
+@media(max-width:380px){
+  #email-notice-modal .email-notice-card{padding:12px!important;}
+  #email-notice-modal .email-notice-list li{padding:8px!important;}
+  #email-notice-modal .email-notice-copy>span{font-size:10.2px!important;}
+}
+@media(max-height:650px){
+  #email-notice-modal .email-notice-card{max-height:94dvh!important;padding-top:14px!important;padding-bottom:14px!important;}
+  #email-notice-modal .email-notice-head{margin-bottom:9px!important;padding-bottom:9px!important;}
+  #email-notice-modal .email-notice-list{gap:6px!important;}
+  #email-notice-modal .email-notice-list li{padding-top:8px!important;padding-bottom:8px!important;}
+  #email-notice-modal .email-notice-foot{margin-top:8px!important;}
+  #email-notice-modal .email-notice-actions{margin-top:9px!important;}
+}
+@media(prefers-reduced-motion:reduce){#email-notice-modal .email-notice-btn{transition:none!important;}}
+</style>
+
 </body>
 </html>
