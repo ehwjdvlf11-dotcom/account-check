@@ -888,13 +888,19 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <style id="inbox-style">#inbox-modal .ib-item{border:1px solid #2f3336;border-radius:14px;background:#0b0e12;overflow:hidden}#inbox-modal .ib-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;width:100%;padding:12px 14px;text-align:left;cursor:pointer;background:transparent;border:0;color:#e7e9ea}#inbox-modal .ib-subject{font-weight:700;font-size:13px;line-height:1.4;word-break:break-word}#inbox-modal .ib-date{font-size:11px;color:#71767b;margin-top:2px}#inbox-modal .ib-body{display:none;border-top:1px solid #2f3336;padding:12px 14px;font-size:12px;color:#c4c7cc}#inbox-modal .ib-item.open .ib-body{display:block}#inbox-modal .ib-meta{font-size:11px;color:#8b98a5;line-height:1.6;margin-bottom:8px;word-break:break-all}#inbox-modal .ib-text{white-space:pre-wrap;word-break:break-word;background:#16181c;border-radius:10px;padding:10px 12px;max-height:260px;overflow:auto;line-height:1.55}#inbox-modal .ib-code{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding:10px 12px;border-radius:10px;border:1px solid rgba(29,155,240,.4);background:rgba(29,155,240,.08)}#inbox-modal .ib-code b{font-family:ui-monospace,Menlo,monospace;letter-spacing:.16em;font-size:18px;color:#8ecdf8}#inbox-modal .ib-tag{font-size:10px;font-weight:800;padding:2px 7px;border-radius:9999px;border:1px solid #536471;color:#8b98a5;white-space:nowrap}#inbox-modal .ib-tag.x{border-color:#1d9bf0;color:#8ecdf8}
     </style>
 <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-3 hidden" id="inbox-modal">
-<div class="w-full max-w-md x-card p-4 md:p-5 shadow-2xl flex flex-col" style="max-height:92vh">
-<div class="flex items-center justify-between mb-3">
-<div class="text-white font-black text-base">이메일 확인함</div>
+<div class="w-full max-w-md x-card p-4 md:p-5 shadow-2xl flex flex-col inbox-modal-card" style="max-height:92vh">
+<div class="inbox-headbar">
+<div class="inbox-title-lockup">
+<i aria-hidden="true" class="inbox-title-icon" data-lucide="mail-open"></i>
+<div class="inbox-title-copy">
+<div class="inbox-title-kicker">MESSAGE CENTER</div>
+<div class="inbox-title-text">이메일 확인함</div>
+</div>
+</div>
+<div class="inbox-head-actions">
+<button class="x-btn-white text-xs px-4 py-2 disabled:opacity-50" id="inbox-refresh" onclick="loadInbox()">새로고침</button>
 <button class="x-btn-dark text-xs px-3 py-1.5" onclick="closeInbox()">닫기</button>
 </div>
-<div class="flex items-center justify-end gap-2 mb-3">
-<button class="x-btn-white text-xs px-4 py-2 disabled:opacity-50" id="inbox-refresh" onclick="loadInbox()">새로고침</button>
 </div>
 <div class="text-xs text-[#71767b] mb-2" id="inbox-status" role="status"></div>
 <div class="space-y-2 overflow-y-auto pr-1" id="inbox-list" style="min-height:80px"></div>
@@ -3396,6 +3402,184 @@ html body #result-box#result-box>button,html body #result-box#result-box>button 
   #email-notice-modal .email-notice-actions{margin-top:9px!important;}
 }
 @media(prefers-reduced-motion:reduce){#email-notice-modal .email-notice-btn{transition:none!important;}}
+</style>
+
+
+<style id="email-notice-unified-premium-v3">
+/* Email notice: one unified editorial surface, without separate mini-cards. */
+#email-notice-modal{padding:clamp(12px,3vw,24px)!important;background:rgba(1,5,10,.86)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(125%)!important;backdrop-filter:blur(18px) saturate(125%)!important;}
+#email-notice-modal .email-notice-card{width:min(100%,520px)!important;max-width:520px!important;
+  max-height:min(92dvh,780px)!important;overflow-y:auto!important;padding:25px 27px 22px!important;
+  border:1px solid rgba(145,188,211,.27)!important;border-radius:19px!important;
+  background:radial-gradient(ellipse at 6% 0%,rgba(67,148,187,.17),transparent 39%),
+    linear-gradient(145deg,#111d28 0%,#0b131c 55%,#080e15 100%)!important;
+  box-shadow:0 34px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.065)!important;}
+#email-notice-modal .email-notice-card::before{content:"";position:absolute;left:9%;right:9%;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(117,205,237,.9),rgba(225,246,255,.7),rgba(117,205,237,.9),transparent);}
+#email-notice-modal .email-notice-head{display:flex!important;align-items:center!important;gap:14px!important;
+  margin:0 0 15px!important;padding:0 0 16px!important;border-bottom:1px solid rgba(158,190,209,.16)!important;}
+#email-notice-modal .email-notice-icon{width:42px!important;height:42px!important;flex:0 0 42px!important;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  color:#9bdcf2!important;}
+#email-notice-modal .email-notice-icon svg{width:27px!important;height:27px!important;stroke-width:1.65!important;
+  filter:drop-shadow(0 0 10px rgba(104,194,226,.23));}
+#email-notice-modal .email-notice-kicker{font:800 9px/1.2 ui-monospace,Menlo,monospace!important;
+  color:#83b6cf!important;letter-spacing:.2em!important;}
+#email-notice-modal .email-notice-title{margin:6px 0 0!important;font-size:22px!important;line-height:1.2!important;
+  font-weight:900!important;letter-spacing:-.045em!important;color:#f4f8fb!important;}
+#email-notice-modal .email-notice-intro{margin:0 0 13px!important;color:#aebfcb!important;
+  font-size:12.5px!important;line-height:1.7!important;letter-spacing:-.012em!important;}
+/* All guidance is kept in one continuous list. No individual tiles or number boxes. */
+#email-notice-modal .email-notice-list{display:block!important;grid-template-columns:none!important;gap:0!important;
+  margin:0!important;padding:0 2px!important;list-style:none!important;border:0!important;border-radius:0!important;
+  background:transparent!important;}
+#email-notice-modal .email-notice-list li,
+#email-notice-modal .email-notice-list li.email-notice-wide{display:block!important;position:relative!important;
+  grid-column:auto!important;margin:0!important;padding:12px 8px 12px 20px!important;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  color:#d4e0e8!important;font-size:12px!important;line-height:1.65!important;}
+#email-notice-modal .email-notice-list li+li{border-top:1px solid rgba(149,180,201,.13)!important;}
+#email-notice-modal .email-notice-list li::before{display:block!important;content:""!important;position:absolute!important;
+  left:3px!important;top:19px!important;width:5px!important;height:5px!important;flex:0 0 5px!important;
+  margin:0!important;border-radius:50%!important;background:#82d2ed!important;
+  box-shadow:0 0 10px rgba(130,210,237,.36)!important;}
+#email-notice-modal .email-notice-index{display:none!important;}
+#email-notice-modal .email-notice-copy{display:block!important;min-width:0!important;}
+#email-notice-modal .email-notice-copy strong{display:block!important;margin:0 0 4px!important;
+  color:#eff6fa!important;font-size:12.5px!important;line-height:1.4!important;font-weight:850!important;letter-spacing:-.02em!important;}
+#email-notice-modal .email-notice-copy>span{display:block!important;color:#b7c7d2!important;
+  font-size:12px!important;line-height:1.65!important;word-break:keep-all!important;overflow-wrap:break-word!important;}
+#email-notice-modal .email-notice-foot{display:block!important;margin:12px 0 0!important;padding:11px 0 0 20px!important;
+  border:0!important;border-top:1px solid rgba(149,180,201,.13)!important;border-radius:0!important;
+  background:transparent!important;color:#91a7b6!important;font-size:10.5px!important;line-height:1.6!important;}
+#email-notice-modal .email-notice-foot::before{content:"i";display:inline-grid!important;place-items:center!important;
+  width:14px!important;height:14px!important;margin:0 6px 0 -20px!important;vertical-align:-2px!important;
+  border:1px solid rgba(137,207,234,.34)!important;border-radius:50%!important;color:#9bdcf4!important;
+  font:800 9px/1 Georgia,serif!important;}
+#email-notice-modal .email-notice-actions{display:grid!important;grid-template-columns:1fr 1.15fr!important;
+  gap:10px!important;margin:17px 0 0!important;padding:0!important;}
+#email-notice-modal .email-notice-btn{display:flex!important;align-items:center!important;justify-content:center!important;
+  min-height:48px!important;padding:11px 14px!important;border-radius:9px!important;
+  font-size:12px!important;font-weight:850!important;letter-spacing:-.01em!important;line-height:1.2!important;}
+#email-notice-modal .email-notice-cancel{border:1px solid rgba(144,171,190,.24)!important;
+  color:#b8c5ce!important;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018))!important;}
+#email-notice-modal .email-notice-confirm{border:1px solid rgba(143,220,243,.56)!important;
+  color:#071722!important;background:linear-gradient(120deg,#b8eaf8,#78cbe7)!important;
+  box-shadow:0 9px 25px rgba(63,164,205,.17),inset 0 1px rgba(255,255,255,.7)!important;}
+#email-notice-modal .email-notice-btn:hover{filter:brightness(1.045)!important;}
+#email-notice-modal .email-notice-btn:active{transform:scale(.987)!important;}
+/* Inbox title: one clean title lockup, not a separate badge/card. */
+#inbox-modal>div{padding:19px 20px!important;}
+#inbox-modal .inbox-title-lockup{display:flex!important;align-items:center!important;gap:11px!important;min-width:0!important;}
+#inbox-modal .inbox-title-icon{width:23px!important;height:23px!important;flex:0 0 23px!important;
+  color:#8fd4ef!important;stroke-width:1.7!important;filter:drop-shadow(0 0 8px rgba(91,184,219,.2));}
+#inbox-modal .inbox-title-copy{display:flex!important;flex-direction:column!important;gap:4px!important;min-width:0!important;}
+#inbox-modal .inbox-title-kicker{color:#82afc5!important;font:800 8px/1.2 ui-monospace,Menlo,monospace!important;letter-spacing:.19em!important;}
+#inbox-modal .inbox-title-text{color:#f2f7fa!important;font-size:19px!important;line-height:1.15!important;
+  font-weight:900!important;letter-spacing:-.04em!important;}
+#inbox-modal .inbox-title-lockup+button{min-height:36px!important;padding:0 13px!important;border-radius:7px!important;
+  font-size:11px!important;font-weight:800!important;}
+#inbox-modal>div>.flex.items-center.justify-between.mb-3{padding-bottom:14px!important;
+  border-bottom:1px solid rgba(151,181,201,.15)!important;margin-bottom:14px!important;}
+#inbox-modal #inbox-refresh{min-height:36px!important;border-radius:7px!important;padding:0 14px!important;font-size:11px!important;}
+@media(max-width:560px){
+  #email-notice-modal{padding:10px!important;}
+  #email-notice-modal .email-notice-card{width:min(100%,500px)!important;max-height:94dvh!important;padding:18px 17px 16px!important;border-radius:15px!important;}
+  #email-notice-modal .email-notice-head{gap:11px!important;margin-bottom:12px!important;padding-bottom:12px!important;}
+  #email-notice-modal .email-notice-icon{width:36px!important;height:36px!important;flex-basis:36px!important;}
+  #email-notice-modal .email-notice-icon svg{width:24px!important;height:24px!important;}
+  #email-notice-modal .email-notice-title{font-size:19px!important;}
+  #email-notice-modal .email-notice-intro{font-size:11.5px!important;margin-bottom:8px!important;}
+  #email-notice-modal .email-notice-list li,#email-notice-modal .email-notice-list li.email-notice-wide{padding:10px 5px 10px 17px!important;}
+  #email-notice-modal .email-notice-list li::before{left:2px!important;top:17px!important;width:4px!important;height:4px!important;}
+  #email-notice-modal .email-notice-copy strong{font-size:11.8px!important;}
+  #email-notice-modal .email-notice-copy>span{font-size:11.2px!important;line-height:1.58!important;}
+  #email-notice-modal .email-notice-foot{font-size:10px!important;margin-top:9px!important;padding-top:9px!important;}
+  #email-notice-modal .email-notice-actions{margin-top:13px!important;gap:8px!important;}
+  #email-notice-modal .email-notice-btn{min-height:44px!important;font-size:11px!important;}
+  #inbox-modal>div{padding:15px!important;}
+  #inbox-modal .inbox-title-text{font-size:17px!important;}
+}
+@media(max-height:650px){
+  #email-notice-modal .email-notice-card{max-height:94dvh!important;padding-top:14px!important;padding-bottom:13px!important;}
+  #email-notice-modal .email-notice-head{margin-bottom:8px!important;padding-bottom:9px!important;}
+  #email-notice-modal .email-notice-list li,#email-notice-modal .email-notice-list li.email-notice-wide{padding-top:7px!important;padding-bottom:7px!important;}
+  #email-notice-modal .email-notice-foot{margin-top:7px!important;}
+  #email-notice-modal .email-notice-actions{margin-top:9px!important;}
+}
+@media(prefers-reduced-motion:reduce){#email-notice-modal .email-notice-btn{transition:none!important;}}
+</style>
+
+
+<style id="inbox-compact-header-layout">
+/* Compact inbox top bar: give the actual message list more room. */
+#inbox-modal{padding:12px!important;}
+#inbox-modal>.inbox-modal-card{
+  box-sizing:border-box!important;width:min(100%,500px)!important;max-width:500px!important;
+  max-height:min(86dvh,760px)!important;padding:15px 17px 16px!important;
+  display:flex!important;flex-direction:column!important;overflow:hidden!important;
+  border:1px solid rgba(138,177,202,.25)!important;border-radius:13px!important;
+  background:linear-gradient(155deg,#121c27 0%,#0b1118 58%,#080d13 100%)!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.68),inset 0 1px rgba(255,255,255,.045)!important;
+}
+#inbox-modal>.inbox-modal-card::before{
+  content:"";display:block;flex:0 0 2px;height:2px;margin:-15px -17px 12px;
+  background:linear-gradient(90deg,transparent,rgba(108,190,226,.78),rgba(215,238,249,.45),transparent);
+}
+#inbox-modal .inbox-headbar{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:12px!important;min-width:0!important;margin:0 0 9px!important;padding:0 0 10px!important;
+  border-bottom:1px solid rgba(151,181,201,.13)!important;
+}
+#inbox-modal .inbox-title-lockup{display:flex!important;align-items:center!important;gap:9px!important;min-width:0!important;}
+#inbox-modal .inbox-title-icon{width:21px!important;height:21px!important;flex:0 0 21px!important;
+  color:#9bdcf3!important;stroke-width:1.8!important;filter:drop-shadow(0 0 7px rgba(91,184,219,.2));}
+#inbox-modal .inbox-title-copy{display:flex!important;flex-direction:column!important;gap:3px!important;min-width:0!important;}
+#inbox-modal .inbox-title-kicker{font-size:7.5px!important;line-height:1.1!important;letter-spacing:.17em!important;color:#7faec4!important;}
+#inbox-modal .inbox-title-text{font-size:17px!important;line-height:1.2!important;font-weight:900!important;letter-spacing:-.035em!important;color:#f1f6fa!important;}
+#inbox-modal .inbox-head-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;flex:0 0 auto!important;}
+#inbox-modal .inbox-head-actions button{display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-height:32px!important;height:32px!important;padding:0 10px!important;border-radius:6px!important;
+  font-size:10px!important;line-height:1!important;font-weight:800!important;white-space:nowrap!important;}
+#inbox-modal #inbox-refresh{border:1px solid rgba(133,197,226,.28)!important;
+  color:#c8e6f4!important;background:linear-gradient(180deg,rgba(75,131,163,.2),rgba(30,50,65,.35))!important;}
+#inbox-modal .inbox-head-actions button[onclick="closeInbox()"]{border:1px solid rgba(150,172,190,.2)!important;
+  color:#b6c3ce!important;background:linear-gradient(180deg,#18222c,#101820)!important;}
+#inbox-modal #inbox-status{flex:0 0 auto!important;min-height:0!important;margin:0 0 8px!important;padding:0 1px!important;
+  color:#91a3b2!important;font-size:10px!important;line-height:1.45!important;letter-spacing:-.01em!important;}
+#inbox-modal #inbox-list{flex:1 1 auto!important;min-height:80px!important;max-height:min(65dvh,590px)!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;padding:0 2px 1px 0!important;}
+#inbox-modal .ib-item{border:1px solid rgba(137,165,187,.18)!important;border-radius:8px!important;
+  background:linear-gradient(145deg,#111a23,#0c1219)!important;}
+#inbox-modal .ib-item.open{border-color:rgba(105,190,230,.31)!important;background:linear-gradient(145deg,#14212c,#0c141c)!important;}
+#inbox-modal .ib-head{padding:10px 11px!important;gap:9px!important;}
+#inbox-modal .ib-subject{font-size:12px!important;line-height:1.45!important;color:#e8f0f5!important;}
+#inbox-modal .ib-date,#inbox-modal .ib-meta{font-size:10px!important;line-height:1.5!important;color:#81919f!important;}
+#inbox-modal .ib-body{padding:10px 11px!important;font-size:11.5px!important;line-height:1.65!important;}
+#inbox-modal .ib-text{max-height:260px!important;padding:10px!important;border:1px solid rgba(139,165,184,.12)!important;
+  border-radius:7px!important;background:#080e14!important;font-size:11.5px!important;line-height:1.65!important;}
+@media(max-width:560px){
+  #inbox-modal{padding:9px!important;}
+  #inbox-modal>.inbox-modal-card{width:100%!important;max-height:88dvh!important;padding:13px 13px 14px!important;border-radius:11px!important;}
+  #inbox-modal>.inbox-modal-card::before{margin:-13px -13px 10px!important;}
+  #inbox-modal .inbox-headbar{gap:8px!important;margin-bottom:8px!important;padding-bottom:9px!important;}
+  #inbox-modal .inbox-title-lockup{gap:7px!important;}
+  #inbox-modal .inbox-title-icon{width:19px!important;height:19px!important;flex-basis:19px!important;}
+  #inbox-modal .inbox-title-text{font-size:15.5px!important;}
+  #inbox-modal .inbox-title-kicker{font-size:7px!important;}
+  #inbox-modal .inbox-head-actions{gap:5px!important;}
+  #inbox-modal .inbox-head-actions button{min-height:30px!important;height:30px!important;padding:0 8px!important;font-size:9px!important;}
+  #inbox-modal #inbox-status{font-size:9.5px!important;margin-bottom:7px!important;}
+  #inbox-modal #inbox-list{max-height:calc(88dvh - 104px)!important;}
+  #inbox-modal .ib-head{padding:9px!important;}
+  #inbox-modal .ib-subject{font-size:11.5px!important;}
+  #inbox-modal .ib-body{padding:9px!important;}
+}
+@media(max-width:360px){
+  #inbox-modal .inbox-title-text{font-size:14.5px!important;}
+  #inbox-modal .inbox-head-actions button{padding:0 7px!important;font-size:8.5px!important;}
+}
 </style>
 
 </body>
