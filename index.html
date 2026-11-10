@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 
 <html lang="ko">
 <head>
@@ -629,56 +629,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 @media(prefers-reduced-motion:reduce){
   html body #main-card,html body #main-card *,html body #email-notice-modal *,html body #agreement-modal *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
 }
-</style>
-<style id="xa-purchase-consent-flow">
-#step-intro .purchase-guide-note{line-height:1.7}
-#step-price .purchase-select-kicker{margin:3px 0 -4px;color:#8fa9bc;font:800 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em}
-#step-price .product-card{cursor:pointer;position:relative;outline:none;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
-#step-price .product-card:focus-visible{outline:2px solid #8bd8f4;outline-offset:3px}
-#step-price .product-card.is-selected{border-color:rgba(111,207,245,.78)!important;background:linear-gradient(145deg,rgba(39,111,145,.22),rgba(10,18,26,.98))!important;box-shadow:0 0 0 1px rgba(111,207,245,.18),0 12px 32px rgba(36,157,210,.12)!important}
-#step-price .purchase-product-select{display:inline-flex;margin-top:10px;padding:4px 7px;border:1px solid #334656;border-radius:5px;color:#8b9eae;font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em}
-#step-price .product-card.is-selected .purchase-product-select{border-color:rgba(118,207,242,.4);background:rgba(86,185,225,.12);color:#a9e4fa}
-#step-price .purchase-preorder-controls{display:grid;gap:10px;margin-top:5px}
-#step-price .purchase-method-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:2px;color:#8fa9bc;font:800 9px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em}
-#step-price .purchase-method-heading small{font:500 10px/1.4 Pretendard,sans-serif;letter-spacing:0;color:#8393a2}
-#step-price .purchase-method-option{width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;appearance:none;-webkit-appearance:none}
-#step-price .purchase-method-option[aria-pressed="true"]{border-color:rgba(118,207,242,.72)!important;background:linear-gradient(105deg,rgba(57,135,171,.18),rgba(10,17,24,.95))!important;box-shadow:0 0 0 1px rgba(118,207,242,.12),0 7px 22px rgba(32,140,190,.08)}
-#step-price .purchase-method-option[aria-pressed="true"] .purchase-compact-action{color:#b5eaff}
-#step-price .purchase-policy-check{font-size:11px!important;line-height:1.6!important;padding:12px!important;border-color:rgba(116,162,190,.26)!important;background:rgba(96,154,190,.07)!important}
-#step-price .purchase-policy-check input{width:16px!important;height:16px!important;margin-top:2px!important}
-#step-price .purchase-consent-submit{width:100%;min-height:51px;display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border:1px solid rgba(141,218,245,.5);border-radius:9px;background:linear-gradient(110deg,#c1ecf7,#83cae5);color:#0a1b26;font-size:12px;font-weight:900;letter-spacing:-.02em;box-shadow:0 8px 23px rgba(70,176,215,.13);transition:filter .18s ease,transform .18s ease,opacity .18s ease}
-#step-price .purchase-consent-submit:disabled{opacity:.42;filter:saturate(.45);cursor:not-allowed;box-shadow:none}
-#step-price .purchase-consent-submit:not(:disabled){cursor:pointer}
-#step-price .purchase-consent-submit:not(:disabled):hover{filter:brightness(1.04);transform:translateY(-1px)}
-#step-price .purchase-consent-submit-icon,#step-price .purchase-consent-submit-arrow{display:inline-flex;width:17px;height:17px;align-items:center;justify-content:center}
-#step-price .purchase-consent-submit svg{width:16px;height:16px}
-#step-price .purchase-policy-hint{min-height:15px;font-size:10px!important;line-height:1.55!important}
-#step-price .purchase-result-panel{margin-top:13px;padding:16px;border:1px solid rgba(113,202,235,.30);border-radius:12px;background:radial-gradient(circle at 95% 0%,rgba(70,167,207,.13),transparent 34%),linear-gradient(150deg,rgba(18,35,47,.98),rgba(8,14,21,.99));box-shadow:inset 0 1px rgba(255,255,255,.035),0 14px 34px rgba(0,0,0,.22)}
-#step-price .purchase-result-panel[hidden]{display:none!important}
-#step-price .purchase-result-top{display:flex;align-items:center;gap:7px;color:#a2d9f1;font:800 8px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em}
-#step-price .purchase-result-dot{width:7px;height:7px;border-radius:50%;background:#76d9ae;box-shadow:0 0 12px rgba(118,217,174,.65)}
-#step-price .purchase-result-top strong{margin-left:auto;color:#8de0b1;font:700 9px/1.4 Pretendard,sans-serif;letter-spacing:0}
-#step-price .purchase-result-title{margin:11px 0 3px;color:#f2f7fb;font-size:17px;font-weight:900;letter-spacing:-.04em}
-#step-price .purchase-result-desc{margin:0 0 12px;color:#9aabba;font-size:10px;line-height:1.65}
-#step-price .purchase-order-number-wrap{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid rgba(134,204,231,.25);border-radius:8px;background:rgba(3,9,14,.72)}
-#step-price .purchase-order-number-wrap>div{display:grid;gap:5px;min-width:0}
-#step-price .purchase-order-number-wrap span{color:#7e99ad;font:800 8px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em}
-#step-price .purchase-order-number-wrap strong{color:#effaff;font:900 18px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.035em;overflow-wrap:anywhere}
-#step-price .purchase-order-number-wrap button{display:flex;align-items:center;gap:5px;flex:0 0 auto;min-height:34px;padding:7px 9px;border:1px solid #3a596d;border-radius:6px;background:#142532;color:#bdeaff;font-size:9px;font-weight:800}
-#step-price .purchase-order-number-wrap button svg{width:13px;height:13px}
-#step-price .purchase-result-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:11px 0}
-#step-price .purchase-result-details>div{display:grid;gap:4px;padding:9px;border:1px solid rgba(151,177,196,.12);border-radius:7px;background:rgba(255,255,255,.018);min-width:0}
-#step-price .purchase-result-details span{color:#8194a4;font-size:9px}
-#step-price .purchase-result-details b{color:#e7f0f6;font-size:10px;overflow-wrap:anywhere}
-#step-price .purchase-result-reminder{display:flex;align-items:flex-start;gap:7px;margin:2px 0 11px;padding:9px;border:1px solid rgba(210,181,118,.17);border-radius:7px;background:rgba(210,181,118,.045);color:#c6b98f;font-size:9px;line-height:1.55}
-#step-price .purchase-result-reminder svg{width:13px;height:13px;flex:0 0 13px;margin-top:1px}
-#step-price .purchase-result-pay-link{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;padding:10px;border:1px solid rgba(142,216,241,.35);border-radius:7px;background:linear-gradient(110deg,#b9e9f7,#79c8e5);color:#0c202c;text-decoration:none;font-size:11px;font-weight:900}
-#step-price .purchase-result-pay-link svg{width:15px;height:15px}
-#step-price .purchase-new-order{display:block;margin:10px auto 0;padding:6px 10px;border:0;background:transparent;color:#8fa6b7;font-size:9px;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:430px){#step-price .purchase-result-panel{padding:12px}#step-price .purchase-order-number-wrap strong{font-size:15px}#step-price .purchase-result-title{font-size:15px}}
-@media(prefers-reduced-motion:reduce){#step-price .product-card,#step-price .purchase-consent-submit{transition:none}}
-</style>
-</head>
+</style></head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
 <div aria-hidden="true" class="ambient-bg">
 <div class="ambient-grid"></div>
@@ -722,7 +673,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 <!-- STEP -1 (필독 안내 화면) -->
 <div class="step-screen space-y-4" id="step-intro">
-<p class="purchase-warning">⚠ 청약철회 및 환불 가능 여부는 관련 법령과 실제 제공 상태 등 구체적인 사정에 따라 달라질 수 있으니, 구매 전 상품과 계약조건을 충분히 확인해 주세요.</p>
+<p class="purchase-warning">⚠ 계정 코드를 발급받으신 이후에는 <strong>단순 변심에 따른 환불이 어려우니</strong>, 구매 전 내용을 충분히 확인하신 후 신중하게 구매해 주세요.</p>
 <div class="x-inner p-4 text-xs md:text-sm text-[#e7e9ea] space-y-3" style="background:linear-gradient(145deg,#17191c 0%,#101113 100%);border:1px solid #34383d;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.18);">
 <div class="flex items-center justify-between pb-3" style="border-bottom:1px solid #30343a;gap:12px;">
 <span class="font-bold text-white flex items-center gap-2">
@@ -732,17 +683,17 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <span style="letter-spacing:-.02em;">구매 전 안내</span>
 </span>
 <span style="font-size:10px;letter-spacing:.08em;font-weight:700;color:#d8bd72;background:rgba(212,175,55,.08);padding:7px 10px;border:1px solid rgba(212,175,55,.25);border-radius:999px;white-space:nowrap;">
-                        AGREEMENT FIRST
+                        PAYMENT FIRST
                     </span>
 </div>
 <p class="leading-relaxed" style="color:#c6c9ce;padding:2px 1px 4px;">
-                    상품과 결제조건을 먼저 확인하고 동의해 주세요. 동의가 저장되면 거래번호가 자동 발급되며, 해당 번호로 결제 안내를 진행할 수 있습니다. 입금 확인 후 발급 코드를 입력하면 계정 정보가 제공됩니다.
+                    구매 금액을 오픈채팅으로 송금한 뒤, 관리자에게 발급받은 코드를 입력해 주세요. 확인이 완료되면 계정 정보가 제공됩니다.
                 </p>
 <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 13px;background:rgba(212,175,55,.055);border:1px solid rgba(212,175,55,.18);border-radius:11px;">
 <i class="premium-icon gold" data-lucide="info" style="flex-shrink:0;margin-top:1px;"></i>
 <div style="display:flex;flex-direction:column;gap:5px;color:#aeb4bd;line-height:1.6;">
-<span style="color:#e0d4ad;font-weight:600;">결제 전에 상품·가격·교환 및 환불 기준에 동의해 주세요.</span>
-<span>동의가 저장되면 거래번호가 자동 발급됩니다. 입금 확인 후 관리자가 코드를 안내해 드립니다.</span>
+<span style="color:#e0d4ad;font-weight:600;">송금 전 금액과 거래 내용을 확인해 주세요.</span>
+<span>송금 확인 후 관리자가 코드를 안내해 드립니다.</span>
 </div>
 </div>
 </div>
@@ -769,67 +720,39 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 <div class="access-status">거래 가능</div>
 </div>
-<div class="purchase-select-kicker">01 / SELECT PRODUCT</div>
-<div class="product-grid" aria-label="구매 상품 선택">
-<div class="x-inner product-card" data-purchase-product="general" role="button" tabindex="0" aria-pressed="false" onclick="selectPurchaseProduct('general')" onkeydown="handlePurchaseProductKey(event,'general')">
+<div class="product-grid">
+<div class="x-inner product-card featured">
 <span class="product-badge hot"><span class="icon-inline"><i class="premium-icon blue" data-lucide="user-round"></i><span>STANDARD</span></span></span>
-<div><div class="product-name mt-3">일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div></div>
-<div class="product-price mt-4">15,000<small> KRW</small></div>
-<span class="purchase-product-select">SELECT</span>
+<div>
+<div class="product-name mt-3">일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div>
 </div>
-<div class="x-inner product-card" data-purchase-product="email" role="button" tabindex="0" aria-pressed="false" onclick="selectPurchaseProduct('email')" onkeydown="handlePurchaseProductKey(event,'email')">
+<div class="product-price mt-4">15,000<small> KRW</small></div>
+</div>
+<div class="x-inner product-card">
 <span class="product-badge">SECURE MAIL</span>
-<div><div class="product-name mt-3">이메일 계정<span class="product-name-note">(이메일 변경 가능)</span></div></div>
+<div>
+<div class="product-name mt-3">이메일 계정<span class="product-name-note">(이메일 변경 가능)</span></div>
+</div>
 <div class="product-price mt-4">20,000<small> KRW</small></div>
-<span class="purchase-product-select">SELECT</span>
 </div>
 </div>
 <p class="text-xs md:text-sm text-[#aeb7c2] leading-relaxed">5개 이상 구매는 할인 가능하니 개별적으로 문의 주시길 바랍니다.</p>
 <section aria-label="구매 및 결제 안내" class="purchase-compact-panel">
-<div class="purchase-compact-notice purchase-contract-summary">
-<div class="purchase-compact-heading"><i aria-hidden="true" data-lucide="clipboard-check"></i><span>결제 전 계약조건 확인</span></div>
-<div class="contract-summary-grid">
-  <div class="contract-summary-row"><b>선택 상품</b><span id="purchase-selected-summary">상품을 선택해 주세요. 일반 계정 15,000원 / 이메일 계정 20,000원</span></div>
-  <div class="contract-summary-row"><b>제공 내용</b><span>선택한 계정 유형에 해당하는 계정 접속정보와 로그인·2단계 인증 안내를 발급 코드로 제공합니다.</span></div>
-  <div class="contract-summary-row"><b>제공 방식</b><span>실제 입금 확인 후 발급 코드를 전달하며, 발급 코드를 본 사이트에 입력해 계정 정보를 조회합니다.</span></div>
-  <div class="contract-summary-row"><b>교환 기준</b><span>코드 수령 후 12시간 이내 계정 자체의 중대한 기존 문제가 확인되면 최초 1회 교환을 요청할 수 있습니다. 구매자 원인 여부는 구체적인 사실관계를 확인해 판단합니다.</span></div>
-  <div class="contract-summary-row"><b>철회·환불</b><span>청약철회 및 환불 가능 여부와 기간은 관련 법령과 실제 제공 상태 등 구체적인 사정에 따라 판단합니다. 코드 발급 또는 정보 조회만으로 법정 권리가 자동 소멸하는 것은 아닙니다.</span></div>
+<div class="purchase-compact-notice">
+<div class="purchase-compact-heading"><i aria-hidden="true" data-lucide="info"></i><span>구매 전 확인</span></div>
+<p><strong>단순 변심에 의한 환불은 제한됩니다.</strong> 신중히 구매해 주세요.</p>
 </div>
-<div class="purchase-preorder-controls" id="purchase-preorder-controls">
-  <div class="purchase-method-heading"><span>02 / PAYMENT METHOD</span><small>결제 수단을 선택해 주세요.</small></div>
-  <div aria-label="결제 수단 선택" class="purchase-compact-payments">
-    <button aria-pressed="false" class="purchase-compact-payment purchase-method-option" data-payment-method="kakaopay" onclick="selectPurchasePayment('kakaopay')" type="button">
-      <span class="pay-badge-icon kakao">Pay</span>
-      <span class="purchase-compact-payment-copy"><strong>카카오페이 송금</strong><small>오픈채팅으로 거래번호 전달</small></span>
-      <span class="purchase-compact-action">선택</span>
-    </button>
-    <button aria-pressed="false" class="purchase-compact-payment purchase-method-option" data-payment-method="cultureland" onclick="selectPurchasePayment('cultureland')" type="button">
-      <span class="pay-badge-icon culture">CL</span>
-      <span class="purchase-compact-payment-copy"><strong>컬쳐랜드 문화상품권</strong><small>상품 금액에 5,000원 추가</small></span>
-      <span class="purchase-compact-action">선택</span>
-    </button>
-  </div>
-  <label class="purchase-policy-check" for="purchase-policy-checkbox">
-    <input id="purchase-policy-checkbox" type="checkbox" onchange="checkPurchasePolicyAgreement()" />
-    <span>선택한 상품의 내용·가격·제공 방식·교환 및 환불 기준을 확인하고 동의합니다.</span>
-  </label>
-  <button class="purchase-consent-submit" id="btn-create-preorder" type="button" disabled onclick="createPurchasePreorder()">
-    <span class="purchase-consent-submit-icon"><i data-lucide="shield-check"></i></span>
-    <span>동의하고 결제 안내 받기</span>
-    <i class="purchase-consent-submit-arrow" data-lucide="arrow-up-right"></i>
-  </button>
-  <p class="purchase-policy-hint" id="purchase-policy-hint" role="status">상품과 결제 수단을 선택하고 계약조건에 동의하면 거래번호가 자동 발급됩니다.</p>
-</div>
-<div class="purchase-result-panel" id="purchase-result-panel" hidden>
-  <div class="purchase-result-top"><span class="purchase-result-dot"></span><span>AGREEMENT SAVED</span><strong>동의 기록 저장 완료</strong></div>
-  <p class="purchase-result-title">결제 준비가 완료됐습니다.</p>
-  <p class="purchase-result-desc">아래 거래번호가 동의 기록과 연결됐습니다. 송금 또는 문의할 때 이 번호를 함께 전달해 주세요.</p>
-  <div class="purchase-order-number-wrap"><div><span>YOUR TRANSACTION NUMBER</span><strong id="purchase-result-number">-</strong></div><button type="button" onclick="copyPurchaseTransactionNo()" aria-label="거래번호 복사"><i data-lucide="copy"></i><span>번호 복사</span></button></div>
-  <div class="purchase-result-details"><div><span>상품</span><b id="purchase-result-product">-</b></div><div><span>결제 수단</span><b id="purchase-result-method">-</b></div><div><span>결제 예정 금액</span><b id="purchase-result-amount">-</b></div><div><span>동의 저장 시각</span><b id="purchase-result-time">-</b></div></div>
-  <div class="purchase-result-reminder"><i data-lucide="info"></i><span>결제 후 오픈채팅 문의 시 거래번호를 알려주면 관리자 화면의 동의 기록과 입금 내역을 대조할 수 있습니다.</span></div>
-  <a class="purchase-result-pay-link" id="purchase-result-pay-link" href="https://open.kakao.com/o/sjPGWOFi" target="_blank" rel="noopener noreferrer" onclick="copyPurchaseTransactionNo()"><span id="purchase-result-pay-label">카카오페이 송금 문의하기</span><i data-lucide="arrow-up-right"></i></a>
-  <button type="button" class="purchase-new-order" onclick="resetPurchasePreorder()">새 거래 시작</button>
-</div>
+<div aria-label="결제 수단" class="purchase-compact-payments">
+<a aria-label="카카오페이 익명 송금 문의 및 구매하기" class="purchase-compact-payment" href="https://open.kakao.com/o/sjPGWOFi" rel="noopener noreferrer" target="_blank">
+<span class="pay-badge-icon kakao">Pay</span>
+<span class="purchase-compact-payment-copy"><strong>카카오페이 익명 송금</strong><small>오픈채팅 실시간 문의</small></span>
+<span class="purchase-compact-action">구매하기 <i aria-hidden="true" data-lucide="arrow-up-right"></i></span>
+</a>
+<a aria-label="컬쳐랜드 문화상품권 구매하기" class="purchase-compact-payment" href="https://kko.to/CPZG4qil-x" rel="noopener noreferrer" target="_blank">
+<span class="pay-badge-icon culture">CL</span>
+<span class="purchase-compact-payment-copy"><strong>컬쳐랜드 문화상품권</strong><small>5,000원 추가금</small></span>
+<span class="purchase-compact-action">구매하기 <i aria-hidden="true" data-lucide="arrow-up-right"></i></span>
+</a>
 </div>
 </section>
 <button class="purchase-compact-next w-full x-btn-white font-bold rounded-lg" id="btn-next-price" onclick="goToQueryStep()" type="button">
@@ -988,9 +911,9 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <div class="w-full max-w-md x-card p-6 space-y-4 shadow-2xl">
 <div class="agreement-head">
 <div>
-<div class="agreement-kicker">ACCOUNT HANDOVER GUIDE</div>
-<div class="agreement-title">계정 수령 후 이용 안내</div>
-<div class="agreement-sub">결제 후 계정 정보를 조회하기 전, 로그인·초기 점검 및 보안 안내를 확인해 주세요.</div>
+<div class="agreement-kicker">SECURITY &amp; USAGE NOTICE</div>
+<div class="agreement-title">계정 이용 안내 및 약관</div>
+<div class="agreement-sub">안내사항을 확인해 주세요. 동의 없이도 발급 코드 조회를 진행할 수 있습니다.</div>
 </div>
 <button aria-label="닫기" class="agreement-close" onclick="closeAgreementModal()" type="button">×</button>
 </div>
@@ -1002,15 +925,15 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <!-- 스크롤 영역 -->
 <div class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto" id="terms-box" onscroll="checkScrollBottom()">
 <div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-2.5">
-<p class="text-white font-bold">계정 수령 후 확인사항</p>
-<p class="text-[#a1a8b0]">아래 내용은 계정 수령 후 원활한 이용을 위한 안내입니다.</p>
+<p class="text-white font-bold">계정 양도 및 이용 안내사항</p>
+<p class="text-[#a1a8b0]">계정 수령 전 아래 안내사항을 반드시 확인해 주세요.</p>
 </div>
 <section class="space-y-1.5">
 <p class="text-white font-bold"><span class="agreement-number">01</span>이용 제한</p>
 <p class="text-[#a1a8b0]">- 사기, 마약 거래 등 불법적이거나 타인에게 피해를 주는 목적으로 계정을 이용할 수 없습니다.</p>
 <p class="text-[#a1a8b0]">- 예시: X(트위터)에서의 피싱·보이스피싱 유도, 마약·불법 약물 판매 및 홍보, 불법 도박·사설 토토 홍보, 불법 촬영물·성착취물 유포, 사칭·스팸, 협박·괴롭힘 등</p>
-<p class="text-[#a1a8b0]">- 위반 행위가 확인되면 구체적인 사실관계와 관련 기준에 따라 계정 이용 제한 또는 회수 등 필요한 조치가 이뤄질 수 있습니다.</p>
-<p class="text-[#a1a8b0]">- 이용 제한·회수 여부와 교환·환불 여부는 별개의 문제이며, 환불 등은 실제 경위와 관련 법령에 따라 판단합니다.</p>
+<p class="text-[#a1a8b0]">- 위반 행위가 확인될 경우 계정 이용 제한 또는 회수가 진행될 수 있습니다.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">불법·불건전 행위에 이용할 경우 제3자 피해자를 막기 위해 환불 절차 없이 계정을 회수 조치합니다. 꼭 숙지해 주세요.</strong></p>
 </section>
 <section class="space-y-1.5">
 <p class="text-white font-bold"><span class="agreement-number">02</span>로그인 및 초기 확인</p>
@@ -1021,15 +944,14 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <section class="space-y-1.5">
 <p class="text-white font-bold"><span class="agreement-number">03</span>교환 규정</p>
 <p class="text-[#a1a8b0]">- 본 거래는 정상적인 노출 상태의 X 계정 양도입니다.</p>
-<p class="text-[#a1a8b0]">- 코드 수령 후 12시간 이내에 판매자가 제공한 정보의 오류로 로그인이 불가능한 경우 등 계정 자체의 중대한 기존 문제가 확인되면 최초 1회 교환을 요청할 수 있습니다.</p>
-<p class="text-[#a1a8b0]">- 문제가 발견되면 코드 수령 시점부터 가능한 한 빨리 관리자에게 문의하고, 발급 코드와 오류 화면 등 확인 자료를 함께 전달해 주세요.</p>
-<p class="text-[#a1a8b0]">- 구매자 활동으로 발생한 문제인지 여부는 구체적인 원인과 자료를 확인해 판단합니다.</p>
-<p class="text-[#a1a8b0]">- 위 교환 안내는 법령에 따른 청약철회·환불 등 소비자의 권리와 별개이며, 해당 권리를 제한하지 않습니다.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">발급 코드 수령 시점부터 12시간 이내 계정 자체의 중대한 문제가 확인되면 최초 1회에 한해 교환을 제공합니다.</strong></p>
+<p class="text-[#a1a8b0]">- 구매자 과실이나 X 운영정책 위반으로 발생한 문제는 교환 대상에서 제외될 수 있습니다.</p>
+<p class="text-[#a1a8b0]">- 정상 수령 이후 X의 운영정책 또는 시스템 판단으로 발생한 제한은 별도로 판단합니다.</p>
 </section>
 <section class="space-y-1.5">
 <p class="text-white font-bold"><span class="agreement-number">04</span>계정 관리 및 보안</p>
 <p class="text-[#a1a8b0]">- 계정은 X 운영정책을 준수하여 정상적으로 이용해 주세요.</p>
-<p class="text-[#a1a8b0]">- 아이디·닉네임·프로필 사진 등 표시 정보에 변경이 예정되어 있거나 필요한 경우에는 변경 여부와 범위를 결제 전에 안내된 조건에 따라 확인해 주세요.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">아이디·닉네임·프로필 사진 변경은 양도인의 재량에 따라 진행되며, 구매자에게 별도 동의를 구하지 않습니다.</strong></p>
 <p class="text-[#a1a8b0]">- <strong class="text-white">생일 정보는 변경하지 않는 것을 권장합니다.</strong></p>
 <p class="text-[#a1a8b0]">- ID·비밀번호·발급 코드 및 OTP 정보는 안전하게 보관하고 타인과 공유하지 마세요.</p>
 </section>
@@ -1037,12 +959,12 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <div class="agreement-accept">
 <input class="w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50" disabled="" id="modal-agree-checkbox" onchange="checkModalAgreement()" type="checkbox"/>
 <label class="text-[#71767b] text-xs cursor-not-allowed select-none" for="modal-agree-checkbox" id="modal-label">
-<span class="icon-inline"><i class="premium-icon gold" data-lucide="lock-keyhole"></i><span>위 안내사항을 확인했습니다.</span></span>
+<span class="icon-inline"><i class="premium-icon gold" data-lucide="lock-keyhole"></i><span>위 안내사항을 모두 확인했으며 동의합니다.</span></span>
 </label>
 </div>
 <div class="agreement-actions">
 <button class="w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]" disabled="" id="btn-modal-confirm" onclick="confirmSearch()" type="button">
-                    확인하고 계정 조회하기
+                    동의하고 조회하기
                 </button>
 </div>
 </div>
@@ -1091,7 +1013,6 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
         // 첫 로딩 시에도 INTRO 한 단계만 노출
         document.addEventListener('DOMContentLoaded', () => {
             showStep('step-intro');
-            restorePurchasePreorder();
         });
 
         function goToIntroStep() {
@@ -1115,191 +1036,6 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             document.getElementById('main-card').classList.add('price-mode');
             document.getElementById('header-section').classList.add('hidden');
             document.getElementById('sub-title').innerText = '계정 가격 및 거래 안내를 확인해 주세요.';
-        }
-
-        const XA_TERMS_VERSION = '2026-11-10-v1';
-        const XA_PAYMENT_URLS = {
-            kakaopay: 'https://open.kakao.com/o/sjPGWOFi',
-            cultureland: 'https://kko.to/CPZG4qil-x'
-        };
-        let selectedPurchaseProduct = '';
-        let selectedPurchasePayment = '';
-        let activePurchaseOrder = null;
-
-        function purchaseMoney(value) {
-            return new Intl.NumberFormat('ko-KR').format(Number(value) || 0) + '원';
-        }
-
-        function selectPurchaseProduct(type) {
-            if (!['general', 'email'].includes(type) || activePurchaseOrder) return;
-            selectedPurchaseProduct = type;
-            document.querySelectorAll('[data-purchase-product]').forEach(card => {
-                const selected = card.dataset.purchaseProduct === type;
-                card.classList.toggle('is-selected', selected);
-                card.setAttribute('aria-pressed', String(selected));
-            });
-            const summary = document.getElementById('purchase-selected-summary');
-            if (summary) summary.textContent = type === 'email'
-                ? '이메일 계정 · 20,000원 (이메일 변경 가능)'
-                : '일반 계정 · 15,000원 (이메일 변경 불가)';
-            const checkbox = document.getElementById('purchase-policy-checkbox');
-            if (checkbox) checkbox.checked = false;
-            updatePurchaseConsentState();
-        }
-
-        function handlePurchaseProductKey(event, type) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                selectPurchaseProduct(type);
-            }
-        }
-
-        function selectPurchasePayment(method) {
-            if (!['kakaopay', 'cultureland'].includes(method) || activePurchaseOrder) return;
-            selectedPurchasePayment = method;
-            document.querySelectorAll('[data-payment-method]').forEach(option => {
-                const selected = option.dataset.paymentMethod === method;
-                option.setAttribute('aria-pressed', String(selected));
-                const action = option.querySelector('.purchase-compact-action');
-                if (action) action.textContent = selected ? '선택됨' : '선택';
-            });
-            const checkbox = document.getElementById('purchase-policy-checkbox');
-            if (checkbox) checkbox.checked = false;
-            updatePurchaseConsentState();
-        }
-
-        function updatePurchaseConsentState() {
-            const checkbox = document.getElementById('purchase-policy-checkbox');
-            const checked = Boolean(checkbox && checkbox.checked);
-            const button = document.getElementById('btn-create-preorder');
-            const ready = Boolean(selectedPurchaseProduct && selectedPurchasePayment && checked && !activePurchaseOrder);
-            if (button) button.disabled = !ready;
-            const hint = document.getElementById('purchase-policy-hint');
-            if (!hint) return;
-            if (!selectedPurchaseProduct) hint.textContent = '먼저 일반 계정 또는 이메일 계정을 선택해 주세요.';
-            else if (!selectedPurchasePayment) hint.textContent = '결제 수단을 선택해 주세요.';
-            else if (!checked) hint.textContent = '계약조건을 읽고 동의란에 체크해 주세요. 동의 전에는 거래가 생성되거나 결제 안내가 열리지 않습니다.';
-            else hint.textContent = '확인 완료. 아래 버튼을 누르면 동의 기록이 저장되고 거래번호가 자동 발급됩니다.';
-        }
-
-        function checkPurchasePolicyAgreement() {
-            updatePurchaseConsentState();
-        }
-
-        async function createPurchasePreorder() {
-            const checkbox = document.getElementById('purchase-policy-checkbox');
-            const button = document.getElementById('btn-create-preorder');
-            const hint = document.getElementById('purchase-policy-hint');
-            if (!selectedPurchaseProduct || !selectedPurchasePayment || !checkbox || !checkbox.checked) {
-                updatePurchaseConsentState();
-                return;
-            }
-            if (activePurchaseOrder) return;
-            if (!supabaseClient) {
-                if (hint) hint.textContent = '기록 서버에 연결되지 않았습니다. 잠시 후 다시 시도해 주세요.';
-                return;
-            }
-            const original = button ? button.innerHTML : '';
-            if (button) { button.disabled = true; button.innerHTML = '<span>동의 기록 저장 중…</span>'; }
-            if (hint) hint.textContent = '서버에 동의 기록과 거래번호를 저장하고 있습니다.';
-            try {
-                const { data, error } = await supabaseClient.rpc('create_xa_preorder', {
-                    p_product_type: selectedPurchaseProduct,
-                    p_payment_method: selectedPurchasePayment,
-                    p_terms_version: XA_TERMS_VERSION
-                });
-                if (error || !data) throw error || new Error('거래 생성 결과를 받지 못했습니다.');
-                const record = Array.isArray(data) ? data[0] : data;
-                if (!record || !record.transaction_no) throw new Error('거래번호가 반환되지 않았습니다.');
-                activePurchaseOrder = {
-                    transaction_id: record.transaction_id,
-                    transaction_no: record.transaction_no,
-                    product_type: record.product_type || selectedPurchaseProduct,
-                    payment_method: record.payment_method || selectedPurchasePayment,
-                    amount_krw: record.amount_krw,
-                    created_at: record.created_at
-                };
-                try { sessionStorage.setItem('xa_active_preorder', JSON.stringify(activePurchaseOrder)); } catch (_) {}
-                displayPurchaseOrder(activePurchaseOrder);
-            } catch (error) {
-                console.error('X ACCOUNT preorder save failed:', error);
-                if (hint) hint.textContent = '동의 기록을 저장하지 못했습니다. 결제 안내는 열리지 않았습니다. (' + (error && error.message ? error.message : '연결 오류') + ')';
-                if (button) { button.disabled = false; button.innerHTML = original; }
-            }
-        }
-
-        function displayPurchaseOrder(order) {
-            const controls = document.getElementById('purchase-preorder-controls');
-            const panel = document.getElementById('purchase-result-panel');
-            if (controls) controls.classList.add('hidden');
-            if (panel) panel.hidden = false;
-            const productName = order.product_type === 'email' ? '이메일 계정' : '일반 계정';
-            const methodName = order.payment_method === 'cultureland' ? '컬쳐랜드 문화상품권' : '카카오페이 송금';
-            const dateText = order.created_at ? new Date(order.created_at).toLocaleString('ko-KR', {hour12:false}) : '서버 저장 완료';
-            const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-            setText('purchase-result-number', order.transaction_no);
-            setText('purchase-result-product', productName);
-            setText('purchase-result-method', methodName);
-            setText('purchase-result-amount', purchaseMoney(order.amount_krw));
-            setText('purchase-result-time', dateText);
-            const link = document.getElementById('purchase-result-pay-link');
-            const label = document.getElementById('purchase-result-pay-label');
-            if (link) link.href = XA_PAYMENT_URLS[order.payment_method] || XA_PAYMENT_URLS.kakaopay;
-            if (label) label.textContent = order.payment_method === 'cultureland' ? '컬쳐랜드 결제 안내 열기' : '카카오페이 송금 문의하기';
-            const summary = document.getElementById('purchase-selected-summary');
-            if (summary) summary.textContent = productName + ' · ' + purchaseMoney(order.amount_krw);
-            if (window.lucide) window.lucide.createIcons();
-        }
-
-        async function copyPurchaseTransactionNo() {
-            if (!activePurchaseOrder || !activePurchaseOrder.transaction_no) return;
-            const value = activePurchaseOrder.transaction_no;
-            try {
-                await navigator.clipboard.writeText(value);
-                const button = document.querySelector('.purchase-order-number-wrap button span');
-                if (button) { const before = button.textContent; button.textContent = '복사 완료'; setTimeout(() => button.textContent = before, 1600); }
-            } catch (_) {
-                const area = document.createElement('textarea'); area.value = value; area.style.position = 'fixed'; area.style.opacity = '0'; document.body.appendChild(area); area.select();
-                try { document.execCommand('copy'); } catch (e) {}
-                area.remove();
-                const button = document.querySelector('.purchase-order-number-wrap button span');
-                if (button) { const before = button.textContent; button.textContent = '복사 시도'; setTimeout(() => button.textContent = before, 1600); }
-            }
-        }
-
-        function resetPurchasePreorder() {
-            activePurchaseOrder = null;
-            try { sessionStorage.removeItem('xa_active_preorder'); } catch (_) {}
-            const panel = document.getElementById('purchase-result-panel');
-            const controls = document.getElementById('purchase-preorder-controls');
-            if (panel) panel.hidden = true;
-            if (controls) controls.classList.remove('hidden');
-            const checkbox = document.getElementById('purchase-policy-checkbox');
-            if (checkbox) checkbox.checked = false;
-            selectedPurchaseProduct = '';
-            selectedPurchasePayment = '';
-            document.querySelectorAll('[data-purchase-product]').forEach(card => { card.classList.remove('is-selected'); card.setAttribute('aria-pressed','false'); });
-            document.querySelectorAll('[data-payment-method]').forEach(option => { option.setAttribute('aria-pressed','false'); const action=option.querySelector('.purchase-compact-action'); if(action) action.textContent='선택'; });
-            const summary = document.getElementById('purchase-selected-summary');
-            if (summary) summary.textContent = '상품을 선택해 주세요. 일반 계정 15,000원 / 이메일 계정 20,000원';
-            updatePurchaseConsentState();
-        }
-
-        function restorePurchasePreorder() {
-            try {
-                const saved = sessionStorage.getItem('xa_active_preorder');
-                if (!saved) return;
-                const order = JSON.parse(saved);
-                if (order && order.transaction_no && order.transaction_id) {
-                    activePurchaseOrder = order;
-                    selectedPurchaseProduct = order.product_type;
-                    selectedPurchasePayment = order.payment_method;
-                    document.querySelectorAll('[data-purchase-product]').forEach(card => { const selected=card.dataset.purchaseProduct===selectedPurchaseProduct; card.classList.toggle('is-selected',selected); card.setAttribute('aria-pressed',String(selected)); });
-                    document.querySelectorAll('[data-payment-method]').forEach(option => { const selected=option.dataset.paymentMethod===selectedPurchasePayment; option.setAttribute('aria-pressed',String(selected)); const action=option.querySelector('.purchase-compact-action'); if(action) action.textContent=selected?'선택됨':'선택'; });
-                    const summary=document.getElementById('purchase-selected-summary'); if(summary) summary.textContent=(selectedPurchaseProduct==='email'?'이메일 계정 · 20,000원':'일반 계정 · 15,000원');
-                    displayPurchaseOrder(order);
-                }
-            } catch (_) {}
         }
 
         function checkPriceAgreement() {
@@ -1453,7 +1189,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     btnConfirm.disabled = true;
                     btnConfirm.className =
                         "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-                    btnConfirm.innerHTML = "안내사항을 끝까지 확인해 주세요.";
+                    btnConfirm.innerHTML = "내용을 확인했으며 동의하고 계정 발급(조회)하기";
                 }
 
                 document.getElementById('agreement-modal')?.classList.remove('hidden');
@@ -1484,7 +1220,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                 checkbox.disabled = false;
                 checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer";
                 label.className = "text-white text-xs cursor-pointer select-none";
-                label.innerText = "계정 수령 후 안내사항을 확인했습니다.";
+                label.innerText = "위 내용을 숙지하였으며 회수 정책에 동의합니다.";
             }
         }
 
@@ -1498,7 +1234,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             if (isChecked) {
                 btnConfirm.disabled = false;
                 btnConfirm.className = "w-full x-btn-white py-3.5 text-xs md:text-sm cursor-pointer shadow-md";
-                btnConfirm.innerHTML = "확인하고 계정 조회하기";
+                btnConfirm.innerHTML = "동의하고 계정 발급(조회)하기";
             } else {
                 btnConfirm.disabled = true;
                 btnConfirm.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
@@ -3845,157 +3581,6 @@ html body #result-box#result-box>button,html body #result-box#result-box>button 
   #inbox-modal .inbox-head-actions button{padding:0 7px!important;font-size:8.5px!important;}
 }
 </style>
-
-
-<style id="v47-contract-flow-refinement">
-#step-price .purchase-contract-summary{gap:9px;padding:3px 2px 10px;border-bottom:1px solid #27323c}
-#step-price .contract-summary-grid{display:grid;gap:7px}
-#step-price .contract-summary-row{display:grid;grid-template-columns:66px minmax(0,1fr);gap:8px;align-items:start;font-size:10px;line-height:1.55;color:#c5ced7}
-#step-price .contract-summary-row>b{color:#8fa8bc;font-size:9px;font-weight:800;letter-spacing:.02em}
-#step-price .contract-summary-row span{min-width:0;overflow-wrap:anywhere}
-#step-price .contract-summary-row small{color:#91a0ae;font-size:9px}
-#step-price .purchase-policy-check{display:flex;align-items:flex-start;gap:8px;padding:9px 10px;border:1px solid #334b5c;border-radius:8px;background:rgba(29,155,240,.075);color:#e6edf4;font-size:10px;font-weight:700;line-height:1.5;cursor:pointer}
-#step-price .purchase-policy-check input{flex:0 0 auto;width:14px;height:14px;margin:1px 0 0;accent-color:#1d9bf0}
-#step-price .purchase-policy-hint{margin:0;color:#8d9ba8;font-size:9px;line-height:1.45}
-#step-price .purchase-compact-payment.is-policy-locked{opacity:.42;filter:saturate(.55);cursor:not-allowed;pointer-events:auto}
-#step-price .purchase-compact-payment.is-policy-locked:hover{border-color:#2b3742;background:rgba(8,13,18,.58)}
-#agreement-modal .agreement-sub{max-width:38em;line-height:1.55}
-@media(max-width:420px){#step-price .contract-summary-row{grid-template-columns:58px minmax(0,1fr);font-size:9.5px}#step-price .contract-summary-row>b{font-size:8.5px}}
-</style>
-
-
-
-<!-- X ACCOUNT ADMIN: 관리자 전용 거래관리 화면 (?admin=1) -->
-<style id="xa-admin-styles">
-#xa-admin-root{position:fixed;inset:0;z-index:999999;overflow:auto;background:radial-gradient(ellipse at 15% 0%,rgba(39,116,164,.18),transparent 42%),#070b10;color:#e8eef5;padding:clamp(14px,3vw,34px);font-family:Pretendard, sans-serif}
-#xa-admin-root[hidden]{display:none!important}#xa-admin-root *{box-sizing:border-box}
-.xa-admin-shell{width:min(100%,1080px);margin:0 auto}.xa-admin-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px;padding-bottom:17px;border-bottom:1px solid rgba(153,185,210,.17)}
-.xa-admin-brand{font-size:19px;font-weight:900;letter-spacing:.06em;color:#f3f8fc}.xa-admin-kicker{font-size:9px;letter-spacing:.2em;color:#81b8d4;margin-top:5px}
-.xa-admin-card{border:1px solid rgba(143,177,202,.19);border-radius:14px;background:linear-gradient(150deg,rgba(19,30,42,.97),rgba(10,16,23,.98));box-shadow:0 18px 50px rgba(0,0,0,.25);padding:clamp(16px,2.5vw,24px)}
-.xa-admin-login{width:min(100%,420px);margin:9vh auto}.xa-admin-title{font-size:20px;font-weight:850;letter-spacing:-.03em}.xa-admin-sub{font-size:12px;line-height:1.6;color:#91a2b2;margin-top:7px}
-.xa-admin-label{display:block;color:#aebdca;font-size:11px;font-weight:750;margin:14px 0 6px}.xa-admin-input,.xa-admin-select{width:100%;min-height:43px;border-radius:8px;border:1px solid #344656;background:#080e14;color:#edf5fb;padding:10px 12px;font:inherit;font-size:13px;outline:none}.xa-admin-input:focus,.xa-admin-select:focus{border-color:#63bce7;box-shadow:0 0 0 3px rgba(79,174,220,.12)}
-.xa-admin-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:9px 14px;border-radius:8px;border:1px solid rgba(153,199,225,.25);background:linear-gradient(135deg,#c9edf8,#8fc7e6);color:#0a1822;font-size:12px;font-weight:850;cursor:pointer}.xa-admin-btn:disabled{opacity:.5;cursor:not-allowed}.xa-admin-btn.secondary{background:#152331;color:#d7e7f2;border-color:#34495a}.xa-admin-btn.success{background:linear-gradient(135deg,#b9f2d2,#75d6a5);color:#092116}.xa-admin-btn.full{width:100%;margin-top:17px}
-.xa-admin-msg{min-height:18px;margin-top:10px;font-size:11px;line-height:1.5;color:#f2bd76}.xa-admin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:17px}.xa-admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:18px}.xa-admin-stat{padding:14px;border-radius:10px;background:#111c27;border:1px solid rgba(148,180,204,.13)}.xa-admin-stat span{display:block;color:#91a3b3;font-size:10px}.xa-admin-stat b{display:block;margin-top:7px;font-size:23px;color:#f0f6fb;font-variant-numeric:tabular-nums}
-.xa-admin-grid{display:grid;grid-template-columns:minmax(250px,.8fr) minmax(0,1.6fr);gap:14px}.xa-admin-table-wrap{overflow:auto;border:1px solid rgba(143,177,202,.15);border-radius:10px}.xa-admin-table{width:100%;border-collapse:collapse;min-width:860px;font-size:11px}.xa-admin-table th,.xa-admin-table td{padding:12px 10px;text-align:left;border-bottom:1px solid rgba(143,177,202,.12);white-space:nowrap}.xa-admin-table th{color:#8ea6b9;background:#101a24;font-size:10px}.xa-admin-table td{color:#d9e3eb}.xa-admin-status{display:inline-block;padding:4px 7px;border-radius:99px;font-size:9px;font-weight:800}.xa-admin-status.pending{color:#f5cb7c;background:rgba(245,190,87,.12)}.xa-admin-status.paid{color:#8de0b1;background:rgba(94,205,143,.12)}.xa-admin-empty{padding:26px;text-align:center;color:#8496a6;font-size:11px}.xa-admin-small{font-size:10px;color:#8295a5;line-height:1.6;margin-top:12px}.xa-admin-hidden{display:none!important}
-@media(max-width:760px){.xa-admin-grid{grid-template-columns:1fr}.xa-admin-stats{gap:7px}.xa-admin-stat{padding:11px}.xa-admin-stat b{font-size:19px}.xa-admin-top{margin-bottom:17px}}
-@media(max-width:420px){#xa-admin-root{padding:12px}.xa-admin-stats{grid-template-columns:1fr 1fr}.xa-admin-stats .xa-admin-stat:last-child{grid-column:1/-1}}
-</style>
-<div id="xa-admin-root" hidden>
-  <div class="xa-admin-shell">
-    <header class="xa-admin-top"><div><div class="xa-admin-brand">X ACCOUNT</div><div class="xa-admin-kicker">PRIVATE ADMINISTRATION · 거래 관리</div></div><span style="font-size:10px;color:#8fa8ba;border:1px solid #314555;border-radius:99px;padding:6px 9px">ADMIN ONLY</span></header>
-    <section id="xa-admin-login" class="xa-admin-card xa-admin-login">
-      <div class="xa-admin-title">관리자 로그인</div><p class="xa-admin-sub">승인된 관리자 계정으로 로그인해야 거래 내역을 확인하고 입금을 처리할 수 있습니다.</p>
-      <form id="xa-admin-login-form"><label class="xa-admin-label" for="xa-admin-email">관리자 이메일</label><input class="xa-admin-input" id="xa-admin-email" type="email" autocomplete="username" required><label class="xa-admin-label" for="xa-admin-password">비밀번호</label><input class="xa-admin-input" id="xa-admin-password" type="password" autocomplete="current-password" required><button class="xa-admin-btn full" id="xa-admin-login-btn" type="submit">안전하게 로그인</button></form>
-      <div class="xa-admin-msg" id="xa-admin-login-msg" role="status"></div><p class="xa-admin-small">관리자 계정은 Supabase Auth에서 별도로 생성하고 관리자 권한을 부여해야 합니다. 사이트 코드에 관리자 비밀번호를 저장하지 않습니다.</p>
-    </section>
-    <section id="xa-admin-dashboard" class="xa-admin-hidden">
-      <div class="xa-admin-toolbar"><div><div class="xa-admin-title">거래 관리</div><div class="xa-admin-sub">사이트에서 자동 생성된 거래번호·결제조건 동의 기록을 확인하고, 실제 입금 내역을 대조한 뒤 입금을 확인하세요.</div></div><div style="display:flex;gap:8px"><button class="xa-admin-btn secondary" id="xa-admin-refresh" type="button">새로고침</button><button class="xa-admin-btn secondary" id="xa-admin-logout" type="button">로그아웃</button></div></div>
-      <div class="xa-admin-stats"><div class="xa-admin-stat"><span>전체 거래</span><b id="xa-stat-total">0</b></div><div class="xa-admin-stat"><span>입금 확인 대기</span><b id="xa-stat-pending">0</b></div><div class="xa-admin-stat"><span>입금 확인 완료</span><b id="xa-stat-paid">0</b></div></div>
-      <div class="xa-admin-grid">
-        <section class="xa-admin-card"><div style="font-size:14px;font-weight:850">거래 등록</div><p class="xa-admin-sub">구매자와 상품을 확인한 뒤 입금 대기 거래를 등록합니다.</p>
-          <form id="xa-admin-create-form"><label class="xa-admin-label" for="xa-admin-product">상품 유형</label><select class="xa-admin-select" id="xa-admin-product"><option value="general">일반 계정 · 15,000원</option><option value="email">이메일 계정 · 20,000원</option></select><label class="xa-admin-label" for="xa-admin-buyer">구매자 식별 메모 (선택)</label><input class="xa-admin-input" id="xa-admin-buyer" maxlength="80" placeholder="예: 카카오톡 닉네임 또는 문의 식별명"><label class="xa-admin-label" for="xa-admin-note">관리자 메모 (선택)</label><input class="xa-admin-input" id="xa-admin-note" maxlength="240" placeholder="송금 확인에 필요한 메모"><button class="xa-admin-btn full" id="xa-admin-create-btn" type="submit">입금 대기 거래 등록</button></form><div class="xa-admin-msg" id="xa-admin-create-msg" role="status"></div><p class="xa-admin-small">거래 등록은 입금 확인을 대신하지 않습니다. 실제 카카오페이 입금 내역을 확인한 뒤 오른쪽 목록에서 별도로 처리하세요.</p>
-        </section>
-        <section class="xa-admin-card"><div style="font-size:14px;font-weight:850;margin-bottom:12px">최근 거래 내역</div><div class="xa-admin-table-wrap"><table class="xa-admin-table"><thead><tr><th>거래번호 / 생성시각</th><th>상품·금액</th><th>결제수단</th><th>계약 동의</th><th>구매자 메모</th><th>입금 처리</th></tr></thead><tbody id="xa-admin-rows"><tr><td colspan="6" class="xa-admin-empty">로그인 후 거래 내역을 불러옵니다.</td></tr></tbody></table></div><div class="xa-admin-msg" id="xa-admin-list-msg" role="status"></div></section>
-      </div>
-    </section>
-  </div>
-</div>
-<div id="xa-consent-detail-modal" hidden style="position:fixed;inset:0;z-index:1000001;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);padding:16px;align-items:center;justify-content:center">
-  <section style="width:min(100%,720px);max-height:88vh;overflow:auto;border:1px solid #385469;border-radius:14px;background:linear-gradient(150deg,#14212d,#080e15);padding:20px;box-shadow:0 25px 80px rgba(0,0,0,.6)">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px"><div><div style="font-size:9px;letter-spacing:.16em;color:#87bdd8">CONSENT AUDIT</div><h3 style="margin:5px 0 0;font-size:17px;font-weight:850">구매 전 계약조건 동의 기록</h3></div><button type="button" id="xa-consent-detail-close" class="xa-admin-btn secondary">닫기</button></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;font-size:11px;color:#a9b9c7"><div>거래번호 <b id="xa-consent-detail-no" style="display:block;margin-top:4px;color:#f1f7fb"></b></div><div>서버 동의 시각 <b id="xa-consent-detail-time" style="display:block;margin-top:4px;color:#f1f7fb"></b></div><div>약관 버전 <b id="xa-consent-detail-version" style="display:block;margin-top:4px;color:#f1f7fb"></b></div></div>
-    <pre id="xa-consent-detail-body" style="white-space:pre-wrap;overflow-wrap:anywhere;margin:0;padding:14px;border:1px solid #2d4050;border-radius:9px;background:#070c12;color:#d7e2eb;font:12px/1.75 Pretendard,sans-serif"></pre>
-    <p style="margin:10px 0 0;color:#8294a4;font-size:10px;line-height:1.6">이 기록은 브라우저에서 제출된 동의 요청과 서버 저장 시각·약관 버전을 보관합니다. 거래번호만으로 결제자의 법적 신원이 확인되는 것은 아니므로 실제 송금 내역과 거래번호를 함께 대조하세요.</p>
-  </section>
-</div>
-<script id="xa-admin-script">
-(function(){
-  const root=document.getElementById('xa-admin-root');
-  if(!root || new URLSearchParams(location.search).get('admin')!=='1') return;
-  root.hidden=false; document.body.style.overflow='hidden';
-  const $=id=>document.getElementById(id);
-  const login=$('xa-admin-login'), dashboard=$('xa-admin-dashboard');
-  const money=n=>new Intl.NumberFormat('ko-KR').format(Number(n)||0)+'원';
-  const date=v=>v?new Date(v).toLocaleString('ko-KR',{hour12:false}):'-';
-  const safe=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function message(id,text,isError=true){const el=$(id);if(el){el.textContent=text||'';el.style.color=isError?'#f2bd76':'#8de0b1';}}
-  function setBusy(id,busy,label){const b=$(id);if(b){b.disabled=busy;if(label)b.textContent=busy?'처리 중…':label;}}
-  async function loadRows(){
-    message('xa-admin-list-msg','거래 내역을 불러오는 중…',false);
-    const {data,error}=await supabaseClient.from('xa_transactions')
-      .select('id,transaction_no,product_type,amount_krw,payment_method,buyer_label,memo,payment_status,created_at,payment_confirmed_at,xa_consents(id,consented_at,terms_version)')
-      .order('created_at',{ascending:false}).limit(100);
-    if(error){$('xa-admin-rows').innerHTML='<tr><td colspan="6" class="xa-admin-empty">거래 테이블 또는 동의 기록에 접근할 수 없습니다. 새 SQL 설정을 Supabase SQL Editor에서 실행하고 관리자 권한을 확인하세요.</td></tr>';message('xa-admin-list-msg',error.message);return;}
-    const rows=data||[]; const pending=rows.filter(x=>x.payment_status==='pending').length; const paid=rows.filter(x=>x.payment_status==='paid').length;
-    $('xa-stat-total').textContent=rows.length;$('xa-stat-pending').textContent=pending;$('xa-stat-paid').textContent=paid;
-    const body=$('xa-admin-rows');body.innerHTML='';
-    if(!rows.length){body.innerHTML='<tr><td colspan="6" class="xa-admin-empty">등록된 거래가 없습니다.</td></tr>';message('xa-admin-list-msg','',false);return;}
-    for(const r of rows){
-      const tr=document.createElement('tr');
-      const product=r.product_type==='email'?'이메일 계정':'일반 계정';
-      const method=r.payment_method==='cultureland'?'컬쳐랜드':'카카오페이';
-      const consent=Array.isArray(r.xa_consents)?r.xa_consents[0]:r.xa_consents;
-      const consentCell=consent?'<span class="xa-admin-status paid">동의 저장</span><br><small style="color:#8497a8">'+safe(date(consent.consented_at))+'</small><br><button class="xa-admin-btn secondary" data-consent="'+safe(r.id)+'" data-no="'+safe(r.transaction_no)+'" type="button" style="min-height:27px;padding:4px 7px;margin-top:5px;font-size:9px">동의 내용</button>':'<span class="xa-admin-status pending">동의 기록 없음</span><br><small style="color:#8497a8">관리자 수동 등록</small>';
-      const status=r.payment_status==='paid'?'<span class="xa-admin-status paid">입금 확인</span>':'<span class="xa-admin-status pending">입금 대기</span>';
-      const action=r.payment_status==='paid'?'<span style="color:#8de0b1;font-size:10px">'+safe(date(r.payment_confirmed_at))+'</span>':'<button class="xa-admin-btn success" data-confirm="'+safe(r.id)+'" type="button" style="min-height:32px;padding:6px 9px;font-size:10px">입금 확인</button>';
-      tr.innerHTML='<td><b>'+safe(r.transaction_no)+'</b><br><small style="color:#8497a8">'+safe(date(r.created_at))+'</small></td><td>'+product+'<br><b>'+money(r.amount_krw)+'</b></td><td>'+method+'</td><td>'+consentCell+'</td><td>'+safe(r.buyer_label||'-')+'<br><small style="color:#8497a8">'+safe(r.memo||'')+'</small></td><td>'+status+'<br>'+action+'</td>';
-      body.appendChild(tr);
-    }
-    message('xa-admin-list-msg','최근 100건을 표시하고 있습니다. 온라인 동의 기록은 해당 거래의 [동의 내용]에서 확인하세요.',false);
-  }
-  async function showDashboard(){
-    login.classList.add('xa-admin-hidden');dashboard.classList.remove('xa-admin-hidden');
-    const {data,error}=await supabaseClient.auth.getSession();
-    if(error||!data.session){dashboard.classList.add('xa-admin-hidden');login.classList.remove('xa-admin-hidden');return;}
-    await loadRows();
-  }
-  $('xa-admin-login-form').addEventListener('submit',async e=>{
-    e.preventDefault();setBusy('xa-admin-login-btn',true,'안전하게 로그인');message('xa-admin-login-msg','로그인 확인 중…',false);
-    const {error}=await supabaseClient.auth.signInWithPassword({email:$('xa-admin-email').value.trim(),password:$('xa-admin-password').value});
-    setBusy('xa-admin-login-btn',false,'안전하게 로그인');
-    if(error){message('xa-admin-login-msg','로그인 실패: '+error.message);return;}
-    $('xa-admin-password').value='';await showDashboard();
-  });
-  $('xa-admin-create-form').addEventListener('submit',async e=>{
-    e.preventDefault();setBusy('xa-admin-create-btn',true,'입금 대기 거래 등록');
-    const type=$('xa-admin-product').value;const now=new Date();const stamp=now.toISOString().replace(/[-:TZ.]/g,'').slice(0,14);const rand=Math.random().toString(36).slice(2,6).toUpperCase();
-    const {data:userData,error:userError}=await supabaseClient.auth.getUser();
-    if(userError||!userData.user){setBusy('xa-admin-create-btn',false,'입금 대기 거래 등록');message('xa-admin-create-msg','관리자 로그인 상태를 확인할 수 없습니다. 다시 로그인해 주세요.');return;}
-    const payload={transaction_no:'XA-'+stamp+'-'+rand,product_type:type,amount_krw:type==='email'?20000:15000,payment_method:'kakaopay',buyer_label:$('xa-admin-buyer').value.trim()||null,memo:$('xa-admin-note').value.trim()||null,payment_status:'pending',created_by:userData.user.id};
-    const {error}=await supabaseClient.from('xa_transactions').insert(payload);
-    setBusy('xa-admin-create-btn',false,'입금 대기 거래 등록');
-    if(error){message('xa-admin-create-msg','등록 실패: '+error.message);return;}
-    $('xa-admin-buyer').value='';$('xa-admin-note').value='';message('xa-admin-create-msg','입금 대기 거래를 등록했습니다.',false);await loadRows();
-  });
-  $('xa-admin-rows').addEventListener('click',async e=>{
-    const consentBtn=e.target.closest('[data-consent]');
-    if(consentBtn){
-      consentBtn.disabled=true;consentBtn.textContent='불러오는 중…';
-      const {data,error}=await supabaseClient.from('xa_consents').select('consented_at,terms_version,terms_snapshot,consent_text').eq('transaction_id',consentBtn.dataset.consent).single();
-      consentBtn.disabled=false;consentBtn.textContent='동의 내용';
-      if(error||!data){message('xa-admin-list-msg','동의 기록을 불러오지 못했습니다: '+(error?.message||'기록 없음'));return;}
-      $('xa-consent-detail-no').textContent=consentBtn.dataset.no||'-';
-      $('xa-consent-detail-time').textContent=date(data.consented_at);
-      $('xa-consent-detail-version').textContent=data.terms_version||'-';
-      $('xa-consent-detail-body').textContent=(data.terms_snapshot||'저장된 약관 내용 없음')+'\n\n동의 문구: '+(data.consent_text||'');
-      $('xa-consent-detail-modal').hidden=false;$('xa-consent-detail-modal').style.display='flex';
-      return;
-    }
-    const btn=e.target.closest('[data-confirm]');if(!btn)return;
-    if(!confirm('실제 송금 내역과 거래번호·금액을 대조해 입금을 확인했나요? 확인한 거래만 처리하세요.'))return;
-    btn.disabled=true;btn.textContent='처리 중…';
-    const {error}=await supabaseClient.rpc('admin_confirm_xa_payment',{p_transaction_id:btn.dataset.confirm});
-    if(error){btn.disabled=false;btn.textContent='입금 확인';message('xa-admin-list-msg','입금 확인 실패: '+error.message);return;}
-    message('xa-admin-list-msg','입금 확인 및 서버 시각 저장이 완료됐습니다.',false);await loadRows();
-  });
-  $('xa-consent-detail-close').addEventListener('click',()=>{$('xa-consent-detail-modal').hidden=true;$('xa-consent-detail-modal').style.display='none';});
-  $('xa-consent-detail-modal').addEventListener('click',e=>{if(e.target===$('xa-consent-detail-modal')){$('xa-consent-detail-modal').hidden=true;$('xa-consent-detail-modal').style.display='none';}});
-  $('xa-admin-refresh').addEventListener('click',loadRows);
-  $('xa-admin-logout').addEventListener('click',async()=>{await supabaseClient.auth.signOut();dashboard.classList.add('xa-admin-hidden');login.classList.remove('xa-admin-hidden');message('xa-admin-login-msg','로그아웃했습니다.',false);});
-  if(!window.supabase||!supabaseClient){message('xa-admin-login-msg','Supabase 연결을 초기화하지 못했습니다.');return;}
-  supabaseClient.auth.getSession().then(({data})=>{if(data.session)showDashboard();});
-})();
-</script>
 
 </body>
 </html>
