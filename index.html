@@ -668,7 +668,8 @@ html body #step-price #btn-next-price.is-ready{animation:guideReveal .4s ease bo
 #step-price .price-recheck-link.hidden{display:none!important;}
 </style>
 <style id="direct-lookup-style">
-#step-price .existing-buyer-btn{padding:6px 11px;border:1px solid rgba(110,208,243,.42);border-radius:999px;background:rgba(40,110,150,.16);color:#a9e3f7;font-size:11px;font-weight:800;line-height:1.2;cursor:pointer;white-space:nowrap;}
+html body #step-price .existing-buyer-row{display:block!important;margin:0 0 4px!important;}
+html body #step-price .existing-buyer-btn{display:flex!important;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;border:1px solid rgba(110,208,243,.42);border-radius:10px;background:rgba(40,110,150,.16);color:#a9e3f7;font-size:12.5px;font-weight:800;line-height:1.2;cursor:pointer;}
 #step-price .existing-buyer-btn:hover{background:rgba(40,110,150,.3);border-color:rgba(110,208,243,.7);}
 #result-storage-notice .tx-consent-cert.is-off,.tx-consent-cert.is-off{display:none!important;}
 </style>
@@ -751,11 +752,13 @@ html body #step-price #btn-next-price.is-ready{animation:guideReveal .4s ease bo
 </div>
 <!-- STEP 0 (가격표 화면) -->
 <div class="step-screen is-active space-y-4" id="step-price">
-<div class="flex justify-between items-center mb-1 gap-2 flex-wrap">
+<div class="flex justify-between items-center mb-1">
 <button class="text-xs text-[#71767b] hover:text-white flex items-center gap-1" onclick="goToIntroStep()">
                     ← 필독 안내 다시보기
                 </button>
-<button class="existing-buyer-btn" id="btn-existing-buyer" onclick="goDirectLookup()" type="button">기존 구매자 코드 입력 바로가기 →</button>
+</div>
+<div class="existing-buyer-row">
+<button class="existing-buyer-btn" id="btn-existing-buyer" onclick="goDirectLookup()" type="button"><span>기존 구매자 코드 입력 바로가기</span><span aria-hidden="true">→</span></button>
 </div>
 <div class="step-head">
 <div>
