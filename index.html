@@ -629,7 +629,50 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 @media(prefers-reduced-motion:reduce){
   html body #main-card,html body #main-card *,html body #email-notice-modal *,html body #agreement-modal *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
 }
-</style></head>
+</style>
+<style id="pre-select-flow-style">
+html body #step-price .product-card{cursor:pointer!important;}
+html body #step-price .product-card.selected{outline:2px solid #6ed0f3!important;outline-offset:-2px!important;background:linear-gradient(145deg,rgba(80,190,235,.16),rgba(13,18,25,.98) 75%)!important;}
+html body #step-price .product-card:not(.selected){opacity:.82;}
+#step-price .product-select-hint{margin:2px 0 0!important;font-size:11px!important;color:#8fb3c6!important;line-height:1.5!important;}
+#pre-purchase-modal .pre-select-summary{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;}
+#pre-purchase-modal .pre-select-summary>div{padding:8px 10px!important;border:1px solid rgba(142,172,194,.22)!important;border-radius:9px!important;background:rgba(6,11,16,.9)!important;display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important;}
+#pre-purchase-modal .pre-select-summary span{font-size:9.5px!important;color:#90b8cf!important;font-weight:700!important;}
+#pre-purchase-modal .pre-select-summary strong{font-size:12px!important;color:#e8f2f8!important;font-weight:800!important;word-break:keep-all!important;}
+#pre-purchase-modal .pre-tx-message{margin:8px 0 0!important;padding:9px 10px!important;border:1px dashed rgba(110,208,243,.4)!important;border-radius:8px!important;background:rgba(4,9,14,.9)!important;color:#cfeaf5!important;font:600 11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace!important;white-space:pre-wrap!important;word-break:break-all!important;user-select:all!important;}
+#pre-purchase-modal .pre-tx-message:empty{display:none!important;}
+</style>
+<style id="gate-compact-style">
+#agreement-modal.consent-compact #terms-box,
+#agreement-modal.consent-compact .agreement-progress,
+#agreement-modal.consent-compact .agreement-accept-group .agreement-accept:nth-child(2){display:none!important;}
+#pre-purchase-modal .pre-method-chips{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;}
+#pre-purchase-modal .pre-method-chips.hidden{display:none!important;}
+#pre-purchase-modal .pre-method-chips button{min-height:38px!important;font-size:11.5px!important;padding:0 8px!important;}
+#pre-purchase-modal .pre-method-chips button.is-on{outline:2px solid #6ed0f3!important;outline-offset:-2px!important;}
+</style>
+<style id="guided-reveal-style">
+html body #step-price .purchase-compact-payments{transition:max-height .45s ease,opacity .35s ease,visibility 0s linear 0s!important;}
+html body #step-price .purchase-compact-payments:not(.is-open){max-height:0!important;opacity:0!important;overflow:hidden!important;margin:0!important;padding:0!important;visibility:hidden!important;pointer-events:none!important;transition:max-height .3s ease,opacity .2s ease,visibility 0s linear .3s!important;}
+html body #step-price .purchase-compact-payments.is-open{max-height:320px!important;opacity:1!important;visibility:visible!important;}
+@keyframes guideRing{0%,100%{outline-color:rgba(110,208,243,.12);}50%{outline-color:rgba(110,208,243,.85);}}
+html body #step-price .guide-next{outline:2px solid rgba(110,208,243,.12);outline-offset:-2px;animation:guideRing 1.8s ease-in-out infinite;}
+html body #step-price .product-card.selected.guide-next{animation:none;}
+#step-price .product-select-hint{font-weight:700!important;color:#8fd4f3!important;}
+</style>
+<style id="gated-lookup-style">
+html body #step-price #btn-next-price:not(.is-ready){display:none!important;}
+@keyframes guideReveal{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+html body #step-price #btn-next-price.is-ready{animation:guideReveal .4s ease both,guideRing 1.8s ease-in-out .4s infinite;}
+#step-price .price-recheck-link{display:block;width:100%;margin-top:2px;padding:6px 0;background:none;border:0;color:#7f93a3;font-size:11px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+#step-price .price-recheck-link.hidden{display:none!important;}
+</style>
+<style id="direct-lookup-style">
+#step-price .existing-buyer-btn{padding:6px 11px;border:1px solid rgba(110,208,243,.42);border-radius:999px;background:rgba(40,110,150,.16);color:#a9e3f7;font-size:11px;font-weight:800;line-height:1.2;cursor:pointer;white-space:nowrap;}
+#step-price .existing-buyer-btn:hover{background:rgba(40,110,150,.3);border-color:rgba(110,208,243,.7);}
+#result-storage-notice .tx-consent-cert.is-off,.tx-consent-cert.is-off{display:none!important;}
+</style>
+</head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-[#1d9bf0] selection:text-white">
 <div aria-hidden="true" class="ambient-bg">
 <div class="ambient-grid"></div>
@@ -708,10 +751,11 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 <!-- STEP 0 (가격표 화면) -->
 <div class="step-screen is-active space-y-4" id="step-price">
-<div class="flex justify-between items-center mb-1">
+<div class="flex justify-between items-center mb-1 gap-2 flex-wrap">
 <button class="text-xs text-[#71767b] hover:text-white flex items-center gap-1" onclick="goToIntroStep()">
                     ← 필독 안내 다시보기
                 </button>
+<button class="existing-buyer-btn" id="btn-existing-buyer" onclick="goDirectLookup()" type="button">기존 구매자 코드 입력 바로가기 →</button>
 </div>
 <div class="step-head">
 <div>
@@ -726,14 +770,14 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 </div>
 <div class="product-grid">
-<div class="x-inner product-card featured">
+<div aria-pressed="false" class="x-inner product-card featured" onclick="selectPriceProduct(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPriceProduct(this);}" role="button" tabindex="0">
 <span class="product-badge hot"><span class="icon-inline"><i class="premium-icon blue" data-lucide="user-round"></i><span>STANDARD</span></span></span>
 <div>
 <div class="product-name mt-3">일반 계정<span class="product-name-note">(이메일 변경 불가)</span></div>
 </div>
 <div class="product-price mt-4">15,000<small> KRW</small></div>
 </div>
-<div class="x-inner product-card">
+<div aria-pressed="false" class="x-inner product-card" onclick="selectPriceProduct(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPriceProduct(this);}" role="button" tabindex="0">
 <span class="product-badge">SECURE MAIL</span>
 <div>
 <div class="product-name mt-3">이메일 계정<span class="product-name-note">(이메일 변경 가능)</span></div>
@@ -742,6 +786,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 </div>
 <p class="text-xs md:text-sm text-[#aeb7c2] leading-relaxed">5개 이상 구매는 할인 가능하니 개별적으로 문의 주시길 바랍니다.</p>
+<p class="product-select-hint" id="product-select-hint">① 구매할 상품을 선택해 주세요.</p>
 <section aria-label="구매 및 결제 안내" class="purchase-compact-panel">
 <div class="purchase-compact-notice">
 <div class="purchase-compact-heading"><i aria-hidden="true" data-lucide="info"></i><span>구매 전 확인</span></div>
@@ -869,7 +914,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <div><span>거래번호(TX):</span> <strong id="res-cert-tx-id">-</strong></div>
 <div><span>발급코드:</span> <strong id="res-cert-code">-</strong></div>
 <div><span>송금전 사전동의:</span> <strong id="res-cert-pre-time">-</strong></div>
-<div><span>코드조회 최종동의:</span> <strong id="res-cert-final-time">-</strong></div>
+<div><span>코드 조회 시각:</span> <strong id="res-cert-final-time">-</strong></div>
 </div>
 </div>
 </div>
@@ -1033,6 +1078,14 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <p>사기·피싱·마약·도박·성착취물 등 불법 목적 이용 시 <b>사전 통보 및 환불 없이 즉시 회수</b>되며, 모든 민·형사상 책임은 구매자에게 귀속되고 수사기관 요청 시 거래·접속 기록 일체가 즉시 제출됩니다.</p>
 </div>
 </div>
+<div class="pre-method-chips hidden" id="pre-method-chips">
+<button class="x-btn-dark" data-method="카카오페이 익명 송금" data-url="https://open.kakao.com/o/sjPGWOFi" onclick="setGateMethod(this)" type="button">카카오페이 익명 송금</button>
+<button class="x-btn-dark" data-method="컬쳐랜드 문화상품권" data-url="https://kko.to/CPZG4qil-x" onclick="setGateMethod(this)" type="button">컬쳐랜드 문화상품권</button>
+</div>
+<div class="pre-select-summary" id="pre-select-summary">
+<div><span>선택 상품</span><strong id="pre-sel-product">-</strong></div>
+<div><span>결제수단</span><strong id="pre-sel-method">-</strong></div>
+</div>
 <div class="agreement-accept pre-agree-box">
 <input class="w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer" id="pre-agree-checkbox" onchange="handlePreAgreeChange()" type="checkbox"/>
 <label class="text-white text-xs cursor-pointer select-none" for="pre-agree-checkbox" id="pre-agree-label">
@@ -1045,9 +1098,9 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <span class="pre-tx-box__kicker">ISSUED TRANSACTION ID</span>
 <div class="pre-tx-box__code" id="pre-tx-code-display">동의 체크 시 거래번호가 발급됩니다</div>
 </div>
-<button class="x-btn-dark pre-tx-box__copy" disabled="" id="btn-copy-pre-tx" onclick="copyPreTxMessage(this)" type="button">문구 복사</button>
 </div>
-<p class="pre-tx-box__desc" id="pre-tx-desc">아래 버튼을 누르면 <b>[사전동의 거래번호 + 구매 문의 문구]</b>가 자동 복사되고 선택한 결제/문의 창이 열립니다.</p>
+<pre class="pre-tx-message" id="pre-tx-message-preview"></pre>
+<p class="pre-tx-box__desc" id="pre-tx-desc">동의가 완료되면 거래번호·상품·결제수단·동의 시각이 담긴 문구가 표시됩니다. <b>문구를 복사해 오픈채팅방에 그대로 보내주세요.</b> 아래 버튼을 누르면 자동 복사되고 오픈채팅(결제창)이 열립니다.</p>
 </div>
 <div class="pre-purchase-actions">
 <button class="x-btn-dark pre-btn-cancel" onclick="closePrePurchaseModal()" type="button">취소</button>
@@ -1297,6 +1350,26 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
         const TERMS_VERSION = 'v2026.11-tx-linked';
         let pendingPaymentMethod = '카카오페이 익명 송금';
         let pendingPaymentUrl = 'https://open.kakao.com/o/sjPGWOFi';
+        let pendingAfterConsent = null; // 'query' = 조회 잠금(게이트)에서 연 사전동의창
+
+        function preGoLabel() {
+            if (pendingAfterConsent === 'query') return '문구 복사 후 코드 조회로 이동 →';
+            return '거래번호 복사 후 ' + (pendingPaymentMethod.includes('컬쳐랜드') ? '결제창' : '오픈채팅') + ' 열기 →';
+        }
+
+        function setGateMethod(btn) {
+            pendingPaymentMethod = btn.dataset.method;
+            pendingPaymentUrl = btn.dataset.url;
+            const m = document.getElementById('pre-sel-method');
+            if (m) m.textContent = pendingPaymentMethod;
+            document.querySelectorAll('#pre-method-chips button').forEach(b => b.classList.toggle('is-on', b === btn));
+            const cb = document.getElementById('pre-agree-checkbox');
+            if (cb && cb.checked) handlePreAgreeChange();
+            else {
+                const goBtn = document.getElementById('btn-pre-purchase-go');
+                if (goBtn && !goBtn.disabled) goBtn.innerHTML = '<span>' + preGoLabel() + '</span>';
+            }
+        }
 
         function formatKstTimestamp(dateObj = new Date()) {
             try {
@@ -1349,6 +1422,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                 localStorage.setItem('xa_current_tx', JSON.stringify(txObj));
             } catch (e) {}
             syncPriceTxBanner();
+            updatePriceGuide();
         }
 
         function getSelectedPriceProduct() {
@@ -1357,10 +1431,85 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             return '일반/이메일 계정';
         }
 
+        function getSelectedPricePrice() {
+            const el = document.querySelector('#step-price .product-card.selected .product-price');
+            const m = el ? el.textContent.match(/[0-9][0-9,]*/) : null;
+            return m ? m[0] + '원' : '';
+        }
+
+        function goDirectLookup() {
+            window.__xaDirectNext = true;
+            window.__xaGateBypass = true;
+            try { window.goToQueryStep(); }
+            finally { window.__xaGateBypass = false; window.__xaDirectNext = false; }
+        }
+
+        function markPreTxSent() {
+            const cur = getSavedPreTx();
+            if (cur && cur.tx_id && !cur.chat_sent) {
+                cur.chat_sent = true;
+                savePreTx(cur);
+            }
+        }
+
+        function updatePriceGuide() {
+            const cards = Array.from(document.querySelectorAll('#step-price .product-card'));
+            const sel = cards.find(c => c.classList.contains('selected'));
+            const pays = document.querySelector('#step-price .purchase-compact-payments');
+            const next = document.getElementById('btn-next-price');
+            const hint = document.getElementById('product-select-hint');
+            const tx = getSavedPreTx();
+            const hasTx = Boolean(tx && tx.tx_id && sel && tx.product_type === getSelectedPriceProduct());
+            const sent = Boolean(hasTx && tx.chat_sent);
+            const recheck = document.getElementById('btn-recheck-code');
+            const bannerBtn = document.querySelector('#price-tx-status-bar .tx-issued-banner__btn');
+            cards.forEach(c => c.classList.toggle('guide-next', !sel));
+            if (pays) {
+                pays.classList.toggle('is-open', Boolean(sel));
+                pays.querySelectorAll('.purchase-compact-payment').forEach(a => a.classList.toggle('guide-next', Boolean(sel) && !hasTx));
+            }
+            if (next) {
+                next.classList.toggle('is-ready', sent);
+                next.classList.toggle('guide-next', sent);
+            }
+            if (recheck) recheck.classList.toggle('hidden', sent);
+            if (bannerBtn) bannerBtn.classList.toggle('guide-next', hasTx && !sent);
+            if (hint) {
+                hint.textContent = !sel
+                    ? '① 구매할 상품을 선택해 주세요.'
+                    : (!hasTx
+                        ? '② 결제수단을 선택하면 약관 동의 후 거래번호가 발급됩니다.'
+                        : (!sent
+                            ? '③ 복사한 문구를 오픈채팅에 보내 주세요. 보내면 "코드 조회하기"가 나타납니다.'
+                            : '④ 오픈채팅에서 코드를 받으면 "코드 조회하기"를 눌러 주세요.'));
+            }
+        }
+
+        function selectPriceProduct(cardEl) {
+            document.querySelectorAll('#step-price .product-card').forEach(c => {
+                c.classList.remove('selected');
+                c.setAttribute('aria-pressed', 'false');
+            });
+            if (cardEl) {
+                cardEl.classList.add('selected');
+                cardEl.setAttribute('aria-pressed', 'true');
+            }
+            updatePriceGuide();
+        }
+
+        function updatePreTxMessagePreview(txObj) {
+            const box = document.getElementById('pre-tx-message-preview');
+            if (!box) return;
+            box.textContent = (txObj && txObj.tx_id) ? buildPreTxMessage(txObj) : '';
+        }
+
         function buildPreTxMessage(txObj) {
             const txId = txObj?.tx_id || '미발급';
             const pay = txObj?.payment_method || pendingPaymentMethod || '오픈채팅 송금';
-            return `[사전약관동의 완료] 거래번호: ${txId} / 결제수단: ${pay} / 환불불가·12시간검수·불법사용면책 약관에 사전 동의하며 구매 문의합니다.`;
+            const product = txObj?.product_type || getSelectedPriceProduct();
+            const price = txObj?.product_price ? ` (${txObj.product_price})` : '';
+            const time = txObj?.pre_agreed_at_kst || '-';
+            return `[사전약관동의 완료]\n거래번호: ${txId}\n상품: ${product}${price}\n결제수단: ${pay}\n약관 동의 시각: ${time}\n환불불가·12시간검수·불법사용면책 약관에 사전 동의하며 구매 문의합니다.`;
         }
 
         function syncPriceTxBanner() {
@@ -1376,8 +1525,9 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             }
         }
 
-        function openPrePurchaseModal(event, methodLabel, targetUrl) {
+        function openPrePurchaseModal(event, methodLabel, targetUrl, mode) {
             if (event) event.preventDefault();
+            pendingAfterConsent = (mode === 'query') ? 'query' : null;
             pendingPaymentMethod = methodLabel || '카카오페이 익명 송금';
             pendingPaymentUrl = targetUrl || 'https://open.kakao.com/o/sjPGWOFi';
 
@@ -1387,17 +1537,36 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             const copyBtn = document.getElementById('btn-copy-pre-tx');
             const goBtn = document.getElementById('btn-pre-purchase-go');
 
-            const existing = getSavedPreTx();
+            const selProductEl = document.getElementById('pre-sel-product');
+            const selMethodEl = document.getElementById('pre-sel-method');
+            if (selProductEl) selProductEl.textContent = getSelectedPriceProduct() + (getSelectedPricePrice() ? ' · ' + getSelectedPricePrice() : '');
+            if (selMethodEl) selMethodEl.textContent = pendingPaymentMethod;
+
+            const chipWrap = document.getElementById('pre-method-chips');
+            if (chipWrap) {
+                chipWrap.classList.toggle('hidden', pendingAfterConsent !== 'query');
+                chipWrap.querySelectorAll('button').forEach(b => b.classList.toggle('is-on', b.dataset.method === pendingPaymentMethod));
+            }
+
+            let existing = getSavedPreTx();
+            if (existing && existing.tx_id && (existing.product_type !== getSelectedPriceProduct() || existing.payment_method !== pendingPaymentMethod)) {
+                // 상품 또는 결제수단이 바뀌면 새로 동의받고 새 거래번호 발급
+                try { localStorage.removeItem('xa_current_tx'); } catch (e) {}
+                syncPriceTxBanner();
+                existing = null;
+            }
             if (existing && existing.tx_id) {
                 if (cb) cb.checked = true;
+                updatePreTxMessagePreview(existing);
                 if (codeEl) codeEl.textContent = existing.tx_id;
                 if (copyBtn) copyBtn.disabled = false;
                 if (goBtn) {
                     goBtn.disabled = false;
-                    goBtn.innerHTML = `<span>거래번호 복사 후 ${pendingPaymentMethod.includes('컬쳐랜드') ? '결제창' : '오픈채팅'} 열기 →</span>`;
+                    goBtn.innerHTML = `<span>${preGoLabel()}</span>`;
                 }
             } else {
                 if (cb) cb.checked = false;
+                updatePreTxMessagePreview(null);
                 if (codeEl) codeEl.textContent = '동의 체크 시 거래번호가 즉시 발급됩니다';
                 if (copyBtn) copyBtn.disabled = true;
                 if (goBtn) {
@@ -1428,6 +1597,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                         tx_id: generateTxId(),
                         payment_method: pendingPaymentMethod,
                         product_type: getSelectedPriceProduct(),
+                        product_price: getSelectedPricePrice(),
                         pre_agreed_at_kst: formatKstTimestamp(new Date()),
                         terms_version: TERMS_VERSION
                     };
@@ -1435,13 +1605,15 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     current.payment_method = pendingPaymentMethod;
                 }
                 savePreTx(current);
+                updatePreTxMessagePreview(current);
                 if (codeEl) codeEl.textContent = current.tx_id;
                 if (copyBtn) copyBtn.disabled = false;
                 if (goBtn) {
                     goBtn.disabled = false;
-                    goBtn.innerHTML = `<span>거래번호 복사 후 ${pendingPaymentMethod.includes('컬쳐랜드') ? '결제창' : '오픈채팅'} 열기 →</span>`;
+                    goBtn.innerHTML = `<span>${preGoLabel()}</span>`;
                 }
             } else {
+                updatePreTxMessagePreview(null);
                 if (codeEl) codeEl.textContent = '동의 체크 시 거래번호가 즉시 발급됩니다';
                 if (copyBtn) copyBtn.disabled = true;
                 if (goBtn) {
@@ -1457,6 +1629,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             const msg = buildPreTxMessage(current);
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(msg).then(() => {
+                    markPreTxSent();
                     if (btnEl) {
                         const orig = btnEl.innerText;
                         btnEl.innerText = '복사완료!';
@@ -1476,6 +1649,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     tx_id: generateTxId(),
                     payment_method: pendingPaymentMethod,
                     product_type: getSelectedPriceProduct(),
+                    product_price: getSelectedPricePrice(),
                     pre_agreed_at_kst: formatKstTimestamp(new Date()),
                     terms_version: TERMS_VERSION
                 };
@@ -1483,6 +1657,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                 current.payment_method = pendingPaymentMethod;
                 if (!current.pre_agreed_at_kst) current.pre_agreed_at_kst = formatKstTimestamp(new Date());
             }
+            current.chat_sent = true;
             savePreTx(current);
 
             const msg = buildPreTxMessage(current);
@@ -1504,6 +1679,12 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             });
 
             closePrePurchaseModal();
+            if (pendingAfterConsent === 'query') {
+                pendingAfterConsent = null;
+                window.__xaGateBypass = true;
+                try { window.goToQueryStep(); } finally { window.__xaGateBypass = false; }
+                return;
+            }
             window.open(pendingPaymentUrl, '_blank', 'noopener,noreferrer');
         }
 
@@ -1586,6 +1767,14 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                 }
 
                 // 등록된 코드만 안내문/동의창을 표시합니다.
+                const agreeModal = document.getElementById('agreement-modal');
+                const compact = Boolean(savedTx && savedTx.tx_id);
+                agreeModal?.classList.toggle('consent-compact', compact);
+                const subEl = agreeModal?.querySelector('.agreement-sub');
+                if (subEl) {
+                    if (!subEl.dataset.orig) subEl.dataset.orig = subEl.textContent;
+                    subEl.textContent = compact ? '송금 전 동의한 약관이 그대로 적용됩니다. 아래 항목만 확인해 주세요.' : subEl.dataset.orig;
+                }
                 const checkbox = document.getElementById('modal-agree-checkbox');
                 const refundCheckbox = document.getElementById('modal-agree-refund-checkbox');
                 const label = document.getElementById('modal-label');
@@ -1614,6 +1803,21 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     refundLabel.innerHTML =
                         '<span class="icon-inline"><i data-lucide="shield-alert" class="premium-icon blue"></i><span>위 약관을 끝까지 스크롤하면 환불 불가 동의 항목이 활성화됩니다.</span></span>';
                 }
+                if (compact) {
+                    // 간소화: 약관 스크롤 없이 확인 1개만 받는다 (환불 불가 항목은 자동 충족)
+                    if (checkbox) {
+                        checkbox.disabled = false;
+                        checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer";
+                    }
+                    if (refundCheckbox) {
+                        refundCheckbox.disabled = false;
+                        refundCheckbox.checked = true;
+                    }
+                    if (label) {
+                        label.className = "text-white text-xs cursor-pointer select-none";
+                        label.innerText = "[필수] 조회 즉시 디지털 콘텐츠 제공이 개시되어 환불이 불가하며, 송금 전 동의한 약관(위 거래번호)이 적용됨을 확인합니다.";
+                    }
+                }
                 if (window.lucide) lucide.createIcons();
 
                 if (termsBox) termsBox.scrollTop = 0;
@@ -1622,7 +1826,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     btnConfirm.disabled = true;
                     btnConfirm.className =
                         "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-                    btnConfirm.innerHTML = "필수 약관 2가지에 모두 동의해 주세요";
+                    btnConfirm.innerHTML = compact ? "확인 후 조회하기" : "필수 약관 2가지에 모두 동의해 주세요";
                 }
 
                 document.getElementById('agreement-modal')?.classList.remove('hidden');
@@ -1684,7 +1888,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             } else {
                 btnConfirm.disabled = true;
                 btnConfirm.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-                btnConfirm.innerHTML = "필수 약관 2가지에 모두 동의해 주세요";
+                btnConfirm.innerHTML = document.getElementById('agreement-modal')?.classList.contains('consent-compact') ? "확인 항목에 체크해 주세요" : "필수 약관 2가지에 모두 동의해 주세요";
             }
         }
 
@@ -1743,7 +1947,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             const code = document.getElementById('res-cert-code')?.textContent || '-';
             const preTime = document.getElementById('res-cert-pre-time')?.textContent || '-';
             const finalTime = document.getElementById('res-cert-final-time')?.textContent || '-';
-            const text = `[X ACCOUNT 약관동의·거래연결 증명] 거래번호: ${txId} / 발급코드: ${code} / 송금전동의: ${preTime} / 조회최종동의: ${finalTime}`;
+            const text = `[X ACCOUNT 약관동의·거래연결 증명] 거래번호: ${txId} / 발급코드: ${code} / 송금전동의: ${preTime} / 조회시각: ${finalTime}`;
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
                     if (btnEl) {
@@ -1799,31 +2003,35 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
 
                 const kstStamp = formatKstTimestamp(new Date());
-                const rawTxInput = document.getElementById('modal-tx-input')?.value || '';
                 const savedTx = getSavedPreTx();
-                const linkedTxId = rawTxInput.trim().toUpperCase() || savedTx?.tx_id || generateTxId();
-                const preAgreedStamp = (savedTx && savedTx.tx_id === linkedTxId && savedTx.pre_agreed_at_kst)
-                    ? savedTx.pre_agreed_at_kst
-                    : `${kstStamp} (조회 시 통합 연결)`;
+                const certBox = document.getElementById('res-consent-cert');
+                // 기존 구매자 바로조회(코드만 입력) 모드이거나 사전동의가 없으면 거래번호 연결·기록을 하지 않습니다.
+                const linked = Boolean(!window.__xaDirectLookup && savedTx && savedTx.tx_id);
+                if (certBox) certBox.classList.toggle('is-off', !linked);
 
-                const certTxEl = document.getElementById('res-cert-tx-id');
-                const certCodeEl = document.getElementById('res-cert-code');
-                const certPreEl = document.getElementById('res-cert-pre-time');
-                const certFinalEl = document.getElementById('res-cert-final-time');
-                if (certTxEl) certTxEl.textContent = linkedTxId;
-                if (certCodeEl) certCodeEl.textContent = currentSearchKey || code;
-                if (certPreEl) certPreEl.textContent = preAgreedStamp;
-                if (certFinalEl) certFinalEl.textContent = kstStamp;
+                if (linked) {
+                    const linkedTxId = savedTx.tx_id;
+                    const preAgreedStamp = savedTx.pre_agreed_at_kst || kstStamp;
 
-                logLegalConsent({
-                    stage: 'CODE_LOOKUP',
-                    tx_id: linkedTxId,
-                    search_key: currentSearchKey || code,
-                    product_type: data.product_type || currentTab,
-                    payment_method: savedTx?.payment_method || null,
-                    pre_agreed_at_kst: preAgreedStamp,
-                    final_agreed_at_kst: kstStamp
-                });
+                    const certTxEl = document.getElementById('res-cert-tx-id');
+                    const certCodeEl = document.getElementById('res-cert-code');
+                    const certPreEl = document.getElementById('res-cert-pre-time');
+                    const certFinalEl = document.getElementById('res-cert-final-time');
+                    if (certTxEl) certTxEl.textContent = linkedTxId;
+                    if (certCodeEl) certCodeEl.textContent = currentSearchKey || code;
+                    if (certPreEl) certPreEl.textContent = preAgreedStamp;
+                    if (certFinalEl) certFinalEl.textContent = kstStamp;
+
+                    logLegalConsent({
+                        stage: 'CODE_LOOKUP',
+                        tx_id: linkedTxId,
+                        search_key: currentSearchKey || code,
+                        product_type: data.product_type || currentTab,
+                        payment_method: savedTx.payment_method || null,
+                        pre_agreed_at_kst: preAgreedStamp,
+                        final_agreed_at_kst: kstStamp
+                    });
+                }
 
                 // GMX 메일은 확인함으로 메일을 볼 수 있으니 ID/비밀번호 칸은 숨기고 버튼만 보여줘요.
                 // 확인함이 지원되지 않는 메일(hotmail 등)은 기존처럼 ID/비밀번호 칸을 보여줘요.
@@ -3520,10 +3728,9 @@ function copyEnteredCode(btn){
   }else{ fallback(); }
 }
 
-/* 코드 조회 버튼: 처음 조회는 약관 동의 창을 거치고, 조회 결과 화면에서의 재조회는 바로 조회 */
+/* 코드 조회 버튼: 최종 약관 동의 창 없이 바로 조회 */
 async function handleVerifyClick(btn){
   var card=document.getElementById('main-card');
-  if(!(card&&card.classList.contains('query-result-mode'))){ return openAgreementModal(); }
   var input=document.getElementById('input-code');
   var code=(typeof cleanAccessCode==='function')?cleanAccessCode(input?input.value:''):String(input?input.value:'').trim();
   if(!code){ showInvalidCode(); return; }
@@ -5084,5 +5291,42 @@ function exportInlineLogsCsv() {
 }
 </style>
 
+<script id="query-gate-script">
+(function(){
+  var orig = window.goToQueryStep;
+  if (typeof orig !== 'function') return;
+  window.goToQueryStep = function(){
+    // 기존 구매자 바로가기 버튼으로 들어온 경우에만 '바로조회 모드'
+    var direct = !!window.__xaDirectNext;
+    window.__xaDirectNext = false;
+    window.__xaDirectLookup = direct;
+    var tx = (typeof getSavedPreTx === 'function') ? getSavedPreTx() : null;
+    if (!direct && !window.__xaGateBypass && !(tx && tx.tx_id)) {
+      // 사전동의(거래번호)가 없으면 조회 화면 대신 사전동의창을 먼저 연다
+      openPrePurchaseModal(null, pendingPaymentMethod, pendingPaymentUrl, 'query');
+      return;
+    }
+    return orig.apply(this, arguments);
+  };
+})();
+</script>
+<script id="guided-reveal-script">
+(function(){
+  function init(){
+    try{
+      var tx=getSavedPreTx();
+      if(tx && tx.tx_id){
+        var cards=document.querySelectorAll('#step-price .product-card');
+        for(var i=0;i<cards.length;i++){
+          var n=cards[i].querySelector('.product-name');
+          if(n && n.innerText.replace(/\s+/g,' ').trim()===tx.product_type){selectPriceProduct(cards[i]);break;}
+        }
+      }
+      updatePriceGuide();
+    }catch(e){}
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
 </body>
 </html>
