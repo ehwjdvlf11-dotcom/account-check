@@ -505,6 +505,7 @@ body {
 </div>
 
 <script>
+
 // Supabase 프로젝트 연결
 const SUPABASE_URL = 'https://gjotvoufqqvrckicwpnj.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_U42wGuvhkR-KON09lk9lfA_LW9I-9gV';
@@ -865,33 +866,6 @@ async function verifyManualCode() {
   }
 }
 
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerText = '코드 검증 중...';
-  if (errEl) errEl.classList.add('hidden');
-
-  try {
-    let order = null;
-    if (supabaseClient) {
-      const { data } = await supabaseClient.from('orders').select('*').eq('search_key', code).single();
-      if (data) order = data;
-    }
-
-    if (!order) {
-      if (errEl) { errEl.classList.remove('hidden'); errEl.innerText = '유효하지 않은 발급 코드입니다. 다시 확인해 주세요.'; }
-      return;
-    }
-
-    await displayAccountResult(code);
-  } catch (e) {
-    if (errEl) { errEl.classList.remove('hidden'); errEl.innerText = '코드 조회 중 오류가 발생했습니다.'; }
-  } finally {
-    btn.disabled = false;
-    btn.innerText = '코드 조회 및 계정 정보 확인 →';
-  }
-}
 
 async function pasteManualCode() {
   try {
