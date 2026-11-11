@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="ko">
 <head>
@@ -718,7 +718,12 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <div class="step-code"><span class="icon-inline"><i class="premium-icon blue" data-lucide="credit-card"></i><span>PRICE LIST</span></span></div>
 <!-- 가격표 제목은 제거해 상단 여백을 줄였습니다. -->
 </div>
+<div class="flex items-center gap-1.5">
+<button aria-label="동의 및 거래번호 로그 조회창 열기" class="log-viewer-open-btn" onclick="openConsentLogModal()" type="button">
+<i aria-hidden="true" data-lucide="lock"></i><span>관리자 로그조회</span>
+</button>
 <div class="access-status">거래 가능</div>
+</div>
 </div>
 <div class="product-grid">
 <div class="x-inner product-card featured">
@@ -740,19 +745,26 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <section aria-label="구매 및 결제 안내" class="purchase-compact-panel">
 <div class="purchase-compact-notice">
 <div class="purchase-compact-heading"><i aria-hidden="true" data-lucide="info"></i><span>구매 전 확인</span></div>
-<p><strong>단순 변심에 의한 환불은 제한됩니다.</strong> 신중히 구매해 주세요.</p>
+<p><strong>코드 조회 즉시 디지털 콘텐츠 제공이 개시되어 단순 변심 환불이 불가합니다.</strong> 신중히 구매해 주세요.</p>
 </div>
 <div aria-label="결제 수단" class="purchase-compact-payments">
-<a aria-label="카카오페이 익명 송금 문의 및 구매하기" class="purchase-compact-payment" href="https://open.kakao.com/o/sjPGWOFi" rel="noopener noreferrer" target="_blank">
+<a aria-label="카카오페이 익명 송금 문의 및 구매하기" class="purchase-compact-payment" href="https://open.kakao.com/o/sjPGWOFi" onclick="return openPrePurchaseModal(event, '카카오페이 익명 송금', this.href)" rel="noopener noreferrer" target="_blank">
 <span class="pay-badge-icon kakao">Pay</span>
-<span class="purchase-compact-payment-copy"><strong>카카오페이 익명 송금</strong><small>오픈채팅 실시간 문의</small></span>
-<span class="purchase-compact-action">구매하기 <i aria-hidden="true" data-lucide="arrow-up-right"></i></span>
+<span class="purchase-compact-payment-copy"><strong>카카오페이 익명 송금</strong><small>사전동의 거래번호 발급 후 오픈채팅 문의</small></span>
+<span class="purchase-compact-action">사전동의·구매 <i aria-hidden="true" data-lucide="arrow-up-right"></i></span>
 </a>
-<a aria-label="컬쳐랜드 문화상품권 구매하기" class="purchase-compact-payment" href="https://kko.to/CPZG4qil-x" rel="noopener noreferrer" target="_blank">
+<a aria-label="컬쳐랜드 문화상품권 구매하기" class="purchase-compact-payment" href="https://kko.to/CPZG4qil-x" onclick="return openPrePurchaseModal(event, '컬쳐랜드 문화상품권', this.href)" rel="noopener noreferrer" target="_blank">
 <span class="pay-badge-icon culture">CL</span>
-<span class="purchase-compact-payment-copy"><strong>컬쳐랜드 문화상품권</strong><small>5,000원 추가금</small></span>
-<span class="purchase-compact-action">구매하기 <i aria-hidden="true" data-lucide="arrow-up-right"></i></span>
+<span class="purchase-compact-payment-copy"><strong>컬쳐랜드 문화상품권</strong><small>5,000원 추가금 · 사전동의 거래번호 발급</small></span>
+<span class="purchase-compact-action">사전동의·구매 <i aria-hidden="true" data-lucide="arrow-up-right"></i></span>
 </a>
+</div>
+<div class="tx-issued-banner hidden" id="price-tx-status-bar">
+<div class="tx-issued-banner__left">
+<span class="tx-issued-banner__label">내 사전동의 거래번호</span>
+<strong class="tx-issued-banner__code" id="price-tx-id-val">XA------</strong>
+</div>
+<button class="x-btn-dark tx-issued-banner__btn" onclick="copyPreTxMessage(this)" type="button">오픈채팅 전송문구 복사</button>
 </div>
 </section>
 <button class="purchase-compact-next w-full x-btn-white font-bold rounded-lg" id="btn-next-price" onclick="goToQueryStep()" type="button">
@@ -765,6 +777,9 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <button class="text-xs text-[#71767b] hover:text-white flex items-center gap-1" onclick="goToIntroStep()">
                     ← 처음으로 돌아가기
                 </button>
+<button aria-label="동의 및 거래번호 로그 조회창 열기" class="log-viewer-open-btn" onclick="openConsentLogModal()" type="button">
+<i aria-hidden="true" data-lucide="lock"></i><span>관리자 로그조회</span>
+</button>
 </div>
 <div aria-label="계정 유형 선택" class="flex rounded-full bg-black p-1 border border-[#2f3336] gap-1" role="group">
 <button aria-pressed="true" class="flex-1 py-2 text-xs md:text-sm font-bold rounded-full transition-all bg-[#eff3f4] text-black" id="tab-general" onclick="switchTab('general')" type="button">
@@ -838,14 +853,25 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <button class="w-full x-btn-dark py-3.5 text-xs md:text-sm cursor-pointer" onclick="resetToHome()">
 <span class="icon-inline"><i class="premium-icon" data-lucide="house"></i><span>처음으로 돌아가기</span></span>
 </button>
-<div aria-label="계정 정보 보관 안내" class="result-storage-notice" id="result-storage-notice" role="note">
+<div aria-label="계정 정보 보관 및 법적 동의 안내" class="result-storage-notice" id="result-storage-notice" role="note">
 <div class="result-storage-notice__heading">
 <i class="premium-icon gold" data-lucide="shield-alert"></i>
-<span>계정 정보 보관 안내</span>
+<span>계정 보안 및 거래번호·약관 동의 증명</span>
 </div>
-<p>전달받은 코드와 아이디·비밀번호는 본인이 별도로 기록하여 안전하게 보관해 주세요.</p>
-<p class="result-storage-notice__muted">분실 시 책임지지 않습니다.</p>
-<p style="margin-top:8px">계정의 안전 보호를 위해 아이디·비밀번호를 꼭 변경하고 사용해 주시기 바랍니다.</p>
+<p>전달받은 코드와 아이디·비밀번호는 본인이 별도로 기록하여 안전하게 보관해 주세요. (분실 및 제3자 노출 시 판매자 면책)</p>
+<p style="margin-top:4px">계정의 안전 보호를 위해 수령 즉시 비밀번호를 변경하고 사용해 주시기 바랍니다.</p>
+<div class="tx-consent-cert" id="res-consent-cert">
+<div class="tx-consent-cert__head">
+<span class="tx-consent-cert__badge" id="res-consent-stamp">✓ 거래번호 ↔ 발급코드 약관 동의 증명 완료</span>
+<button class="x-btn-dark tx-consent-cert__copy" onclick="copyConsentCert(this)" type="button">동의증명 복사</button>
+</div>
+<div class="tx-consent-cert__grid">
+<div><span>거래번호(TX):</span> <strong id="res-cert-tx-id">-</strong></div>
+<div><span>발급코드:</span> <strong id="res-cert-code">-</strong></div>
+<div><span>송금전 사전동의:</span> <strong id="res-cert-pre-time">-</strong></div>
+<div><span>코드조회 최종동의:</span> <strong id="res-cert-final-time">-</strong></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -906,14 +932,139 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 <div class="space-y-2 overflow-y-auto pr-1" id="inbox-list" style="min-height:80px"></div>
 </div>
 </div>
-<!-- Modal (약관 동의 화면) -->
+<!-- Modal (관리자 전용 PIN 번호 인증창) -->
+<div aria-labelledby="admin-pin-modal-title" aria-modal="true" class="fixed inset-0 bg-black/88 backdrop-blur-md z-[66] flex items-center justify-center p-4 hidden" id="admin-pin-modal" role="dialog">
+<div class="w-full max-w-xs x-card p-5 space-y-3.5 shadow-2xl admin-pin-card">
+<div class="agreement-head" style="padding-bottom:10px;margin-bottom:4px;">
+<div>
+<div class="agreement-kicker">ADMIN AUTHENTICATION</div>
+<h3 class="agreement-title" id="admin-pin-modal-title" style="font-size:17px!important;">관리자 비밀번호(PIN) 인증</h3>
+<p class="agreement-sub">판매자 전용 로그 조회창입니다. 관리자 PIN을 입력해 주세요.</p>
+</div>
+<button aria-label="닫기" class="agreement-close" onclick="closeAdminPinModal()" type="button">×</button>
+</div>
+<div class="space-y-2">
+<input autocomplete="off" class="w-full x-input text-center font-mono text-lg tracking-widest" id="admin-pin-input" inputmode="text" onkeydown="if(event.key==='Enter')verifyAdminPin()" placeholder="••••" type="password"/>
+<div class="hidden text-center text-xs font-bold text-[#ff8994]" id="admin-pin-error">비밀번호가 일치하지 않습니다.</div>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="x-btn-dark py-2.5 text-xs font-bold" onclick="closeAdminPinModal()" type="button">취소</button>
+<button class="x-btn-white py-2.5 text-xs font-bold" onclick="verifyAdminPin()" type="button">인증 및 열기</button>
+</div>
+</div>
+</div>
+<!-- Modal (홈페이지 내장 약관동의 및 거래번호 로그 조회창) -->
+<div aria-labelledby="consent-log-modal-title" aria-modal="true" class="fixed inset-0 bg-black/88 backdrop-blur-md z-[65] flex items-center justify-center p-3 md:p-5 hidden" id="consent-log-modal" role="dialog">
+<div class="w-full max-w-2xl x-card p-4 md:p-6 shadow-2xl consent-log-modal-card">
+<div class="consent-log-head">
+<div>
+<div class="agreement-kicker">LEGAL CONSENT &amp; TX LOG VIEWER</div>
+<h3 class="agreement-title" id="consent-log-modal-title">거래번호 · 약관동의 로그 조회</h3>
+<p class="agreement-sub">오픈채팅으로 받은 거래번호(XA-...)나 발급 코드로 사전동의·최종동의 시각을 즉시 대조합니다.</p>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="x-btn-dark consent-log-top-btn" onclick="changeAdminPinPrompt()" type="button" title="관리자 비밀번호 변경">PIN 변경</button>
+<button class="x-btn-dark consent-log-top-btn" onclick="exportInlineLogsCsv()" type="button">CSV 저장</button>
+<button class="x-btn-white consent-log-top-btn" onclick="loadInlineConsentLogs()" type="button">새로고침</button>
+<button aria-label="닫기" class="agreement-close" onclick="closeConsentLogModal()" type="button">×</button>
+</div>
+</div>
+
+<!-- 요약 수치 바 -->
+<div class="consent-log-stats">
+<div class="consent-stat-item"><span>전체 기록</span><strong id="inline-stat-total">0</strong></div>
+<div class="consent-stat-item"><span>코드조회 최종동의</span><strong class="text-[#55dfa9]" id="inline-stat-lookup">0</strong></div>
+<div class="consent-stat-item"><span>송금전 사전동의</span><strong class="text-[#7ee7f7]" id="inline-stat-pre">0</strong></div>
+<div class="consent-stat-item"><span>고유 거래번호</span><strong class="text-[#ebd089]" id="inline-stat-tx">0</strong></div>
+</div>
+
+<!-- 검색 및 필터 -->
+<div class="consent-log-controls">
+<div class="consent-log-search-row">
+<input autocomplete="off" class="x-input consent-log-search-input" id="inline-log-search" oninput="renderInlineConsentLogs()" placeholder="거래번호(XA-...), 발급 코드, 계정 ID 검색..." spellcheck="false" type="text"/>
+<button class="x-btn-dark consent-log-ctrl-btn" onclick="pasteInlineLogSearch()" type="button">붙여넣기 검색</button>
+<button class="x-btn-dark consent-log-ctrl-btn" onclick="clearInlineLogSearch()" type="button">초기화</button>
+</div>
+<div class="consent-log-filter-row">
+<div class="consent-log-tabs">
+<button class="consent-tab active" data-stage="ALL" onclick="setInlineStageFilter('ALL')" type="button">전체</button>
+<button class="consent-tab" data-stage="CODE_LOOKUP" onclick="setInlineStageFilter('CODE_LOOKUP')" type="button">✓ 코드조회 최종동의</button>
+<button class="consent-tab" data-stage="PRE_PAYMENT" onclick="setInlineStageFilter('PRE_PAYMENT')" type="button">● 송금전 사전동의</button>
+</div>
+<a class="consent-external-link" href="X_ACCOUNT_동의로그_조회기.html" target="_blank" rel="noopener noreferrer">전체화면 조회기 열기 ↗</a>
+</div>
+</div>
+
+<!-- RLS 조회권한 안내 (SELECT 미설정 시에만 자동 노출) -->
+<div class="consent-rls-box hidden" id="inline-rls-notice">
+<div class="flex items-center justify-between gap-2">
+<strong>Supabase 조회(SELECT) 권한 1회 추가 안내</strong>
+<button class="x-btn-dark consent-log-ctrl-btn" onclick="copyInlineRlsSql(this)" type="button">SQL 복사</button>
+</div>
+<p>현재 내 브라우저 기록은 바로 표시되며, 다른 기기(구매자)의 DB 기록까지 모두 불러오려면 Supabase SQL Editor에서 복사한 3줄을 Run 해주세요.</p>
+</div>
+
+<div class="consent-log-status" id="inline-log-status">기록을 불러오는 중...</div>
+<div class="consent-log-list" id="inline-log-list"></div>
+</div>
+</div>
+<!-- Modal (송금 전 사전 약관 동의 및 거래번호 발급 화면) -->
+<div aria-labelledby="pre-purchase-title" aria-modal="true" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" id="pre-purchase-modal" role="dialog">
+<div class="w-full max-w-md x-card p-5 md:p-6 space-y-3.5 shadow-2xl pre-purchase-card">
+<div class="agreement-head">
+<div>
+<div class="agreement-kicker">PRE-PAYMENT CONSENT &amp; TX ID</div>
+<div class="agreement-title" id="pre-purchase-title">송금 전 사전 약관 확인 및 거래번호 발급</div>
+<div class="agreement-sub">송금 전 아래 핵심 약관에 동의하시면 고유 거래번호가 발급됩니다. 발급된 거래번호를 오픈채팅에 먼저 보내주세요.</div>
+</div>
+<button aria-label="닫기" class="agreement-close" onclick="closePrePurchaseModal()" type="button">×</button>
+</div>
+<div class="pre-terms-summary">
+<div class="pre-terms-item">
+<strong>01. 디지털 콘텐츠 환불 불가 (전자상거래법 제17조 제2항 제5호)</strong>
+<p>본 상품은 코드 조회 즉시 계정 정보(ID·PW·실시간 OTP)가 노출되는 복제 가능 디지털 콘텐츠로, <b>발급 코드 조회(열람) 개시 이후에는 단순 변심·구매 착오에 의한 환불이 절대 불가</b>합니다.</p>
+</div>
+<div class="pre-terms-item">
+<strong>02. 수령 후 12시간 초기 검수 의무 및 면책 기준</strong>
+<p>코드 수령 후 <b>12시간 이내 초기 불량(로그인 불가·초기 서치벤)만 최초 1회 교환</b>됩니다. 12시간 경과 또는 구매자 환경(오염된 IP·VPN·다계정 접속·급격한 프로필/생일 변경·자동화 등)으로 인한 정지·잠금은 면책됩니다.</p>
+</div>
+<div class="pre-terms-item">
+<strong>03. 불법 행위 무환불 회수 및 수사기관 즉시 협조</strong>
+<p>사기·피싱·마약·도박·성착취물 등 불법 목적 이용 시 <b>사전 통보 및 환불 없이 즉시 회수</b>되며, 모든 민·형사상 책임은 구매자에게 귀속되고 수사기관 요청 시 거래·접속 기록 일체가 즉시 제출됩니다.</p>
+</div>
+</div>
+<div class="agreement-accept pre-agree-box">
+<input class="w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer" id="pre-agree-checkbox" onchange="handlePreAgreeChange()" type="checkbox"/>
+<label class="text-white text-xs cursor-pointer select-none" for="pre-agree-checkbox" id="pre-agree-label">
+<span><b>[필수]</b> 송금 전 위 환불 불가·12시간 검수·불법 사용 면책 약관을 모두 확인했으며 사전 동의합니다.</span>
+</label>
+</div>
+<div class="pre-tx-box" id="pre-tx-box">
+<div class="pre-tx-box__top">
+<div>
+<span class="pre-tx-box__kicker">ISSUED TRANSACTION ID</span>
+<div class="pre-tx-box__code" id="pre-tx-code-display">동의 체크 시 거래번호가 발급됩니다</div>
+</div>
+<button class="x-btn-dark pre-tx-box__copy" disabled="" id="btn-copy-pre-tx" onclick="copyPreTxMessage(this)" type="button">문구 복사</button>
+</div>
+<p class="pre-tx-box__desc" id="pre-tx-desc">아래 버튼을 누르면 <b>[사전동의 거래번호 + 구매 문의 문구]</b>가 자동 복사되고 선택한 결제/문의 창이 열립니다.</p>
+</div>
+<div class="pre-purchase-actions">
+<button class="x-btn-dark pre-btn-cancel" onclick="closePrePurchaseModal()" type="button">취소</button>
+<button class="x-btn-white pre-btn-confirm" disabled="" id="btn-pre-purchase-go" onclick="confirmPrePurchaseAndGo()" type="button">
+<span>약관 동의 후 거래번호 발급받기</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Modal (법률 방어 약관 동의 화면) -->
 <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="agreement-modal">
 <div class="w-full max-w-md x-card p-6 space-y-4 shadow-2xl">
 <div class="agreement-head">
 <div>
-<div class="agreement-kicker">SECURITY &amp; USAGE NOTICE</div>
-<div class="agreement-title">계정 이용 안내 및 약관</div>
-<div class="agreement-sub">안내사항을 확인해 주세요. 동의 없이도 발급 코드 조회를 진행할 수 있습니다.</div>
+<div class="agreement-kicker">LEGAL &amp; SECURITY COMPLIANCE</div>
+<div class="agreement-title">계정 양도 약관 및 법적 책임 동의</div>
+<div class="agreement-sub">아래 약관을 끝까지 스크롤하여 읽으신 후 필수 항목 2가지에 모두 동의해야 계정 정보가 발급됩니다.</div>
 </div>
 <button aria-label="닫기" class="agreement-close" onclick="closeAgreementModal()" type="button">×</button>
 </div>
@@ -924,47 +1075,71 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 </div>
 <!-- 스크롤 영역 -->
 <div class="border border-[#2f3336] bg-black rounded-xl p-3.5 text-xs text-[#c4c7cc] space-y-3 max-h-[190px] overflow-y-auto" id="terms-box" onscroll="checkScrollBottom()">
-<div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-2.5">
-<p class="text-white font-bold">계정 양도 및 이용 안내사항</p>
-<p class="text-[#a1a8b0]">계정 수령 전 아래 안내사항을 반드시 확인해 주세요.</p>
+<div class="bg-[#16181c] p-2.5 rounded-lg border border-[#2f3336] space-y-1.5">
+<p class="text-white font-bold">X 계정 양도 및 법적 면책 약관 (필독)</p>
+<p class="text-[#a1a8b0]">발급 코드 조회 시 아래 모든 조항에 대해 법적 구속력을 갖는 동의를 한 것으로 간주됩니다.</p>
 </div>
 <section class="space-y-1.5">
-<p class="text-white font-bold"><span class="agreement-number">01</span>이용 제한</p>
-<p class="text-[#a1a8b0]">- 사기, 마약 거래 등 불법적이거나 타인에게 피해를 주는 목적으로 계정을 이용할 수 없습니다.</p>
-<p class="text-[#a1a8b0]">- 예시: X(트위터)에서의 피싱·보이스피싱 유도, 마약·불법 약물 판매 및 홍보, 불법 도박·사설 토토 홍보, 불법 촬영물·성착취물 유포, 사칭·스팸, 협박·괴롭힘 등</p>
-<p class="text-[#a1a8b0]">- 위반 행위가 확인될 경우 계정 이용 제한 또는 회수가 진행될 수 있습니다.</p>
-<p class="text-[#a1a8b0]">- <strong class="text-white">불법·불건전 행위에 이용할 경우 제3자 피해자를 막기 위해 환불 절차 없이 계정을 회수 조치합니다. 꼭 숙지해 주세요.</strong></p>
+<p class="text-white font-bold"><span class="agreement-number">01</span>불법 행위 금지 및 민·형사상 책임 귀속</p>
+<p class="text-[#a1a8b0]">- 사기, 피싱·보이스피싱 유도, 마약·불법 약물 판매 및 홍보, 불법 도박·사설 토토 홍보, 불법 촬영물·성착취물 유포, 사칭·스팸, 명예훼손·협박 등 대한민국 법령에 위배되거나 타인에게 피해를 주는 목적으로 계정을 절대 이용할 수 없습니다.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">발급 코드 조회(계정 인도) 시점 이후 해당 계정에서 발생하는 모든 활동에 대한 민·형사상 법적 책임은 전적으로 구매자(실사용자) 본인에게 귀속되며, 양도인(판매자)은 이에 대해 어떠한 법적 책임도 지지 않습니다.</strong></p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">불법·불건전 행위 악용이 확인될 경우 제3자 피해 방지를 위해 사전 통보 및 환불 절차 없이 계정을 즉시 회수 및 영구 차단 조치합니다.</strong></p>
 </section>
 <section class="space-y-1.5">
-<p class="text-white font-bold"><span class="agreement-number">02</span>로그인 및 초기 확인</p>
-<p class="text-[#a1a8b0]">- 전달받은 ID와 비밀번호로 로그인한 후 OTP(2단계 인증)를 진행해 주세요.</p>
-<p class="text-[#a1a8b0]">- 계정 수령 즉시 서치벤(Search Ban) 및 정상 노출 여부를 확인해 주세요.</p>
-<p class="text-[#a1a8b0]">- 문제가 발견되면 가능한 한 즉시 관리자에게 문의해 주세요.</p>
+<p class="text-white font-bold"><span class="agreement-number">02</span>수사기관 협조 및 거래 기록 제출 고지</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">양도된 계정이 범죄 또는 불법 행위에 연루되어 수사기관(경찰·검찰 등)이나 법원의 요청이 있을 경우, 판매자는 구매자의 별도 동의 없이 거래 일시, 입금·송금 내역, 오픈채팅 대화 내역, 발급 코드 조회 일시 및 접속 환경 로그 일체를 즉시 수사기관에 제출하며 수사에 적극 협조합니다.</strong></p>
 </section>
 <section class="space-y-1.5">
-<p class="text-white font-bold"><span class="agreement-number">03</span>교환 규정</p>
-<p class="text-[#a1a8b0]">- 본 거래는 정상적인 노출 상태의 X 계정 양도입니다.</p>
-<p class="text-[#a1a8b0]">- <strong class="text-white">발급 코드 수령 시점부터 12시간 이내 계정 자체의 중대한 문제가 확인되면 최초 1회에 한해 교환을 제공합니다.</strong></p>
-<p class="text-[#a1a8b0]">- 구매자 과실이나 X 운영정책 위반으로 발생한 문제는 교환 대상에서 제외될 수 있습니다.</p>
-<p class="text-[#a1a8b0]">- 정상 수령 이후 X의 운영정책 또는 시스템 판단으로 발생한 제한은 별도로 판단합니다.</p>
+<p class="text-white font-bold"><span class="agreement-number">03</span>디지털 콘텐츠 제공 개시 및 청약철회(환불) 제한</p>
+<p class="text-[#a1a8b0]">- 본 상품은 조회 즉시 계정 정보(ID, 비밀번호, 실시간 2단계 인증 OTP)가 화면에 노출되어 열람 즉시 가치가 소비·복제되는 무형의 디지털 콘텐츠입니다.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">「전자상거래 등에서의 소비자보호에 관한 법률」 제17조 제2항 제5호에 의거하여, '동의하고 조회하기' 클릭 즉시 디지털 콘텐츠 제공이 개시되므로 이후 단순 변심·구매 착오 등을 이유로 한 청약철회(환불·취소)는 절대 불가능합니다.</strong></p>
 </section>
 <section class="space-y-1.5">
-<p class="text-white font-bold"><span class="agreement-number">04</span>계정 관리 및 보안</p>
-<p class="text-[#a1a8b0]">- 계정은 X 운영정책을 준수하여 정상적으로 이용해 주세요.</p>
-<p class="text-[#a1a8b0]">- <strong class="text-white">아이디·닉네임·프로필 사진 변경은 양도인의 재량에 따라 진행되며, 구매자에게 별도 동의를 구하지 않습니다.</strong></p>
-<p class="text-[#a1a8b0]">- <strong class="text-white">생일 정보는 변경하지 않는 것을 권장합니다.</strong></p>
-<p class="text-[#a1a8b0]">- ID·비밀번호·발급 코드 및 OTP 정보는 안전하게 보관하고 타인과 공유하지 마세요.</p>
+<p class="text-white font-bold"><span class="agreement-number">04</span>초기 검수 의무(12시간) 및 교환·면책 기준</p>
+<p class="text-[#a1a8b0]">- 구매자는 발급 코드 수령 시점부터 <strong class="text-white">12시간 이내</strong>에 로그인 후 서치벤(Search Ban) 및 정상 노출 여부를 직접 확인해야 하며, 구매자 과실 없는 계정 자체의 초기 불량이 확인된 경우에 한해 최초 1회 교환을 제공합니다.</p>
+<p class="text-[#a1a8b0]">- <strong class="text-white">수령 후 12시간이 경과했거나, 구매자의 접속 환경(오염된 IP, VPN·프록시 사용, 다계정 동시 로그인, 기기 지문 중복), 수령 직후 급격한 프로필·이메일·생년월일 변경, 과도한 팔로우·트윗·DM 발송, 자동화 프로그램(매크로) 사용 등 구매자 귀책 또는 X 운영정책에 의해 발생한 잠금(Lock)·일시정지(Suspend)·서치벤은 판매자 면책 사유로 교환 및 환불 대상에서 제외됩니다.</strong></p>
+</section>
+<section class="space-y-1.5">
+<p class="text-white font-bold"><span class="agreement-number">05</span>현상 인도(As-Is) 및 수령 후 보안 관리</p>
+<p class="text-[#a1a8b0]">- 계정의 초기 아이디·닉네임·프로필 상태는 양도인의 재량으로 설정된 현상 그대로(As-Is) 인도되며, 계정 보호를 위해 생년월일 정보는 변경하지 않는 것을 권장합니다.</p>
+<p class="text-[#a1a8b0]">- 구매자는 계정 수령 및 정상 노출 확인 직후 반드시 비밀번호를 변경하여 본인이 직접 보안을 관리해야 하며, 전달받은 계정 정보 및 발급 코드의 분실·유출·제3자 공유로 발생한 손해에 대해 판매자는 일절 책임지지 않습니다.</p>
 </section>
 </div>
+<div class="modal-tx-link-box" id="modal-tx-link-box">
+<div class="modal-tx-link-head">
+<span class="modal-tx-link-title"><i class="premium-icon blue" data-lucide="link-2"></i><span>사전동의 거래번호 ↔ 발급 코드 연결</span></span>
+<span class="modal-tx-link-badge" id="modal-tx-status-badge">자동 연결됨</span>
+</div>
+<div class="modal-tx-link-row">
+<div class="modal-tx-field">
+<label for="modal-tx-input">거래번호 (오픈채팅 전송 번호)</label>
+<input autocapitalize="characters" autocomplete="off" class="x-input modal-tx-input" id="modal-tx-input" placeholder="예: XA-261111-XXXX" spellcheck="false" type="text"/>
+</div>
+<div class="modal-tx-arrow">↔</div>
+<div class="modal-tx-field">
+<label>조회할 발급 코드</label>
+<div class="modal-tx-code-preview" id="modal-code-preview">-</div>
+</div>
+</div>
+<p class="modal-tx-help" id="modal-tx-help">송금 전 발급받은 거래번호가 자동 입력되었습니다. (다른 기기에서 발급받은 경우 오픈채팅에 보낸 거래번호를 입력해 주세요.)</p>
+</div>
+<div class="agreement-accept-group">
 <div class="agreement-accept">
 <input class="w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50" disabled="" id="modal-agree-checkbox" onchange="checkModalAgreement()" type="checkbox"/>
 <label class="text-[#71767b] text-xs cursor-not-allowed select-none" for="modal-agree-checkbox" id="modal-label">
-<span class="icon-inline"><i class="premium-icon gold" data-lucide="lock-keyhole"></i><span>위 안내사항을 모두 확인했으며 동의합니다.</span></span>
+<span class="icon-inline"><i class="premium-icon gold" data-lucide="lock-keyhole"></i><span>위 약관을 끝까지 스크롤하여 확인해 주세요.</span></span>
 </label>
+</div>
+<div class="agreement-accept">
+<input class="w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50" disabled="" id="modal-agree-refund-checkbox" onchange="checkModalAgreement()" type="checkbox"/>
+<label class="text-[#71767b] text-xs cursor-not-allowed select-none" for="modal-agree-refund-checkbox" id="modal-refund-label">
+<span class="icon-inline"><i class="premium-icon blue" data-lucide="shield-alert"></i><span>위 약관을 끝까지 스크롤하면 환불 불가 동의 항목이 활성화됩니다.</span></span>
+</label>
+</div>
 </div>
 <div class="agreement-actions">
 <button class="w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]" disabled="" id="btn-modal-confirm" onclick="confirmSearch()" type="button">
-                    동의하고 조회하기
+                    필수 약관 2가지에 모두 동의해 주세요
                 </button>
 </div>
 </div>
@@ -1119,6 +1294,223 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
             }
             return '';
         }
+        const TERMS_VERSION = 'v2026.11-tx-linked';
+        let pendingPaymentMethod = '카카오페이 익명 송금';
+        let pendingPaymentUrl = 'https://open.kakao.com/o/sjPGWOFi';
+
+        function formatKstTimestamp(dateObj = new Date()) {
+            try {
+                return new Intl.DateTimeFormat('sv-SE', {
+                    timeZone: 'Asia/Seoul',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                }).format(dateObj) + ' KST';
+            } catch (e) {
+                return dateObj.toISOString();
+            }
+        }
+
+        function generateTxId() {
+            const now = new Date();
+            let ymd = '261111';
+            try {
+                const parts = new Intl.DateTimeFormat('sv-SE', {
+                    timeZone: 'Asia/Seoul',
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit'
+                }).format(now).replace(/-/g, '');
+                if (parts && parts.length === 6) ymd = parts;
+            } catch (e) {}
+            const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+            let rand = '';
+            for (let i = 0; i < 4; i++) {
+                rand += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return `XA-${ymd}-${rand}`;
+        }
+
+        function getSavedPreTx() {
+            try {
+                const raw = localStorage.getItem('xa_current_tx');
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function savePreTx(txObj) {
+            try {
+                localStorage.setItem('xa_current_tx', JSON.stringify(txObj));
+            } catch (e) {}
+            syncPriceTxBanner();
+        }
+
+        function getSelectedPriceProduct() {
+            const selectedCard = document.querySelector('#step-price .product-card.selected .product-name');
+            if (selectedCard) return selectedCard.innerText.replace(/\s+/g, ' ').trim();
+            return '일반/이메일 계정';
+        }
+
+        function buildPreTxMessage(txObj) {
+            const txId = txObj?.tx_id || '미발급';
+            const pay = txObj?.payment_method || pendingPaymentMethod || '오픈채팅 송금';
+            return `[사전약관동의 완료] 거래번호: ${txId} / 결제수단: ${pay} / 환불불가·12시간검수·불법사용면책 약관에 사전 동의하며 구매 문의합니다.`;
+        }
+
+        function syncPriceTxBanner() {
+            const banner = document.getElementById('price-tx-status-bar');
+            const valEl = document.getElementById('price-tx-id-val');
+            const saved = getSavedPreTx();
+            if (!banner || !valEl) return;
+            if (saved && saved.tx_id) {
+                valEl.textContent = saved.tx_id;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function openPrePurchaseModal(event, methodLabel, targetUrl) {
+            if (event) event.preventDefault();
+            pendingPaymentMethod = methodLabel || '카카오페이 익명 송금';
+            pendingPaymentUrl = targetUrl || 'https://open.kakao.com/o/sjPGWOFi';
+
+            const modal = document.getElementById('pre-purchase-modal');
+            const cb = document.getElementById('pre-agree-checkbox');
+            const codeEl = document.getElementById('pre-tx-code-display');
+            const copyBtn = document.getElementById('btn-copy-pre-tx');
+            const goBtn = document.getElementById('btn-pre-purchase-go');
+
+            const existing = getSavedPreTx();
+            if (existing && existing.tx_id) {
+                if (cb) cb.checked = true;
+                if (codeEl) codeEl.textContent = existing.tx_id;
+                if (copyBtn) copyBtn.disabled = false;
+                if (goBtn) {
+                    goBtn.disabled = false;
+                    goBtn.innerHTML = `<span>거래번호 복사 후 ${pendingPaymentMethod.includes('컬쳐랜드') ? '결제창' : '오픈채팅'} 열기 →</span>`;
+                }
+            } else {
+                if (cb) cb.checked = false;
+                if (codeEl) codeEl.textContent = '동의 체크 시 거래번호가 즉시 발급됩니다';
+                if (copyBtn) copyBtn.disabled = true;
+                if (goBtn) {
+                    goBtn.disabled = true;
+                    goBtn.innerHTML = '<span>위 사전 약관에 체크해 주세요</span>';
+                }
+            }
+
+            if (modal) modal.classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+            return false;
+        }
+
+        function closePrePurchaseModal() {
+            document.getElementById('pre-purchase-modal')?.classList.add('hidden');
+        }
+
+        function handlePreAgreeChange() {
+            const cb = document.getElementById('pre-agree-checkbox');
+            const codeEl = document.getElementById('pre-tx-code-display');
+            const copyBtn = document.getElementById('btn-copy-pre-tx');
+            const goBtn = document.getElementById('btn-pre-purchase-go');
+
+            if (cb && cb.checked) {
+                let current = getSavedPreTx();
+                if (!current || !current.tx_id) {
+                    current = {
+                        tx_id: generateTxId(),
+                        payment_method: pendingPaymentMethod,
+                        product_type: getSelectedPriceProduct(),
+                        pre_agreed_at_kst: formatKstTimestamp(new Date()),
+                        terms_version: TERMS_VERSION
+                    };
+                } else {
+                    current.payment_method = pendingPaymentMethod;
+                }
+                savePreTx(current);
+                if (codeEl) codeEl.textContent = current.tx_id;
+                if (copyBtn) copyBtn.disabled = false;
+                if (goBtn) {
+                    goBtn.disabled = false;
+                    goBtn.innerHTML = `<span>거래번호 복사 후 ${pendingPaymentMethod.includes('컬쳐랜드') ? '결제창' : '오픈채팅'} 열기 →</span>`;
+                }
+            } else {
+                if (codeEl) codeEl.textContent = '동의 체크 시 거래번호가 즉시 발급됩니다';
+                if (copyBtn) copyBtn.disabled = true;
+                if (goBtn) {
+                    goBtn.disabled = true;
+                    goBtn.innerHTML = '<span>위 사전 약관에 체크해 주세요</span>';
+                }
+            }
+        }
+
+        function copyPreTxMessage(btnEl) {
+            let current = getSavedPreTx();
+            if (!current || !current.tx_id) return;
+            const msg = buildPreTxMessage(current);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(msg).then(() => {
+                    if (btnEl) {
+                        const orig = btnEl.innerText;
+                        btnEl.innerText = '복사완료!';
+                        setTimeout(() => { btnEl.innerText = orig; }, 1200);
+                    }
+                }).catch(() => {});
+            }
+        }
+
+        async function confirmPrePurchaseAndGo() {
+            const cb = document.getElementById('pre-agree-checkbox');
+            if (!cb || !cb.checked) return;
+
+            let current = getSavedPreTx();
+            if (!current || !current.tx_id) {
+                current = {
+                    tx_id: generateTxId(),
+                    payment_method: pendingPaymentMethod,
+                    product_type: getSelectedPriceProduct(),
+                    pre_agreed_at_kst: formatKstTimestamp(new Date()),
+                    terms_version: TERMS_VERSION
+                };
+            } else {
+                current.payment_method = pendingPaymentMethod;
+                if (!current.pre_agreed_at_kst) current.pre_agreed_at_kst = formatKstTimestamp(new Date());
+            }
+            savePreTx(current);
+
+            const msg = buildPreTxMessage(current);
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(msg);
+                }
+            } catch (e) {}
+
+            // 1차 송금 전 사전동의 로그 기록 (비동기)
+            logLegalConsent({
+                stage: 'PRE_PAYMENT',
+                tx_id: current.tx_id,
+                search_key: 'PRE_PAYMENT',
+                product_type: current.product_type || getSelectedPriceProduct(),
+                payment_method: current.payment_method,
+                pre_agreed_at_kst: current.pre_agreed_at_kst,
+                final_agreed_at_kst: null
+            });
+
+            closePrePurchaseModal();
+            window.open(pendingPaymentUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            syncPriceTxBanner();
+        });
+
         async function openAgreementModal() {
             const codeInput = document.getElementById('input-code');
             const rawCode = codeInput ? codeInput.value : '';
@@ -1164,9 +1556,40 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     return;
                 }
 
+                // 거래번호 ↔ 발급 코드 연결창 초기화
+                const txInput = document.getElementById('modal-tx-input');
+                const codePreview = document.getElementById('modal-code-preview');
+                const txBadge = document.getElementById('modal-tx-status-badge');
+                const txHelp = document.getElementById('modal-tx-help');
+                const savedTx = getSavedPreTx();
+
+                if (codePreview) codePreview.textContent = code;
+                if (savedTx && savedTx.tx_id) {
+                    if (txInput) txInput.value = savedTx.tx_id;
+                    if (txBadge) {
+                        txBadge.textContent = '✓ 사전동의 자동연결';
+                        txBadge.className = 'modal-tx-link-badge is-linked';
+                    }
+                    if (txHelp) {
+                        txHelp.textContent = `송금 전 발급받은 거래번호(${savedTx.pre_agreed_at_kst})가 발급 코드와 자동 연결되었습니다.`;
+                    }
+                } else {
+                    const fallbackTx = generateTxId();
+                    if (txInput && !txInput.value.trim()) txInput.value = fallbackTx;
+                    if (txBadge) {
+                        txBadge.textContent = '오픈채팅 번호 입력 / 자동부여';
+                        txBadge.className = 'modal-tx-link-badge';
+                    }
+                    if (txHelp) {
+                        txHelp.textContent = '오픈채팅에 전송한 거래번호(XA-...)가 있다면 위 칸에 입력해 주세요. (미변경 시 현재 번호로 자동 연결됩니다)';
+                    }
+                }
+
                 // 등록된 코드만 안내문/동의창을 표시합니다.
                 const checkbox = document.getElementById('modal-agree-checkbox');
+                const refundCheckbox = document.getElementById('modal-agree-refund-checkbox');
                 const label = document.getElementById('modal-label');
+                const refundLabel = document.getElementById('modal-refund-label');
                 const termsBox = document.getElementById('terms-box');
                 const btnConfirm = document.getElementById('btn-modal-confirm');
 
@@ -1175,13 +1598,23 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     checkbox.disabled = true;
                     checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
                 }
+                if (refundCheckbox) {
+                    refundCheckbox.checked = false;
+                    refundCheckbox.disabled = true;
+                    refundCheckbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-not-allowed opacity-50";
+                }
 
                 if (label) {
                     label.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
                     label.innerHTML =
-                        '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>위 안내사항을 끝까지 확인해 주세요.</span></span>';
-                    if (window.lucide) lucide.createIcons();
+                        '<span class="icon-inline"><i data-lucide="lock-keyhole" class="premium-icon gold"></i><span>위 약관을 끝까지 스크롤하여 확인해 주세요.</span></span>';
                 }
+                if (refundLabel) {
+                    refundLabel.className = "text-[#71767b] text-xs cursor-not-allowed select-none";
+                    refundLabel.innerHTML =
+                        '<span class="icon-inline"><i data-lucide="shield-alert" class="premium-icon blue"></i><span>위 약관을 끝까지 스크롤하면 환불 불가 동의 항목이 활성화됩니다.</span></span>';
+                }
+                if (window.lucide) lucide.createIcons();
 
                 if (termsBox) termsBox.scrollTop = 0;
 
@@ -1189,7 +1622,7 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                     btnConfirm.disabled = true;
                     btnConfirm.className =
                         "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
-                    btnConfirm.innerHTML = "내용을 확인했으며 동의하고 계정 발급(조회)하기";
+                    btnConfirm.innerHTML = "필수 약관 2가지에 모두 동의해 주세요";
                 }
 
                 document.getElementById('agreement-modal')?.classList.remove('hidden');
@@ -1215,12 +1648,24 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
 
         function enableCheckbox() {
             const checkbox = document.getElementById('modal-agree-checkbox');
+            const refundCheckbox = document.getElementById('modal-agree-refund-checkbox');
             const label = document.getElementById('modal-label');
-            if (checkbox.disabled) {
+            const refundLabel = document.getElementById('modal-refund-label');
+            if (checkbox && checkbox.disabled) {
                 checkbox.disabled = false;
                 checkbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer";
-                label.className = "text-white text-xs cursor-pointer select-none";
-                label.innerText = "위 내용을 숙지하였으며 회수 정책에 동의합니다.";
+                if (label) {
+                    label.className = "text-white text-xs cursor-pointer select-none";
+                    label.innerText = "[필수] 불법 행위 금지(무환불 회수), 법적 책임 귀속 및 수사기관 협조 약관에 동의합니다.";
+                }
+            }
+            if (refundCheckbox && refundCheckbox.disabled) {
+                refundCheckbox.disabled = false;
+                refundCheckbox.className = "w-4 h-4 accent-[#1d9bf0] rounded cursor-pointer";
+                if (refundLabel) {
+                    refundLabel.className = "text-white text-xs cursor-pointer select-none";
+                    refundLabel.innerText = "[필수] 조회 즉시 디지털 콘텐츠 제공이 개시되어 단순 변심 환불이 불가함에 동의합니다.";
+                }
             }
         }
 
@@ -1229,15 +1674,84 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
         }
 
         function checkModalAgreement() {
-            const isChecked = document.getElementById('modal-agree-checkbox').checked;
+            const isChecked1 = Boolean(document.getElementById('modal-agree-checkbox')?.checked);
+            const isChecked2 = Boolean(document.getElementById('modal-agree-refund-checkbox')?.checked);
             const btnConfirm = document.getElementById('btn-modal-confirm');
-            if (isChecked) {
+            if (isChecked1 && isChecked2) {
                 btnConfirm.disabled = false;
                 btnConfirm.className = "w-full x-btn-white py-3.5 text-xs md:text-sm cursor-pointer shadow-md";
-                btnConfirm.innerHTML = "동의하고 계정 발급(조회)하기";
+                btnConfirm.innerHTML = "거래번호·발급코드 연결 및 동의 후 조회하기";
             } else {
                 btnConfirm.disabled = true;
                 btnConfirm.className = "w-full bg-[#16181c] text-[#71767b] font-bold py-3.5 rounded-full text-xs md:text-sm cursor-not-allowed border border-[#2f3336]";
+                btnConfirm.innerHTML = "필수 약관 2가지에 모두 동의해 주세요";
+            }
+        }
+
+        async function logLegalConsent(payload) {
+            const record = {
+                consent_stage: payload.stage || 'CODE_LOOKUP',
+                tx_id: payload.tx_id || 'UNLINKED',
+                search_key: payload.search_key || 'PRE_PAYMENT',
+                product_type: payload.product_type || currentTab,
+                payment_method: payload.payment_method || null,
+                pre_agreed_at_kst: payload.pre_agreed_at_kst || null,
+                final_agreed_at_kst: payload.final_agreed_at_kst || formatKstTimestamp(new Date()),
+                terms_version: TERMS_VERSION,
+                agreed_terms: true,
+                agreed_no_refund: true,
+                user_agent: navigator.userAgent
+            };
+
+            try {
+                const localLogs = JSON.parse(localStorage.getItem('xa_consent_logs') || '[]');
+                localLogs.push(record);
+                localStorage.setItem('xa_consent_logs', JSON.stringify(localLogs.slice(-100)));
+            } catch (e) {}
+
+            if (!supabaseClient) return;
+            try {
+                // 1차 시도: 확장 컬럼(tx_id, consent_stage, payment_method, pre_agreed_at_kst) 포함 저장
+                const { error } = await supabaseClient.from('xa_consents').insert({
+                    tx_id: record.tx_id,
+                    consent_stage: record.consent_stage,
+                    search_key: record.search_key,
+                    product_type: record.product_type,
+                    payment_method: record.payment_method,
+                    pre_agreed_at_kst: record.pre_agreed_at_kst,
+                    terms_version: record.terms_version,
+                    agreed_terms: true,
+                    agreed_no_refund: true,
+                    user_agent: record.user_agent
+                });
+                if (error) {
+                    // 2차 폴백: 기본 테이블 구조만 있을 때도 거래번호(tx_id)와 발급코드가 100% 함께 기록되도록 처리
+                    await supabaseClient.from('xa_consents').insert({
+                        search_key: `[${record.consent_stage}|TX:${record.tx_id}] ${record.search_key}`,
+                        product_type: record.product_type,
+                        terms_version: `${record.terms_version}${record.pre_agreed_at_kst ? ' (사전동의:' + record.pre_agreed_at_kst + ')' : ''}`,
+                        agreed_terms: true,
+                        agreed_no_refund: true,
+                        user_agent: record.user_agent
+                    });
+                }
+            } catch (e) {}
+        }
+
+        function copyConsentCert(btnEl) {
+            const txId = document.getElementById('res-cert-tx-id')?.textContent || '-';
+            const code = document.getElementById('res-cert-code')?.textContent || '-';
+            const preTime = document.getElementById('res-cert-pre-time')?.textContent || '-';
+            const finalTime = document.getElementById('res-cert-final-time')?.textContent || '-';
+            const text = `[X ACCOUNT 약관동의·거래연결 증명] 거래번호: ${txId} / 발급코드: ${code} / 송금전동의: ${preTime} / 조회최종동의: ${finalTime}`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    if (btnEl) {
+                        const orig = btnEl.innerText;
+                        btnEl.innerText = '복사완료!';
+                        setTimeout(() => { btnEl.innerText = orig; }, 1200);
+                    }
+                }).catch(() => {});
             }
         }
 
@@ -1283,6 +1797,33 @@ html body #inbox-modal .ib-text{font-size:12.5px!important;line-height:1.7!impor
                 document.getElementById('res-search-key').innerText = currentSearchKey || code;
                 document.getElementById('res-account-id').innerText = data.account_id || '정보 없음';
                 document.getElementById('res-account-pw').innerText = data.account_pw || '정보 없음';
+
+                const kstStamp = formatKstTimestamp(new Date());
+                const rawTxInput = document.getElementById('modal-tx-input')?.value || '';
+                const savedTx = getSavedPreTx();
+                const linkedTxId = rawTxInput.trim().toUpperCase() || savedTx?.tx_id || generateTxId();
+                const preAgreedStamp = (savedTx && savedTx.tx_id === linkedTxId && savedTx.pre_agreed_at_kst)
+                    ? savedTx.pre_agreed_at_kst
+                    : `${kstStamp} (조회 시 통합 연결)`;
+
+                const certTxEl = document.getElementById('res-cert-tx-id');
+                const certCodeEl = document.getElementById('res-cert-code');
+                const certPreEl = document.getElementById('res-cert-pre-time');
+                const certFinalEl = document.getElementById('res-cert-final-time');
+                if (certTxEl) certTxEl.textContent = linkedTxId;
+                if (certCodeEl) certCodeEl.textContent = currentSearchKey || code;
+                if (certPreEl) certPreEl.textContent = preAgreedStamp;
+                if (certFinalEl) certFinalEl.textContent = kstStamp;
+
+                logLegalConsent({
+                    stage: 'CODE_LOOKUP',
+                    tx_id: linkedTxId,
+                    search_key: currentSearchKey || code,
+                    product_type: data.product_type || currentTab,
+                    payment_method: savedTx?.payment_method || null,
+                    pre_agreed_at_kst: preAgreedStamp,
+                    final_agreed_at_kst: kstStamp
+                });
 
                 // GMX 메일은 확인함으로 메일을 볼 수 있으니 ID/비밀번호 칸은 숨기고 버튼만 보여줘요.
                 // 확인함이 지원되지 않는 메일(hotmail 등)은 기존처럼 ID/비밀번호 칸을 보여줘요.
@@ -3579,6 +4120,967 @@ html body #result-box#result-box>button,html body #result-box#result-box>button 
 @media(max-width:360px){
   #inbox-modal .inbox-title-text{font-size:14.5px!important;}
   #inbox-modal .inbox-head-actions button{padding:0 7px!important;font-size:8.5px!important;}
+}
+</style>
+
+
+<style id="legal-defense-double-consent-style">
+#agreement-modal .agreement-accept-group{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:8px!important;
+  margin:0!important;
+}
+#agreement-modal .agreement-accept{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+  margin:0!important;
+  padding:10px 12px!important;
+  border:1px solid rgba(153,179,198,.2)!important;
+  border-radius:10px!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(9,15,21,.78))!important;
+}
+#agreement-modal #modal-agree-checkbox,
+#agreement-modal #modal-agree-refund-checkbox{
+  width:17px!important;
+  height:17px!important;
+  margin-top:2px!important;
+  flex:0 0 17px!important;
+  accent-color:#79c9ea!important;
+}
+#agreement-modal #modal-label,
+#agreement-modal #modal-refund-label{
+  font-size:11px!important;
+  line-height:1.5!important;
+  word-break:keep-all!important;
+  overflow-wrap:break-word!important;
+}
+@media(max-width:560px){
+  #agreement-modal .agreement-accept{
+    padding:9px 10px!important;
+    gap:8px!important;
+  }
+  #agreement-modal #modal-label,
+  #agreement-modal #modal-refund-label{
+    font-size:10.5px!important;
+    line-height:1.45!important;
+  }
+}
+</style>
+
+
+<style id="tx-linked-legal-defense-v2-style">
+/* 1) 가격표 화면 내 발급된 사전동의 거래번호 배너 */
+#step-price .tx-issued-banner{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  margin-top:4px!important;
+  padding:8px 10px!important;
+  border:1px solid rgba(110,208,243,.34)!important;
+  border-radius:9px!important;
+  background:linear-gradient(120deg,rgba(31,94,126,.22),rgba(10,17,24,.92))!important;
+}
+#step-price .tx-issued-banner.hidden{display:none!important;}
+#step-price .tx-issued-banner__left{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:2px!important;
+  min-width:0!important;
+}
+#step-price .tx-issued-banner__label{
+  font-size:9.5px!important;
+  color:#90b8cf!important;
+  font-weight:700!important;
+}
+#step-price .tx-issued-banner__code{
+  font:800 13px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  color:#8ce7f3!important;
+  letter-spacing:.06em!important;
+}
+#step-price .tx-issued-banner__btn{
+  min-height:32px!important;
+  height:32px!important;
+  padding:0 10px!important;
+  border-radius:6px!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+
+/* 2) 송금 전 사전 약관 동의 & 거래번호 발급 모달 (#pre-purchase-modal) */
+#pre-purchase-modal{
+  padding:clamp(10px,3vw,22px)!important;
+  background:rgba(2,6,11,.88)!important;
+  -webkit-backdrop-filter:blur(15px) saturate(125%)!important;
+  backdrop-filter:blur(15px) saturate(125%)!important;
+}
+#pre-purchase-modal.hidden{display:none!important;}
+#pre-purchase-modal .pre-purchase-card{
+  width:min(100%,510px)!important;
+  max-width:510px!important;
+  max-height:min(92dvh,800px)!important;
+  overflow-y:auto!important;
+  padding:clamp(16px,3.2vw,23px)!important;
+  border:1px solid rgba(139,182,208,.3)!important;
+  border-radius:17px!important;
+  background:radial-gradient(ellipse at 0% 0%,rgba(65,147,188,.15),transparent 42%),
+    linear-gradient(155deg,#121c27,#080d14 70%)!important;
+  box-shadow:0 32px 95px rgba(0,0,0,.74),inset 0 1px rgba(255,255,255,.06)!important;
+}
+#pre-purchase-modal .pre-terms-summary{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:8px!important;
+  padding:11px 12px!important;
+  border:1px solid rgba(142,172,194,.2)!important;
+  border-radius:11px!important;
+  background:rgba(6,11,16,.9)!important;
+}
+#pre-purchase-modal .pre-terms-item{
+  padding-bottom:7px!important;
+  border-bottom:1px solid rgba(145,172,192,.12)!important;
+}
+#pre-purchase-modal .pre-terms-item:last-child{
+  padding-bottom:0!important;
+  border-bottom:0!important;
+}
+#pre-purchase-modal .pre-terms-item strong{
+  display:block!important;
+  color:#e8f2f8!important;
+  font-size:11.5px!important;
+  font-weight:850!important;
+  margin-bottom:3px!important;
+}
+#pre-purchase-modal .pre-terms-item p{
+  margin:0!important;
+  color:#b6c5d1!important;
+  font-size:11px!important;
+  line-height:1.55!important;
+  word-break:keep-all!important;
+}
+#pre-purchase-modal .pre-terms-item b{
+  color:#ff9aa5!important;
+  font-weight:800!important;
+}
+#pre-purchase-modal .pre-agree-box{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:9px!important;
+  padding:10px 12px!important;
+  border:1px solid rgba(130,192,224,.28)!important;
+  border-radius:10px!important;
+  background:linear-gradient(135deg,rgba(38,94,122,.18),rgba(10,16,23,.88))!important;
+}
+#pre-purchase-modal #pre-agree-checkbox{
+  width:18px!important;
+  height:18px!important;
+  flex:0 0 18px!important;
+  margin-top:2px!important;
+  accent-color:#7ce7f5!important;
+}
+#pre-purchase-modal #pre-agree-label{
+  font-size:11.5px!important;
+  line-height:1.5!important;
+  color:#eef6fb!important;
+  word-break:keep-all!important;
+}
+#pre-purchase-modal .pre-tx-box{
+  padding:11px 12px!important;
+  border:1px solid rgba(124,231,245,.32)!important;
+  border-radius:11px!important;
+  background:linear-gradient(135deg,rgba(23,67,88,.26),rgba(8,14,20,.95))!important;
+}
+#pre-purchase-modal .pre-tx-box__top{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+}
+#pre-purchase-modal .pre-tx-box__kicker{
+  display:block!important;
+  font:800 8.5px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.15em!important;
+  color:#82c7e0!important;
+}
+#pre-purchase-modal .pre-tx-box__code{
+  margin-top:4px!important;
+  font:900 16px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  color:#9beeff!important;
+  letter-spacing:.06em!important;
+  word-break:keep-all!important;
+}
+#pre-purchase-modal .pre-tx-box__copy{
+  min-height:34px!important;
+  height:34px!important;
+  padding:0 11px!important;
+  border-radius:7px!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#pre-purchase-modal .pre-tx-box__desc{
+  margin:7px 0 0!important;
+  font-size:10.5px!important;
+  line-height:1.45!important;
+  color:#9eb2c0!important;
+  word-break:keep-all!important;
+}
+#pre-purchase-modal .pre-purchase-actions{
+  display:grid!important;
+  grid-template-columns:.78fr 1.22fr!important;
+  gap:8px!important;
+}
+#pre-purchase-modal .pre-btn-cancel,
+#pre-purchase-modal .pre-btn-confirm{
+  min-height:46px!important;
+  border-radius:10px!important;
+  font-size:12px!important;
+  font-weight:850!important;
+}
+
+/* 3) 코드 조회 약관 모달 내 거래번호 ↔ 발급 코드 연결 패널 */
+#agreement-modal .modal-tx-link-box{
+  padding:10px 12px!important;
+  border:1px solid rgba(118,197,232,.28)!important;
+  border-radius:11px!important;
+  background:linear-gradient(135deg,rgba(26,71,95,.22),rgba(8,14,21,.92))!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:7px!important;
+}
+#agreement-modal .modal-tx-link-head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:8px!important;
+}
+#agreement-modal .modal-tx-link-title{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  font-size:11.5px!important;
+  font-weight:850!important;
+  color:#e7f2f8!important;
+}
+#agreement-modal .modal-tx-link-badge{
+  padding:3px 7px!important;
+  border-radius:999px!important;
+  border:1px solid rgba(142,177,201,.28)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:#a8bfd0!important;
+  font-size:9.5px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#agreement-modal .modal-tx-link-badge.is-linked{
+  border-color:rgba(82,214,163,.38)!important;
+  background:rgba(42,155,112,.14)!important;
+  color:#95f0cb!important;
+}
+#agreement-modal .modal-tx-link-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.25fr) auto minmax(0,.95fr)!important;
+  align-items:end!important;
+  gap:7px!important;
+}
+#agreement-modal .modal-tx-field label{
+  display:block!important;
+  margin-bottom:3px!important;
+  font-size:9.5px!important;
+  font-weight:700!important;
+  color:#95aab9!important;
+}
+#agreement-modal #modal-tx-input{
+  width:100%!important;
+  min-height:36px!important;
+  height:36px!important;
+  padding:0 10px!important;
+  border-radius:7px!important;
+  font:800 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.04em!important;
+  color:#9beeff!important;
+  background:#060b10!important;
+  border:1px solid rgba(119,193,227,.35)!important;
+}
+#agreement-modal .modal-tx-arrow{
+  padding-bottom:7px!important;
+  color:#79c9eb!important;
+  font-size:14px!important;
+  font-weight:900!important;
+}
+#agreement-modal .modal-tx-code-preview{
+  display:flex!important;
+  align-items:center!important;
+  min-height:36px!important;
+  height:36px!important;
+  padding:0 10px!important;
+  border-radius:7px!important;
+  border:1px solid rgba(146,172,194,.22)!important;
+  background:rgba(6,10,15,.78)!important;
+  color:#e5eef5!important;
+  font:800 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+#agreement-modal .modal-tx-help{
+  margin:0!important;
+  font-size:10px!important;
+  line-height:1.45!important;
+  color:#97abb9!important;
+}
+
+/* 4) 결과 화면 내 거래번호 ↔ 발급코드 연결 증명서 박스 */
+#result-storage-notice .tx-consent-cert{
+  margin-top:8px!important;
+  padding:9px 10px!important;
+  border:1px solid rgba(110,200,235,.28)!important;
+  border-radius:8px!important;
+  background:rgba(7,13,19,.86)!important;
+}
+#result-storage-notice .tx-consent-cert__head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:8px!important;
+  padding-bottom:6px!important;
+  margin-bottom:6px!important;
+  border-bottom:1px solid rgba(142,172,196,.15)!important;
+}
+#result-storage-notice .tx-consent-cert__badge{
+  font-size:10.5px!important;
+  font-weight:850!important;
+  color:#8ce7f3!important;
+}
+#result-storage-notice .tx-consent-cert__copy{
+  min-height:26px!important;
+  height:26px!important;
+  padding:0 8px!important;
+  border-radius:5px!important;
+  font-size:9.5px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#result-storage-notice .tx-consent-cert__grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:4px 10px!important;
+  font-size:10px!important;
+  line-height:1.4!important;
+  color:#9fb0be!important;
+}
+#result-storage-notice .tx-consent-cert__grid strong{
+  color:#eef5fa!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  font-weight:800!important;
+}
+@media(max-width:480px){
+  #agreement-modal .modal-tx-link-row{
+    grid-template-columns:1fr!important;
+    gap:5px!important;
+  }
+  #agreement-modal .modal-tx-arrow{display:none!important;}
+  #result-storage-notice .tx-consent-cert__grid{
+    grid-template-columns:1fr!important;
+  }
+}
+</style>
+
+
+<script id="inline-consent-log-viewer-script">
+let inlineAllLogs = [];
+let inlineOrdersMap = {};
+let inlineStageFilter = 'ALL';
+
+function normalizeInlineLogRow(row, srcLabel) {
+  let txId = row.tx_id || row.거래번호 || '';
+  let stage = row.consent_stage || row.동의단계 || 'CODE_LOOKUP';
+  let searchKey = row.search_key || row.발급코드 || '';
+
+  if (!txId && typeof searchKey === 'string' && searchKey.startsWith('[')) {
+    const m = searchKey.match(/^\[([^|]+)\|TX:([^\]]+)\]\s*(.*)$/);
+    if (m) {
+      stage = m[1];
+      txId = m[2];
+      searchKey = m[3];
+    }
+  }
+  if (!stage) {
+    stage = (searchKey === 'PRE_PAYMENT') ? 'PRE_PAYMENT' : 'CODE_LOOKUP';
+  }
+
+  const agreedKst = row.agreed_at_kst || row.DB기록시각_KST || row.final_agreed_at_kst || (row.created_at ? formatKstTimestamp(new Date(row.created_at)) : '-');
+  const preKst = row.pre_agreed_at_kst || row.송금전_사전동의시각_KST || (stage === 'PRE_PAYMENT' ? agreedKst : '-');
+
+  return {
+    id: row.id || '-',
+    tx_id: txId || '미입력',
+    consent_stage: stage,
+    search_key: searchKey || '-',
+    product_type: row.product_type || row.상품유형 || '-',
+    payment_method: row.payment_method || row.결제수단 || '-',
+    pre_agreed_at_kst: preKst,
+    agreed_at_kst: agreedKst,
+    terms_version: row.terms_version || row.약관버전 || '-',
+    user_agent: row.user_agent || row.접속기기정보 || '-',
+    source: srcLabel || 'DB'
+  };
+}
+
+const DEFAULT_ADMIN_PIN = '1111';
+let isAdminUnlocked = false;
+
+function getAdminPin() {
+  try {
+    return localStorage.getItem('xa_admin_pin') || DEFAULT_ADMIN_PIN;
+  } catch (e) {
+    return DEFAULT_ADMIN_PIN;
+  }
+}
+
+function openConsentLogModal() {
+  if (isAdminUnlocked || sessionStorage.getItem('xa_admin_auth') === '1') {
+    showUnlockedConsentLogModal();
+    return;
+  }
+  const pinModal = document.getElementById('admin-pin-modal');
+  const pinInput = document.getElementById('admin-pin-input');
+  const pinErr = document.getElementById('admin-pin-error');
+  if (pinErr) pinErr.classList.add('hidden');
+  if (pinInput) pinInput.value = '';
+  if (pinModal) pinModal.classList.remove('hidden');
+  setTimeout(() => pinInput?.focus(), 80);
+}
+
+function closeAdminPinModal() {
+  document.getElementById('admin-pin-modal')?.classList.add('hidden');
+}
+
+function verifyAdminPin() {
+  const pinInput = document.getElementById('admin-pin-input');
+  const pinErr = document.getElementById('admin-pin-error');
+  const entered = (pinInput?.value || '').trim();
+  if (entered === getAdminPin()) {
+    isAdminUnlocked = true;
+    try { sessionStorage.setItem('xa_admin_auth', '1'); } catch (e) {}
+    closeAdminPinModal();
+    showUnlockedConsentLogModal();
+  } else {
+    if (pinErr) pinErr.classList.remove('hidden');
+    if (pinInput) {
+      pinInput.value = '';
+      pinInput.focus();
+    }
+  }
+}
+
+function showUnlockedConsentLogModal() {
+  const modal = document.getElementById('consent-log-modal');
+  if (modal) modal.classList.remove('hidden');
+  if (window.lucide) lucide.createIcons();
+  loadInlineConsentLogs();
+}
+
+function changeAdminPinPrompt() {
+  const currentPin = getAdminPin();
+  const nextPin = window.prompt(`새 관리자 비밀번호(PIN)를 입력해 주세요. (현재: ${currentPin})`, currentPin);
+  if (nextPin && nextPin.trim().length >= 2) {
+    try {
+      localStorage.setItem('xa_admin_pin', nextPin.trim());
+      window.alert(`관리자 비밀번호가 [${nextPin.trim()}]로 변경되었습니다.`);
+    } catch (e) {}
+  }
+}
+
+function closeConsentLogModal() {
+  document.getElementById('consent-log-modal')?.classList.add('hidden');
+}
+
+async function loadInlineConsentLogs() {
+  const statusEl = document.getElementById('inline-log-status');
+  const rlsBox = document.getElementById('inline-rls-notice');
+  if (statusEl) statusEl.textContent = '동의 및 거래번호 기록을 불러오는 중...';
+
+  if (supabaseClient) {
+    try {
+      const { data: ordData } = await supabaseClient.from('orders').select('search_key, account_id, product_type');
+      if (Array.isArray(ordData)) {
+        ordData.forEach(o => {
+          if (o && o.search_key) inlineOrdersMap[String(o.search_key).trim()] = o;
+        });
+      }
+    } catch (e) {}
+  }
+
+  let dbRows = [];
+  let selectBlocked = false;
+
+  if (supabaseClient) {
+    const r1 = await supabaseClient.from('xa_consents_kst').select('*').order('id', { ascending: false }).limit(300);
+    if (!r1.error && Array.isArray(r1.data)) {
+      dbRows = r1.data.map(r => normalizeInlineLogRow(r, 'Supabase DB'));
+    } else {
+      const r2 = await supabaseClient.from('xa_consents').select('*').order('id', { ascending: false }).limit(300);
+      if (!r2.error && Array.isArray(r2.data)) {
+        dbRows = r2.data.map(r => normalizeInlineLogRow(r, 'Supabase DB'));
+      } else {
+        selectBlocked = true;
+      }
+    }
+  }
+
+  let localRows = [];
+  try {
+    const rawLocal = JSON.parse(localStorage.getItem('xa_consent_logs') || '[]');
+    localRows = rawLocal.map((r, i) => normalizeInlineLogRow({ ...r, id: 'LOCAL-' + (i + 1) }, '브라우저 기록')).reverse();
+  } catch (e) {}
+
+  const seen = new Set();
+  const merged = [];
+  [...dbRows, ...localRows].forEach(item => {
+    const k = `${item.tx_id}|${item.consent_stage}|${item.search_key}|${item.agreed_at_kst}`;
+    if (!seen.has(k)) {
+      seen.add(k);
+      merged.push(item);
+    }
+  });
+
+  inlineAllLogs = merged;
+
+  if (selectBlocked) rlsBox?.classList.remove('hidden');
+  else rlsBox?.classList.add('hidden');
+
+  document.getElementById('inline-stat-total').textContent = inlineAllLogs.length;
+  document.getElementById('inline-stat-lookup').textContent = inlineAllLogs.filter(r => r.consent_stage === 'CODE_LOOKUP').length;
+  document.getElementById('inline-stat-pre').textContent = inlineAllLogs.filter(r => r.consent_stage === 'PRE_PAYMENT').length;
+  document.getElementById('inline-stat-tx').textContent = new Set(inlineAllLogs.map(r => r.tx_id).filter(v => v && v !== '미입력' && v !== 'UNLINKED')).size;
+
+  renderInlineConsentLogs();
+  if (statusEl) {
+    statusEl.textContent = `업데이트 완료: ${formatKstTimestamp(new Date())} · 총 ${inlineAllLogs.length}건`;
+  }
+}
+
+function setInlineStageFilter(stage) {
+  inlineStageFilter = stage;
+  document.querySelectorAll('#consent-log-modal .consent-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.stage === stage);
+  });
+  renderInlineConsentLogs();
+}
+
+function getInlineFilteredRows() {
+  const q = (document.getElementById('inline-log-search')?.value || '').trim().toLowerCase();
+  return inlineAllLogs.filter(item => {
+    if (inlineStageFilter !== 'ALL' && item.consent_stage !== inlineStageFilter) return false;
+    if (!q) return true;
+    const ord = inlineOrdersMap[item.search_key] || {};
+    const hay = [
+      item.tx_id,
+      item.search_key,
+      item.product_type,
+      item.payment_method,
+      item.pre_agreed_at_kst,
+      item.agreed_at_kst,
+      ord.account_id || ''
+    ].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+}
+
+function renderInlineConsentLogs() {
+  const listEl = document.getElementById('inline-log-list');
+  if (!listEl) return;
+  const rows = getInlineFilteredRows();
+  listEl.replaceChildren();
+
+  if (!rows.length) {
+    const empty = document.createElement('div');
+    empty.className = 'consent-log-empty';
+    empty.textContent = '일치하는 거래번호·동의 기록이 없습니다.';
+    listEl.appendChild(empty);
+    return;
+  }
+
+  rows.forEach(item => {
+    const isLookup = item.consent_stage === 'CODE_LOOKUP';
+    const ord = inlineOrdersMap[item.search_key];
+    const accText = ord?.account_id ? ord.account_id : (isLookup ? '조회완료 코드' : '송금전 사전동의');
+
+    const rowEl = document.createElement('div');
+    rowEl.className = 'consent-log-item';
+
+    const head = document.createElement('div');
+    head.className = 'consent-log-item__head';
+
+    const badges = document.createElement('div');
+    badges.className = 'consent-log-item__badges';
+
+    const st = document.createElement('span');
+    st.className = 'consent-stage-pill ' + (isLookup ? 'is-lookup' : 'is-pre');
+    st.textContent = isLookup ? '✓ 코드조회 최종동의' : '● 송금전 사전동의';
+
+    const tx = document.createElement('span');
+    tx.className = 'consent-tx-pill';
+    tx.textContent = `TX: ${item.tx_id}`;
+
+    const cd = document.createElement('span');
+    cd.className = 'consent-code-pill';
+    cd.textContent = `코드: ${item.search_key}`;
+
+    badges.append(st, tx, cd);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'x-btn-dark consent-proof-btn';
+    copyBtn.textContent = '증거복사';
+    copyBtn.onclick = () => {
+      const proof = `[X ACCOUNT 약관동의 증명] 단계:${isLookup ? '코드조회최종동의' : '송금전사전동의'} / 거래번호:${item.tx_id} / 발급코드:${item.search_key} / 계정ID:${accText} / 사전동의:${item.pre_agreed_at_kst} / DB기록:${item.agreed_at_kst} / 기기:${item.user_agent}`;
+      navigator.clipboard?.writeText(proof).then(() => {
+        copyBtn.textContent = '복사됨!';
+        setTimeout(() => { copyBtn.textContent = '증거복사'; }, 1200);
+      });
+    };
+
+    head.append(badges, copyBtn);
+
+    const meta = document.createElement('div');
+    meta.className = 'consent-log-item__meta';
+    meta.innerHTML = `
+      <div><span>송금전 사전동의:</span> <strong>${item.pre_agreed_at_kst}</strong></div>
+      <div><span>DB 기록시각:</span> <strong>${item.agreed_at_kst}</strong></div>
+      <div><span>상품/결제:</span> <strong>${item.product_type} (${item.payment_method})</strong></div>
+      <div><span>연결 계정ID:</span> <strong>${accText}</strong></div>
+    `;
+
+    rowEl.append(head, meta);
+    listEl.appendChild(rowEl);
+  });
+}
+
+async function pasteInlineLogSearch() {
+  const input = document.getElementById('inline-log-search');
+  if (!input) return;
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text) {
+      const m = text.match(/XA-[0-9]{6}-[A-Z0-9]{4}/i);
+      input.value = m ? m[0].toUpperCase() : text.trim();
+      renderInlineConsentLogs();
+    }
+  } catch (e) {
+    input.focus();
+  }
+}
+
+function clearInlineLogSearch() {
+  const input = document.getElementById('inline-log-search');
+  if (input) input.value = '';
+  setInlineStageFilter('ALL');
+}
+
+function copyInlineRlsSql(btnEl) {
+  const sql = 'drop policy if exists "anon_select_consents" on public.xa_consents;\ncreate policy "anon_select_consents" on public.xa_consents for select to anon using (true);\ngrant select on public.xa_consents, public.xa_consents_kst to anon;';
+  navigator.clipboard?.writeText(sql).then(() => {
+    if (!btnEl) return;
+    const orig = btnEl.textContent;
+    btnEl.textContent = '복사완료!';
+    setTimeout(() => { btnEl.textContent = orig; }, 1200);
+  });
+}
+
+function exportInlineLogsCsv() {
+  const rows = getInlineFilteredRows();
+  if (!rows.length) return;
+  const headers = ['ID', '동의단계', '거래번호(TX)', '발급코드', '상품유형', '결제수단', '송금전_사전동의시각_KST', 'DB기록시각_KST', '약관버전', '접속기기'];
+  const lines = [
+    headers.join(','),
+    ...rows.map(r => [
+      r.id, r.consent_stage, r.tx_id, r.search_key, r.product_type, r.payment_method, r.pre_agreed_at_kst, r.agreed_at_kst, r.terms_version, r.user_agent
+    ].map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))
+  ];
+  const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `X_ACCOUNT_약관동의로그_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+</script>
+<style id="inline-consent-log-viewer-style">
+
+#admin-pin-modal.hidden{display:none!important;}
+#admin-pin-modal .admin-pin-card{
+  width:min(100%,360px)!important;
+  max-width:360px!important;
+  border:1px solid rgba(135,184,212,.32)!important;
+  border-radius:15px!important;
+  background:linear-gradient(155deg,#121c27,#080d14 72%)!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.75),inset 0 1px rgba(255,255,255,.06)!important;
+}
+#admin-pin-input{
+  min-height:48px!important;
+  height:48px!important;
+  font-size:18px!important;
+  letter-spacing:.35em!important;
+  text-align:center!important;
+}
+
+/* 홈페이지 상단 동의·거래번호 조회 버튼 */
+.log-viewer-open-btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  min-height:30px!important;
+  height:30px!important;
+  padding:0 10px!important;
+  border-radius:999px!important;
+  border:1px solid rgba(124,231,245,.32)!important;
+  background:linear-gradient(135deg,rgba(32,96,128,.28),rgba(12,21,31,.92))!important;
+  color:#9beeff!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  letter-spacing:-.01em!important;
+  cursor:pointer!important;
+  white-space:nowrap!important;
+}
+.log-viewer-open-btn:hover{
+  border-color:rgba(124,231,245,.62)!important;
+  color:#fff!important;
+  background:linear-gradient(135deg,rgba(45,126,166,.38),rgba(15,27,40,.96))!important;
+}
+.log-viewer-open-btn svg{
+  width:13px!important;
+  height:13px!important;
+  color:#7ce7f5!important;
+}
+
+/* 홈페이지 내장 로그 조회 모달 */
+#consent-log-modal.hidden{display:none!important;}
+#consent-log-modal .consent-log-modal-card{
+  width:min(100%,660px)!important;
+  max-width:660px!important;
+  max-height:min(90dvh,780px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(135,184,212,.3)!important;
+  border-radius:16px!important;
+  background:linear-gradient(155deg,#111b26,#080d14 70%)!important;
+}
+#consent-log-modal .consent-log-head{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  padding-bottom:10px!important;
+  border-bottom:1px solid rgba(151,180,203,.15)!important;
+}
+#consent-log-modal .consent-log-top-btn{
+  min-height:32px!important;
+  height:32px!important;
+  padding:0 10px!important;
+  border-radius:7px!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#consent-log-modal .consent-log-stats{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+#consent-log-modal .consent-stat-item{
+  padding:8px 10px!important;
+  border-radius:9px!important;
+  border:1px solid rgba(145,173,198,.16)!important;
+  background:rgba(7,12,18,.82)!important;
+}
+#consent-log-modal .consent-stat-item span{
+  display:block!important;
+  font-size:10px!important;
+  color:#90a2b3!important;
+}
+#consent-log-modal .consent-stat-item strong{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  color:#fff!important;
+}
+#consent-log-modal .consent-log-controls{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:7px!important;
+}
+#consent-log-modal .consent-log-search-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto auto!important;
+  gap:6px!important;
+}
+#consent-log-modal .consent-log-search-input{
+  min-height:38px!important;
+  height:38px!important;
+  padding:0 12px!important;
+  font-size:12px!important;
+}
+#consent-log-modal .consent-log-ctrl-btn{
+  min-height:38px!important;
+  height:38px!important;
+  padding:0 10px!important;
+  border-radius:8px!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#consent-log-modal .consent-log-filter-row{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:wrap!important;
+  gap:8px!important;
+}
+#consent-log-modal .consent-log-tabs{
+  display:inline-flex!important;
+  gap:4px!important;
+  padding:3px!important;
+  border-radius:8px!important;
+  background:#070b10!important;
+  border:1px solid rgba(148,175,204,.16)!important;
+}
+#consent-log-modal .consent-tab{
+  min-height:28px!important;
+  height:28px!important;
+  padding:0 9px!important;
+  border-radius:6px!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  color:#8fa1b2!important;
+  background:transparent!important;
+  border:0!important;
+  cursor:pointer!important;
+}
+#consent-log-modal .consent-tab.active{
+  background:linear-gradient(120deg,#9beff9,#7bc3f5)!important;
+  color:#06131d!important;
+}
+#consent-log-modal .consent-external-link{
+  font-size:11px!important;
+  font-weight:800!important;
+  color:#8ce7f3!important;
+  text-decoration:none!important;
+}
+#consent-log-modal .consent-external-link:hover{text-decoration:underline!important;}
+#consent-log-modal .consent-rls-box{
+  padding:8px 10px!important;
+  border-radius:9px!important;
+  border:1px solid rgba(245,158,11,.35)!important;
+  background:rgba(69,26,3,.25)!important;
+  font-size:10.5px!important;
+  color:#fcd34d!important;
+}
+#consent-log-modal .consent-rls-box p{
+  margin:4px 0 0!important;
+  color:#d6d3d1!important;
+  font-size:10px!important;
+}
+#consent-log-modal .consent-log-status{
+  font-size:10.5px!important;
+  color:#889bad!important;
+}
+#consent-log-modal .consent-log-list{
+  flex:1 1 auto!important;
+  min-height:140px!important;
+  max-height:42dvh!important;
+  overflow-y:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:7px!important;
+  padding-right:2px!important;
+}
+#consent-log-modal .consent-log-item{
+  padding:10px 11px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(145,173,198,.18)!important;
+  background:rgba(8,13,20,.9)!important;
+}
+#consent-log-modal .consent-log-item__head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:6px!important;
+  flex-wrap:wrap!important;
+}
+#consent-log-modal .consent-log-item__badges{
+  display:flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:5px!important;
+}
+#consent-log-modal .consent-stage-pill{
+  padding:3px 7px!important;
+  border-radius:5px!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+#consent-log-modal .consent-stage-pill.is-lookup{
+  background:rgba(68,212,158,.13)!important;
+  border:1px solid rgba(68,212,158,.35)!important;
+  color:#7ef0c4!important;
+}
+#consent-log-modal .consent-stage-pill.is-pre{
+  background:rgba(88,185,247,.13)!important;
+  border:1px solid rgba(88,185,247,.35)!important;
+  color:#96d7ff!important;
+}
+#consent-log-modal .consent-tx-pill,
+#consent-log-modal .consent-code-pill{
+  padding:3px 7px!important;
+  border-radius:5px!important;
+  font:800 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  background:rgba(255,255,255,.05)!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  color:#e8f2f9!important;
+}
+#consent-log-modal .consent-tx-pill{color:#8ce7f3!important;}
+#consent-log-modal .consent-proof-btn{
+  min-height:27px!important;
+  height:27px!important;
+  padding:0 8px!important;
+  border-radius:6px!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+#consent-log-modal .consent-log-item__meta{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:4px 10px!important;
+  margin-top:7px!important;
+  padding-top:7px!important;
+  border-top:1px solid rgba(145,173,198,.11)!important;
+  font-size:10.5px!important;
+  color:#93a5b6!important;
+}
+#consent-log-modal .consent-log-item__meta strong{
+  color:#e9f1f7!important;
+  font-weight:750!important;
+}
+#consent-log-modal .consent-log-empty{
+  padding:28px 12px!important;
+  text-align:center!important;
+  font-size:12px!important;
+  color:#8fa1b3!important;
+}
+@media(max-width:520px){
+  #consent-log-modal .consent-log-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #consent-log-modal .consent-log-item__meta{grid-template-columns:1fr!important;}
 }
 </style>
 
