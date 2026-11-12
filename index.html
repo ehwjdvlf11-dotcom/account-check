@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>X ACCOUNT · 실시간 자동 승인 및 프리미엄 자동 발급 시스템(v34)</title>
+<title>X ACCOUNT · 실시간 자동 승인 및 프리미엄 자동 발급 시스템(v36)</title>
 <meta content="#05070a" name="theme-color"/>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -1115,7 +1115,7 @@ async function proceedToResult() {
 // 계정 정보 조회 및 화면 표시 (3단계 폴백 구조)
 async function displayAccountResult(code) {
   showScreen('step-result');
-  document.getElementById('res-code').innerText = code;
+  document.getElementById('res-code').innerText = '불러오는 중...';
   document.getElementById('res-id').innerText = '불러오는 중...';
   document.getElementById('res-pw').innerText = '불러오는 중...';
   document.getElementById('res-otp').innerText = '--- ---';
@@ -1155,13 +1155,23 @@ async function displayAccountResult(code) {
 
     if (orderInfo) {
       // 콤보 포맷(----)으로 데이터가 뭉쳐서 들어온 경우 자동 분리
-      if (orderInfo.account_id && orderInfo.account_id.includes('----')) {
-        const parts = orderInfo.account_id.split('----');
+      let rawDataStr = orderInfo.account_id || code || '';
+      if (rawDataStr.includes('----')) {
+        const parts = rawDataStr.split('----');
         orderInfo.account_id = parts[0] ? parts[0].trim() : orderInfo.account_id;
         if (parts[1]) orderInfo.account_pw = parts[1].trim();
-        if (parts[2]) orderInfo.email = parts[2].trim();
-        if (parts[3]) orderInfo.email_pw = parts[3].trim();
-        if (parts[4]) orderInfo.otp_key = parts[4].trim();
+        
+        if (orderInfo.product_type && orderInfo.product_type.includes('일반')) {
+          // 일반 계정은 이메일이 없으므로 배열의 맨 마지막 값을 무조건 OTP로 인식
+          orderInfo.otp_key = parts[parts.length - 1] ? parts[parts.length - 1].trim() : '';
+          orderInfo.email = '';
+          orderInfo.email_pw = '';
+        } else {
+          // 이메일 계정
+          orderInfo.email = parts[2] ? parts[2].trim() : '';
+          orderInfo.email_pw = parts[3] ? parts[3].trim() : '';
+          orderInfo.otp_key = parts[4] ? parts[4].trim() : '';
+        }
       }
 
       document.getElementById('res-id').innerText = orderInfo.account_id || '정보 없음';
@@ -1200,6 +1210,9 @@ async function displayAccountResult(code) {
         document.getElementById('res-otp').innerText = '미등록';
         document.getElementById('res-otp-timer').innerText = '-';
       }
+
+      // [핵심] 발급 코드 칸에 지저분한 문자열 대신 '2FA 시크릿 키'를 명확하게 노출합니다.
+      document.getElementById('res-code').innerText = otpSecret || '정보 없음';
 
       const isEmail = (orderInfo.product_type || '').includes('이메일') || (orderInfo.account_id || '').includes('@');
       document.getElementById('btn-open-mail').classList.toggle('hidden', !isEmail);
@@ -1542,11 +1555,17 @@ async function loadAdminOrders() {
           if (!codeStr) return '';
           if (codeStr.includes('----')) {
             const p = codeStr.split('----');
+            let otp = '';
+            if (order.product_type && order.product_type.includes('일반')) {
+               otp = p[p.length - 1];
+            } else {
+               otp = p[4] || p[p.length - 1];
+            }
             return `<div class="mt-1.5 p-2 rounded-lg bg-black/30 border border-white/5 space-y-0.5">
               <div class="text-[10px] text-gray-500">발급된 계정 정보</div>
-              <div class="text-[11px]"><span class="text-cyan-400 font-bold">ID:</span> <span class="text-white">${p[0]}</span></div>
-              <div class="text-[11px]"><span class="text-yellow-400 font-bold">PW:</span> <span class="text-gray-300">${p[1]}</span></div>
-              ${p[4] ? `<div class="text-[11px]"><span class="text-green-400 font-bold">2FA:</span> <span class="text-gray-400">${p[4]}</span></div>` : ''}
+              <div class="text-[11px]"><span class="text-cyan-400 font-bold">ID:</span> <span class="text-white">${p[0] || ''}</span></div>
+              <div class="text-[11px]"><span class="text-yellow-400 font-bold">PW:</span> <span class="text-gray-300">${p[1] || ''}</span></div>
+              ${otp ? `<div class="text-[11px]"><span class="text-green-400 font-bold">2FA:</span> <span class="text-gray-400">${otp}</span></div>` : ''}
             </div>`;
           }
           return `<div class="text-[11px] text-gray-400 mt-1">지급 코드: <strong class="mono text-green-300 font-bold">${codeStr}</strong></div>`;
