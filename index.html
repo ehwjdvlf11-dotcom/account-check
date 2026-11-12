@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>X ACCOUNT · 실시간 자동 승인 및 반환·재고복구 시스템</title>
-<meta content="#06090f" name="theme-color"/>
+<title>X ACCOUNT · 실시간 자동 승인 및 완벽 보안 시스템(v22)</title>
+<meta content="#05070a" name="theme-color"/>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- Supabase JS SDK -->
@@ -15,51 +15,78 @@
 <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
 :root {
   color-scheme: dark;
-  --bg: #06090f;
-  --panel: #0d131c;
-  --panel-hi: #131b26;
-  --line: rgba(148, 175, 204, 0.18);
-  --line-strong: rgba(124, 231, 245, 0.35);
+  --bg: #05070a;
+  --panel: #0b0f14;
+  --panel-hi: #111822;
+  --line: rgba(173, 190, 212, 0.16);
+  --line-strong: rgba(110, 208, 243, 0.35);
   --cyan: #7ce7f5;
   --blue: #58b9f7;
   --green: #44d49e;
   --gold: #e5c67b;
   --danger: #ff6475;
 }
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
   min-height: 100dvh;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   background:
-    radial-gradient(ellipse at 10% 0%, rgba(45, 146, 212, 0.15), transparent 40%),
-    radial-gradient(ellipse at 90% 85%, rgba(114, 86, 209, 0.12), transparent 42%),
-    var(--bg);
-  color: #f1f6fb;
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.05), transparent 32%),
+    radial-gradient(ellipse at 10% 40%, rgba(29,155,240,.12), transparent 30%),
+    radial-gradient(ellipse at 90% 75%, rgba(124,58,237,.10), transparent 32%),
+    linear-gradient(180deg, #05070a 0%, #06090e 55%, #040609 100%);
+  color: #f2f5f8;
   letter-spacing: -0.015em;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px 12px;
 }
+
+.ambient-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.ambient-grid {
+  position: absolute; inset: -20%; opacity: 0.12;
+  background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(800px) rotateX(55deg) translateY(20%);
+}
+.ambient-x {
+  position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%);
+  font-size: min(75vw, 680px); line-height: 0.7; font-weight: 900;
+  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.03);
+  user-select: none;
+}
+
 .main-shell {
   width: min(100%, 480px);
   margin: 0 auto;
+  position: relative;
+  z-index: 10;
 }
+
 .glass-card {
-  background: linear-gradient(155deg, rgba(18, 26, 38, 0.97), rgba(9, 13, 20, 0.99));
+  background: linear-gradient(155deg, rgba(16, 23, 34, 0.96), rgba(8, 12, 18, 0.99));
   border: 1px solid var(--line);
-  border-radius: 20px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 0 50px rgba(29, 155, 240, 0.05);
+  backdrop-filter: blur(20px);
 }
+
 .x-inner {
-  background: rgba(17, 24, 35, 0.94);
+  background: linear-gradient(145deg, rgba(19, 27, 39, 0.95), rgba(10, 14, 22, 0.98));
   border: 1px solid var(--line);
-  border-radius: 13px;
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.2s ease;
 }
+
 .product-card {
   cursor: pointer;
   border: 1.5px solid var(--line);
@@ -69,123 +96,105 @@ body {
 }
 .product-card:hover {
   border-color: rgba(124, 231, 245, 0.4);
-  background: rgba(22, 32, 47, 0.96);
+  background: linear-gradient(145deg, rgba(23, 33, 48, 0.98), rgba(12, 17, 26, 0.99));
 }
 .product-card.selected {
   border-color: var(--cyan) !important;
-  background: linear-gradient(145deg, rgba(32, 88, 114, 0.28), rgba(13, 20, 30, 0.98)) !important;
-  box-shadow: 0 0 22px rgba(124, 231, 245, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: linear-gradient(145deg, rgba(32, 92, 120, 0.32), rgba(12, 18, 28, 0.99)) !important;
+  box-shadow: 0 0 24px rgba(124, 231, 245, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .product-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 7px;
+  padding: 3px 8px;
   border-radius: 999px;
   font-size: 9.5px;
-  font-weight: 800;
+  font-weight: 850;
   letter-spacing: 0.1em;
 }
+
 .x-btn-white {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: linear-gradient(120deg, #8deaf6, #74bdf2);
+  background: linear-gradient(110deg, #95eef9 0%, #7dc5f7 52%, #bca7ff 100%);
   color: #06131d;
   font-weight: 850;
-  border-radius: 11px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.18s ease;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 24px rgba(116, 189, 242, 0.2);
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 28px rgba(125, 197, 247, 0.25);
 }
 .x-btn-white:hover:not(:disabled) {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
   transform: translateY(-1px);
 }
 .x-btn-white:disabled {
-  opacity: 0.45;
+  opacity: 0.42;
   cursor: not-allowed;
   box-shadow: none;
+  filter: grayscale(0.5);
 }
+
 .x-btn-dark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  background: #121a25;
+  background: linear-gradient(145deg, #141c27, #0d131b);
   border: 1px solid var(--line);
-  color: #d7e3ee;
-  border-radius: 10px;
+  color: #dbe5ee;
+  border-radius: 11px;
   font-weight: 750;
   cursor: pointer;
   transition: all 0.18s ease;
 }
 .x-btn-dark:hover:not(:disabled) {
-  background: #182332;
-  border-color: rgba(148, 175, 204, 0.35);
+  background: #1b2635;
+  border-color: rgba(148, 175, 204, 0.4);
   color: #fff;
 }
+
 .x-input {
   background: #070b11;
   border: 1px solid rgba(149, 177, 206, 0.25);
-  border-radius: 11px;
+  border-radius: 12px;
   color: #fff;
-  padding: 11px 14px;
+  padding: 12px 16px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.16s, box-shadow 0.16s;
+  transition: border-color 0.18s, box-shadow 0.18s;
 }
 .x-input:focus {
   border-color: var(--cyan);
   box-shadow: 0 0 0 3px rgba(124, 231, 245, 0.12);
 }
-.waiting-pulse-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: rgba(68, 212, 158, 0.12);
-  border: 1px solid rgba(68, 212, 158, 0.35);
-  color: #7ef0c4;
-  font-size: 11.5px;
-  font-weight: 800;
-}
-.waiting-pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 10px var(--green);
-  animation: pulseAnim 1.8s infinite;
-}
-@keyframes pulseAnim {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(0.85); }
-}
+
 .payment-chip {
   cursor: pointer;
   border: 1px solid var(--line);
   background: #0d141e;
-  border-radius: 10px;
-  padding: 9px 12px;
-  transition: all 0.18s ease;
+  border-radius: 12px;
+  padding: 10px 13px;
+  transition: all 0.2s ease;
 }
 .payment-chip.selected {
   border-color: var(--cyan);
-  background: rgba(124, 231, 245, 0.1);
+  background: rgba(124, 231, 245, 0.12);
   color: #fff;
 }
+
 .otp-ring {
   --otp-progress: 100deg;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: inline-grid;
   place-items: center;
-  background: conic-gradient(#1d9bf0 var(--otp-progress), #222a32 0deg);
+  background: conic-gradient(#1d9bf0 var(--otp-progress), #1d2530 0deg);
   position: relative;
 }
 .otp-ring::after {
@@ -193,30 +202,94 @@ body {
   position: absolute;
   inset: 3px;
   border-radius: 50%;
-  background: #080b0f;
+  background: #070b10;
 }
 .otp-ring span {
   position: relative;
   z-index: 1;
-  font: 800 8.5px/1 ui-monospace, monospace;
+  font: 850 9px/1 ui-monospace, monospace;
   color: #84cff7;
 }
+
 .mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.waiting-pulse-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(68, 212, 158, 0.12);
+  border: 1px solid rgba(68, 212, 158, 0.35);
+  color: #7ef0c4;
+  font-size: 11.5px;
+  font-weight: 850;
+}
+.waiting-pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 10px var(--green);
+  animation: pulseAnim 1.8s infinite;
+}
+@keyframes pulseAnim {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.step-dot {
+  font: 800 9px/1 ui-monospace, monospace;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #7b8895;
+}
+.step-dot.active {
+  background: rgba(124, 231, 245, 0.12);
+  border-color: rgba(124, 231, 245, 0.45);
+  color: #7ce7f5;
+  box-shadow: 0 0 12px rgba(124, 231, 245, 0.15);
+}
+
+/* 모달 애니메이션 */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-modal-in {
+  animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 </style>
 </head>
 <body>
 
+<div aria-hidden="true" class="ambient-bg">
+  <div class="ambient-grid"></div>
+  <div class="ambient-x">𝕏</div>
+</div>
+
 <div class="main-shell">
   <div class="glass-card p-5 md:p-6 space-y-4" id="main-card">
-    <!-- 헤더 -->
-    <header class="flex items-center justify-between pb-3 border-b border-white/10">
-      <div class="flex items-center gap-2">
-        <div class="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 font-black text-xs">𝕏</div>
+    <!-- 헤더 섹션 (깔끔한 프리미엄 브랜드 록업) -->
+    <header class="flex items-center justify-between pb-3.5 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1b2b3a] to-[#0b1017] border border-cyan-400/40 flex items-center justify-center text-cyan-300 font-black text-base shadow-[0_0_20px_rgba(124,231,245,0.18)]">
+          𝕏
+        </div>
         <div>
-          <div class="text-[10px] text-cyan-400 font-extrabold tracking-widest leading-none">X ACCOUNT</div>
-          <div class="text-xs font-black text-white mt-0.5">실시간 승인 · 자동 지급</div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-cyan-400 font-extrabold tracking-widest leading-none">X ACCOUNT ACCESS</span>
+            <span class="text-[9px] text-[#44d49e] font-bold bg-[#44d49e]/10 px-1.5 py-0.5 rounded border border-[#44d49e]/20">ONLINE</span>
+          </div>
+          <div class="text-sm font-black text-white mt-1">실시간 승인 · 자동 지급 콘솔</div>
         </div>
       </div>
       <div class="flex items-center gap-1.5">
@@ -227,11 +300,20 @@ body {
       </div>
     </header>
 
-    <!-- 1. 가격표 및 주문 생성 화면 (step-price) -->
-    <section class="space-y-3.5" id="step-price">
+    <!-- 진행 단계 인디케이터 -->
+    <div class="step-indicator" id="step-indicator-bar">
+      <span class="step-dot active" id="dot-step-price">01 상품·결제 선택</span>
+      <span class="text-gray-600 text-xs">→</span>
+      <span class="step-dot" id="dot-step-waiting">02 주문·송금</span>
+      <span class="text-gray-600 text-xs">→</span>
+      <span class="step-dot" id="dot-step-result">03 계정발급</span>
+    </div>
+
+    <!-- 1. 가격표 및 주문 생성 화면 (step-price) : 깔끔하고 한눈에 들어오는 디자인 -->
+    <section class="space-y-4" id="step-price">
       <div>
         <div class="text-sm font-black text-white">구매하실 계정 유형을 선택해 주세요</div>
-        <div class="text-xs text-gray-400 mt-0.5">선택 후 주문을 넣고 송금하시면, 관리자 승인 즉시 계정이 열립니다.</div>
+        <div class="text-xs text-gray-400 mt-0.5">원하시는 계정을 누르신 후 송금 수단을 선택해 주세요.</div>
       </div>
 
       <!-- 상품 카드 2개 -->
@@ -256,34 +338,39 @@ body {
       </div>
 
       <!-- 결제 수단 선택 -->
-      <div class="space-y-1.5 pt-0.5">
+      <div class="space-y-1.5">
         <div class="text-xs text-gray-400 font-bold">송금 수단 선택</div>
         <div class="grid grid-cols-2 gap-2">
           <div class="payment-chip selected flex items-center justify-between" id="chip-kakao" onclick="selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)">
-            <span class="text-xs font-bold">카카오페이 송금</span>
-            <span class="text-[10px] text-yellow-300 font-extrabold">Pay</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold text-white">카카오페이</span>
+              <span class="text-[10px] text-gray-400">익명송금</span>
+            </div>
+            <span class="text-[10px] bg-yellow-400/20 text-yellow-300 font-black px-1.5 py-0.5 rounded border border-yellow-400/30">Pay</span>
           </div>
           <div class="payment-chip flex items-center justify-between" id="chip-culture" onclick="selectPayment('컬쳐랜드 문화상품권', 'https://kko.to/CPZG4qil-x', this)">
-            <span class="text-xs font-bold">문화상품권</span>
-            <span class="text-[10px] text-red-300 font-extrabold">+5,000</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold text-white">문화상품권</span>
+              <span class="text-[10px] text-gray-400">컬쳐랜드</span>
+            </div>
+            <span class="text-[10px] bg-red-400/20 text-red-300 font-black px-1.5 py-0.5 rounded border border-red-400/30">+5,000</span>
           </div>
         </div>
       </div>
 
-      <!-- 약관 사전 동의 -->
-      <div class="x-inner p-3 bg-black/40 space-y-2">
-        <div class="text-[11px] text-gray-300 leading-relaxed">
-          <strong class="text-cyan-300">구매 전 필독:</strong> 본 상품은 승인 즉시 계정 정보가 화면에 노출되는 디지털 콘텐츠로, 열람 후에는 단순 변심 환불이 불가합니다. 12시간 초기 불량(로그인/서치밴)만 최초 1회 교환되며 불법 행위 시 사전 통보 없이 회수됩니다.
+      <!-- 선택 요약 배너 -->
+      <div class="x-inner p-3 flex items-center justify-between text-xs bg-black/40 border-white/10">
+        <span class="text-gray-400">선택 내역</span>
+        <div class="flex items-center gap-2">
+          <strong class="text-cyan-300 font-bold" id="summary-prod-badge">일반 계정 (15,000 KRW)</strong>
+          <span class="text-gray-500">|</span>
+          <span class="text-white font-medium" id="summary-pay-badge">카카오페이</span>
         </div>
-        <label class="flex items-start gap-2 pt-1 border-t border-white/10 cursor-pointer select-none">
-          <input class="mt-0.5 w-4 h-4 accent-cyan-400 rounded cursor-pointer" id="pre-agree-check" onchange="toggleOrderButton()" type="checkbox"/>
-          <span class="text-xs font-bold text-white leading-snug">[필수] 환불 불가 · 12시간 검수 · 불법사용 면책 약관을 확인하였으며 사전 동의합니다.</span>
-        </label>
       </div>
 
-      <!-- 주문 신청 버튼 -->
-      <button class="w-full x-btn-white py-3.5 text-xs md:text-sm font-extrabold shadow-md flex items-center justify-center gap-1.5" disabled id="btn-create-order" onclick="createOrderAndOpenChat()" type="button">
-        <span>약관 동의 후 송금 및 주문 대기하기</span>
+      <!-- 약관 동의 팝업 열기 버튼 (스크린을 길게 만들지 않고 팝업으로 이동) -->
+      <button class="w-full x-btn-white py-3.5 text-xs md:text-sm font-extrabold shadow-md flex items-center justify-center gap-1.5" onclick="openAgreementModal()" type="button">
+        <span>주문 계속하기 (약관 동의)</span>
         <i data-lucide="arrow-right" class="w-4 h-4"></i>
       </button>
 
@@ -300,12 +387,12 @@ body {
       <div class="text-center space-y-2 py-1">
         <div class="waiting-pulse-badge">
           <span class="waiting-pulse-dot"></span>
-          <span>입금 확인 대기 중 · 실시간 자동 감지</span>
+          <span>주문 접수 완료 · 입금 확인 대기 중</span>
         </div>
         <h3 class="text-lg font-black text-white">오픈채팅 송금을 진행해 주세요</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          오픈채팅에 문구를 전송하고 송금을 마치시면,<br/>
-          <b class="text-cyan-300">코드를 입력할 필요 없이 이 화면에서 계정이 자동으로 열립니다.</b>
+          아래 버튼을 눌러 <b class="text-cyan-300">문구를 복사하고 오픈채팅에 전송</b>해 주세요.<br/>
+          송금을 마치시면 <b class="text-cyan-300">이 화면에서 계정이 실시간으로 자동 열립니다.</b>
         </p>
       </div>
 
@@ -315,7 +402,7 @@ body {
           <span class="text-gray-400">내 주문번호</span>
           <div class="flex items-center gap-1.5">
             <strong class="mono text-cyan-300 text-sm font-bold" id="wait-order-no">ORD-------</strong>
-            <button class="x-btn-dark px-2 py-0.5 text-[10px]" onclick="copyText('wait-order-no', this)" type="button">복사</button>
+            <button class="x-btn-dark px-2 py-0.5 text-[10px]" onclick="copyField('wait-order-no', this)" type="button">복사</button>
           </div>
         </div>
         <div class="flex justify-between items-center">
@@ -324,37 +411,52 @@ body {
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-400">송금 금액</span>
-          <strong class="text-white" id="wait-price">15,000 KRW</strong>
+          <strong class="text-cyan-300 font-black text-sm" id="wait-price">15,000 KRW</strong>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-400">선택 결제수단</span>
           <strong class="text-white" id="wait-method">카카오페이 익명 송금</strong>
         </div>
         <div class="flex justify-between items-center text-[11px] pt-1 text-gray-400">
-          <span>접수 시각</span>
+          <span>접수 시각 (KST)</span>
           <span id="wait-time" class="mono text-gray-300">-</span>
+        </div>
+      </div>
+
+      <!-- 오픈채팅 전송용 문구 미리보기 상자 -->
+      <div class="x-inner p-3.5 bg-black/50 border border-cyan-500/25 space-y-1.5">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="text-cyan-300 font-bold flex items-center gap-1">
+            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+            <span>오픈채팅 전송 문구 미리보기</span>
+          </span>
+          <span class="text-[10px] text-gray-400">버튼 클릭 시 자동 복사</span>
+        </div>
+        <div class="p-2.5 rounded-lg bg-[#070b11] border border-white/5 font-mono text-[11px] text-gray-300 leading-relaxed select-all break-all whitespace-pre-wrap" id="wait-order-msg-preview">
+          주문 정보를 불러오는 중...
         </div>
       </div>
 
       <!-- 안내 박스 -->
       <div class="p-3 rounded-xl bg-cyan-950/20 border border-cyan-500/20 text-xs space-y-1">
-        <div class="text-cyan-300 font-bold flex items-center gap-1">
-          <i data-lucide="info" class="w-3.5 h-3.5"></i>
+        <div class="text-cyan-300 font-bold flex items-center gap-1.5">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-cyan-400"></i>
           <span>송금 완료 후 이 창을 닫지 말고 켜두세요</span>
         </div>
-        <p class="text-gray-400 text-[11.5px] leading-relaxed">
-          판매자가 입금을 확인하고 승인 버튼을 누르면 화면이 1~2초 내에 계정 정보(ID, 비밀번호, 실시간 OTP)로 자동 바뀝니다. (창을 실수로 닫으셨더라도 이 기기에서 다시 접속하시면 대기 화면이 유지됩니다.)
+        <p class="text-gray-400 text-[11px] leading-relaxed">
+          판매자가 입금을 확인하고 승인 버튼을 누르면 화면이 1~2초 내에 계정 정보(ID, 비밀번호, 실시간 2FA OTP)로 자동 바뀝니다. (창을 닫으셔도 재접속 시 대기 화면이 유지됩니다.)
         </p>
       </div>
 
-      <!-- 대기 화면 버튼 그룹 -->
+      <!-- 대기 화면 버튼 그룹: 문구 복사 + 오픈채팅 열기가 최우선 메인 버튼 -->
       <div class="space-y-2 pt-1">
-        <button class="w-full x-btn-white py-3 text-xs md:text-sm font-bold shadow-md flex items-center justify-center gap-1.5" onclick="reopenChatUrl()" type="button">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-          <span>오픈채팅 다시 열기</span>
+        <button class="w-full x-btn-white py-3.5 text-xs md:text-sm font-extrabold shadow-lg flex items-center justify-center gap-2" id="btn-copy-and-open" onclick="copyAndOpenChat(this)" type="button">
+          <i data-lucide="clipboard-copy" class="w-4 h-4"></i>
+          <span>문구 복사하고 오픈채팅으로 이동 →</span>
         </button>
-        <button class="w-full x-btn-dark py-2.5 text-xs font-bold" onclick="copyPendingOrderMsg(this)" type="button">
-          오픈채팅 전송 문구 다시 복사
+        <button class="w-full x-btn-dark py-2.5 text-xs font-bold flex items-center justify-center gap-1.5" onclick="reopenChatUrl()" type="button">
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-400"></i>
+          <span>오픈채팅창만 다시 열기</span>
         </button>
         <button class="w-full py-1 text-xs text-gray-500 hover:text-red-400 transition" onclick="cancelWaitingOrder()" type="button">
           주문 취소하고 가격표로 돌아가기
@@ -394,25 +496,25 @@ body {
 
       <div class="space-y-2">
         <!-- 계정 ID -->
-        <div class="x-inner p-3 flex items-center justify-between">
+        <div class="x-inner p-3.5 flex items-center justify-between">
           <div class="min-w-0 flex-1 mr-2">
             <span class="text-[10px] text-cyan-400 font-extrabold tracking-wider block">계정 ID (IDENTIFIER)</span>
             <div class="text-white font-black text-sm mono truncate mt-0.5" id="res-id">정보 없음</div>
           </div>
-          <button class="x-btn-dark px-2.5 py-1 text-xs shrink-0" onclick="copyField('res-id', this)" type="button">복사</button>
+          <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-id', this)" type="button">복사</button>
         </div>
 
         <!-- 비밀번호 -->
-        <div class="x-inner p-3 flex items-center justify-between">
+        <div class="x-inner p-3.5 flex items-center justify-between">
           <div class="min-w-0 flex-1 mr-2">
             <span class="text-[10px] text-yellow-400 font-extrabold tracking-wider block">비밀번호 (CREDENTIAL)</span>
             <div class="text-white font-black text-sm mono truncate mt-0.5" id="res-pw">정보 없음</div>
           </div>
-          <button class="x-btn-dark px-2.5 py-1 text-xs shrink-0" onclick="copyField('res-pw', this)" type="button">복사</button>
+          <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-pw', this)" type="button">복사</button>
         </div>
 
         <!-- 실시간 2차 인증 (OTP) -->
-        <div class="x-inner p-3 flex items-center justify-between border-cyan-500/30 bg-cyan-950/20">
+        <div class="x-inner p-3.5 flex items-center justify-between border-cyan-500/30 bg-cyan-950/20">
           <div class="min-w-0 flex-1 mr-2">
             <span class="text-[10px] text-green-400 font-extrabold tracking-wider block">실시간 2차 인증 (LIVE 2FA OTP)</span>
             <div class="flex items-center gap-2 mt-0.5">
@@ -420,22 +522,22 @@ body {
               <div class="otp-ring" id="otp-ring"><span id="res-otp-timer">30</span></div>
             </div>
           </div>
-          <button class="x-btn-dark px-2.5 py-1 text-xs shrink-0" onclick="copyField('res-otp', this)" type="button">복사</button>
+          <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-otp', this)" type="button">복사</button>
         </div>
 
         <!-- 발급 코드 -->
-        <div class="x-inner p-3 flex items-center justify-between">
+        <div class="x-inner p-3.5 flex items-center justify-between">
           <div class="min-w-0 flex-1 mr-2">
             <span class="text-[10px] text-gray-400 font-extrabold tracking-wider block">발급 코드 (ISSUED CODE)</span>
             <div class="text-gray-300 font-bold text-xs mono truncate mt-0.5" id="res-code">정보 없음</div>
           </div>
-          <button class="x-btn-dark px-2.5 py-1 text-xs shrink-0" onclick="copyField('res-code', this)" type="button">복사</button>
+          <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-code', this)" type="button">복사</button>
         </div>
       </div>
 
-      <!-- 이메일 확인함 버튼 (이메일 계정일 경우 표시) -->
-      <button class="w-full x-btn-dark py-3 text-xs font-bold text-cyan-300 border-cyan-500/40 hidden" id="btn-open-mail" onclick="alert('이메일 확인함이 준비되었습니다.')" type="button">
-        이메일 확인함 열기
+      <!-- 이메일 확인 안내 버튼 (이메일 계정일 경우 표시) -->
+      <button class="w-full x-btn-dark py-3 text-xs font-bold text-cyan-300 border-cyan-500/40 hidden" id="btn-open-mail" onclick="alert('이메일 확인 안내:\nX에서 인증 메일을 요청하신 후 잠시 기다려주세요.')" type="button">
+        이메일 확인 안내 열기
       </button>
 
       <button class="w-full x-btn-dark py-3 text-xs font-bold" onclick="resetToHome()" type="button">
@@ -445,26 +547,97 @@ body {
   </div>
 </div>
 
-<!-- 모달 1: 관리자 PIN 인증 -->
-<div aria-modal="true" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" id="admin-pin-modal" role="dialog">
-  <div class="x-card max-w-xs space-y-3.5 glass-card p-5">
-    <div class="text-center space-y-1">
-      <div class="text-[10px] text-cyan-400 font-black tracking-widest">ADMIN AUTH</div>
-      <h4 class="text-base font-black text-white">관리자 비밀번호 입력</h4>
-      <p class="text-[11px] text-gray-400">판매자 전용 콘솔입니다. PIN을 입력하세요.</p>
+<!-- 모달: [신규] 약관 동의 및 주문 접수 팝업 (간결하고 초라하지 않은 핵심 법률 약관 & 단 1개의 통합 동의 체크박스) -->
+<div aria-modal="true" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" id="agreement-modal" role="dialog">
+  <div class="glass-card max-w-md w-full p-5 md:p-6 space-y-4 animate-modal-in border-cyan-500/30">
+    <!-- 모달 헤더 -->
+    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+      <div>
+        <span class="text-[10px] text-cyan-400 font-extrabold tracking-widest block">ORDER COMPLIANCE</span>
+        <h4 class="text-base font-black text-white mt-0.5">주문 확인 및 법적 약관 동의</h4>
+      </div>
+      <button class="text-gray-400 hover:text-white text-xl font-bold px-1" onclick="closeAgreementModal()" type="button">×</button>
     </div>
-    <div class="space-y-1.5">
-      <input autocomplete="off" class="w-full x-input mono text-center text-lg tracking-widest font-black" id="admin-pin-input" onkeydown="if(event.key==='Enter')verifyAdminPin()" placeholder="••••" type="password"/>
-      <div class="hidden text-xs text-red-400 text-center font-bold" id="admin-pin-err">비밀번호가 일치하지 않습니다.</div>
+
+    <!-- 선택 주문 요약 카드 -->
+    <div class="x-inner p-3 bg-cyan-950/20 border-cyan-500/30 flex items-center justify-between text-xs">
+      <div>
+        <span class="text-gray-400 block text-[10px]">선택 상품 및 금액</span>
+        <strong class="text-white text-sm" id="modal-order-summary">일반 계정 · 15,000 KRW</strong>
+      </div>
+      <div class="text-right">
+        <span class="text-gray-400 block text-[10px]">송금 수단</span>
+        <span class="text-cyan-300 font-bold" id="modal-pay-summary">카카오페이 익명 송금</span>
+      </div>
     </div>
+
+    <!-- 3대 핵심 법률 방어 조항 (초라하지 않으면서도 한눈에 읽기 편한 카드형 디자인) -->
+    <div class="space-y-2 text-[11.5px] text-gray-300">
+      <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-start gap-2.5">
+        <span class="text-cyan-400 font-black shrink-0 text-xs mt-0.5">01</span>
+        <div>
+          <strong class="text-white block text-xs">디지털 콘텐츠 청약철회(환불) 불가</strong>
+          <span class="text-gray-400 leading-relaxed block mt-0.5">승인 즉시 계정 정보가 화면에 노출되는 디지털 콘텐츠로, 「전자상거래법」 제17조 제2항 제5호에 의거 열람 후 단순 변심 환불이 절대 불가합니다.</span>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-start gap-2.5">
+        <span class="text-cyan-400 font-black shrink-0 text-xs mt-0.5">02</span>
+        <div>
+          <strong class="text-white block text-xs">12시간 초기 불량 검수 의무 및 면책</strong>
+          <span class="text-gray-400 leading-relaxed block mt-0.5">수령 후 12시간 내 초기 불량(로그인 불가/서치밴)만 1회 교환되며, 12시간 경과 후 또는 구매자 환경(VPN, 다계정, 매크로 등)으로 인한 정지는 판매자 면책입니다.</span>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-start gap-2.5">
+        <span class="text-cyan-400 font-black shrink-0 text-xs mt-0.5">03</span>
+        <div>
+          <strong class="text-white block text-xs">불법 행위 금지 및 수사기관 즉시 협조</strong>
+          <span class="text-gray-400 leading-relaxed block mt-0.5">사기, 피싱, 도박, 불법 유포 등 법령 위반 행위 적발 시 사전 통보 없이 즉시 회수되며, 수사기관 요청 시 모든 거래 및 접속 로그가 제출됩니다.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 단 1개의 깔끔한 전체 동의 체크박스 -->
+    <div class="pt-1">
+      <label class="flex items-start gap-2.5 p-3 rounded-xl bg-gradient-to-r from-cyan-950/30 to-transparent border border-cyan-500/40 cursor-pointer select-none">
+        <input class="mt-0.5 w-4 h-4 accent-cyan-400 rounded cursor-pointer" id="single-agree-check" onchange="toggleModalOrderBtn()" type="checkbox"/>
+        <span class="text-xs font-black text-white leading-snug">
+          [필수] 위 환불 불가 · 12시간 검수 · 불법 사용 면책 약관 전문을 확인하였으며 전체 동의합니다.
+        </span>
+      </label>
+    </div>
+
+    <!-- 모달 하단 버튼 그룹 -->
     <div class="grid grid-cols-2 gap-2 pt-1">
-      <button class="x-btn-dark py-2 text-xs font-bold" onclick="closeAdminPinModal()" type="button">취소</button>
-      <button class="x-btn-white py-2 text-xs font-bold" onclick="verifyAdminPin()" type="button">인증 및 열기</button>
+      <button class="x-btn-dark py-3 text-xs font-bold" onclick="closeAgreementModal()" type="button">취소</button>
+      <button class="x-btn-white py-3 text-xs md:text-sm font-black shadow-md" disabled id="btn-modal-submit" onclick="submitOrderFromModal()" type="button">
+        <span>동의하고 주문 접수 →</span>
+      </button>
     </div>
   </div>
 </div>
 
-<!-- 모달 2: 관리자 콘솔 (주문 대기 승인 & 재고 관리) -->
+<!-- 모달: 관리자 간편 보안 로그인 (단일 PIN 입력) -->
+<div aria-modal="true" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" id="admin-login-modal" role="dialog">
+  <div class="x-card max-w-xs w-full space-y-4 glass-card p-5 border-cyan-500/30">
+    <div class="text-center space-y-1">
+      <div class="text-[10px] text-cyan-400 font-black tracking-widest">SECURE ADMIN AUTH</div>
+      <h4 class="text-base font-black text-white">관리자 보안 PIN 입력</h4>
+      <p class="text-[11px] text-gray-400">최소 6자리의 인증 코드를 입력하세요.</p>
+    </div>
+    <div class="space-y-2">
+      <input autocomplete="current-password" class="w-full x-input mono text-center text-lg tracking-widest font-black" id="admin-password-input" onkeydown="if(event.key==='Enter')loginAdmin()" placeholder="••••••" type="password"/>
+      <div class="hidden text-xs text-red-400 text-center font-bold" id="admin-login-err">PIN 번호가 일치하지 않습니다.</div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 pt-1">
+      <button class="x-btn-dark py-2 text-xs font-bold" onclick="closeAdminLoginModal()" type="button">취소</button>
+      <button class="x-btn-white py-2 text-xs font-bold" id="btn-admin-login" onclick="loginAdmin()" type="button">인증 및 열기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 모달: 관리자 콘솔 (주문 대기 승인 & 재고 관리 & 반환 복구) -->
 <div aria-modal="true" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 md:p-5 z-50 hidden" id="admin-console-modal" role="dialog">
   <div class="glass-card max-w-xl w-full max-h-[90dvh] flex flex-col p-4 md:p-5 space-y-3">
     <!-- 콘솔 헤더 -->
@@ -474,7 +647,7 @@ body {
         <h3 class="text-base font-black text-white">X ACCOUNT 관리자 콘솔</h3>
       </div>
       <div class="flex items-center gap-2">
-        <button class="x-btn-dark text-xs py-1 px-2.5" onclick="changeAdminPinPrompt()" type="button">PIN 변경</button>
+        <button class="x-btn-dark text-[10px] py-1 px-2 text-red-300 border-red-900/50 hover:bg-red-950/30" onclick="logoutAdmin()" type="button">로그아웃</button>
         <button class="text-gray-400 hover:text-white text-xl font-bold px-1" onclick="closeAdminConsole()" type="button">×</button>
       </div>
     </div>
@@ -482,23 +655,26 @@ body {
     <!-- 탭 전환 바 -->
     <div class="flex items-center gap-1.5 bg-black/40 p-1 rounded-xl border border-white/10 text-xs">
       <button class="flex-1 py-1.5 px-3 rounded-lg font-bold text-black bg-cyan-300" id="adm-tab-orders" onclick="switchAdminTab('orders')" type="button">
-        ⚡ 입금 대기 승인 (<span id="adm-count-pending">0</span>)
+        ⚡ 당일 주문 (<span id="adm-count-pending">0</span>)
       </button>
       <button class="flex-1 py-1.5 px-3 rounded-lg font-bold text-gray-400 hover:text-white" id="adm-tab-stock" onclick="switchAdminTab('stock')" type="button">
         📦 재고 현황 (<span id="adm-count-stock">0</span>)
       </button>
-      <button class="x-btn-dark py-1.5 px-3 text-xs" onclick="refreshAdminData()" type="button">
+      <button class="x-btn-dark py-1.5 px-2.5 text-[11px]" id="adm-toggle-history" onclick="toggleAdminHistoryMode()" type="button">
+        전체 내역 보기
+      </button>
+      <button class="x-btn-dark py-1.5 px-2.5 text-xs" onclick="refreshAdminData()" type="button">
         새로고침
       </button>
     </div>
 
     <!-- 탭 1: 주문 대기 및 승인 목록 -->
-    <div class="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-[240px]" id="adm-orders-view">
+    <div class="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-[260px]" id="adm-orders-view">
       <div class="text-xs text-gray-500 text-center py-8" id="adm-orders-loading">주문 목록을 불러오는 중...</div>
     </div>
 
     <!-- 탭 2: 재고 현황 보기 -->
-    <div class="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-[240px] hidden" id="adm-stock-view">
+    <div class="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-[260px] hidden" id="adm-stock-view">
       <div class="text-xs text-gray-500 text-center py-8">재고 현황을 불러오는 중...</div>
     </div>
   </div>
@@ -524,6 +700,7 @@ function selectProduct(el, prod, price) {
   el.classList.add('selected');
   selectedProduct = prod;
   selectedPrice = price;
+  updateSummaryBadges();
 }
 
 // 결제수단 선택
@@ -532,12 +709,46 @@ function selectPayment(methodName, chatUrl, el) {
   el.classList.add('selected');
   selectedPayment = methodName;
   selectedChatUrl = chatUrl;
+  updateSummaryBadges();
 }
 
-// 약관 동의 토글
-function toggleOrderButton() {
-  const chk = document.getElementById('pre-agree-check');
-  document.getElementById('btn-create-order').disabled = !chk.checked;
+// 메인 화면 선택 요약 배너 갱신
+function updateSummaryBadges() {
+  const pBadge = document.getElementById('summary-prod-badge');
+  const payBadge = document.getElementById('summary-pay-badge');
+  if (pBadge) pBadge.innerText = `${selectedProduct} (${selectedPrice})`;
+  if (payBadge) payBadge.innerText = selectedPayment.includes('카카오') ? '카카오페이' : '문화상품권';
+}
+
+// 약관 모달 열기 / 닫기
+function openAgreementModal() {
+  const modalSummary = document.getElementById('modal-order-summary');
+  const modalPay = document.getElementById('modal-pay-summary');
+  if (modalSummary) modalSummary.innerText = `${selectedProduct} · ${selectedPrice}`;
+  if (modalPay) modalPay.innerText = selectedPayment;
+
+  const chk = document.getElementById('single-agree-check');
+  if (chk) chk.checked = false;
+  const btn = document.getElementById('btn-modal-submit');
+  if (btn) btn.disabled = true;
+
+  document.getElementById('agreement-modal').classList.remove('hidden');
+}
+
+function closeAgreementModal() {
+  document.getElementById('agreement-modal').classList.add('hidden');
+}
+
+function toggleModalOrderBtn() {
+  const chk = document.getElementById('single-agree-check');
+  const btn = document.getElementById('btn-modal-submit');
+  if (btn) btn.disabled = !chk.checked;
+}
+
+// 모달에서 동의 후 주문 접수 실행
+async function submitOrderFromModal() {
+  closeAgreementModal();
+  await createOrderAndShowWaiting();
 }
 
 // 화면 전환
@@ -546,6 +757,16 @@ function showScreen(screenId) {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('hidden', id !== screenId);
   });
+
+  const dPrice = document.getElementById('dot-step-price');
+  const dWait = document.getElementById('dot-step-waiting');
+  const dRes = document.getElementById('dot-step-result');
+  if (dPrice && dWait && dRes) {
+    dPrice.classList.toggle('active', screenId === 'step-price');
+    dWait.classList.toggle('active', screenId === 'step-waiting');
+    dRes.classList.toggle('active', screenId === 'step-result');
+  }
+
   if (screenId === 'step-price') {
     if (waitPollingTimer) clearInterval(waitPollingTimer);
   }
@@ -574,12 +795,8 @@ function getKstString() {
   }
 }
 
-// 주문 생성 및 오픈채팅 열기
-async function createOrderAndOpenChat() {
-  const btn = document.getElementById('btn-create-order');
-  btn.disabled = true;
-  btn.innerText = '주문 생성 및 대기화면 준비 중...';
-
+// 주문 접수 후 대기화면으로 이동 (팝업은 바로 띄우지 않고 대기화면을 먼저 안내)
+async function createOrderAndShowWaiting() {
   const orderNo = generateOrderNo();
   const timeKst = getKstString();
   const orderData = {
@@ -597,14 +814,10 @@ async function createOrderAndOpenChat() {
       if (error) console.error('xa_orders insert error:', error);
     }
 
-    currentActiveOrder = { ...orderData, created_at_kst: timeKst };
+    currentActiveOrder = { ...orderData, created_at_kst: timeKst, created_at_ms: Date.now() };
     localStorage.setItem('xa_active_order', JSON.stringify(currentActiveOrder));
 
-    // 오픈채팅 전송 문구 복사
     const msg = buildOrderMessage(currentActiveOrder);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(msg).catch(() => {});
-    }
 
     // 대기 화면 UI 갱신
     document.getElementById('wait-order-no').innerText = orderNo;
@@ -612,21 +825,38 @@ async function createOrderAndOpenChat() {
     document.getElementById('wait-price').innerText = selectedPrice;
     document.getElementById('wait-method').innerText = selectedPayment;
     document.getElementById('wait-time').innerText = timeKst;
+    const previewEl = document.getElementById('wait-order-msg-preview');
+    if (previewEl) previewEl.innerText = msg;
 
-    // 대기 화면으로 전환 및 감지 시작
+    // 대기 화면으로 전환 및 실시간 승인 감지 시작
     showScreen('step-waiting');
     startWaitingPolling();
 
-    // 오픈채팅 새 탭 열기
-    window.open(selectedChatUrl, '_blank', 'noopener,noreferrer');
-
   } catch (err) {
-    alert('주문 생성 중 오류가 발생했습니다. 다시 시도해 주세요.');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<span>약관 동의 후 송금 및 주문 대기하기</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
-    if (window.lucide) lucide.createIcons();
+    alert('주문 접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
   }
+}
+
+// 대기 화면의 전용 메인 액션: 문구 복사하고 오픈채팅으로 이동
+async function copyAndOpenChat(btnEl) {
+  if (!currentActiveOrder) return;
+  const msg = buildOrderMessage(currentActiveOrder);
+
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(msg);
+    }
+  } catch (e) {}
+
+  if (btnEl) {
+    const origHtml = btnEl.innerHTML;
+    btnEl.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-green-300"></i><span>복사 완료! 오픈채팅 이동 중...</span>';
+    if (window.lucide) lucide.createIcons();
+    setTimeout(() => { btnEl.innerHTML = origHtml; if (window.lucide) lucide.createIcons(); }, 1800);
+  }
+
+  // 사용자 직접 클릭 이벤트 내에서 호출하므로 모바일 팝업 차단이 100% 방지됨
+  window.open(selectedChatUrl, '_blank', 'noopener,noreferrer');
 }
 
 // 오픈채팅 전송용 메시지 생성
@@ -664,7 +894,16 @@ function cancelWaitingOrder() {
   }
 }
 
-// 실시간 승인 감지 (2.5초 간격 폴링)
+const ORDER_EXPIRE_MS = 60 * 60 * 1000; // 1시간 (3,600,000ms)
+
+function isOrderExpired(createdAtStr) {
+  if (!createdAtStr) return false;
+  const createdMs = new Date(createdAtStr).getTime();
+  if (isNaN(createdMs)) return false;
+  return (Date.now() - createdMs) > ORDER_EXPIRE_MS;
+}
+
+// 실시간 승인 감지 (2.5초 간격 폴링 + 1시간 만료 자동 체크)
 function startWaitingPolling() {
   if (waitPollingTimer) clearInterval(waitPollingTimer);
   waitPollingTimer = setInterval(async () => {
@@ -677,11 +916,27 @@ function startWaitingPolling() {
         .eq('order_no', currentActiveOrder.order_no)
         .single();
 
-      if (data && data.status === 'APPROVED' && data.assigned_code) {
-        clearInterval(waitPollingTimer);
-        waitPollingTimer = null;
-        localStorage.removeItem('xa_active_order');
-        onOrderApproved(data);
+      if (data) {
+        if (data.status === 'APPROVED' && data.assigned_code) {
+          clearInterval(waitPollingTimer);
+          waitPollingTimer = null;
+          localStorage.removeItem('xa_active_order');
+          onOrderApproved(data);
+          return;
+        }
+
+        // 1시간 초과 또는 만료 상태 감지 시 자동 정리
+        if (data.status === 'EXPIRED' || (data.status === 'PENDING' && isOrderExpired(data.created_at))) {
+          if (data.status === 'PENDING') {
+            await supabaseClient.from('xa_orders').update({ status: 'EXPIRED' }).eq('id', data.id);
+          }
+          clearInterval(waitPollingTimer);
+          waitPollingTimer = null;
+          localStorage.removeItem('xa_active_order');
+          currentActiveOrder = null;
+          alert('주문 유효시간(1시간)이 만료되어 자동 취소되었습니다.\n처음 화면에서 다시 주문을 진행해 주세요.');
+          showScreen('step-price');
+        }
       }
     } catch (e) {}
   }, 2500);
@@ -693,7 +948,7 @@ async function onOrderApproved(orderRow) {
   await displayAccountResult(code);
 }
 
-// 계정 정보 조회 및 화면 표시
+// 계정 정보 조회 및 화면 표시 (3단계 폴백 구조)
 async function displayAccountResult(code) {
   showScreen('step-result');
   document.getElementById('res-code').innerText = code;
@@ -751,7 +1006,6 @@ async function displayAccountResult(code) {
         document.getElementById('res-otp-timer').innerText = '-';
       }
 
-      // 이메일 계정 버튼 노출 여부
       const isEmail = (orderInfo.product_type || '').includes('이메일') || (orderInfo.account_id || '').includes('@');
       document.getElementById('btn-open-mail').classList.toggle('hidden', !isEmail);
     } else {
@@ -804,10 +1058,6 @@ function copyField(elId, btnEl) {
   }
 }
 
-function copyText(elId, btnEl) {
-  copyField(elId, btnEl);
-}
-
 function resetToHome() {
   if (otpInterval) clearInterval(otpInterval);
   showScreen('step-price');
@@ -832,7 +1082,6 @@ async function verifyManualCode() {
   try {
     let order = null;
     if (supabaseClient) {
-      // 1순위: get_order RPC
       try {
         const r = await supabaseClient.rpc('get_order', { p_key: code });
         if (!r.error && r.data) {
@@ -840,13 +1089,11 @@ async function verifyManualCode() {
         }
       } catch (e) {}
 
-      // 2순위: orders 테이블 직접 조회
       if (!order) {
         const { data } = await supabaseClient.from('orders').select('*').eq('search_key', code).maybeSingle();
         if (data) order = data;
       }
 
-      // 3순위: xa_stock 테이블 직접 조회
       if (!order) {
         const { data } = await supabaseClient.from('xa_stock').select('*').eq('code', code).maybeSingle();
         if (data) order = data;
@@ -875,34 +1122,65 @@ async function pasteManualCode() {
 }
 
 // ==========================================
-// 관리자 콘솔 기능 (PIN 인증 및 자동 승인)
+// 관리자 콘솔 기능 (Supabase 정식 Auth 인증, 승인, 반환/복구)
 // ==========================================
-const DEFAULT_PIN = '1111';
-
-function getAdminPin() {
-  return localStorage.getItem('xa_admin_pin') || DEFAULT_PIN;
-}
-
-function openAdminModal() {
-  document.getElementById('admin-pin-err').classList.add('hidden');
-  document.getElementById('admin-pin-input').value = '';
-  document.getElementById('admin-pin-modal').classList.remove('hidden');
-  setTimeout(() => document.getElementById('admin-pin-input').focus(), 80);
-}
-
-function closeAdminPinModal() {
-  document.getElementById('admin-pin-modal').classList.add('hidden');
-}
-
-function verifyAdminPin() {
-  const entered = document.getElementById('admin-pin-input').value.trim();
-  if (entered === getAdminPin()) {
-    closeAdminPinModal();
+async function openAdminModal() {
+  // 이미 세션이 있는지 확인 (자동 로그인)
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session) {
     openAdminConsole();
   } else {
-    document.getElementById('admin-pin-err').classList.remove('hidden');
-    document.getElementById('admin-pin-input').focus();
+    document.getElementById('admin-login-err').classList.add('hidden');
+    document.getElementById('admin-password-input').value = '';
+    document.getElementById('admin-login-modal').classList.remove('hidden');
+    setTimeout(() => document.getElementById('admin-email-input').focus(), 80);
   }
+}
+
+function closeAdminLoginModal() {
+  document.getElementById('admin-login-modal').classList.add('hidden');
+}
+
+async function loginAdmin() {
+  // 사용자는 PIN만 입력하지만, 서버 인증을 위해 백그라운드에서 고정 이메일 사용
+  const email = 'admin@xaccount.com';
+  const password = document.getElementById('admin-password-input').value.trim();
+  const errEl = document.getElementById('admin-login-err');
+  const btn = document.getElementById('btn-admin-login');
+
+  if (!password) {
+    errEl.classList.remove('hidden');
+    errEl.innerText = 'PIN 번호를 입력해 주세요.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerText = '인증 중...';
+  errEl.classList.add('hidden');
+
+  // Supabase Auth로 진짜 안전한 서버 인증 수행
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password,
+  });
+
+  btn.disabled = false;
+  btn.innerText = '인증 및 열기';
+
+  if (error || !data.session) {
+    errEl.classList.remove('hidden');
+    errEl.innerText = '인증 실패: PIN 번호가 일치하지 않습니다.';
+  } else {
+    closeAdminLoginModal();
+    openAdminConsole();
+  }
+}
+
+async function logoutAdmin() {
+  if (!confirm('관리자 로그아웃 하시겠습니까?')) return;
+  await supabaseClient.auth.signOut();
+  closeAdminConsole();
+  alert('안전하게 로그아웃 되었습니다.');
 }
 
 function openAdminConsole() {
@@ -912,15 +1190,6 @@ function openAdminConsole() {
 
 function closeAdminConsole() {
   document.getElementById('admin-console-modal').classList.add('hidden');
-}
-
-function changeAdminPinPrompt() {
-  const cur = getAdminPin();
-  const next = prompt(`현재 PIN은 [${cur}]입니다. 변경할 새 PIN을 입력하세요:`, cur);
-  if (next && next.trim().length >= 2) {
-    localStorage.setItem('xa_admin_pin', next.trim());
-    alert(`관리자 PIN이 [${next.trim()}]로 변경되었습니다.`);
-  }
 }
 
 function switchAdminTab(tabName) {
@@ -946,7 +1215,31 @@ async function refreshAdminData() {
   await Promise.all([loadAdminOrders(), loadAdminStock()]);
 }
 
-// 주문 대기 목록 불러오기
+let adminShowAllHistory = false;
+
+function getKstYmd(dateInput = new Date()) {
+  try {
+    return new Intl.DateTimeFormat('sv-SE', {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(new Date(dateInput));
+  } catch (e) {
+    return new Date(dateInput).toISOString().slice(0, 10);
+  }
+}
+
+function toggleAdminHistoryMode() {
+  adminShowAllHistory = !adminShowAllHistory;
+  const btn = document.getElementById('adm-toggle-history');
+  if (btn) {
+    btn.innerText = adminShowAllHistory ? '오늘만 보기' : '전체 내역 보기';
+    btn.classList.toggle('border-cyan-400/50', adminShowAllHistory);
+    btn.classList.toggle('text-cyan-300', adminShowAllHistory);
+  }
+  loadAdminOrders();
+}
+
+// 주문 대기 목록 불러오기 (매일 KST 00:00 자동 초기화 + 1시간 초과 미입금 만료 정리 · DB 영구 보존)
 async function loadAdminOrders() {
   const listEl = document.getElementById('adm-orders-view');
   if (!supabaseClient) return;
@@ -956,30 +1249,75 @@ async function loadAdminOrders() {
       .from('xa_orders')
       .select('*')
       .order('id', { ascending: false })
-      .limit(50);
+      .limit(100);
 
     if (error || !data) {
       listEl.innerHTML = '<div class="text-xs text-red-400 text-center py-6">주문 목록을 불러오지 못했습니다.</div>';
       return;
     }
 
-    const pendingOrders = data.filter(o => o.status === 'PENDING');
+    // 1시간(60분) 초과된 미입금(PENDING) 주문은 DB 기록을 유지한 채 EXPIRED 상태로 자동 전환
+    const newlyExpiredIds = [];
+    data.forEach(o => {
+      if (o.status === 'PENDING' && isOrderExpired(o.created_at)) {
+        o.status = 'EXPIRED';
+        newlyExpiredIds.push(o.id);
+      }
+    });
+
+    if (newlyExpiredIds.length > 0) {
+      supabaseClient
+        .from('xa_orders')
+        .update({ status: 'EXPIRED' })
+        .in('id', newlyExpiredIds)
+        .then(() => {})
+        .catch(() => {});
+    }
+
+    const todayYmd = getKstYmd(new Date());
+
+    // 만료된(EXPIRED) 건 제외 + 기본 모드에서는 오늘(KST 자정 이후) 생성되거나 현재 대기 중인 주문만 표시
+    const nonExpired = data.filter(o => o.status !== 'EXPIRED');
+    const expiredCount = data.filter(o => o.status === 'EXPIRED').length;
+    const pastHiddenCount = nonExpired.filter(o => getKstYmd(o.created_at) !== todayYmd && o.status !== 'PENDING').length;
+
+    const visibleOrders = adminShowAllHistory
+      ? nonExpired
+      : nonExpired.filter(o => getKstYmd(o.created_at) === todayYmd || o.status === 'PENDING');
+
+    const pendingOrders = visibleOrders.filter(o => o.status === 'PENDING');
     document.getElementById('adm-count-pending').innerText = pendingOrders.length;
 
-    if (data.length === 0) {
-      listEl.innerHTML = '<div class="text-xs text-gray-500 text-center py-8">아직 접수된 주문이 없습니다.</div>';
+    if (visibleOrders.length === 0) {
+      listEl.innerHTML = `
+        <div class="text-xs text-gray-500 text-center py-8 space-y-1.5">
+          <div class="text-gray-300 font-bold">[${todayYmd} KST] 오늘 접수된 활성 주문이 없습니다.</div>
+          <div class="text-[10.5px] text-gray-500">매일 자정(00:00) 화면이 자동 초기화되며, 모든 기록은 Supabase DB에 영구 보존됩니다.</div>
+          ${pastHiddenCount > 0 ? `<div class="text-[10.5px] text-cyan-400/80 pt-1">이전 날짜 처리 내역 ${pastHiddenCount}건이 보관되어 있습니다. (상단 '전체 내역 보기'로 확인 가능)</div>` : ''}
+        </div>
+      `;
       return;
     }
 
-    listEl.innerHTML = '';
-    data.forEach(order => {
+    listEl.innerHTML = `
+      <div class="flex items-center justify-between px-1 text-[10.5px] text-gray-400">
+        <span>기준일: <strong class="text-cyan-300 font-mono">${adminShowAllHistory ? '전체 누적 내역' : todayYmd + ' KST (당일)'}</strong></span>
+        <span>표시 ${visibleOrders.length}건${!adminShowAllHistory && pastHiddenCount > 0 ? ` · 이전 내역 ${pastHiddenCount}건 숨김` : ''}</span>
+      </div>
+    `;
+    visibleOrders.forEach(order => {
       const isPending = order.status === 'PENDING';
       const isApproved = order.status === 'APPROVED';
       const isRefunded = order.status === 'REFUNDED';
       
       let statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-gray-500/20 text-gray-300 border border-gray-500/30">완료</span>';
+      let remainBadge = '';
+
       if (isPending) {
         statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">입금 확인 대기</span>';
+        const elapsedMs = Date.now() - new Date(order.created_at).getTime();
+        const remainMin = Math.max(1, Math.ceil((ORDER_EXPIRE_MS - elapsedMs) / 60000));
+        remainBadge = `<span class="text-[10px] text-cyan-400/80 font-mono">(${remainMin}분 후 자동정리)</span>`;
       } else if (isApproved) {
         statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-green-500/20 text-green-300 border border-green-500/30">승인 완료</span>';
       } else if (isRefunded) {
@@ -987,13 +1325,14 @@ async function loadAdminOrders() {
       }
 
       const item = document.createElement('div');
-      item.className = 'x-inner p-3 space-y-2 text-xs ' + (isPending ? 'border-cyan-400/40 bg-cyan-950/10' : (isRefunded ? 'opacity-50' : 'opacity-85'));
+      item.className = 'x-inner p-3.5 space-y-2 text-xs ' + (isPending ? 'border-cyan-400/40 bg-cyan-950/15' : (isRefunded ? 'opacity-50' : 'opacity-85'));
 
       item.innerHTML = `
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-1.5 flex-wrap">
             <span class="mono font-bold text-cyan-300">${order.order_no}</span>
             ${statusBadge}
+            ${remainBadge}
           </div>
           <span class="text-[10px] text-gray-400 mono">${new Date(order.created_at).toLocaleTimeString('ko-KR')}</span>
         </div>
@@ -1001,7 +1340,7 @@ async function loadAdminOrders() {
           <div>상품: <strong class="text-white">${order.product_type}</strong> (${order.price})</div>
           <div>결제: <span class="text-gray-300">${order.payment_method}</span></div>
         </div>
-        ${order.assigned_code ? `<div class="text-[11px] text-gray-400">지급된 코드: <strong class="mono text-green-300 font-bold">${order.assigned_code}</strong></div>` : ''}
+        ${order.assigned_code ? `<div class="text-[11px] text-gray-400">지급 코드: <strong class="mono text-green-300 font-bold">${order.assigned_code}</strong></div>` : ''}
         ${isPending ? `
           <button class="w-full x-btn-white py-2 text-xs font-bold mt-1 shadow-sm" onclick="approveOrder('${order.order_no}', this)">
             ✓ 입금 확인 및 코드 자동 지급 (즉시 열림)
@@ -1016,6 +1355,14 @@ async function loadAdminOrders() {
       `;
       listEl.appendChild(item);
     });
+
+    if (expiredCount > 0 || (!adminShowAllHistory && pastHiddenCount > 0)) {
+      const footerNote = document.createElement('div');
+      footerNote.className = 'text-[10.5px] text-gray-500 text-center pt-2 pb-1';
+      footerNote.innerText = `※ 자정 자동 초기화 적용 중 · 과거 내역 ${pastHiddenCount}건 및 만료 ${expiredCount}건은 Supabase DB에 영구 보존됨`;
+      listEl.appendChild(footerNote);
+    }
+
     if (window.lucide) lucide.createIcons();
   } catch (e) {
     listEl.innerHTML = '<div class="text-xs text-red-400 text-center py-6">오류 발생</div>';
@@ -1031,8 +1378,7 @@ async function approveOrder(orderNo, btnEl) {
 
   try {
     const { data, error } = await supabaseClient.rpc('approve_xa_order', {
-      p_order_no: orderNo,
-      p_admin_pin: getAdminPin()
+      p_order_no: orderNo
     });
 
     if (error) {
@@ -1068,8 +1414,7 @@ async function refundOrder(orderNo, btnEl) {
     if (supabaseClient) {
       try {
         const { data, error } = await supabaseClient.rpc('refund_xa_order', {
-          p_order_no: orderNo,
-          p_admin_pin: getAdminPin()
+          p_order_no: orderNo
         });
         if (!error && data?.success) ok = true;
       } catch (e) {}
@@ -1088,7 +1433,7 @@ async function refundOrder(orderNo, btnEl) {
       alert(`[반환 완료]\n주문번호: ${orderNo}\n해당 코드가 다시 미사용 재고로 채워졌습니다.`);
       refreshAdminData();
     } else {
-      alert('반환 처리에 실패했습니다. 관리자 PIN 번호를 확인해 주세요.');
+      alert('반환 처리에 실패했습니다. 서버 오류 또는 권한이 없습니다.');
       btnEl.disabled = false;
       btnEl.innerText = '주문 반환 및 재고 복구 (+1 채우기)';
     }
@@ -1110,8 +1455,7 @@ async function restoreStockCode(code, btnEl) {
     if (supabaseClient) {
       try {
         const { data, error } = await supabaseClient.rpc('restore_xa_stock', {
-          p_code: code,
-          p_admin_pin: getAdminPin()
+          p_code: code
         });
         if (!error && data?.success) ok = true;
       } catch (e) {}
@@ -1182,20 +1526,28 @@ async function loadAdminStock() {
   } catch (e) {}
 }
 
-// 초기 로딩 시 기존 활성 대기 주문 복원
+// 초기 로딩 시 복원 및 아이콘 세팅
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
+  updateSummaryBadges();
 
   const savedOrder = localStorage.getItem('xa_active_order');
   if (savedOrder) {
     try {
       currentActiveOrder = JSON.parse(savedOrder);
       if (currentActiveOrder && currentActiveOrder.order_no) {
+        if (currentActiveOrder.created_at_ms && (Date.now() - currentActiveOrder.created_at_ms > ORDER_EXPIRE_MS)) {
+          localStorage.removeItem('xa_active_order');
+          currentActiveOrder = null;
+          return;
+        }
         document.getElementById('wait-order-no').innerText = currentActiveOrder.order_no;
         document.getElementById('wait-product').innerText = currentActiveOrder.product_type;
         document.getElementById('wait-price').innerText = currentActiveOrder.price;
         document.getElementById('wait-method').innerText = currentActiveOrder.payment_method;
         document.getElementById('wait-time').innerText = currentActiveOrder.created_at_kst || '-';
+        const previewEl = document.getElementById('wait-order-msg-preview');
+        if (previewEl) previewEl.innerText = buildOrderMessage(currentActiveOrder);
         showScreen('step-waiting');
         startWaitingPolling();
       }
