@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>X ACCOUNT · 실시간 자동 승인 및 프리미엄 자동 발급 시스템(v30)</title>
+<title>X ACCOUNT · 실시간 자동 승인 및 프리미엄 자동 발급 시스템(v34)</title>
 <meta content="#05070a" name="theme-color"/>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -608,6 +608,25 @@ body {
           <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-pw', this)" type="button">복사</button>
         </div>
 
+
+        <!-- 이메일 (EMAIL) -->
+        <div class="x-inner p-3.5 flex items-center justify-between hidden" id="box-email">
+          <div class="min-w-0 flex-1 mr-2">
+            <span class="text-[10px] text-blue-400 font-extrabold tracking-wider block">이메일 (EMAIL)</span>
+            <div class="text-white font-bold text-sm mono truncate mt-0.5" id="res-email">정보 없음</div>
+          </div>
+          <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-email', this)" type="button">복사</button>
+        </div>
+
+        <!-- 이메일 비밀번호 (EMAIL PW) -->
+        <div class="x-inner p-3.5 flex items-center justify-between hidden" id="box-email-pw">
+          <div class="min-w-0 flex-1 mr-2">
+            <span class="text-[10px] text-purple-400 font-extrabold tracking-wider block">이메일 비밀번호 (EMAIL PW)</span>
+            <div class="text-white font-bold text-sm mono truncate mt-0.5" id="res-email-pw">정보 없음</div>
+          </div>
+          <button class="x-btn-dark px-3 py-1.5 text-xs shrink-0" onclick="copyField('res-email-pw', this)" type="button">복사</button>
+        </div>
+
         <!-- 실시간 2차 인증 (OTP) -->
         <div class="x-inner p-3.5 flex items-center justify-between border-cyan-500/30 bg-cyan-950/20">
           <div class="min-w-0 flex-1 mr-2">
@@ -631,14 +650,46 @@ body {
       </div>
 
       <!-- 이메일 확인 안내 버튼 (이메일 계정일 경우 표시) -->
-      <button class="w-full x-btn-dark py-3 text-xs font-bold text-cyan-300 border-cyan-500/40 hidden" id="btn-open-mail" onclick="alert('이메일 확인 안내:\nX에서 인증 메일을 요청하신 후 잠시 기다려주세요.')" type="button">
-        이메일 확인 안내 열기
+      <button class="w-full x-btn-dark py-3 text-xs font-bold text-cyan-300 border-cyan-500/40 hidden flex items-center justify-center gap-1.5" id="btn-open-mail" onclick="openEmailModal()" type="button">
+        <i data-lucide="mail-check" class="w-4 h-4"></i>
+        <span>이메일 확인 안내 열기 (인증번호 확인)</span>
       </button>
 
       <button class="w-full x-btn-dark py-3 text-xs font-bold" onclick="resetToHome()" type="button">
         처음으로 돌아가기
       </button>
     </section>
+  </div>
+</div>
+
+
+<!-- 모달: 이메일 확인 안내 (커스텀 팝업) -->
+<div aria-modal="true" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" id="email-guide-modal" role="dialog">
+  <div class="x-card max-w-sm w-full space-y-4 glass-card p-6 border-cyan-500/30">
+    <div class="text-center space-y-1.5">
+      <div class="w-12 h-12 rounded-full bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="mail" class="w-6 h-6 text-cyan-400"></i>
+      </div>
+      <h4 class="text-lg font-bold text-white">이메일 확인 안내</h4>
+      <p class="text-xs text-gray-300 leading-relaxed pt-1">
+        위에 표시된 <strong class="text-blue-300">이메일(EMAIL)</strong> 주소를 복사하여 아래 mhao 창에 붙여넣고 조회해 주세요.
+      </p>
+    </div>
+    
+    <!-- mhao.pro iframe embed -->
+    <div class="mt-4 rounded-xl overflow-hidden border border-white/10 bg-black/50 relative h-[300px]">
+      <iframe src="https://mhao.pro/" class="w-full h-full border-0" title="이메일 확인"></iframe>
+      <div class="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]"></div>
+    </div>
+    
+    <div class="pt-2 text-center">
+      <button class="w-full x-btn-white py-3 text-xs md:text-sm font-bold shadow-md" onclick="closeEmailModal()" type="button">
+        확인했습니다
+      </button>
+      <div class="mt-2 text-[10px] text-gray-500">
+        ※ mhao.pro 사이트가 위 창에 표시됩니다.
+      </div>
+    </div>
   </div>
 </div>
 
@@ -789,6 +840,16 @@ let currentActiveOrder = null;
 let waitPollingTimer = null;
 let otpInterval = null;
 let approvedCodeReady = null;
+
+
+function openEmailModal() {
+  document.getElementById('email-guide-modal').classList.remove('hidden');
+  if (window.lucide) lucide.createIcons();
+}
+
+function closeEmailModal() {
+  document.getElementById('email-guide-modal').classList.add('hidden');
+}
 
 // 상품 선택
 function selectProduct(el, prod, price) {
@@ -1081,17 +1142,48 @@ async function displayAccountResult(code) {
         const { data } = await supabaseClient.from('xa_stock').select('*').eq('code', code).maybeSingle();
         if (data) {
           orderInfo = {
-            account_id: data.code,
-            account_pw: '자동지급 완료',
-            product_type: data.product_type
+            account_id: data.account_id || data.code,
+            account_pw: data.account_pw || '자동지급 완료',
+            product_type: data.product_type,
+            email: data.email || data.account_email || '',
+            email_pw: data.email_pw || data.email_password || '',
+            otp_key: data.otp_key || data.otp || data.two_fa || ''
           };
         }
       }
     }
 
     if (orderInfo) {
+      // 콤보 포맷(----)으로 데이터가 뭉쳐서 들어온 경우 자동 분리
+      if (orderInfo.account_id && orderInfo.account_id.includes('----')) {
+        const parts = orderInfo.account_id.split('----');
+        orderInfo.account_id = parts[0] ? parts[0].trim() : orderInfo.account_id;
+        if (parts[1]) orderInfo.account_pw = parts[1].trim();
+        if (parts[2]) orderInfo.email = parts[2].trim();
+        if (parts[3]) orderInfo.email_pw = parts[3].trim();
+        if (parts[4]) orderInfo.otp_key = parts[4].trim();
+      }
+
       document.getElementById('res-id').innerText = orderInfo.account_id || '정보 없음';
       document.getElementById('res-pw').innerText = orderInfo.account_pw || '정보 없음';
+
+      // 이메일 정보 파싱 및 표시
+      const email = orderInfo.email || orderInfo.account_email || orderInfo.mail || '';
+      const emailPw = orderInfo.email_pw || orderInfo.email_password || orderInfo.mail_pw || '';
+      
+      if (email || (orderInfo.product_type && orderInfo.product_type.includes('이메일'))) {
+        document.getElementById('box-email').classList.remove('hidden');
+        document.getElementById('res-email').innerText = email || '미등록';
+      } else {
+        document.getElementById('box-email').classList.add('hidden');
+      }
+
+      if (emailPw) {
+        document.getElementById('box-email-pw').classList.remove('hidden');
+        document.getElementById('res-email-pw').innerText = emailPw || '미등록';
+      } else {
+        document.getElementById('box-email-pw').classList.add('hidden');
+      }
 
       // OTP 설정
       let otpSecret = orderInfo.otp_url || orderInfo.otp_key || orderInfo.otp || orderInfo.two_fa || orderInfo.secret || '';
@@ -1445,7 +1537,20 @@ async function loadAdminOrders() {
           <div>상품: <strong class="text-white">${order.product_type}</strong> (${order.price})</div>
           <div>결제: <span class="text-gray-300">${order.payment_method}</span></div>
         </div>
-        ${order.assigned_code ? `<div class="text-[11px] text-gray-400">지급 코드: <strong class="mono text-green-300 font-bold">${order.assigned_code}</strong></div>` : ''}
+        ${(() => {
+          let codeStr = order.assigned_code;
+          if (!codeStr) return '';
+          if (codeStr.includes('----')) {
+            const p = codeStr.split('----');
+            return `<div class="mt-1.5 p-2 rounded-lg bg-black/30 border border-white/5 space-y-0.5">
+              <div class="text-[10px] text-gray-500">발급된 계정 정보</div>
+              <div class="text-[11px]"><span class="text-cyan-400 font-bold">ID:</span> <span class="text-white">${p[0]}</span></div>
+              <div class="text-[11px]"><span class="text-yellow-400 font-bold">PW:</span> <span class="text-gray-300">${p[1]}</span></div>
+              ${p[4] ? `<div class="text-[11px]"><span class="text-green-400 font-bold">2FA:</span> <span class="text-gray-400">${p[4]}</span></div>` : ''}
+            </div>`;
+          }
+          return `<div class="text-[11px] text-gray-400 mt-1">지급 코드: <strong class="mono text-green-300 font-bold">${codeStr}</strong></div>`;
+        })()}
         ${isPending ? `
           <button class="w-full x-btn-white py-2 text-xs font-bold mt-1 shadow-sm" onclick="approveOrder('${order.order_no}', this)">
             ✓ 입금 확인 및 코드 자동 지급 (즉시 열림)
@@ -1615,8 +1720,17 @@ async function loadAdminStock() {
       <div class="space-y-1 max-h-48 overflow-y-auto text-xs mono">
         ${data.map(s => `
           <div class="flex items-center justify-between p-2 rounded bg-black/40 border border-white/5 ${s.is_used ? 'opacity-70' : ''}">
-            <span class="text-gray-400">[${s.product_type}]</span>
-            <span class="text-white font-bold ${s.is_used ? 'line-through text-gray-400' : ''}">${s.code}</span>
+            <span class="text-gray-400 shrink-0 mt-0.5">[${s.product_type}]</span>
+            <div class="flex-1 px-3 min-w-0">
+              ${(() => {
+                if (s.code && s.code.includes('----')) {
+                  const p = s.code.split('----');
+                  return `<div class="truncate text-[11px] font-bold text-cyan-300 ${s.is_used ? 'line-through opacity-50' : ''}">${p[0]}</div>
+                          <div class="truncate text-[10px] text-gray-500">${p[1]}</div>`;
+                }
+                return `<div class="truncate text-white font-bold ${s.is_used ? 'line-through text-gray-400' : ''}">${s.code}</div>`;
+              })()}
+            </div>
             ${s.is_used ? `
               <button class="x-btn-dark text-[10px] py-1 px-2.5 text-cyan-300 border-cyan-500/40 hover:bg-cyan-950/60 font-bold flex items-center gap-1" onclick="restoreStockCode('${s.code}', this)" type="button">
                 <span>재고 복구 ↩</span>
