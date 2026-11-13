@@ -1467,7 +1467,7 @@ body>.ambient-bg{display:none!important}
       <div class="xa55-agreement-heading">
         <span class="xa55-kicker"><span class="xa55-kicker-dot"></span> 주문 접수 · 약관 확인</span>
         <h4 id="xa55-agreement-title">주문 확인 및 약관 안내</h4>
-        <p>아래 약관을 끝까지 읽은 후 동의하고 주문을 접수해 주세요.</p>
+        
       </div>
       <button class="xa55-close" onclick="closeAgreementModal()" type="button" aria-label="닫기">×</button>
     </div>
@@ -1479,7 +1479,7 @@ body>.ambient-bg{display:none!important}
         </div>
         <div class="xa55-summary-bottom"><span>최종 결제 금액</span><strong id="modal-total-summary">15,000원</strong></div>
       </div>
-      <div class="xa55-section-title"><span>주문 확인 및 약관 안내</span><span>전체 약관 개정 · 2026.11.13</span></div>
+      <div class="xa55-section-title"><span>이용약관</span></div>
       <div class="xa-terms-box xa55-terms-list" aria-label="필수 거래조건 네 항목">
         <article class="xa-terms-item xa55-term-card">
           <span class="xa-terms-num">01</span>
@@ -1681,7 +1681,7 @@ body>.ambient-bg{display:none!important}
       <div class="xa62-head-title">
         <span class="xa62-kicker">X ACCOUNT · 관리자</span>
         <h3>주문·재고 관리</h3>
-        <span class="xa62-subtitle">당일 거래만 표시 · 승인대기 10분</span>
+        <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
       <div class="xa62-head-actions">
         <button class="xa62-icon-btn" onclick="refreshAdminData()" type="button" aria-label="데이터 새로고침" title="새로고침"><i data-lucide="refresh-cw">↻</i></button>
@@ -1690,10 +1690,10 @@ body>.ambient-bg{display:none!important}
       </div>
     </header>
     <div class="xa62-kpis" aria-label="관리 현황">
-      <div class="xa62-kpi"><span>승인 대기 · 10분</span><b id="adm-count-pending">—</b></div>
+      <div class="xa62-kpi"><span>승인 대기</span><b id="adm-count-pending">—</b></div>
       <div class="xa62-kpi"><span>오늘 판매완료</span><b id="xa62-count-issued">—</b></div>
       <div class="xa62-kpi xa62-kpi-green"><span>판매 가능</span><b id="adm-count-stock">—</b></div>
-      <div class="xa62-kpi xa62-kpi-amber"><span>오늘 거래</span><b id="xa62-count-holds">—</b></div>
+      <div class="xa62-kpi xa62-kpi-amber"><span>오늘 접수</span><b id="xa62-count-holds">—</b></div>
     </div>
     <nav class="xa62-tabbar" aria-label="관리 메뉴">
       <button type="button" id="adm-tab-orders" class="is-active" onclick="switchAdminTab('orders')" aria-current="page"><span aria-hidden="true" class="xa72-admin-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>승인 대기</span></button>
@@ -1716,6 +1716,18 @@ body>.ambient-bg{display:none!important}
       <section class="xa62-view hidden" id="adm-history-view" aria-label="오늘 거래 이력"><div class="xa62-empty">오늘 이력 불러오는 중…</div></section>
     </div>
     <footer class="xa62-footer"><span id="xa62-update-status">관리자 전용 · 서버 연결 대기</span><span>과거 기록은 Supabase에 보존</span></footer>
+  </div>
+</div>
+
+<!-- v81: Admin-only detail panel; separate from the periodically re-rendered order list -->
+<div id="xa81-detail-backdrop" class="xa81-detail-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="xa81-detail-title" onclick="if(event.target===this) closeV81OrderDetails()">
+  <div class="xa81-detail-dialog" role="document">
+    <header class="xa81-detail-header">
+      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용</span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
+      <button type="button" class="xa81-close" onclick="closeV81OrderDetails()" aria-label="상세정보 닫기"><span aria-hidden="true">×</span></button>
+    </header>
+    <div id="xa81-detail-content" class="xa81-detail-content" aria-live="polite">정보 확인 중…</div>
+    <footer class="xa81-detail-footer"><span>관리자 전용 · 화면을 닫으면 상세정보가 숨겨집니다.</span><button type="button" onclick="closeV81OrderDetails()">닫기</button></footer>
   </div>
 </div>
 
@@ -2798,6 +2810,7 @@ async function openAdminConsole() {
 }
 
 function closeAdminConsole() {
+  closeV81OrderDetails();
   v63ClockStop();
   document.getElementById('admin-console-modal').classList.add('hidden');
 }
@@ -3299,7 +3312,10 @@ function v63ClockStart() {
     if(!modal || modal.classList.contains('hidden')) return;
     const today = getKstYmd(new Date());
     if(today !== v63LastKstDate || Date.now()-v63LastSyncAt > 30000){ v63LastKstDate=today; refreshAdminData(); }
-    else renderV62All();
+    else {
+      renderV62Summary();
+      if(v62Tab === 'orders' && v62LastOrdersSuccess) renderV62Orders();
+    }
   },5000);
 }
 function v63ClockStop() {if(v63AdminTicker){clearInterval(v63AdminTicker);v63AdminTicker=null;}}
@@ -3398,23 +3414,16 @@ function v62OrderCard(order, view='orders') {
   const stock = order.assigned_code ? v62StockByCode.get(String(order.assigned_code)) : null;
   const needsRestock = isRefunded && stock && stock.is_used === true;
   const detailAvailable = Boolean(order.buyer_code || order.assigned_code);
-  const defaultOpen = view === 'sales' && isApproved ? ' open' : '';
   const stockState = stock ? (stock.is_used===false?'판매 가능 재고':'재고 차감 상태') : (order.assigned_code?'원본 재고 확인 필요':'재고 미배정');
   let actions = '';
   if (view === 'orders' && isPending) actions = `<button class="xa62-btn primary" type="button" onclick='approveOrder(${arg},this)'>입금 확인 · 계정 발급</button>`;
   if (view === 'sales' && isApproved) actions = `<button class="xa62-btn warn" type="button" onclick='refundOrder(${arg},this)'>반환 · 재고 복구</button>`;
   if (view === 'history' && needsRestock) actions = `<button class="xa62-btn warn" type="button" onclick='refundOrder(${arg},this)'>미복구 재고 점검 · 복구</button>`;
-  const credentials = detailAvailable ? `
-    <details class="xa62-credentials"${defaultOpen}>
-      <summary><i data-lucide="key-round" style="width:13px;height:13px"></i> 전체 계정 정보 보기</summary>
-      ${order.buyer_code ? `<div class="xa62-cred-line"><span class="xa62-meta-label">조회 코드 · 전체</span><div class="xa62-cred-value">${escapeHTML(order.buyer_code)}</div></div>` : ''}
-      ${order.assigned_code ? `<div class="xa62-cred-line"><span class="xa62-meta-label">원본 재고 · ID / 비밀번호 / 2FA (전체)</span><div class="xa62-cred-value">${escapeHTML(order.assigned_code)}</div></div>` : ''}
-      <div class="xa62-cred-actions">
-        ${order.buyer_code ? `<button type="button" class="xa62-btn" onclick='copyV62OrderPart(${arg},"buyer_code")'>조회 코드 복사</button>` : ''}
-        ${order.assigned_code ? `<button type="button" class="xa62-btn" onclick='copyV62OrderPart(${arg},"assigned_code")'>원본 복사</button>` : ''}
-      </div>
-      ${(isApproved && order.buyer_code) ? `<div class="xa62-cred-actions"><button type="button" class="xa62-btn ghost" onclick='toggleAdminAccountDetails(${arg},this)'>ID · PW · OTP 확인</button></div><div class="xa-admin-detail-view hidden"></div>` : ''}
-    </details>` : '';
+  // v81: Credentials do not exist in the list DOM until an admin explicitly opens the details.
+  // Keep the detail panel outside the refreshed list to avoid accidental opening/closing.
+  const credentials = detailAvailable
+    ? `<div class="xa81-detail-action"><button type="button" class="xa81-open-detail" onclick='openV81OrderDetails(${arg})' aria-label="${no} 계정 상세정보 보기"><i data-lucide="shield-check" aria-hidden="true"></i> 계정 정보 보기 <span aria-hidden="true">›</span></button></div>`
+    : '';
   return `<article class="xa62-order ${isPending?'is-pending':''}">
     <div class="xa62-card-head"><div style="min-width:0"><div class="xa62-order-num">${no}</div><span class="xa62-card-time">${escapeHTML(v62FormatTime(order.created_at))}</span></div><span class="xa62-status ${v62StatusClass(order)}">${escapeHTML(v62Status(order))}</span></div>
     <div class="xa62-compact-meta"><div><span class="xa62-meta-label">상품 · 가격</span><span class="xa62-meta-value">${escapeHTML(order.product_type||'—')} · ${escapeHTML(order.price||'—')}</span></div><div><span class="xa62-meta-label">결제 방법</span><span class="xa62-meta-value">${escapeHTML(order.payment_method||'—')}</span></div></div>
@@ -3643,6 +3652,132 @@ async function copyV62Stock(id) {
   if(!row)return showAdminFlash('재고 정보를 찾을 수 없습니다.',true);
   const ok=await copyText(String(row.code||''));
   showAdminFlash(ok?'전체 재고 코드가 복사됐어.':'복사 실패 · 클립보드 권한을 확인해 줘.',!ok);
+}
+
+// v81: A stable admin detail view independent of list refresh. No auto-open on sales/history.
+let xa81DetailRequest = 0;
+let xa81OtpTimer = null;
+let xa81ReturnFocus = null;
+function xa81ClearOtp() {
+  if (xa81OtpTimer) { clearInterval(xa81OtpTimer); xa81OtpTimer = null; }
+}
+function closeV81OrderDetails() {
+  xa81DetailRequest++;
+  xa81ClearOtp();
+  const backdrop = document.getElementById('xa81-detail-backdrop');
+  const content = document.getElementById('xa81-detail-content');
+  if (backdrop) backdrop.classList.add('hidden');
+  if (content) content.replaceChildren(); // remove credentials from the DOM when closed
+  if (xa81ReturnFocus?.isConnected) xa81ReturnFocus.focus({preventScroll:true});
+  xa81ReturnFocus = null;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !document.getElementById('xa81-detail-backdrop')?.classList.contains('hidden')) {
+    e.preventDefault(); closeV81OrderDetails();
+  }
+});
+function xa81Field(label, value, copyable = true, extraClass = '') {
+  const wrap = document.createElement('div'); wrap.className = 'xa81-field ' + extraClass;
+  const small = document.createElement('span'); small.className = 'xa81-field-label'; small.textContent = label;
+  const row = document.createElement('div'); row.className = 'xa81-field-row';
+  const result = document.createElement('span'); result.className = 'xa81-field-value'; result.textContent = value || '—';
+  row.append(result);
+  if (copyable && value) {
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'xa81-copy'; btn.textContent = '복사';
+    btn.setAttribute('aria-label', label + ' 복사');
+    btn.addEventListener('click', async () => {
+      const ok = await copyText(value);
+      if (!btn.isConnected) return;
+      btn.textContent = ok ? '완료' : '실패';
+      setTimeout(() => { if (btn.isConnected) btn.textContent = '복사'; }, 1200);
+    });
+    row.append(btn);
+  }
+  wrap.append(small, row);
+  return { wrap, result };
+}
+async function openV81OrderDetails(orderNo) {
+  const modal = document.getElementById('admin-console-modal');
+  if (!modal || modal.classList.contains('hidden')) return;
+  const order = adminOrderCache.get(orderNo);
+  if (!order || (!order.assigned_code && !order.buyer_code)) {
+    showAdminFlash('해당 주문의 발급 정보가 없습니다.', true); return;
+  }
+  const request = ++xa81DetailRequest;
+  xa81ClearOtp();
+  xa81ReturnFocus = document.activeElement;
+  const backdrop = document.getElementById('xa81-detail-backdrop');
+  const content = document.getElementById('xa81-detail-content');
+  const title = document.getElementById('xa81-detail-order');
+  title.textContent = orderNo + ' · ' + (order.product_type || '계정');
+  content.replaceChildren();
+  const loading = document.createElement('div');loading.className='xa81-loading';loading.textContent='계정 정보를 안전하게 불러오는 중…';content.append(loading);
+  backdrop.classList.remove('hidden');
+  backdrop.querySelector('.xa81-close')?.focus({preventScroll:true});
+  try {
+    // Use the same account-result parser as the buyer view; fallback to the admin-only assigned stock
+    // when a returned historical order is unavailable from the buyer lookup RPC.
+    let record = null;
+    const key = String(order.buyer_code || '').trim();
+    if (key && supabaseClient) {
+      try {
+        const {data, error} = await supabaseClient.rpc('get_account_result', {p_key:key});
+        if (!error && data) record = parseIssuedAccountRecord(data);
+      } catch (_) {}
+    }
+    if (!record && order.assigned_code) record = parseIssuedAccountRecord({
+      product_type:order.product_type, assigned_code:order.assigned_code
+    });
+    if (request !== xa81DetailRequest || backdrop.classList.contains('hidden')) return;
+    content.replaceChildren();
+    if (!record) {
+      const warning = document.createElement('p');warning.className='xa81-warning';
+      warning.textContent='계정 ID 또는 비밀번호를 확인할 수 없습니다. 발급 원본 연결과 재고 데이터를 점검해 주세요.';
+      content.append(warning);return;
+    }
+    const subtitle = document.createElement('p');subtitle.className='xa81-detail-subtitle';
+    subtitle.textContent = (record.productType || order.product_type || '계정') + ' · ' + (order.status === 'APPROVED' ? '판매완료' : order.status === 'REFUNDED' ? '반환된 주문' : '거래 이력');
+    content.append(subtitle);
+    content.append(xa81Field('계정 ID', record.accountId).wrap);
+    content.append(xa81Field('비밀번호', record.accountPw).wrap);
+    if (!record.isEmail) {
+      const secret = normalizeTotpSecret(record.otpSecret);
+      if (secret) content.append(xa81Field('2단계 인증 비밀키 · 조회 코드', secret).wrap);
+      else if (key) content.append(xa81Field('발급 조회 코드', key).wrap);
+    } else if (key) {
+      content.append(xa81Field('발급 조회 코드', key).wrap);
+    }
+    const otp = getSafeTotp(record.otpSecret);
+    if (otp) {
+      const otpField = xa81Field('실시간 6자리 인증번호', '', false, 'xa81-otp');
+      const counter = document.createElement('small');counter.className='xa81-otp-count';
+      const copy = document.createElement('button');copy.type='button';copy.className='xa81-copy';copy.textContent='복사';
+      otpField.wrap.querySelector('.xa81-field-row').append(counter,copy);
+      content.append(otpField.wrap);
+      const refresh=()=>{
+        if (request !== xa81DetailRequest || !otpField.wrap.isConnected) { xa81ClearOtp(); return; }
+        try {otpField.result.textContent = otp.generate();counter.textContent=(30-(Math.floor(Date.now()/1000)%30))+'초';}
+        catch (_) {otpField.result.textContent='인증번호 생성 오류';xa81ClearOtp();}
+      };
+      copy.addEventListener('click', async ()=>{ const code=otpField.result.textContent; if(/^\d{6}$/.test(code)){
+        const ok=await copyText(code); if(!copy.isConnected)return; copy.textContent=ok?'완료':'실패';
+        setTimeout(()=>{if(copy.isConnected)copy.textContent='복사'},1200);
+      }});
+      refresh();xa81OtpTimer=setInterval(refresh,1000);
+    } else if (!record.isEmail) {
+      const state = record.otpSecret ? '인증번호 생성 도구 연결을 확인해 주세요.' : '인증키가 연결되지 않았습니다.';
+      content.append(xa81Field('실시간 6자리 인증번호', state, false).wrap);
+    }
+    if (record.isEmail) {
+      const note=document.createElement('p');note.className='xa81-email-note';
+      note.textContent='이메일 계정은 고객 발급 화면의 X 메일 확인 기능을 이용할 수 있습니다.';
+      content.append(note);
+    }
+  } catch (error) {
+    if (request !== xa81DetailRequest) return;
+    content.replaceChildren();
+    const warn=document.createElement('p');warn.className='xa81-warning';warn.textContent='계정 정보 조회 중 오류가 발생했습니다. 다시 시도해 주세요.';content.append(warn);
+  }
 }
 
 // 초기 로딩 시 복원 및 아이콘 세팅
@@ -4457,6 +4592,73 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 #admin-console-modal .xa76-stockcard .xa62-actions{gap:6px!important;flex-wrap:nowrap!important}
 #admin-console-modal .xa76-stockcard .xa62-actions>button{min-width:0!important;flex:1 1 0!important;min-height:36px!important;padding:6px 7px!important;white-space:nowrap!important;font-size:10px!important}
 @media(max-width:350px){#admin-console-modal .xa62-kpi{padding:4px 6px!important}#admin-console-modal .xa62-kpi span{font-size:8.6px!important}#admin-console-modal .xa62-toolbar{padding:5px 8px!important}}
+</style>
+
+<!-- v78: Purchase terms modal vertical-density adjustment. No change to reading gate or payment logic. -->
+<style id="xa78-agreement-compact">
+#agreement-modal .xa55-agreement-head{padding:10px 13px 8px!important;gap:8px!important;align-items:center!important}
+#agreement-modal .xa55-kicker{font-size:9px!important;letter-spacing:.02em!important}
+#agreement-modal .xa55-agreement-heading h4{font-size:19px!important;line-height:1.25!important;margin:5px 0 0!important}
+#agreement-modal .xa55-close{width:30px!important;height:30px!important;border-radius:9px!important}
+#agreement-modal .xa55-agreement-scroll{padding:9px 12px!important}
+#agreement-modal .xa55-summary{margin-bottom:8px!important;border-radius:11px!important}
+#agreement-modal .xa55-summary-top{padding:8px 10px!important;gap:5px!important}
+#agreement-modal .xa55-summary small{font-size:9.5px!important;margin-bottom:2px!important;line-height:1.3!important}
+#agreement-modal .xa55-summary-top strong{font-size:11.4px!important;line-height:1.35!important}
+#agreement-modal .xa55-summary-bottom{padding:6px 10px!important;align-items:center!important}
+#agreement-modal .xa55-summary-bottom span{font-size:10.5px!important}
+#agreement-modal .xa55-summary-bottom strong{font-size:18px!important;line-height:1.25!important}
+#agreement-modal .xa55-section-title{margin:0 2px 6px!important}
+#agreement-modal .xa55-section-title span:first-child{font-size:11.8px!important}
+#agreement-modal .xa55-agreement-footer{padding:8px 12px 10px!important}
+#agreement-modal .xa64-read-status{padding:6px 9px!important;margin-bottom:6px!important;line-height:1.4!important}
+#agreement-modal .xa55-agree{padding:7px 9px!important;margin-bottom:6px!important;gap:8px!important}
+#agreement-modal .xa55-agree span{line-height:1.42!important;font-size:10.5px!important}
+#agreement-modal .xa55-actions{gap:7px!important}
+#agreement-modal .xa55-actions button{min-height:39px!important;padding:8px 10px!important}
+#agreement-modal .xa55-bottom-caption{margin-top:5px!important;line-height:1.35!important}
+</style>
+
+<style id="xa81-admin-style">
+/* v81: keep the site emerald-white style; compact but readable touch targets */
+#admin-console-modal .xa62-order{padding:10px!important;gap:6px!important}
+#admin-console-modal .xa62-order .xa62-compact-meta{padding:7px 9px!important;gap:6px!important}
+#admin-console-modal .xa62-order .xa62-card-head{align-items:center!important}
+#admin-console-modal .xa81-detail-action{padding-top:5px;border-top:1px solid #d7e9de}
+#admin-console-modal .xa81-open-detail{width:100%;min-height:38px;border:1px solid #c9e4d3;border-radius:10px;padding:8px 11px;background:linear-gradient(180deg,#f6fcf8,#e8f6ed);color:#075f42;font-size:11px;font-weight:850;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 3px 8px rgba(9,76,48,.06)}
+#admin-console-modal .xa81-open-detail svg{width:14px;height:14px;flex-shrink:0}
+#admin-console-modal .xa81-open-detail span{font-size:19px;line-height:.7;margin-left:3px}
+#admin-console-modal .xa81-open-detail:hover{background:#ddf3e6}
+#admin-console-modal .xa81-open-detail:focus-visible{outline:2px solid #118963;outline-offset:2px}
+#admin-console-modal .xa62-section-note{padding-block:2px!important}
+#admin-console-modal .xa62-view{gap:7px!important}
+.xa81-detail-backdrop{position:fixed;inset:0;z-index:2147483000;background:rgba(6,31,23,.64);display:flex;align-items:center;justify-content:center;padding:12px;backdrop-filter:blur(5px)}
+.xa81-detail-backdrop.hidden{display:none!important}
+.xa81-detail-dialog{display:flex;flex-direction:column;width:min(100%,410px);max-height:min(92dvh,750px);border:1px solid #d4eade;border-radius:19px;background:#fbfefc;box-shadow:0 24px 70px rgba(1,31,23,.26),0 1px 0 #fff inset;overflow:hidden;color:#143e2d;font-family:inherit}
+.xa81-detail-header{padding:17px 18px 13px;display:flex;align-items:start;justify-content:space-between;gap:10px;background:linear-gradient(145deg,#fff,#eff8f2);border-bottom:1px solid #deece2}
+.xa81-detail-kicker{display:block;color:#328567;font-size:9.8px;font-weight:850;letter-spacing:.07em;margin-bottom:4px}
+.xa81-detail-header h3{margin:0;color:#0a3e2c;font-size:19px;line-height:1.3;font-weight:900}
+.xa81-detail-header p{font-size:10.5px;color:#628476;margin:6px 0 0;overflow-wrap:anywhere}
+.xa81-close{flex-shrink:0;width:36px;height:36px;display:grid;place-items:center;background:#fff;border:1px solid #d1e7d9;border-radius:10px;color:#235941;cursor:pointer}
+.xa81-close span{font-size:23px;font-weight:400;line-height:1}
+.xa81-detail-content{padding:13px 15px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:80px;overscroll-behavior:contain}
+.xa81-detail-subtitle{margin:0 0 3px;padding:9px 11px;border-radius:10px;color:#0e6447;background:#e9f6ee;font-size:11.3px;font-weight:800}
+.xa81-field{min-width:0;border:1px solid #dceae1;border-radius:11px;background:#fff;padding:10px 11px;box-shadow:0 2px 6px rgba(23,76,44,.035)}
+.xa81-field-label{color:#6c8a7d;font-size:10px;font-weight:750;display:block;margin-bottom:5px}
+.xa81-field-row{display:flex;align-items:center;gap:6px;justify-content:space-between}
+.xa81-field-value{font-family:ui-monospace,Consolas,monospace;font-size:12.3px;line-height:1.5;color:#173f2d;font-weight:800;overflow-wrap:anywhere;word-break:break-word;min-width:0;flex:1;user-select:text}
+.xa81-copy{flex-shrink:0;min-height:32px;border:1px solid #c8e4d2;border-radius:9px;background:#f3faf5;color:#076446;font-size:10.5px;font-weight:850;padding:6px 10px;cursor:pointer}
+.xa81-otp{background:#e9f8ef;border-color:#bde4cd}
+.xa81-otp .xa81-field-value{font-size:22px;letter-spacing:.1em;color:#067a51;font-variant-numeric:tabular-nums}
+.xa81-otp-count{font-size:10px;color:#488975;white-space:nowrap}
+.xa81-warning{margin:0;border-radius:11px;background:#fff2e8;border:1px solid #f7d4bf;color:#895027;padding:12px;font-size:12px;line-height:1.6}
+.xa81-email-note{margin:1px 2px;font-size:10.5px;color:#688879;line-height:1.5}
+.xa81-loading{padding:16px;text-align:center;color:#719483;font-size:12px}
+.xa81-detail-footer{padding:10px 15px;background:#f5faf7;border-top:1px solid #e0eee4;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.xa81-detail-footer span{font-size:9.5px;color:#6e8f7b;line-height:1.5;max-width:235px}
+.xa81-detail-footer button{border:1px solid #cfe5d6;border-radius:9px;background:#fff;color:#145940;font-size:11px;font-weight:800;padding:8px 14px;cursor:pointer;min-height:34px}
+@media(max-width:360px){.xa81-detail-backdrop{padding:6px}.xa81-detail-header{padding:13px}.xa81-detail-content{padding:10px}.xa81-detail-footer{padding:8px 10px}}
+@media(prefers-reduced-motion:reduce){.xa81-detail-backdrop{backdrop-filter:none}}
 </style>
 </body>
 </html>
