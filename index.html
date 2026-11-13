@@ -5,9 +5,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>X ACCOUNT | 간편 주문 및 계정 조회</title>
+<title>X ACCOUNT |</title>
 <meta content="#f4f8f4" name="theme-color"/>
-<meta content="X ACCOUNT 주문 접수 및 발급 안내 페이지" name="description"/>
+<meta content="" name="description"/>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- Supabase JS SDK -->
@@ -550,10 +550,10 @@ button:disabled{cursor:not-allowed;}
 <!-- 카카오톡 / SNS 링크 미리보기 (심플 모드) -->
 <meta content="website" property="og:type"/>
 <meta content="X ACCOUNT" property="og:site_name"/>
-<meta content="X ACCOUNT | 주문 및 발급 안내" property="og:title"/>
-<meta content="상품 선택부터 주문 접수, 발급 확인까지 한 화면에서 진행하세요." property="og:description"/>
+<meta content="X ACCOUNT |" property="og:title"/>
+<meta content="" property="og:description"/>
 <meta content="https://search-xid.shop/" property="og:url"/>
-<meta content="https://search-xid.shop/og-image.png" property="og:image"/>
+
 <style id="v45-efficient-purchase-flow">
 /* V45 · compact two-stage purchase flow */
 #step-price .xa-utility{display:flex;align-items:center;justify-content:flex-end;gap:7px;padding:0 1px 12px;margin:0 0 15px;border-bottom:1px solid rgba(255,255,255,.055)}
@@ -1073,6 +1073,59 @@ body>.ambient-bg{display:none!important}
 #step-guide .xa67-continue{width:100%!important;min-height:46px;margin-top:8px}
 @media (max-width:430px){#step-guide .xa67-guide-head{padding:16px 14px}#step-guide .xa67-step{padding:13px 12px}}
 </style>
+
+<style id="xa75-fixes">
+/* v75 | OTP: pure emerald, no inherited blue/navy countdown. */
+#main-card #step-result .result-field.is-otp{
+  background:linear-gradient(145deg,#eef9f1 0%,#e5f6eb 100%)!important;
+  border-color:#c2e6d0!important;
+}
+#main-card #step-result .otp-ring{
+  width:29px!important;height:29px!important;min-width:29px!important;
+  border-radius:50%!important;border:1px solid #b6dec7!important;
+  background:conic-gradient(#0b9368 var(--otp-progress,360deg),#d7eadf 0deg)!important;
+  box-shadow:0 2px 6px rgba(16,111,78,.10),inset 0 1px 1px rgba(255,255,255,.95)!important;
+}
+#main-card #step-result .otp-ring::after{
+  inset:4px!important;background:#f8fdf9!important;
+  border:1px solid #e3f0e8!important;
+  box-shadow:inset 0 1px 2px rgba(11,95,56,.045)!important;
+}
+#main-card #step-result .otp-ring span{
+  font:800 10px/1 ui-monospace,SFMono-Regular,Consolas,monospace!important;
+  color:#126747!important;letter-spacing:0!important;
+}
+#main-card #step-result #res-otp{color:#087655!important}
+/* True disclosure: closed by default; none of the older display:block overrides can force text visible. */
+#main-card #step-result #xa68-result-existing-notice{
+  margin:7px 0 6px!important;padding:0 12px!important;
+  border-radius:12px!important;border:1px solid #d2e7d9!important;
+  background:linear-gradient(180deg,#ffffff,#f5fbf7)!important;
+  box-shadow:0 3px 8px rgba(27,91,57,.045),inset 0 1px 0 #fff!important;
+}
+#main-card #step-result #xa68-result-existing-notice > summary{
+  display:flex!important;align-items:center!important;
+  gap:8px!important;min-height:40px!important;padding:0!important;
+  cursor:pointer!important;color:#1b6045!important;font-size:11.7px!important;
+  font-weight:800!important;user-select:none!important;
+}
+#main-card #step-result #xa68-result-existing-notice > summary svg{width:16px!important;height:16px!important;color:#237d5b!important}
+#main-card #step-result #xa68-result-existing-notice > summary .notice-chevron{margin-left:auto!important;transition:transform .2s ease!important}
+#main-card #step-result #xa68-result-existing-notice[open] > summary .notice-chevron{transform:rotate(180deg)!important}
+#main-card #step-result #xa68-result-existing-notice:not([open]) > :not(summary){display:none!important}
+#main-card #step-result #xa68-result-existing-notice[open] > p:not(.fine){
+  display:block!important;margin:0 0 10px!important;
+  padding:0 3px!important;font-size:11px!important;line-height:1.62!important;
+  color:#315c45!important;opacity:1!important;
+}
+#main-card #step-result #xa68-result-existing-notice[open] > p:first-of-type{padding-top:10px!important;border-top:1px solid #e2eee5!important}
+#main-card #step-result #xa68-result-existing-notice strong{color:#0a6546!important;background:transparent!important;opacity:1!important}
+#main-card #step-result #xa68-result-existing-notice .fine{display:none!important}
+/* Prevent oversized result panes while retaining touch-friendly controls. */
+#main-card #step-result .result-field{border-radius:13px!important}
+#main-card #step-result .space-y-2{gap:7px!important}
+@media(max-width:350px){#main-card #step-result #res-otp{font-size:18px!important}}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -1227,11 +1280,10 @@ body>.ambient-bg{display:none!important}
 <!-- 3.5. 승인 후 이용 안내. 이전 코드 조회 시 이 화면을 건너뜁니다. -->
 <section class="xa-screen hidden xa67-guide xa68-guide xa69-guide xa70-guide" id="step-guide">
   <div class="xa70-guide-heading"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg><h3>계정 이용 안내</h3></div>
-  <div class="xa69-guide-list xa70-guide-list" aria-label="계정 이용 필수 6개 항목">
+  <div class="xa69-guide-list xa70-guide-list" aria-label="계정 이용 필수 5개 항목">
     <article class="xa69-guide-row"><span class="xa69-guide-emoji" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9 1 1-2 2 2 2-3 3-2-2-3 3"/></svg></span><div><strong>정보 변경</strong><p>아이디·비밀번호·닉네임·사진은 별도 허락 없이 변경할 수 있어요.</p></div></article>
     <article class="xa69-guide-row"><span class="xa69-guide-emoji" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.8a15.5 15.5 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg></span><div><strong>접속 환경</strong><p>가상사설망·잦은 인터넷 변경은 추가 인증을 유발할 수 있어요.</p></div></article>
     <article class="xa69-guide-row"><span class="xa69-guide-emoji" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><div><strong>활동 주의</strong><p>반복 게시·자동 대량 활동을 피하고, 장기 방치 없이 관리해 주세요.</p></div></article>
-    <article class="xa69-guide-row"><span class="xa69-guide-emoji" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M12 8v5"/><circle cx="12" cy="16.7" r=".8" fill="currentColor" stroke="none"/></svg></span><div><strong>정지 이력</strong><p>정지 이력은 앱 재설치로 지워지지 않습니다. 필요 시 공식 이의 신청을 이용하세요.</p></div></article>
     <article class="xa69-guide-row"><span class="xa69-guide-emoji" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 .3l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7-.3l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></span><div><strong>외부 링크</strong><p>동일 링크·홍보글의 반복 게시를 피하고, 상시 안내는 프로필에 적어 주세요.</p></div></article>
     <article class="xa69-guide-row"><span class="xa69-guide-emoji" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1H3Z"/><path d="M17 11a3 3 0 0 0 0-6M19 20h2v-1a6 6 0 0 0-4-5.6"/></svg></span><div><strong>팔로워 관리</strong><p>팔로워 구매·무분별한 맞팔·반복 팔로우와 취소를 피해 주세요.</p></div></article>
   </div>
@@ -1241,7 +1293,7 @@ body>.ambient-bg{display:none!important}
 <!-- 4. 계정 결과 화면 (step-result) -->
 <section class="xa-screen hidden" id="step-result">
 <div class="xa68-quick-lookup" aria-label="기존 발급 코드 바로 조회">
-  <div class="xa68-quick-head"><span>발급 코드 바로 조회</span><small>계정 정보 즉시 확인</small></div>
+  <div class="xa68-quick-head"><span>발급 코드 바로 조회</span></div>
   <div class="xa68-quick-controls">
     <input id="xa68-result-code-input" class="x-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="발급 코드를 입력해 주세요" aria-label="조회할 발급 코드" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupFromResultHeader();}"/>
     <button id="xa68-result-code-button" type="button" onclick="lookupFromResultHeader()">조회</button>
@@ -1263,8 +1315,8 @@ body>.ambient-bg{display:none!important}
 </div>
 <details class="xa-notice xa-result-note" id="xa68-result-existing-notice" style="margin-top:12px">
 <summary class="ttl"><i data-lucide="shield-alert"></i><span>수령·보안 안내</span><i data-lucide="chevron-down" class="notice-chevron"></i></summary>
-<p>받으신 계정의 <strong>CODE, ID, PW는 추가로 제공하지 않으며</strong> 기존 구매하셨던 계정은 CODE로만 조회가 가능합니다.</p>
-<p>잊어버리지 않도록 반드시 <strong>개인 보관</strong>해 주시길 바라며, 해킹 피해가 없도록 <strong>정보 수정을 통해 보안을 강화</strong>해 주세요.</p>
+<p>수령한 <strong>계정 정보와 조회 코드는 추가 제공되지 않으니</strong> 안전하게 보관해 주세요. 기존 계정은 조회 코드로 다시 확인할 수 있습니다.</p>
+<p>비밀번호와 인증 정보를 외부에 공유하지 말고, <strong>초기 확인 후 보안 설정을 변경</strong>해 주세요.</p>
 <p class="fine">※ 보안 관리 소홀로 인한 문제 발생 시 판매자는 따로 책임지지 않습니다.</p>
 </details>
 <div class="space-y-2" style="margin-top:12px">
@@ -1292,16 +1344,15 @@ body>.ambient-bg{display:none!important}
 </div>
 <button class="x-btn-dark copy-btn" onclick="copyField('res-otp', this)" type="button">복사</button>
 </div>
-<details class="v51-code-disclosure" id="v51-code-disclosure">
-<summary><span><i data-lucide="key-round"></i> 계정 조회 코드 보관하기</span><span class="v51-expand-caption">다음 조회에 필요 <i data-lucide="chevron-down"></i></span></summary>
-<div class="v51-code-inner">
- <span class="v51-code-label">등록된 계정 조회 코드</span>
- <div class="v51-code-value" id="v51-code-preview">조회 코드를 안전하게 보관하세요.</div>
- <div class="v51-code-full mono" id="res-code">정보 없음</div>
- <button class="x-btn-dark v51-code-copy" onclick="copyField('res-code', this)" type="button"><i data-lucide="copy"></i> 조회 코드 복사</button>
- <p>일반 계정의 조회 코드는 재고에 등록된 2FA 비밀키입니다. 실시간 6자리 OTP와 다르며, 외부에 공개하지 마세요.</p>
-</div>
-</details>
+<section class="v51-code-disclosure xa74-code-card" id="v51-code-disclosure" aria-label="계정 조회 코드">
+  <div class="xa74-code-head">
+    <span class="xa74-code-title"><i data-lucide="key-round" aria-hidden="true"></i> 계정 조회 코드</span>
+    <button class="x-btn-dark v51-code-copy" onclick="copyField('res-code', this)" type="button">복사</button>
+  </div>
+  <div class="v51-code-full mono" id="res-code">정보 없음</div>
+  <div class="xa74-code-hint">다음 조회에 필요 · 타인 공유 금지</div>
+  <span class="hidden" id="v51-code-preview">조회 코드를 안전하게 보관하세요.</span>
+</section>
 </div>
 <div id="result-action-row" class="has-email" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px">
 <button class="w-full x-btn-dark hidden" id="btn-open-mail" onclick="openEmailInboxModal()" style="min-height:44px;font-size:12px;color:#9fe0ff;border-color:rgba(104,189,233,.45)" type="button">
@@ -2363,6 +2414,7 @@ async function displayAccountResult(code) {
   if (!cleanCode) { setAccountResultState('error', '발급 코드가 비어 있습니다.'); return; }
   currentSearchKey = cleanCode;
   document.getElementById('xa68-result-existing-notice')?.classList.toggle('hidden',v68DirectCodeLookup);
+  document.getElementById('xa68-result-existing-notice')?.removeAttribute('open');
   showScreen('step-result');
   setAccountResultState('loading');
   if (otpInterval) { clearInterval(otpInterval); otpInterval = null; }
@@ -3391,11 +3443,24 @@ function v62StockCard(s,flag='available') {
   const isGeneral = /일반|general/i.test(String(s.product_type||''));
   const parts = isGeneral ? code.split('----') : [];
   const label = flag==='available'?'판매 가능':'형식·발급 연결 점검';
-  return `<article class="xa62-stockcard"><div class="xa62-card-head"><div><div class="xa62-order-num">${escapeHTML(s.product_type||'재고')} <span style="color:#748f9f;font-size:10px">#${escapeHTML(s.id)}</span></div></div><span class="xa62-status ${flag==='available'?'available':'pending'}">${label}</span></div>
-    ${isGeneral && parts.length>=3 ? `<div class="xa62-compact-meta"><div><span class="xa62-meta-label">계정 ID</span><span class="xa62-meta-value">${escapeHTML(parts[0])}</span></div><div><span class="xa62-meta-label">비밀번호</span><span class="xa62-meta-value">${escapeHTML(parts[1])}</span></div></div><div class="xa62-cred-line"><span class="xa62-meta-label">2FA 인증키 (전체)</span><div class="xa62-cred-value">${escapeHTML(parts[2])}</div></div>` : ''}
-    <div class="xa62-cred-line"><span class="xa62-meta-label">${isGeneral?'등록 원본 전체':'조회 코드 전체'}</span><div class="xa62-cred-value">${escapeHTML(code)}</div></div>
-    <div class="xa62-actions"><button type="button" class="xa62-btn" onclick='copyV62Stock(${JSON.stringify(String(s.id))})'>전체 코드 복사</button>
-    ${flag==='available' ? `<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${JSON.stringify(String(s.id))},this)'>판매 제외</button>` : ''}</div></article>`;
+  const stockId = JSON.stringify(String(s.id));
+  const compactName = isGeneral && parts.length >= 3 ? parts[0] : code;
+  const completeDetails = isGeneral && parts.length >= 3 ? `
+    <div class="xa76-field"><span>계정 ID · 전체</span><div class="xa76-full-text">${escapeHTML(parts[0])}</div></div>
+    <div class="xa76-field"><span>비밀번호 · 전체</span><div class="xa76-full-text">${escapeHTML(parts[1])}</div></div>
+    <div class="xa76-field"><span>2FA 인증키 · 전체</span><div class="xa76-full-text">${escapeHTML(parts[2])}</div></div>` : '';
+  return `<article class="xa62-stockcard xa76-stockcard">
+    <div class="xa62-card-head"><div><div class="xa62-order-num">${escapeHTML(s.product_type||'재고')} <span class="xa76-stock-id">#${escapeHTML(s.id)}</span></div></div><span class="xa62-status ${flag==='available'?'available':'pending'}">${label}</span></div>
+    <div class="xa76-preview"><span>${isGeneral && parts.length>=3?'계정 ID':'등록 코드'}</span><strong>${escapeHTML(compactName)}</strong></div>
+    <details class="xa76-stock-details"><summary><span class="xa76-toggle-closed">전체 정보 보기</span><span class="xa76-toggle-open">정보 접기</span><span class="xa76-arrow" aria-hidden="true"></span></summary>
+      <div class="xa76-details-content">
+        ${completeDetails}
+        <div class="xa76-field"><span>${isGeneral?'등록 원본 · 전체':'조회 코드 · 전체'}</span><div class="xa76-full-text">${escapeHTML(code)}</div></div>
+      </div>
+    </details>
+    <div class="xa62-actions"><button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>전체 코드 복사</button>
+    ${flag==='available' ? `<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button>` : ''}</div>
+  </article>`;
 }
 // v71: server-only exclusion: don't delete, change a sold order, or fake local stock state.
 async function excludeV71Stock(stockId, button) {
@@ -3414,16 +3479,21 @@ async function excludeV71Stock(stockId, button) {
   const previous = button.textContent;
   button.textContent = '제외 중…';
   try {
-    const {data,error} = await supabaseClient.rpc('xa_exclude_available_stock_v71', {p_stock_id:String(stockId),p_reason:'관리자 품질 점검'});
+    const {data,error} = await supabaseClient.rpc('xa_exclude_available_stock_v75', {p_stock_id:String(stockId),p_reason:'관리자 품질 점검'});
     if (error) throw error;
     if (!data?.success) throw new Error(data?.message || '판매 제외를 확인할 수 없습니다.');
     await loadAdminStock();
     showAdminFlash(`재고 #${stockId}: 판매 가능 목록에서 제외했습니다. 주문 기록은 유지됩니다.`);
   } catch(err) {
     const raw = String(err?.message || err || '서버 연결 오류');
-    const hint = /could not find the function|schema cache|does not exist|PGRST202/i.test(raw)
-      ? '먼저 동봉한 v71 재고 판매제외 SQL을 Supabase SQL 편집기에 적용해 주세요.'
-      : raw;
+    let hint = raw;
+    if (/could not find the function|schema cache|does not exist|PGRST202|42883/i.test(raw)) {
+      hint = '재고 판매 제외 서버 함수가 없습니다. 동봉한 v75 SQL을 Supabase SQL 편집기에 실행한 다음 관리자 창을 새로고침해 주세요.';
+    } else if (/ADMIN_ONLY|permission denied|42501|JWT|not authenticated/i.test(raw)) {
+      hint = '관리자 로그인 권한을 확인해 주세요. 로그아웃 후 관리자 계정으로 다시 로그인해 주세요.';
+    } else if (/STOCK_NOT_AVAILABLE|STOCK_ALREADY_ISSUED|STOCK_NOT_FOUND/i.test(raw)) {
+      hint = '해당 재고가 이미 판매·제외됐거나 목록이 변경됐습니다. 재고 목록을 새로고침해 주세요.';
+    }
     showAdminFlash('판매 제외 실패: '+hint,true);
     button.disabled=false;
     button.textContent=previous;
@@ -4192,6 +4262,125 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 #admin-console-modal .xa62-shell{height:min(81dvh,715px)!important;max-height:86dvh!important;min-height:0!important}
 @media(prefers-reduced-motion:reduce){#main-card *,#main-card *::before,#admin-console-modal *,#email-inbox-modal *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 
+</style>
+
+<style id="xa74-compact-corrections">
+/* v74: User-requested code visibility, readable notice, and compact consistent surfaces. */
+#main-card .xa-screen{padding:11px 12px 14px!important;min-height:0!important}
+#main-card .xa-screen.hidden{display:none!important}
+#main-card .xa-result-head{margin:3px 0 7px!important;padding:2px 0 7px!important;gap:7px!important}
+#main-card #step-result .xa-result-head h3{font-size:14px!important;line-height:1.3!important}
+/* The quick lookup is a slim search row rather than a large standalone panel. */
+#main-card #step-result .xa68-quick-lookup{margin:0 0 6px!important;padding:7px 9px!important;border-radius:11px!important}
+#main-card #step-result .xa68-quick-head{margin:0 0 4px!important;min-height:0!important}
+#main-card #step-result .xa68-quick-head span{font-size:10.5px!important;line-height:1.2!important}
+#main-card #step-result .xa68-quick-controls{gap:6px!important;grid-template-columns:minmax(0,1fr) 60px!important}
+#main-card #step-result .xa68-quick-controls input{height:33px!important;min-height:33px!important;padding:6px 9px!important;font-size:11px!important}
+#main-card #step-result .xa68-quick-controls button{height:33px!important;min-height:33px!important;width:60px!important;padding:0 4px!important;font-size:11px!important}
+/* Accessible contrast for expanded receipt/security guidance. */
+#main-card #step-result #xa68-result-existing-notice{margin:7px 0!important;padding:0 11px!important;border:1px solid #d6e5da!important;border-radius:11px!important;background:#f9fcfa!important;box-shadow:none!important;color:#284f3e!important}
+#main-card #step-result #xa68-result-existing-notice summary{color:#164f38!important;min-height:34px!important;line-height:1.4!important;font-size:11px!important}
+#main-card #step-result #xa68-result-existing-notice p{display:block!important;color:#3d5e4e!important;opacity:1!important;line-height:1.55!important;font-size:10.5px!important;margin:0 0 8px!important;word-break:keep-all!important}
+#main-card #step-result #xa68-result-existing-notice p strong{color:#0b6748!important;opacity:1!important;font-weight:850!important;background:transparent!important;text-shadow:none!important}
+#main-card #step-result #xa68-result-existing-notice .fine{display:none!important}
+#main-card #step-result #xa68-result-existing-notice .ttl svg{color:#176b50!important}
+/* No oversized credential tiles and no collapsed/hidden lookup code. */
+#main-card #step-result .space-y-2{gap:6px!important;margin-top:7px!important}
+#main-card #step-result .result-field{min-height:50px!important;padding:8px 10px!important;gap:6px!important;flex-direction:row!important;align-items:center!important}
+#main-card #step-result .result-label-line{margin-bottom:3px!important}
+#main-card #step-result .result-label-line b{font-size:11px!important}
+#main-card #step-result .result-label-line em{display:none!important}
+#main-card #step-result .result-value{font-size:12px!important;overflow-wrap:anywhere!important;white-space:normal!important}
+#main-card #step-result .result-field .copy-btn{height:31px!important;min-height:31px!important;min-width:43px!important;padding:0 9px!important;align-self:center!important}
+#main-card #step-result #res-otp{font-size:19px!important;letter-spacing:.07em!important}
+#main-card #step-result .otp-ring{width:26px!important;height:26px!important}
+#main-card #step-result .xa74-code-card{display:block!important;overflow:hidden!important;margin:0!important;padding:8px 10px 9px!important;background:#f7fcf8!important;border:1px solid #cfe4d6!important;border-radius:12px!important;box-shadow:0 3px 9px rgba(13,74,44,.04)!important}
+#main-card #step-result .xa74-code-head{display:flex;align-items:center;justify-content:space-between;gap:8px!important;min-height:29px!important}
+#main-card #step-result .xa74-code-title{display:inline-flex;align-items:center;gap:6px;color:#1c5a41!important;font-size:11px!important;font-weight:850!important}
+#main-card #step-result .xa74-code-title svg{width:14px;height:14px;color:#157b5a!important}
+#main-card #step-result .xa74-code-card .v51-code-copy{margin:0!important;min-height:28px!important;height:28px!important;padding:0 11px!important;font-size:10px!important}
+#main-card #step-result .xa74-code-card .v51-code-full{display:block!important;overflow-wrap:anywhere!important;white-space:normal!important;max-height:none!important;margin:5px 0 0!important;padding:7px 9px!important;color:#174b35!important;font-weight:800!important;font-size:12px!important;letter-spacing:.012em!important;line-height:1.4!important;border-color:#d8e9dd!important;background:#fff!important}
+#main-card #step-result .xa74-code-hint{color:#6a8975!important;font-size:9.5px!important;margin-top:5px!important;line-height:1.3!important}
+#main-card #step-result #result-action-row{margin-top:7px!important;gap:6px!important}
+#main-card #step-result #result-action-row button{min-height:37px!important;height:37px!important}
+/* Tighten the other flow steps without hiding needed controls or the agreement. */
+#main-card #step-price .xa-merged-pane{padding:9px!important}
+#main-card #step-price .xa-merged-pane-head{margin-bottom:6px!important}
+#main-card #step-price .product-card{min-height:90px!important;padding:10px 9px!important}
+#main-card #step-price .payment-chip{min-height:48px!important;padding:8px!important}
+#main-card #step-price .xa-summary-main{padding:10px!important}
+#main-card #step-waiting .xa-flow3{margin:8px 0!important}
+#main-card #step-waiting .xa-flow3 .step{padding:7px 2px!important}
+#main-card #step-waiting .xa-msg-box{margin-top:8px!important}
+#main-card #step-query .access-panel{padding:11px!important}
+#main-card #step-guide .xa69-guide-row{padding:8px 10px!important;min-height:48px!important}
+#main-card #step-guide .xa69-guide-emoji{width:26px!important;height:26px!important}
+#main-card #step-guide .xa69-guide-emoji svg{width:15px!important;height:15px!important}
+#main-card #step-guide .xa69-guide-row strong{font-size:11px!important}
+#main-card #step-guide .xa69-guide-row p{font-size:10px!important;line-height:1.35!important}
+#main-card #step-guide .xa70-guide-foot{padding:8px 10px!important;margin:6px 0!important}
+#email-inbox-modal .email-notice-v46{padding:11px 12px!important}
+#email-inbox-modal .xa71-notice-row{padding:7px 0!important}
+#email-inbox-modal .email-notice-v46-actions{margin-top:9px!important}
+#xa-inbox-viewer .xa-inbox-header{padding:10px 12px!important}
+#xa-inbox-viewer .xa-inbox-toolbar{padding:8px 12px!important}
+#admin-console-modal .xa62-header{padding:11px 12px!important}
+#admin-console-modal .xa62-kpis{padding:7px 9px!important}
+#admin-console-modal .xa62-kpi{padding:7px 9px!important;min-height:45px!important}
+#admin-console-modal .xa62-tabbar button{min-height:48px!important}
+#admin-console-modal .xa62-order,#admin-console-modal .xa62-stockcard{padding:9px!important}
+@media(max-width:350px){#main-card .xa-screen{padding:10px!important}#main-card #step-price .product-card{padding:8px 7px!important}}
+</style>
+
+<style id="xa76-admin-compact-and-expand">
+/* v76: compact administrator summary; all source values stay available on demand. */
+#admin-console-modal .xa62-shell{width:min(100%,424px)!important;max-width:424px!important}
+#admin-console-modal .xa62-header{padding:8px 11px 6px!important;gap:6px!important;min-height:0!important}
+#admin-console-modal .xa62-kicker{font-size:8px!important;line-height:1.1!important;margin:0 0 2px!important}
+#admin-console-modal .xa62-head-title h3{font-size:15px!important;margin:0!important;line-height:1.2!important}
+#admin-console-modal .xa62-head-actions{gap:4px!important}
+#admin-console-modal .xa62-icon-btn{width:30px!important;min-width:30px!important;height:30px!important;border-radius:9px!important}
+#admin-console-modal .xa62-kpis{padding:5px 9px 6px!important;gap:5px!important}
+#admin-console-modal .xa62-kpi{min-height:37px!important;padding:5px 9px!important;gap:4px!important;border-radius:10px!important;box-shadow:0 2px 6px rgba(17,80,47,.035),inset 0 1px 0 #fff!important}
+#admin-console-modal .xa62-kpi span{font-size:9.5px!important;line-height:1.1!important}
+#admin-console-modal .xa62-kpi b{font-size:16px!important;line-height:1!important}
+#admin-console-modal .xa62-tabbar{padding:0 9px 5px!important;gap:5px!important}
+#admin-console-modal .xa62-tabbar button{min-height:42px!important;padding:5px 1px 4px!important;gap:2px!important;border-radius:9px!important;font-size:9.6px!important}
+#admin-console-modal .xa72-admin-icon{width:16px!important;height:16px!important}
+#admin-console-modal .xa72-admin-icon svg{width:15px!important;height:15px!important}
+#admin-console-modal .xa62-toolbar{padding:6px 9px!important;gap:6px!important}
+#admin-console-modal .xa62-searchbox{height:34px!important;min-height:34px!important;border-radius:9px!important}
+#admin-console-modal .xa62-toolbar select{height:34px!important;min-height:34px!important;max-width:105px!important}
+#admin-console-modal .xa62-flash{margin:0 9px 6px!important;padding:7px 9px!important;font-size:10px!important;line-height:1.4!important}
+#admin-console-modal .xa62-scroll{padding:0 9px 8px!important}
+#admin-console-modal .xa62-view{gap:6px!important}
+#admin-console-modal .xa62-section-note{padding:1px 2px!important;line-height:1.35!important}
+#admin-console-modal .xa62-order,#admin-console-modal .xa62-stockcard{padding:9px!important;gap:6px!important;border-radius:12px!important;box-shadow:0 3px 10px rgba(20,71,44,.055)!important}
+#admin-console-modal .xa62-card-head{align-items:center!important}
+#admin-console-modal .xa62-status{padding:3px 7px!important;font-size:9.3px!important}
+#admin-console-modal .xa62-footer{padding:5px 10px 6px!important;font-size:8.9px!important}
+/* Inventory: short preview while closed, complete unabridged values when expanded. */
+#admin-console-modal .xa76-stockcard .xa76-stock-id{font-size:9.2px;color:#719481;font-weight:650}
+#admin-console-modal .xa76-stockcard .xa76-preview{display:flex;align-items:center;gap:8px;min-width:0;background:#f2f8f4;border:1px solid #e4ede6;border-radius:8px;padding:7px 9px}
+#admin-console-modal .xa76-stockcard .xa76-preview span{font-size:9px;white-space:nowrap;color:#698775;flex:0 0 48px}
+#admin-console-modal .xa76-stockcard .xa76-preview strong{display:block;min-width:0;flex:1;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;color:#1c593f;font:750 11px/1.3 ui-monospace,Consolas,monospace}
+#admin-console-modal .xa76-stock-details{margin:0!important;border:1px solid #d9e9de;border-radius:9px;overflow:hidden;background:#fff}
+#admin-console-modal .xa76-stock-details summary{display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;list-style:none;min-height:34px;padding:7px 10px;font-size:10.5px;font-weight:850;color:#176b4a;user-select:none;background:linear-gradient(180deg,#fff,#f6fbf7)}
+#admin-console-modal .xa76-stock-details summary::-webkit-details-marker{display:none}
+#admin-console-modal .xa76-stock-details summary::marker{content:''}
+#admin-console-modal .xa76-stock-details summary:hover{background:#eaf6ee}
+#admin-console-modal .xa76-stock-details .xa76-toggle-open{display:none}
+#admin-console-modal .xa76-stock-details[open] .xa76-toggle-open{display:inline}
+#admin-console-modal .xa76-stock-details[open] .xa76-toggle-closed{display:none}
+#admin-console-modal .xa76-arrow{display:inline-block;width:7px;height:7px;border-right:1.6px solid #176b4a;border-bottom:1.6px solid #176b4a;transform:translateY(-2px) rotate(45deg);transition:transform .18s}
+#admin-console-modal .xa76-stock-details[open] .xa76-arrow{transform:translateY(2px) rotate(225deg)}
+#admin-console-modal .xa76-details-content{display:flex;flex-direction:column;gap:8px;padding:9px;background:#f8fcf9;border-top:1px solid #e1ece4}
+#admin-console-modal .xa76-field{min-width:0}
+#admin-console-modal .xa76-field>span{display:block;color:#658574;font-size:9.7px;font-weight:700;margin-bottom:4px}
+#admin-console-modal .xa76-full-text{display:block;width:100%;max-width:100%;white-space:pre-wrap!important;overflow-wrap:anywhere!important;word-break:break-word!important;user-select:text;background:#fff;color:#183e30;border:1px solid #dae8de;border-radius:7px;padding:8px 9px;font:750 11px/1.55 ui-monospace,Consolas,monospace;letter-spacing:0!important;text-overflow:clip!important;overflow:visible!important}
+#admin-console-modal .xa76-stockcard .xa62-actions{gap:6px!important;flex-wrap:nowrap!important}
+#admin-console-modal .xa76-stockcard .xa62-actions>button{min-width:0!important;flex:1 1 0!important;min-height:36px!important;padding:6px 7px!important;white-space:nowrap!important;font-size:10px!important}
+@media(max-width:350px){#admin-console-modal .xa62-kpi{padding:4px 6px!important}#admin-console-modal .xa62-kpi span{font-size:8.6px!important}#admin-console-modal .xa62-toolbar{padding:5px 8px!important}}
 </style>
 </body>
 </html>
