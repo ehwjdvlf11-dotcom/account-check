@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>X ACCOUNT | 주문 및 발급 안내 v49</title>
+<title>X ACCOUNT | 간편 주문 & 계정 조회</title>
 <meta content="#080d13" name="theme-color"/>
 <meta content="X ACCOUNT 주문 접수 및 발급 안내 페이지" name="description"/>
 <!-- Tailwind CSS CDN -->
@@ -751,6 +751,42 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 @media(prefers-reduced-motion:reduce){.xa-result-note .notice-chevron{transition:none}}
 </style>
 
+<style id="v51-compact-overhaul">
+:root{--bg:#070e16;--v51-bg:#08101a;--v51-surface:#111d29;--v51-strong:#1c3445;--v51-line:rgba(155,193,214,.18);--v51-accent:#8fdcf5;--v51-muted:#a1b1bf;--v51-green:#86ddb9}
+body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transparent 46%),#070d14;padding:12px!important;align-items:flex-start!important}
+.main-shell{width:min(100%,540px);margin:clamp(20px,7vh,68px) auto!important}
+#main-card{padding:clamp(16px,3vw,22px)!important;border-radius:20px!important;background:linear-gradient(160deg,#0e1925,#090f16 65%,#080c12)!important;box-shadow:0 34px 95px rgba(0,0,0,.40)!important}
+.xa-top{padding-bottom:4px!important}.xa-brandline{letter-spacing:.13em!important;font-size:10px!important}.log-viewer-open-btn{border-radius:10px!important;height:32px!important}
+.xa-hero{margin-top:18px!important}.xa-eyebrow{font-size:9px!important;letter-spacing:.13em!important}.xa-hero-title{font-size:25px!important;margin:0!important}.xa-hero-lead{font-size:11px!important;line-height:1.55!important;margin-top:5px!important;max-width:370px!important}.xa-live{display:none!important}
+.xa-progress{margin:19px 0 0!important;gap:7px!important}.xa-progress-step span{width:23px!important;height:23px!important;border-radius:7px!important}.xa-progress-step b{font-size:9.5px!important}.xa-progress-line{min-width:5px!important}.xa-rule{margin:14px 0 0!important}.xa-screen{margin-top:15px!important}
+.xa-stage-heading h3{font-size:18px!important;margin:3px 0 2px!important}.xa-stage-heading p{font-size:11px!important}.xa-utility{padding:6px 2px 12px!important;justify-content:space-between!important;gap:6px!important}.xa-utility-label{font-size:10px!important}.xa-link-button{font-size:11px!important}
+.xa-product-grid{gap:9px!important;margin-top:13px!important}.product-card{min-height:132px!important;padding:14px!important;background:#111c27!important;border-radius:13px!important}.product-card.selected{background:linear-gradient(145deg,rgba(58,145,182,.22),#111b27 80%)!important;border-color:#8fdcf5!important;box-shadow:0 0 0 1px rgba(143,220,245,.07)!important}.product-badge{font-size:8px!important;padding:4px 6px!important}.product-name{font-size:13px!important;margin-top:9px!important}.product-name-note{font-size:9.5px!important}.product-price{font-size:20px!important;padding-top:10px!important}
+.xa-screen-actions{margin-top:15px!important}.xa-screen-note{font-size:10px!important;margin:8px 0 0!important}.xa-primary-cta{min-height:46px!important;font-size:12px!important;border-radius:11px!important;box-shadow:none!important;background:linear-gradient(105deg,#b4eaf8,#86d4ec)!important}
+.xa-payment-intro{margin-top:8px!important}.xa-payment-backrow{margin-top:0!important}.xa-selected-product{margin-top:12px!important;padding:11px 13px!important}.xa-payment-heading{margin:14px 0 8px!important}.xa-payment-heading h4{font-size:12px!important;margin:3px 0 0!important}.xa-payment-options{gap:7px!important}.payment-chip{min-height:52px!important;padding:8px 10px!important;border-radius:11px!important}.xa-order-summary-card{padding:11px 13px!important;margin-top:12px!important}.xa-summary-main{padding-top:9px!important}.xa-summary-main strong{font-size:11px!important}.xa-total-price{font-size:20px!important}.xa-price-breakdown{margin-top:6px!important}
+#step-waiting .xa-flow3{display:none!important}#step-waiting>.xa-info-card.two{margin-top:13px!important}#step-waiting .xa-live-pill{font-size:11px!important;padding:7px 10px!important}#step-waiting .xa-msg-box{margin-top:11px!important}.xa-bubble{max-height:100px!important;overflow:auto!important;padding:11px 12px!important;font-size:10.5px!important;border-radius:10px!important}.xa-sub-actions{margin-top:10px!important}
+#step-query .xa-query-progress{padding:11px 12px!important}#step-query .xa-query-progress p,#step-query .xa-query-progress__track{display:none!important}#step-query .xa-subrow{margin-top:9px!important}#step-query .access-panel{padding:16px!important;margin-top:12px!important}
+.v51-query-note{margin:12px 0 0!important;padding:9px 12px!important;border-radius:10px!important}.v51-query-note summary{cursor:pointer;display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;color:#c5cfd7;list-style:none}.v51-query-note summary i:last-child{margin-left:auto}.v51-query-note summary::-webkit-details-marker{display:none}.v51-query-note p{font-size:10.5px!important;margin-top:7px!important;line-height:1.6!important}
+#step-guide .xa-guide-head h3{font-size:18px!important}.v51-quickguide{display:grid;gap:10px;margin-top:16px;padding:15px;border:1px solid var(--v51-line);border-radius:12px;background:#101b27}.v51-quickguide>div{display:flex;align-items:flex-start;gap:10px;color:#d0dee7;font-size:11.5px;line-height:1.6}.v51-quickguide svg{width:16px;height:16px;flex:none;color:#8fdcf5}.v51-guide-disclosure{margin-top:12px;border:1px solid var(--v51-line);border-radius:10px;padding:12px;background:rgba(255,255,255,.015)}.v51-guide-disclosure summary{font-size:11px;font-weight:750;color:#aad6ed;cursor:pointer;display:flex;align-items:center;justify-content:space-between;list-style:none}.v51-guide-disclosure summary::-webkit-details-marker{display:none}.v51-guide-disclosure svg{width:15px;height:15px}.v51-guide-disclosure .xa-guide-list{margin-top:12px!important;max-height:260px!important}
+#step-result{margin-top:14px!important}.xa-result-head{padding-bottom:10px!important}.xa-result-head h3{font-size:18px!important}.xa-result-head p{font-size:10.5px!important;margin-top:4px!important}#step-result .xa-result-note{padding:9px 12px!important;margin-top:10px!important}.xa-result-note>summary{font-size:10px!important}.xa-result-note p{font-size:10px!important}.xa-result-note summary{cursor:pointer}
+#step-result .space-y-2{display:grid!important;gap:8px!important}.result-field{min-height:63px!important;padding:10px 12px!important;border-radius:11px!important}.result-label-line{margin-bottom:4px!important}.result-label-line .tile{width:22px!important;height:22px!important}.result-label-line b{font-size:10.5px!important}.result-label-line em{font-size:8px!important}.result-value{font-size:13px!important}.copy-btn{min-height:32px!important;padding:0 10px!important;font-size:10.5px!important}.result-field.is-otp{background:linear-gradient(135deg,#102c3b,#0d1924)!important;border-color:rgba(109,195,224,.32)!important}#res-otp{font-size:20px!important;letter-spacing:.075em!important}.otp-ring{width:26px!important;height:26px!important}
+.v51-code-disclosure{margin-top:1px;padding:0;border:1px solid var(--v51-line);border-radius:11px;background:rgba(13,24,34,.72)}.v51-code-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:11px 12px;color:#c5d9e5;font-size:11px;font-weight:750;list-style:none}.v51-code-disclosure>summary::-webkit-details-marker{display:none}.v51-code-disclosure>summary>span{display:flex;align-items:center;gap:8px}.v51-code-disclosure>summary svg{width:15px;height:15px;color:#8fccea}.v51-expand-caption{font-size:9px!important;color:#859eac!important;white-space:nowrap}.v51-code-disclosure[open] .v51-expand-caption svg{transform:rotate(180deg)}.v51-code-inner{padding:10px 12px 13px;border-top:1px solid var(--v51-line)}.v51-code-label{font-size:9px;color:#8fa7b9;font-weight:700}.v51-code-value{margin-top:4px;font-size:11px;color:#cfdfeb}.v51-code-full{max-height:78px;overflow:auto;overflow-wrap:anywhere;margin-top:7px;padding:8px 10px;border:1px solid rgba(143,188,217,.13);border-radius:7px;background:#070e16;color:#d2eaf7;font-size:10.5px}.v51-code-copy{display:inline-flex;gap:7px;align-items:center;justify-content:center;margin-top:9px;padding:8px 12px!important;font-size:11px!important}.v51-code-copy svg{width:14px;height:14px}.v51-code-inner p{font-size:9.5px;color:#8193a3;line-height:1.55;margin:8px 0 0}
+#result-action-row{margin-top:10px!important;gap:8px!important}#result-action-row button{min-height:42px!important;border-radius:10px!important;font-size:11px!important}
+#email-inbox-modal .email-notice-v46{max-height:86dvh!important;padding:18px!important}#email-inbox-modal .email-notice-v46-list{max-height:30dvh!important;overflow:auto!important}#email-inbox-modal .email-notice-v46-list li{padding:7px 0!important}#email-inbox-modal .email-notice-v46-intro{margin:11px 0 8px!important}
+#admin-console-modal,#admin-login-modal,#agreement-modal{position:fixed!important;inset:0!important;z-index:110!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:12px!important;background:rgba(0,6,12,.84)!important;backdrop-filter:blur(9px)!important}
+#admin-console-modal.hidden,#admin-login-modal.hidden,#agreement-modal.hidden{display:none!important}
+#admin-console-modal .xa-modal-panel{display:flex!important;flex-direction:column!important;overflow:hidden!important;margin:auto!important;max-width:620px!important;width:100%!important;max-height:90dvh!important;padding:16px!important;gap:10px!important;border-radius:16px!important}#admin-console-modal .xa-admin-tabs{flex-wrap:wrap;gap:6px!important;background:transparent!important;padding:0!important;border:0!important}#admin-console-modal .xa-admin-tabs>button{min-height:34px!important;font-size:10.5px!important;padding:7px 10px!important}#admin-console-modal #adm-toggle-history{white-space:nowrap!important}
+#adm-orders-view,#adm-stock-view{overflow-y:auto!important;min-height:130px!important;flex:1 1 auto!important}
+#admin-console-modal .xa-admin-tabs{display:flex!important;align-items:center!important}
+#admin-console-modal .xa-modal-close{margin-left:3px!important}
+#admin-console-modal button{cursor:pointer}
+#admin-login-modal .xa-modal-panel,#agreement-modal .xa-modal-panel{width:min(100%,440px)!important;max-height:92dvh!important;overflow:auto!important}
+.v51-admin-filters{display:flex;align-items:center;gap:6px;margin-top:0;flex-wrap:wrap}.v51-admin-filters span{color:#7b94a4;font-size:10px;font-weight:750;margin-right:2px}.v51-admin-filters button{border:1px solid var(--v51-line);border-radius:8px;background:#111b25;padding:6px 10px;color:#93a8b7;font-size:10px;font-weight:750;cursor:pointer}.v51-admin-filters button.is-active{background:#20445a;border-color:rgba(143,220,245,.43);color:#c9eeff}
+#adm-orders-view{min-height:170px!important;gap:8px!important}.v51-admin-order{padding:12px!important;border-radius:12px!important;margin:0!important;box-shadow:none!important}.v51-admin-order .xa-admin-issue{padding:9px!important;gap:6px!important;border-radius:9px!important}.v51-admin-order .xa-admin-issue-label{font-size:9.5px!important}.v51-admin-order .xa-admin-code-preview{font-size:10px!important}.v51-admin-order .xa-admin-smallbtn{min-height:30px!important;font-size:10px!important;padding:6px 9px!important}.v51-admin-order .v51-admin-meta{gap:5px!important;font-size:10.5px!important}.v51-admin-order .v51-admin-meta>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.v51-admin-order .xa-admin-detail-view{max-height:200px!important;overflow:auto!important}.v51-admin-detail-row dt{font-size:10px!important}.v51-admin-detail-row dd{font-size:11px!important}.v51-admin-live-otp{color:#a8ecff;font-size:16px;font-weight:800;letter-spacing:.09em}.v51-admin-otp-remaining{margin-left:8px;font-size:9px;color:#7ca4b7;font-weight:600}
+.v51-admin-danger-actions{margin-top:4px;border-top:1px solid rgba(166,187,200,.13);padding-top:6px}.v51-admin-danger-actions summary{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:10px;color:#91a8b9;list-style:none}.v51-admin-danger-actions summary::-webkit-details-marker{display:none}.v51-admin-danger-actions svg{width:13px;height:13px}.v51-admin-danger-actions summary svg:last-child{margin-left:auto}.v51-admin-danger{margin-top:9px;padding:8px 11px!important;font-size:10px!important;color:#ffafbb!important;border-color:rgba(243,106,126,.25)!important}
+@media(max-width:480px){body{padding:6px!important}.main-shell{margin:10px auto!important}#main-card{padding:15px!important;border-radius:15px!important}.xa-top-divider{display:none}.xa-brandline{font-size:9px!important}.xa-progress-step b{font-size:8.5px!important}.xa-progress{gap:5px!important}.xa-product-grid{gap:7px!important}.product-card{padding:11px!important;min-height:127px!important}.product-price{font-size:18px!important}.xa-hero-title{font-size:23px!important}.xa-hero-lead{font-size:10.5px!important}#admin-console-modal{padding:8px!important}#admin-console-modal .xa-modal-panel{padding:12px!important;max-height:96dvh!important}#admin-console-modal .xa-admin-tabs>button{padding:6px 7px!important;font-size:10px!important}.v51-admin-filters button{padding:6px 8px!important}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -774,7 +810,7 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <div>
 <p class="xa-eyebrow">ACCOUNT ACCESS SERVICE</p>
 <h2 class="xa-hero-title">계정 구매</h2>
-<p class="xa-hero-lead">상품 선택부터 코드 발급까지. 필요한 단계만 간결하게.</p>
+<p class="xa-hero-lead">상품을 고르고 결제 방식을 선택하세요. 승인 후 발급 코드를 확인할 수 있어요.</p>
 </div>
 <span class="xa-live"><i></i>QUICK ORDER</span>
 </div>
@@ -792,12 +828,12 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <section class="xa-screen" id="step-price">
 <div class="xa-utility">
 <span class="xa-utility-label">이미 코드를 받으셨나요?</span>
-<button class="xa-link-button" onclick="showScreen('step-query')" type="button">코드 바로 조회 <span>↗</span></button>
+<button class="xa-link-button" onclick="showScreen('step-query')" type="button">기존 코드 조회 <span>↗</span></button>
 </div>
 <div class="xa-stage-heading">
 <span class="xa-stage-number">STEP 01</span>
-<h3>구매할 계정 유형을 선택하세요</h3>
-<p>계정 유형을 고르면 다음 단계로 이동합니다.</p>
+<h3>어떤 계정이 필요하세요?</h3>
+<p>원하는 상품을 하나 선택하세요.</p>
 </div>
 <div class="xa-product-grid">
 <div aria-pressed="true" class="product-card x-inner selected" onclick="selectProduct(this, '일반 계정', '15,000 KRW')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProduct(this, '일반 계정', '15,000 KRW')}" role="button" tabindex="0">
@@ -818,9 +854,9 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 
 
 
-<div class="xa-screen-actions"><button class="xa-primary-cta" id="btn-to-payment" onclick="showScreen('step-payment')" type="button"><span>다음 단계 · 결제 방법 선택</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button><p class="xa-screen-note">결제 전 상품과 금액을 다시 확인할 수 있습니다.</p></div></section>
+<div class="xa-screen-actions"><button class="xa-primary-cta" id="btn-to-payment" onclick="showScreen('step-payment')" type="button"><span>결제 방법 선택하기</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button><p class="xa-screen-note">결제 전 금액을 한 번 더 확인할 수 있어요.</p></div></section>
 <!-- 2. 입금 확인 대기 화면 (step-waiting) -->
-<section class="xa-screen hidden" id="step-payment"><div class="xa-subrow xa-payment-backrow"><button class="xa-back-link" onclick="showScreen('step-price')" type="button">← 상품 다시 선택</button><span>STEP 02 / 02</span></div><div class="xa-stage-heading xa-payment-intro"><span class="xa-stage-number">STEP 02</span><h3>결제 방법을 선택하세요</h3><p>송금 수단을 선택하면 최종 결제 금액이 자동 계산됩니다.</p></div><div class="xa-selected-product x-inner"><div><small>선택한 상품</small><strong id="payment-selected-product">일반 계정</strong></div><div class="xa-selected-product-price"><small>상품 금액</small><strong id="payment-selected-price">15,000원</strong></div></div><div class="xa-payment-heading">
+<section class="xa-screen hidden" id="step-payment"><div class="xa-subrow xa-payment-backrow"><button class="xa-back-link" onclick="showScreen('step-price')" type="button">← 상품 다시 선택</button><span>STEP 02 / 02</span></div><div class="xa-stage-heading xa-payment-intro"><span class="xa-stage-number">STEP 02</span><h3>결제 방식을 선택하세요</h3><p>금액을 확인한 뒤 주문을 접수하세요.</p></div><div class="xa-selected-product x-inner"><div><small>선택한 상품</small><strong id="payment-selected-product">일반 계정</strong></div><div class="xa-selected-product-price"><small>상품 금액</small><strong id="payment-selected-price">15,000원</strong></div></div><div class="xa-payment-heading">
 <div><span class="xa-stage-number">PAYMENT METHOD</span><h4>송금 수단</h4></div>
 </div><div class="xa-payment-options">
 <div aria-pressed="true" class="payment-chip selected" id="chip-kakao" onclick="selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)}" role="button" tabindex="0">
@@ -849,9 +885,9 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <small style="margin-top:9px">송금 수단</small><strong class="summary-method" id="summary-pay-badge">카카오페이</strong>
 </div>
 </div>
-</div><div class="xa-screen-actions xa-payment-actions"><button class="xa-primary-cta" onclick="openAgreementModal()" type="button"><span>약관 확인 후 주문하기</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button><p class="xa-screen-note">주문 접수 후 오픈채팅에서 판매자 안내에 따라 직접 송금해 주세요.</p></div></section><section class="xa-screen hidden" id="step-waiting">
+</div><div class="xa-screen-actions xa-payment-actions"><button class="xa-primary-cta" onclick="openAgreementModal()" type="button"><span>주문 내용 확인하기</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button><p class="xa-screen-note">입금은 오픈채팅에서 판매자 확인 후 진행됩니다.</p></div></section><section class="xa-screen hidden" id="step-waiting">
 <div style="text-align:center">
-<span class="xa-live-pill"><span class="dot"></span>주문 접수 완료 · 입금 확인 대기 중</span>
+<span class="xa-live-pill"><span class="dot"></span>주문 접수 · 입금 확인 대기</span>
 </div>
 <div class="xa-flow3">
 <div class="step on"><span class="ico"><i data-lucide="clipboard-list"></i></span>문구 복사</div>
@@ -874,7 +910,7 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 </div>
 <div class="xa-msg-box">
 <div class="xa-msg-head">
-<b><i data-lucide="message-circle" style="width:13px;height:13px"></i><span style="color:inherit;font-size:inherit">채팅방에 전송할 문구</span></b>
+<b><i data-lucide="message-circle" style="width:13px;height:13px"></i><span style="color:inherit;font-size:inherit">송금 확인용 주문 문구</span></b>
 <span>아래 버튼 클릭 시 복사됨</span>
 </div>
 <div class="xa-bubble" id="wait-order-msg-preview">주문 정보를 불러오는 중...</div>
@@ -882,12 +918,12 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <div style="margin-top:14px">
 <button class="xa-primary-cta" id="btn-copy-and-open" onclick="copyAndOpenChat(this)" type="button">
 <i data-lucide="clipboard-copy" style="width:16px;height:16px"></i>
-<span>문구 복사하고 오픈채팅방 열기 →</span>
+<span>주문 문구 복사 · 채팅 열기</span>
 </button>
 </div>
 <div class="xa-sub-actions">
-<button onclick="reopenChatUrl()" type="button"><i data-lucide="external-link" style="width:13px;height:13px"></i> 오픈채팅창만 다시 열기</button>
-<button class="danger" onclick="cancelWaitingOrder()" type="button">주문 취소하기</button>
+<button onclick="reopenChatUrl()" type="button"><i data-lucide="external-link" style="width:13px;height:13px"></i> 채팅 다시 열기</button>
+<button class="danger" onclick="cancelWaitingOrder()" type="button">주문 취소</button>
 </div>
 </section>
 <!-- 3. 기존 코드 직접 조회 화면 (step-query) -->
@@ -902,12 +938,11 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <span>기존 발급 코드 조회</span>
 </div>
 
-<div class="xa-notice" style="margin-top:12px">
-<div class="ttl"><i data-lucide="shield-alert"></i><span>계정 정보 보관 및 보안 안내</span></div>
-<p>받으신 계정의 <strong>CODE, ID, PW는 추가로 제공하지 않으며</strong> 기존 구매하셨던 계정은 CODE로만 조회가 가능합니다.</p>
-<p>잊어버리지 않도록 반드시 <strong>개인 보관</strong>해 주시길 바라며, 해킹 피해가 없도록 <strong>정보 수정을 통해 보안을 강화</strong>해 주세요.</p>
-<p class="fine">※ 보안 관리 소홀로 인한 문제 발생 시 판매자는 따로 책임지지 않습니다.</p>
-</div>
+<details class="xa-notice v51-query-note">
+<summary><i data-lucide="shield-check"></i> 코드 보관·보안 안내 <i data-lucide="chevron-down"></i></summary>
+<p>받으신 CODE, ID, PW는 안전하게 개인 보관해 주세요. 기존 구매 계정은 발급 코드로 조회할 수 있습니다.</p>
+<p>수령 후 계정 보안 설정을 확인하고 변경 가능한 정보를 수정해 주세요.</p>
+</details>
 <div class="x-inner access-panel">
 <div class="access-status"><span class="access-status-icon"><i data-lucide="shield-check"></i></span>SECURE ACCESS</div>
 <label class="xa-code-label" for="manual-code-input"><span class="tile"><i data-lucide="file-text"></i></span>발급 코드 입력</label>
@@ -925,9 +960,15 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <section class="xa-screen hidden" id="step-guide">
 <div class="xa-guide-head">
 <span class="xa-eyebrow" style="display:block">USER GUIDE &amp; COMPLIANCE</span>
-<h3>안전한 계정 사용 가이드</h3>
-<p>안정적인 유지를 위해 열람 전 반드시 숙지해 주세요.</p>
+<h3>발급 전 확인 사항</h3>
+<p>꼭 필요한 안내만 먼저 확인하세요. 자세한 내용은 아래에 있어요.</p>
 </div>
+<div class="v51-quickguide">
+ <div><i data-lucide="shield-check"></i><span>수령 후 로그인과 보안 설정을 확인하세요.</span></div>
+ <div><i data-lucide="circle-help"></i><span>문제가 있으면 확인 가능한 자료와 함께 문의해 주세요.</span></div>
+ <div><i data-lucide="file-check-2"></i><span>X의 최신 이용약관과 운영정책을 준수해 주세요.</span></div>
+</div>
+<details class="v51-guide-disclosure"><summary>상세 수령 안내 및 교환 기준 읽기 <i data-lucide="chevron-down"></i></summary>
 <div class="xa-guide-list custom-scrollbar">
 <div class="xa-guide-item">
 <span class="tile"><i data-lucide="log-in"></i></span>
@@ -971,11 +1012,11 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 </ul>
 </div>
 </div>
-</div>
+</div></details>
 <div style="margin-top:14px">
 <button class="xa-primary-cta" onclick="proceedToResult()" type="button">
 <i data-lucide="check-circle" style="width:16px;height:16px"></i>
-<span>위 가이드를 모두 숙지했습니다. 계정 열람 →</span>
+<span>확인하고 계정 정보 보기</span>
 </button>
 </div>
 </section>
@@ -995,7 +1036,7 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <button class="x-btn-dark" onclick="retryAccountResult()" style="margin-top:9px;min-height:36px;padding:0 12px;font-size:11px" type="button">다시 조회</button>
 </div>
 <details class="xa-notice xa-result-note" style="margin-top:12px">
-<summary class="ttl"><i data-lucide="shield-alert"></i><span>계정 보관·보안 안내 보기</span><i data-lucide="chevron-down" class="notice-chevron"></i></summary>
+<summary class="ttl"><i data-lucide="shield-alert"></i><span>수령·보안 안내</span><i data-lucide="chevron-down" class="notice-chevron"></i></summary>
 <p>받으신 계정의 <strong>CODE, ID, PW는 추가로 제공하지 않으며</strong> 기존 구매하셨던 계정은 CODE로만 조회가 가능합니다.</p>
 <p>잊어버리지 않도록 반드시 <strong>개인 보관</strong>해 주시길 바라며, 해킹 피해가 없도록 <strong>정보 수정을 통해 보안을 강화</strong>해 주세요.</p>
 <p class="fine">※ 보안 관리 소홀로 인한 문제 발생 시 판매자는 따로 책임지지 않습니다.</p>
@@ -1025,13 +1066,16 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 </div>
 <button class="x-btn-dark copy-btn" onclick="copyField('res-otp', this)" type="button">복사</button>
 </div>
-<div class="x-inner result-field">
-<div class="min-w-0 flex-1">
-<span class="result-label-line"><span class="tile"><i data-lucide="ticket-check"></i></span><b>조회 코드</b><em>RETRIEVAL CODE</em></span>
-<div class="result-value mono truncate" id="res-code" style="color:#c3d1dc;font-weight:700;font-size:12.5px">정보 없음</div>
+<details class="v51-code-disclosure" id="v51-code-disclosure">
+<summary><span><i data-lucide="key-round"></i> 발급 코드 보관하기</span><span class="v51-expand-caption">다음 조회에 필요 <i data-lucide="chevron-down"></i></span></summary>
+<div class="v51-code-inner">
+ <span class="v51-code-label">내 계정 조회 코드</span>
+ <div class="v51-code-value" id="v51-code-preview">조회 코드를 안전하게 보관하세요.</div>
+ <div class="v51-code-full mono" id="res-code">정보 없음</div>
+ <button class="x-btn-dark v51-code-copy" onclick="copyField('res-code', this)" type="button"><i data-lucide="copy"></i> 조회 코드 복사</button>
+ <p>이 코드는 비밀번호처럼 관리해 주세요. 기존 긴 코드도 조회에 필요한 경우 그대로 복사할 수 있습니다.</p>
 </div>
-<button class="x-btn-dark copy-btn" onclick="copyField('res-code', this)" type="button">복사</button>
-</div>
+</details>
 </div>
 <div id="result-action-row" class="has-email" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px">
 <button class="w-full x-btn-dark hidden" id="btn-open-mail" onclick="openEmailInboxModal()" style="min-height:44px;font-size:12px;color:#9fe0ff;border-color:rgba(104,189,233,.45)" type="button">
@@ -1212,8 +1256,8 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 <div class="xa-modal-panel max-w-xl w-full max-h-[90dvh] flex flex-col p-4 md:p-5 space-y-3">
 <div class="flex items-center justify-between pb-3" style="border-bottom:1px solid rgba(255,255,255,.08)">
 <div>
-<span class="xa-modal-kicker">ADMIN CONTROL CENTER</span>
-<h3 class="xa-modal-title" style="font-size:16px">X ACCOUNT 관리자 콘솔</h3>
+<span class="xa-modal-kicker">ADMIN / ORDERS</span>
+<h3 class="xa-modal-title" style="font-size:16px">주문·재고 관리</h3>
 </div>
 <div class="flex items-center gap-2">
 <button class="x-btn-dark text-[10px] py-1 px-2.5" onclick="logoutAdmin()" style="color:#ffa3ad;border-color:rgba(255,120,135,.3)" type="button">로그아웃</button>
@@ -1222,17 +1266,23 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 </div>
 <div class="xa-admin-tabs">
 <button class="flex-1 py-1.5 px-3 rounded-lg font-bold text-black bg-cyan-300" id="adm-tab-orders" onclick="switchAdminTab('orders')" type="button">
-        <i data-lucide="list-checks" style="width:13px;height:13px;display:inline;vertical-align:-2px"></i> 당일 주문 (<span id="adm-count-pending">0</span>)
+        <i data-lucide="list-checks" style="width:13px;height:13px;display:inline;vertical-align:-2px"></i> 주문 (<span id="adm-count-pending">0</span>)
       </button>
 <button class="flex-1 py-1.5 px-3 rounded-lg font-bold text-gray-400 hover:text-white" id="adm-tab-stock" onclick="switchAdminTab('stock')" type="button">
-        <i data-lucide="archive" style="width:13px;height:13px;display:inline;vertical-align:-2px"></i> 재고 현황 (<span id="adm-count-stock">0</span>)
+        <i data-lucide="archive" style="width:13px;height:13px;display:inline;vertical-align:-2px"></i> 재고 (<span id="adm-count-stock">0</span>)
       </button>
 <button class="x-btn-dark py-1.5 px-2.5 text-[11px]" id="adm-toggle-history" onclick="toggleAdminHistoryMode()" type="button">
-        전체 내역 보기
+        전체 기록
       </button>
 <button class="x-btn-dark py-1.5 px-2.5 text-xs" onclick="refreshAdminData()" type="button">
         새로고침
       </button>
+</div>
+<div class="v51-admin-filters" aria-label="주문 상태 선택">
+  <span>상태</span>
+  <button type="button" class="is-active" data-v51-filter="ALL" onclick="setV51AdminFilter('ALL')">전체</button>
+  <button type="button" data-v51-filter="PENDING" onclick="setV51AdminFilter('PENDING')">입금 대기</button>
+  <button type="button" data-v51-filter="APPROVED" onclick="setV51AdminFilter('APPROVED')">발급 완료</button>
 </div>
 <div class="hidden xa-admin-flash" id="xa-admin-flash" role="status" aria-live="polite"></div>
 <div class="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-[260px]" id="adm-orders-view">
@@ -1680,7 +1730,7 @@ ${err?.message || '서버 연결 상태를 확인해 주세요.'}`);
     isCreatingOrder = false;
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = submitBtn.dataset.originalText || '<span>약관 확인 후 주문하기</span>';
+      submitBtn.innerHTML = submitBtn.dataset.originalText || '<span>주문 내용 확인하기</span>';
     }
   }
 }
@@ -1816,8 +1866,8 @@ function setAccountResultState(state, message = '') {
     if (desc) desc.textContent = '발급 코드에 연결된 계정 정보를 불러오는 중입니다.';
     errorBox?.classList.add('hidden');
   } else if (state === 'success') {
-    if (title) title.textContent = '계정 정보가 정상적으로 조회되었습니다';
-    if (desc) desc.textContent = '안전을 위해 수령 즉시 비밀번호와 보안 설정을 변경해 주세요.';
+    if (title) title.textContent = '계정 정보가 준비됐어요';
+    if (desc) desc.textContent = '필요한 정보를 복사하고 안전하게 보관해 주세요.';
     errorBox?.classList.add('hidden');
   } else {
     if (title) title.textContent = '계정 정보 조회에 실패했습니다';
@@ -1838,36 +1888,60 @@ function normalizeAccountResult(input) {
 }
 
 // 고객과 관리자가 같은 데이터 해석 로직을 사용합니다. (일반 3칸 / 이메일 5칸)
+function normalizeTotpSecret(candidate) {
+  let value = String(candidate ?? '').trim();
+  if (!value || /^(true|false|yes|no|on|off|yes|none|[01]|예|아니오|등록|미등록|설정됨|활성)$/i.test(value)) return '';
+  if (/^otpauth:\/\//i.test(value)) {
+    try { value = new URL(value).searchParams.get('secret') || ''; } catch (_) { return ''; }
+  }
+  // Only RFC 4648 Base32 values can be TOTP secrets. A boolean 2FA flag is NOT a secret.
+  value = value.replace(/[\s=]/g, '').toUpperCase();
+  return /^[A-Z2-7]{16,128}$/.test(value) ? value : '';
+}
 function parseIssuedAccountRecord(rawRecord) {
   const row = normalizeAccountResult(rawRecord);
   if (!row || typeof row !== 'object' || row.lookup_error) return null;
-  let accountId = String(row.account_id || row.x_id || row.username || '').trim();
-  let accountPw = String(row.account_pw || row.password || row.pw || '').trim();
-  let email = String(row.email || row.account_email || row.mail || row.email_id || '').trim();
-  let otpSecret = String(row.otp_url || row.otp_key || row.otp || row.two_fa || row.secret || row.otp_secret || '').trim();
   const productType = String(row.product_type || row.product || '').trim();
-  const oldEmailType = String(row.email_type || row.email_info || row.mail_info || '').trim();
-  const rawAssigned = String(row.assigned_code || row.stock_code || '').trim();
-  if (!otpSecret && /-{4,}/.test(rawAssigned)) {
-    const fallbackParts = rawAssigned.split(/-{4,}/).map(v => v.trim());
-    otpSecret = fallbackParts.length >= 5 && fallbackParts[2].includes('@') ? (fallbackParts[4] || '') : (fallbackParts[2] || '');
+  const assigned = String(row.assigned_code || row.stock_code || '').trim();
+  let id = String(row.account_id || row.x_id || row.username || '').trim();
+  let pw = String(row.account_pw || row.password || row.pw || '').trim();
+  let email = String(row.email || row.account_email || row.mail || row.email_id || '').trim();
+  const oldMail = String(row.email_type || row.email_info || row.mail_info || '').trim();
+  const chunks = (value) => /-{4,}/.test(value) ? value.split(/-{4,}/).map(x=>x.trim()) : [];
+  const splitAccount = chunks(id);
+  const splitStock = chunks(assigned);
+  const parts = splitStock.length >= 3 ? splitStock : splitAccount;
+  if (splitAccount.length >= 3) {
+    id = splitAccount[0];
+    pw = pw || splitAccount[1];
   }
-  if ((/-{4,}/.test(accountId))) {
-    const parts = accountId.split(/-{4,}/).map(v => v.trim());
-    accountId = parts[0] || '';
-    accountPw = accountPw || parts[1] || '';
-    if (parts.length >= 5 && parts[2].includes('@')) {
-      email = email || parts[2];
-      otpSecret = otpSecret || parts[4] || '';
-    } else if (parts.length === 3) {
-      otpSecret = otpSecret || parts[2] || '';
-    }
-  }
-  if (oldEmailType.includes('@')) email = email || oldEmailType.split('/')[0].trim();
+  if (!id && parts.length >= 3) id = parts[0];
+  if (!pw && parts.length >= 3) pw = parts[1];
+  if (parts.length >= 5 && parts[2].includes('@')) email = email || parts[2];
+  if (oldMail.includes('@')) email = email || oldMail.split('/')[0].trim();
   if (email.includes('/')) email = email.split('/')[0].trim();
+  const candidates = [row.otp_url,row.otp_key,row.otp_secret,row.secret,row.otp,row.two_fa];
+  if (splitAccount.length >= 5 && splitAccount[2].includes('@')) candidates.push(splitAccount[4]);
+  else if (splitAccount.length >= 3) candidates.push(splitAccount[2]);
+  if (splitStock.length >= 5 && splitStock[2].includes('@')) candidates.push(splitStock[4]);
+  else if (splitStock.length >= 3) candidates.push(splitStock[2]);
+  let otpSecret = '';
+  for (const candidate of candidates) {
+    const valid = normalizeTotpSecret(candidate);
+    if (valid) { otpSecret = valid; break; }
+  }
   const isEmail = /이메일|email/i.test(productType) || email.includes('@');
-  if (!accountId || !accountPw) return null;
-  return { accountId, accountPw, email, otpSecret, productType, isEmail };
+  if (!id || !pw) return null;
+  return {accountId:id,accountPw:pw,email,otpSecret,productType,isEmail};
+}
+function getSafeTotp(secret) {
+  const normalized = normalizeTotpSecret(secret);
+  if (!normalized || !window.OTPAuth?.TOTP) return null;
+  try {
+    const instance = new OTPAuth.TOTP({issuer:'AccountCheck',label:'User',algorithm:'SHA1',digits:6,period:30,secret:normalized});
+    const token = instance.generate();
+    return /^\d{6}$/.test(token) ? instance : null;
+  } catch (_) { return null; }
 }
 
 function adminCodePreview(code) {
@@ -1943,13 +2017,10 @@ async function displayAccountResult(code) {
     document.getElementById('btn-open-mail')?.classList.toggle('hidden', !hasMailbox);
     document.getElementById('result-action-row')?.classList.toggle('has-email', hasMailbox);
 
-    if (typeof otpSecret === 'string' && otpSecret.startsWith('otpauth://')) {
-      try { otpSecret = new URL(otpSecret).searchParams.get('secret') || otpSecret; } catch (e) {}
-    }
-    if (otpSecret && String(otpSecret).trim()) {
-      startOtpEngine(String(otpSecret).trim());
+    if (otpSecret && normalizeTotpSecret(otpSecret)) {
+      startOtpEngine(otpSecret);
     } else {
-      setText('res-otp', '미등록');
+      setText('res-otp', '인증키 없음');
       setText('res-otp-timer', '-');
     }
 
@@ -1957,6 +2028,10 @@ async function displayAccountResult(code) {
     approvedCodeReady = displayCode;
     currentSearchKey = displayCode;
     setText('res-code', displayCode);
+    const preview = document.getElementById('v51-code-preview');
+    if (preview) preview.textContent = /-{4,}/.test(displayCode)
+      ? '이전 방식 코드 · 길이가 길어 기본 화면에서 숨겼어요.'
+      : '조회 코드가 준비됐어요. 아래 버튼으로 복사하세요.';
     setAccountResultState('success');
   } catch (err) {
     console.error('[X ACCOUNT] Account result load failed:', err);
@@ -1964,6 +2039,8 @@ async function displayAccountResult(code) {
     setText('res-pw', '—');
     setText('res-otp', '조회 불가');
     setText('res-code', '조회 불가');
+    const preview = document.getElementById('v51-code-preview');
+    if (preview) preview.textContent = '연결을 확인해 주세요.';
     setText('res-otp-timer', '-');
     document.getElementById('btn-open-mail')?.classList.add('hidden');
     document.getElementById('result-action-row')?.classList.remove('has-email');
@@ -1973,28 +2050,32 @@ async function displayAccountResult(code) {
 
 // 실시간 OTP 생성 엔진
 function startOtpEngine(secret) {
-  if (otpInterval) clearInterval(otpInterval);
-  try {
-    const totp = new OTPAuth.TOTP({
-      issuer: "AccountCheck", label: "User", algorithm: "SHA1", digits: 6, period: 30, secret: secret
-    });
-
-    function update() {
-      try {
-        const token = totp.generate();
-        const rem = 30 - (Math.floor(Date.now() / 1000) % 30);
-        document.getElementById('res-otp').innerText = token;
-        document.getElementById('res-otp-timer').innerText = rem;
-        const ring = document.getElementById('otp-ring');
-        if (ring) ring.style.setProperty('--otp-progress', `${(rem / 30) * 360}deg`);
-      } catch (e) {}
-    }
-    update();
-    otpInterval = setInterval(update, 1000);
-  } catch (e) {
-    document.getElementById('res-otp').innerText = '생성 오류';
-    document.getElementById('res-otp-timer').innerText = '-';
+  if (otpInterval) {clearInterval(otpInterval);otpInterval=null;}
+  const totp = getSafeTotp(secret);
+  const otpEl=document.getElementById('res-otp');
+  const timerEl=document.getElementById('res-otp-timer');
+  if (!totp) {
+    if(otpEl)otpEl.textContent=(!window.OTPAuth?.TOTP ? 'OTP 도구 연결 오류' : '인증키 확인 필요');
+    if(timerEl)timerEl.textContent='-';
+    return;
   }
+  function update(){
+    try {
+      const token=totp.generate();
+      if (!/^\d{6}$/.test(token)) throw new Error('INVALID_TOTP');
+      const rem=30-(Math.floor(Date.now()/1000)%30);
+      if(otpEl)otpEl.textContent=token;
+      if(timerEl)timerEl.textContent=String(rem);
+      const ring=document.getElementById('otp-ring');
+      if(ring)ring.style.setProperty('--otp-progress',`${rem/30*360}deg`);
+    } catch(_){
+      if(otpEl)otpEl.textContent='생성 오류';
+      if(timerEl)timerEl.textContent='-';
+      if(otpInterval){clearInterval(otpInterval);otpInterval=null;}
+    }
+  }
+  update();
+  otpInterval=setInterval(update,1000);
 }
 
 // 복사 헬퍼
@@ -2150,6 +2231,8 @@ function closeAdminConsole() {
 }
 
 function switchAdminTab(tabName) {
+  const filter = document.querySelector('.v51-admin-filters');
+  if (filter) filter.classList.toggle('hidden', tabName !== 'orders');
   const ordersTabBtn = document.getElementById('adm-tab-orders');
   const stockTabBtn = document.getElementById('adm-tab-stock');
   const ordersView = document.getElementById('adm-orders-view');
@@ -2173,6 +2256,8 @@ async function refreshAdminData() {
 }
 
 let adminShowAllHistory = false;
+let v51AdminFilter = "ALL";
+function setV51AdminFilter(value){ v51AdminFilter=value; document.querySelectorAll("[data-v51-filter]").forEach(btn=>btn.classList.toggle("is-active",btn.dataset.v51Filter===value)); loadAdminOrders(); }
 
 function getKstYmd(dateInput = new Date()) {
   try {
@@ -2189,7 +2274,7 @@ function toggleAdminHistoryMode() {
   adminShowAllHistory = !adminShowAllHistory;
   const btn = document.getElementById('adm-toggle-history');
   if (btn) {
-    btn.innerText = adminShowAllHistory ? '오늘만 보기' : '전체 내역 보기';
+    btn.innerText = adminShowAllHistory ? '오늘만 보기' : '전체 기록';
     btn.classList.toggle('border-cyan-400/50', adminShowAllHistory);
     btn.classList.toggle('text-cyan-300', adminShowAllHistory);
   }
@@ -2244,43 +2329,71 @@ async function copyAdminCode(orderNo, button) {
     setTimeout(()=>{if(button.isConnected)button.textContent=old;},1500);
   } else showAdminFlash('클립보드 복사에 실패했습니다. 브라우저 권한을 확인해 주세요.',true);
 }
+const v51AdminOtpTimers = new Map();
+function clearV51AdminOtp(orderNo) {
+  const timer=v51AdminOtpTimers.get(orderNo);
+  if (timer) clearInterval(timer);
+  v51AdminOtpTimers.delete(orderNo);
+}
+function clearAllV51AdminOtp() {
+  for (const timer of v51AdminOtpTimers.values()) clearInterval(timer);
+  v51AdminOtpTimers.clear();
+}
 async function toggleAdminAccountDetails(orderNo, button) {
-  const card = button.closest('.xa-admin-issue');
-  const details = card?.querySelector('.xa-admin-detail-view');
-  if (!details) return;
-  if (!details.classList.contains('hidden')) {
-    details.replaceChildren(); details.classList.add('hidden'); button.textContent='계정 정보 확인'; return;
+  const card=button.closest('.xa-admin-issue');
+  const details=card?.querySelector('.xa-admin-detail-view');
+  if(!details)return;
+  if(!details.classList.contains('hidden')) {
+    clearV51AdminOtp(orderNo);
+    details.replaceChildren();details.classList.add('hidden');button.textContent='정보 확인';return;
   }
-  const order = adminOrderCache.get(orderNo);
-  const code = order?.buyer_code || order?.assigned_code;
-  details.classList.remove('hidden');
-  details.textContent='발급 코드의 계정 정보를 서버에서 확인하고 있습니다…';
-  button.disabled=true;
-  try {
+  const order=adminOrderCache.get(orderNo);
+  const code=order?.buyer_code||order?.assigned_code;
+  if(!code)return showAdminFlash('코드가 연결되지 않았습니다.',true);
+  details.classList.remove('hidden');details.textContent='계정 정보 확인 중…';button.disabled=true;
+  try{
     const {data,error}=await supabaseClient.rpc('get_account_result',{p_key:code});
-    if (error) throw error;
+    if(error)throw error;
     const record=parseIssuedAccountRecord(data);
-    if (!record) throw new Error('발급 코드에 계정 정보가 연결되지 않았습니다. v50 SQL 또는 재고 원본을 확인해 주세요.');
+    if(!record)throw new Error('계정 ID/비밀번호를 확인할 수 없습니다. 원본 재고를 점검해 주세요.');
     details.replaceChildren();
-    const pairs=[['계정 유형',record.productType||'계정'],['계정 ID',record.accountId],['비밀번호',record.accountPw],['2FA','설정됨: '+(record.otpSecret?'예':'아니오')]];
-    if (record.isEmail) pairs.push(['이메일 연결', record.email ? '연결됨' : '확인 필요']);
-    for(const [label,value] of pairs){
-      const row=document.createElement('div');
+    const row=(label,value,cls='')=>{
+      const div=document.createElement('div');div.className='v51-admin-detail-row '+cls;
       const dt=document.createElement('dt');dt.textContent=label;
       const dd=document.createElement('dd');dd.textContent=value;
-      row.append(dt,dd);details.appendChild(row);
-    }
+      div.append(dt,dd);details.appendChild(div);return dd;
+    };
+    row('계정 종류',record.productType||'계정');
+    row('계정 ID',record.accountId);
+    row('비밀번호',record.accountPw);
+    const otpDD=row('실시간 2FA',record.otpSecret?'계산 중…':'인증키 없음','v51-admin-otp-row');
+    const totp=getSafeTotp(record.otpSecret);
+    if(totp){
+      const live=document.createElement('span');live.className='v51-admin-live-otp';
+      const remain=document.createElement('small');remain.className='v51-admin-otp-remaining';
+      otpDD.replaceChildren(live,remain);
+      const update=()=>{
+        try{
+          live.textContent=totp.generate();
+          remain.textContent=`${30-(Math.floor(Date.now()/1000)%30)}초 후 변경`;
+        }catch(_){clearV51AdminOtp(orderNo);otpDD.textContent='OTP 생성 오류';}
+      };
+      update();
+      clearV51AdminOtp(orderNo);
+      v51AdminOtpTimers.set(orderNo,setInterval(update,1000));
+    }else if(record.otpSecret){otpDD.textContent=!window.OTPAuth?.TOTP?'OTP 도구 연결 오류':'OTP 인증키 확인 필요';}
+    if(record.isEmail)row('X 메일',record.email?'연동 정보 있음':'연동 확인 필요');
     button.textContent='정보 숨기기';
-  } catch(e) {
-    details.replaceChildren();
-    const msg=document.createElement('span');msg.style.color='#ffb8c2';
-    msg.textContent='조회 오류: '+(e?.message||'계정 정보를 확인하지 못했습니다.');
-    details.append(msg);button.textContent='다시 확인';
-  } finally {button.disabled=false;}
+  }catch(e){
+    clearV51AdminOtp(orderNo);
+    details.textContent='조회 오류: '+(e?.message||'정보를 불러오지 못했습니다.');
+    button.textContent='다시 확인';
+  }finally{button.disabled=false;}
 }
 
 // 주문 대기 목록 불러오기 (매일 KST 00:00 자동 초기화 + 1시간 초과 미입금 만료 정리 · DB 영구 보존)
 async function loadAdminOrders() {
+  clearAllV51AdminOtp();
   const listEl = document.getElementById('adm-orders-view');
   if (!supabaseClient) return;
 
@@ -2323,9 +2436,10 @@ async function loadAdminOrders() {
     const expiredCount = data.filter(o => o.status === 'EXPIRED').length;
     const pastHiddenCount = nonExpired.filter(o => getKstYmd(o.created_at) !== todayYmd && o.status !== 'PENDING').length;
 
-    const visibleOrders = adminShowAllHistory
+    const dateOrders = adminShowAllHistory
       ? nonExpired
       : nonExpired.filter(o => getKstYmd(o.created_at) === todayYmd || o.status === 'PENDING');
+    const visibleOrders = dateOrders.filter(o => v51AdminFilter==='ALL' || (v51AdminFilter==='PENDING' ? o.status==='PENDING' : o.status==='APPROVED'));
 
     const pendingOrders = visibleOrders.filter(o => o.status === 'PENDING');
     document.getElementById('adm-count-pending').innerText = pendingOrders.length;
@@ -2335,7 +2449,7 @@ async function loadAdminOrders() {
         <div class="text-xs text-gray-500 text-center py-8 space-y-1.5">
           <div class="text-gray-300 font-bold">[${todayYmd} KST] 오늘 접수된 활성 주문이 없습니다.</div>
           <div class="text-[10.5px] text-gray-500">매일 자정(00:00) 화면이 자동 초기화되며, 모든 기록은 Supabase DB에 영구 보존됩니다.</div>
-          ${pastHiddenCount > 0 ? `<div class="text-[10.5px] text-cyan-400/80 pt-1">이전 날짜 처리 내역 ${pastHiddenCount}건이 보관되어 있습니다. (상단 '전체 내역 보기'로 확인 가능)</div>` : ''}
+          ${pastHiddenCount > 0 ? `<div class="text-[10.5px] text-cyan-400/80 pt-1">이전 날짜 처리 내역 ${pastHiddenCount}건이 보관되어 있습니다. (상단 '전체 기록'로 확인 가능)</div>` : ''}
         </div>
       `;
       return;
@@ -2372,7 +2486,7 @@ async function loadAdminOrders() {
       }
 
       const item = document.createElement('div');
-      item.className = 'x-inner p-3.5 space-y-2 text-xs ' + (isPending ? 'border-cyan-400/40 bg-cyan-950/15' : (isRefunded ? 'opacity-50' : 'opacity-85'));
+      item.className = 'x-inner v51-admin-order p-3.5 space-y-2 text-xs ' + (isPending ? 'border-cyan-400/40 bg-cyan-950/15' : (isRefunded ? 'opacity-50' : 'opacity-85'));
 
       item.innerHTML = `
         <div class="flex items-center justify-between">
@@ -2383,7 +2497,7 @@ async function loadAdminOrders() {
           </div>
           <span class="text-[10px] text-gray-400 mono">${new Date(order.created_at).toLocaleTimeString('ko-KR')}</span>
         </div>
-        <div class="grid grid-cols-2 gap-1 text-[11.5px] text-gray-300">
+        <div class="v51-admin-meta grid grid-cols-2 gap-1 text-[11.5px] text-gray-300">
           <div>상품: <strong class="text-white">${safeProduct}</strong> (${safePrice})</div>
           <div>결제: <span class="text-gray-300">${safePayment}</span></div>
         </div>
@@ -2393,24 +2507,21 @@ async function loadAdminOrders() {
               <span class="xa-admin-issue-label">지급 완료 · ${safeProduct} · 계정 조회 코드</span>
               <span class="text-[10px] text-green-300">승인 기록 보관됨</span>
             </div>
-            <span class="xa-admin-code-preview">${escapeHTML(order.buyer_code || adminCodePreview(order.assigned_code))}</span>
+            <span class="xa-admin-code-preview">${escapeHTML(order.buyer_code && !/-{4,}/.test(order.buyer_code) ? order.buyer_code : adminCodePreview(order.assigned_code))}</span>
             <div class="flex gap-2 flex-wrap">
               <button class="x-btn-dark xa-admin-smallbtn" onclick='copyAdminCode(${orderNoArg}, this)' type="button">코드 복사</button>
-              <button class="x-btn-dark xa-admin-smallbtn" onclick='toggleAdminAccountDetails(${orderNoArg}, this)' type="button">계정 정보 확인</button>
+              <button class="x-btn-dark xa-admin-smallbtn" onclick='toggleAdminAccountDetails(${orderNoArg}, this)' type="button">정보 확인</button>
             </div>
             <div class="xa-admin-detail-view hidden"></div>
           </div>
         ` : (isApproved ? `<div class="xa-admin-issue" style="color:#ffb9c5">승인 상태인데 발급 코드가 없습니다. 관리자에게 확인이 필요합니다.</div>` : '')}
         ${isPending ? `
           <button class="w-full x-btn-white py-2 text-xs font-bold mt-1 shadow-sm" onclick='approveOrder(${orderNoArg}, this)'>
-            ✓ 입금 확인 및 코드 자동 지급 (즉시 열림)
+            입금 확인 · 계정 발급
           </button>
         ` : ''}
         ${isApproved ? `
-          <button class="w-full x-btn-dark py-1.5 text-xs font-bold text-red-300 border-red-500/30 hover:bg-red-950/40 mt-1 flex items-center justify-center gap-1.5" onclick='refundOrder(${orderNoArg}, this)'>
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-            <span>주문 반환 및 재고 복구 (+1 채우기)</span>
-          </button>
+          <details class="v51-admin-danger-actions"><summary><i data-lucide="settings-2"></i> 주문 관리 <i data-lucide="chevron-down"></i></summary><button class="x-btn-dark v51-admin-danger" onclick='refundOrder(${orderNoArg}, this)' type="button"><i data-lucide="rotate-ccw"></i> 환불 완료 후 재고 복구</button></details>
         ` : ''}
       `;
       listEl.appendChild(item);
