@@ -2831,7 +2831,7 @@ async function loadAdminOrders() {
       } else if (isApproved) {
         statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-green-500/20 text-green-300 border border-green-500/30">승인 완료</span>';
       } else if (isRefunded) {
-        statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">반환·재고복구됨</span>';
+        statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">반환 기록 · 재고 보류</span>';
       }
 
       const item = document.createElement('div');
@@ -2870,7 +2870,7 @@ async function loadAdminOrders() {
           </button>
         ` : ''}
         ${isApproved ? `
-          <details class="v51-admin-danger-actions"><summary><i data-lucide="settings-2"></i> 주문 관리 <i data-lucide="chevron-down"></i></summary><button class="x-btn-dark v51-admin-danger" onclick='refundOrder(${orderNoArg}, this)' type="button"><i data-lucide="rotate-ccw"></i> 환불 완료 후 재고 복구</button></details>
+          <details class="v51-admin-danger-actions"><summary><i data-lucide="settings-2"></i> 주문 관리 <i data-lucide="chevron-down"></i></summary><button class="x-btn-dark v51-admin-danger" onclick='refundOrder(${orderNoArg}, this)' type="button"><i data-lucide="rotate-ccw"></i> 반환 기록 처리 · 재판매 보류</button></details>
         ` : ''}
       `;
       listEl.appendChild(item);
@@ -2930,72 +2930,51 @@ async function approveOrder(orderNo, btnEl) {
   }
 }
 
-// 주문 반환 및 재고 복구 (+1 채우기)
+// 반환 기록 처리 · 재판매 보류
 async function refundOrder(orderNo, btnEl) {
-  if (!await askAdminConfirm('주문 반환 및 재고 복구', `주문번호: ${orderNo}\n환불이 완료되었고 해당 계정이 재판매 가능하다는 사실을 확인하세요.\n중복 지급 위험이 있으므로 신중히 진행해야 합니다.`, '반환·재고 복구')) return;
+  // v58: refund != immediate resale. Previously issued credentials stay quarantined.
+  const order = adminOrderCache.get(orderNo);
+  if (!await askAdminConfirm('반환 기록 처리 · 재고 재판매 보류',
+      `주문번호: ${orderNo}\n환불이 실제 완료됐는지 확인해 주세요.\n기존 구매자가 알던 계정 비밀번호/2FA/조회 코드는 재사용할 수 없습니다.\n반환 처리 뒤 재고는 보류하고, 새 접속정보로 재등록해야 합니다.`,
+      '환불 완료 기록')) return;
 
   btnEl.disabled = true;
-  btnEl.innerText = '재고 복구 처리 중...';
-
+  const previousLabel = btnEl.innerText;
+  btnEl.innerText = '반환 기록 처리 중…';
   try {
-    let ok = false;
-    if (supabaseClient) {
-      try {
-        const { data, error } = await supabaseClient.rpc('refund_xa_order', {
-          p_order_no: orderNo
-        });
-        if (!error && data?.success) ok = true;
-      } catch (e) {}
+    if (!supabaseClient) throw new Error('데이터베이스 연결을 확인할 수 없습니다.');
+    const {data,error} = await supabaseClient.rpc('refund_xa_order', { p_order_no: orderNo });
+    if (error) throw error;
+    if (!data?.success) throw new Error(data?.message || '서버가 반환 처리 실패를 응답했습니다.');
 
-      // RPC 실패 시 클라이언트에서 재고/주문 테이블을 직접 수정하지 않습니다. 서버에서 원자적으로 처리해야 합니다.
+    // IMPORTANT: verify the real stock state, rather than trusting success to mean restocked.
+    let stockUsed = null;
+    if (order?.assigned_code) {
+      const check = await supabaseClient.from('xa_stock')
+        .select('is_used').eq('code', order.assigned_code).limit(1);
+      if (!check.error && Array.isArray(check.data) && check.data.length > 0) {
+        stockUsed = check.data[0].is_used;
+      }
     }
-
-    if (ok) {
-      showAdminFlash(`주문 ${orderNo}: 반환 및 재고 복구가 완료됐습니다.`);
-      refreshAdminData();
+    await refreshAdminData();
+    if (stockUsed === true) {
+      showAdminFlash(`주문 ${orderNo}: 반환 기록 완료. 기존 발급 재고는 재판매 보류 상태로 유지됩니다.`);
+    } else if (stockUsed === false) {
+      showAdminFlash(`주의: 주문 ${orderNo} 반환 처리됐지만 기존 발급 코드가 판매 가능 상태입니다. v58 보호 SQL을 적용하고 재고를 격리해 주세요.`, true);
     } else {
-      showAdminFlash('반환 처리에 실패했습니다. 서버 오류 또는 권한이 없습니다.',true);
-      btnEl.disabled = false;
-      btnEl.innerText = '주문 반환 및 재고 복구 (+1 채우기)';
+      showAdminFlash(`주문 ${orderNo}: 반환 기록 완료. 재고 보류 여부는 서버에서 별도 확인해 주세요.`, true);
     }
   } catch (e) {
-    showAdminFlash('오류 발생: ' + e.message,true);
+    showAdminFlash(`주문 ${orderNo}: 반환 처리 실패 · ${e?.message || '서버 연결 확인 필요'}`, true);
     btnEl.disabled = false;
+    btnEl.innerText = previousLabel;
   }
 }
 
 // 재고 목록에서 개별 코드 즉시 미사용 복구
 async function restoreStockCode(code, btnEl) {
-  if (!await askAdminConfirm('재고 재등록 확인', '이미 지급된 코드가 아닌지 반드시 확인하세요. 해당 재고를 다시 판매 가능 상태로 바꾸시겠습니까?', '재고 재등록')) return;
-
-  btnEl.disabled = true;
-  btnEl.innerText = '복구 중...';
-
-  try {
-    let ok = false;
-    if (supabaseClient) {
-      try {
-        const { data, error } = await supabaseClient.rpc('restore_xa_stock', {
-          p_code: code
-        });
-        if (!error && data?.success) ok = true;
-      } catch (e) {}
-
-      // RPC 실패 시 직접 UPDATE로 우회하지 않습니다. 관리자 권한과 재고 이력을 서버에서 검증해야 합니다.
-    }
-
-    if (ok) {
-      showAdminFlash('선택한 코드의 재고 복구가 완료됐습니다.');
-      refreshAdminData();
-    } else {
-      showAdminFlash('재고 복구 처리에 실패했습니다.',true);
-      btnEl.disabled = false;
-      btnEl.innerText = '재고 복구 ↩';
-    }
-  } catch (e) {
-    showAdminFlash('오류 발생: ' + e.message,true);
-    btnEl.disabled = false;
-  }
+  // v58: The original code must not be restored to resale, even after a refund.
+  showAdminFlash('기존 발급 코드 직접 복구는 중단됐습니다. 새 비밀번호·2FA·메일 자격정보로 재등록해야 합니다.', true);
 }
 
 // 재고 현황 불러오기
@@ -3033,9 +3012,7 @@ async function loadAdminStock() {
               <div class="xa-admin-code-preview ${s.is_used ? 'line-through opacity-60' : ''}">${escapeHTML(adminCodePreview(s.code))}</div>
             </div>
             ${s.is_used ? `
-              <button class="x-btn-dark text-[10px] py-1 px-2.5 text-cyan-300 border-cyan-500/40 hover:bg-cyan-950/60 font-bold flex items-center gap-1" onclick='restoreStockCode(${inlineJsArg(s.code)}, this)' type="button">
-                <span>재고 복구 ↩</span>
-              </button>
+              <span class="text-amber-300 font-sans font-bold text-[10px]" title="기존 발급 이력과 충돌 방지">재판매 보류</span>
             ` : `
               <span class="text-green-400 font-sans font-bold text-[10px]">미사용</span>
             `}
@@ -3079,5 +3056,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+<style id="xa58-admin-safety-labels">
+#admin-console-modal .v51-admin-danger-actions button { border-color: rgba(232,174,72,.34) !important; color:#f5cd8d !important; }
+</style>
 </body>
 </html>
