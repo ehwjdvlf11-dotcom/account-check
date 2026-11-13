@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="ko">
+<!-- X ACCOUNT v59: immediate buyer result after approval; v58 inventory safety preserved. -->
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
@@ -2144,8 +2145,9 @@ function startWaitingPolling() {
         if (data.status === 'APPROVED' && data.buyer_code) {
           clearInterval(waitPollingTimer);
           waitPollingTimer = null;
-          xaStorage.removeItem('xa_active_order');
-          onOrderApproved(data);
+          // Keep the active order until the buyer view successfully loads.
+          // A temporary lookup failure must not discard recovery state.
+          await onOrderApproved(data);
           return;
         }
 
@@ -2163,11 +2165,21 @@ function startWaitingPolling() {
   }, 2500);
 }
 
-// 승인 감지 시 필수 가이드 화면 먼저 열기
+// v59: on approval, show the issued account immediately; no extra guide-click gate.
+// Purchase terms were confirmed before creating the order.
 async function onOrderApproved(orderRow) {
-  approvedCodeReady = orderRow.buyer_code;
-  showScreen('step-guide');
-  if (window.lucide) lucide.createIcons();
+  const code = String(orderRow?.buyer_code || '').trim();
+  approvedCodeReady = code;
+  if (!code) {
+    showScreen('step-result');
+    setAccountResultState('error', '승인된 주문에 조회 코드가 연결되지 않았습니다. 관리자에게 문의해 주세요.');
+    return;
+  }
+  await displayAccountResult(code);
+  // If the RPC fails, keep the pending-order state so a refresh can recheck approval.
+  // A successful result is also available through the existing code-lookup screen.
+  const isDisplayed = document.getElementById('account-status-pill')?.dataset.state === 'success';
+  if (isDisplayed) xaStorage.removeItem('xa_active_order');
 }
 
 async function proceedToResult() {
@@ -2479,8 +2491,8 @@ async function verifyManualCode() {
     }
 
     approvedCodeReady = code;
-    showScreen('step-guide');
-    if (window.lucide) lucide.createIcons();
+    // Manual lookup also opens the real result directly instead of a guide screen.
+    await displayAccountResult(code);
   } catch (e) {
     if (errEl) { errEl.classList.remove('hidden'); errEl.innerText = '코드 조회 중 오류가 발생했습니다.'; }
   } finally {
@@ -2831,7 +2843,7 @@ async function loadAdminOrders() {
       } else if (isApproved) {
         statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-green-500/20 text-green-300 border border-green-500/30">승인 완료</span>';
       } else if (isRefunded) {
-        statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">반환 기록 · 재고 보류</span>';
+        statusBadge = '<span class="text-[10px] px-1.5 py-0.5 rounded font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">반환 처리</span>';
       }
 
       const item = document.createElement('div');
@@ -2850,7 +2862,7 @@ async function loadAdminOrders() {
           <div>상품: <strong class="text-white">${safeProduct}</strong> (${safePrice})</div>
           <div>결제: <span class="text-gray-300">${safePayment}</span></div>
         </div>
-        ${(order.buyer_code || order.assigned_code) ? `
+        ${(isApproved && (order.buyer_code || order.assigned_code)) ? `
           <div class="xa-admin-issue">
             <div class="xa-admin-issue-top">
               <span class="xa-admin-issue-label">지급 완료 · ${safeProduct} · ${/일반|general/i.test(String(order.product_type || '')) ? '등록된 2FA 조회 코드' : '이메일 조회 코드'}</span>
@@ -2869,8 +2881,10 @@ async function loadAdminOrders() {
             입금 확인 · 계정 발급
           </button>
         ` : ''}
-        ${isApproved ? `
-          <details class="v51-admin-danger-actions"><summary><i data-lucide="settings-2"></i> 주문 관리 <i data-lucide="chevron-down"></i></summary><button class="x-btn-dark v51-admin-danger" onclick='refundOrder(${orderNoArg}, this)' type="button"><i data-lucide="rotate-ccw"></i> 반환 기록 처리 · 재판매 보류</button></details>
+        ${(isApproved || (isRefunded && order.assigned_code)) ? `
+          <details class="v51-admin-danger-actions"><summary><i data-lucide="settings-2"></i> 주문 관리 <i data-lucide="chevron-down"></i></summary>
+            <button class="x-btn-dark v51-admin-danger" onclick='refundOrder(${orderNoArg}, this)' type="button"><i data-lucide="rotate-ccw"></i> ${isRefunded ? '미전달 테스트 재고 복구 (+1)' : '미전달 주문 반환 · 재고 자동 복구 (+1)'}</button>
+          </details>
         ` : ''}
       `;
       listEl.appendChild(item);
@@ -2930,51 +2944,46 @@ async function approveOrder(orderNo, btnEl) {
   }
 }
 
-// 반환 기록 처리 · 재판매 보류
+// v60: admin-confirmed pre-delivery/test refund, atomic server-side restock.
 async function refundOrder(orderNo, btnEl) {
-  // v58: refund != immediate resale. Previously issued credentials stay quarantined.
   const order = adminOrderCache.get(orderNo);
-  if (!await askAdminConfirm('반환 기록 처리 · 재고 재판매 보류',
-      `주문번호: ${orderNo}\n환불이 실제 완료됐는지 확인해 주세요.\n기존 구매자가 알던 계정 비밀번호/2FA/조회 코드는 재사용할 수 없습니다.\n반환 처리 뒤 재고는 보류하고, 새 접속정보로 재등록해야 합니다.`,
-      '환불 완료 기록')) return;
+  if (!order || !['APPROVED', 'REFUNDED'].includes(order.status)) {
+    return showAdminFlash('반환 또는 테스트 복구 가능한 주문이 아닙니다.', true);
+  }
+  const confirmed = await askAdminConfirm('미전달 주문 반환 · 자동 재고 복구',
+    `주문번호: ${orderNo}\n이 계정의 비밀번호, OTP키, 조회 코드를 구매자에게 전달하거나 열람시킨 적이 없어야 합니다.\n확인 후 반환 처리와 재고 +1을 서버에서 함께 수행합니다.\n실제 송금 환불은 별도 처리해야 합니다.`,
+    '미전달 확인 · 반환 및 +1');
+  if (!confirmed) return;
 
   btnEl.disabled = true;
-  const previousLabel = btnEl.innerText;
-  btnEl.innerText = '반환 기록 처리 중…';
+  const oldText = btnEl.innerText;
+  btnEl.innerText = '반환 · 재고 복구 중…';
   try {
-    if (!supabaseClient) throw new Error('데이터베이스 연결을 확인할 수 없습니다.');
-    const {data,error} = await supabaseClient.rpc('refund_xa_order', { p_order_no: orderNo });
+    if (!supabaseClient) throw new Error('서버에 연결되지 않았습니다.');
+    const { data, error } = await supabaseClient.rpc('xa_refund_unseen_and_restock_v60', {
+      p_order_no: orderNo,
+      p_confirm_undisclosed: true
+    });
     if (error) throw error;
-    if (!data?.success) throw new Error(data?.message || '서버가 반환 처리 실패를 응답했습니다.');
-
-    // IMPORTANT: verify the real stock state, rather than trusting success to mean restocked.
-    let stockUsed = null;
-    if (order?.assigned_code) {
-      const check = await supabaseClient.from('xa_stock')
-        .select('is_used').eq('code', order.assigned_code).limit(1);
-      if (!check.error && Array.isArray(check.data) && check.data.length > 0) {
-        stockUsed = check.data[0].is_used;
-      }
-    }
+    if (!data?.success) throw new Error(data?.message || '복구 확인에 실패했습니다.');
     await refreshAdminData();
-    if (stockUsed === true) {
-      showAdminFlash(`주문 ${orderNo}: 반환 기록 완료. 기존 발급 재고는 재판매 보류 상태로 유지됩니다.`);
-    } else if (stockUsed === false) {
-      showAdminFlash(`주의: 주문 ${orderNo} 반환 처리됐지만 기존 발급 코드가 판매 가능 상태입니다. v58 보호 SQL을 적용하고 재고를 격리해 주세요.`, true);
+    if (data.restocked === true && data.stock_available === true) {
+      showAdminFlash(`주문 ${orderNo}: 미전달 반환 완료 · 재고가 정상적으로 +1 복구됐습니다.`);
+    } else if (data.stock_available === true) {
+      showAdminFlash(`주문 ${orderNo}: 이미 판매 가능 재고입니다. 중복 증가 없이 유지했습니다.`);
     } else {
-      showAdminFlash(`주문 ${orderNo}: 반환 기록 완료. 재고 보류 여부는 서버에서 별도 확인해 주세요.`, true);
+      showAdminFlash(`주문 ${orderNo}: 반환 기록은 확인했지만 재고 상태를 재확인해야 합니다.`, true);
     }
   } catch (e) {
-    showAdminFlash(`주문 ${orderNo}: 반환 처리 실패 · ${e?.message || '서버 연결 확인 필요'}`, true);
-    btnEl.disabled = false;
-    btnEl.innerText = previousLabel;
+    showAdminFlash(`주문 ${orderNo}: 자동 재고 복구 실패 · ${e?.message || '서버 함수 및 권한 확인 필요'}`, true);
+    if (btnEl.isConnected) {btnEl.disabled = false; btnEl.innerText = oldText;}
   }
 }
 
 // 재고 목록에서 개별 코드 즉시 미사용 복구
 async function restoreStockCode(code, btnEl) {
   // v58: The original code must not be restored to resale, even after a refund.
-  showAdminFlash('기존 발급 코드 직접 복구는 중단됐습니다. 새 비밀번호·2FA·메일 자격정보로 재등록해야 합니다.', true);
+  showAdminFlash('미전달 주문의 자동 복구는 주문 목록에서 해당 주문의 «미전달 주문 반환 · 재고 자동 복구» 버튼으로 진행해 주세요.', true);
 }
 
 // 재고 현황 불러오기
