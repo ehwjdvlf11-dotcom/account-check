@@ -1183,6 +1183,12 @@ body{min-height:100dvh;padding:18px 10px;background:radial-gradient(ellipse 55% 
 .xa-admin-confirm-actions{margin-top:16px;display:grid;grid-template-columns:1fr 1.3fr;gap:8px}
 .xa-admin-confirm-actions button{min-height:44px!important}
 </style>
+<style id="xa-v50-consistent-lookup">
+  /* Short opaque access codes must never wrap into account credentials. */
+  #step-result #res-code {overflow-wrap:anywhere;word-break:break-all;font-size:13px!important;letter-spacing:.03em;}
+  #adm-orders-view .xa-admin-code-preview {font-size:12px;letter-spacing:.035em;color:#a7e4fd;user-select:all;}
+  #adm-orders-view .xa-admin-issue-label {color:#9dbacb;}
+</style>
 <!-- 모달: 관리자 간편 보안 로그인 -->
 <div aria-modal="true" class="fixed inset-0 xa-modal backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" id="admin-login-modal" role="dialog">
 <div class="xa-modal-panel w-full p-5 space-y-3.5" style="max-width:320px">
@@ -1753,12 +1759,12 @@ function startWaitingPolling() {
     try {
       const { data, error } = await supabaseClient
         .from('xa_orders')
-        .select('order_no,status,assigned_code,created_at')
+        .select('order_no,status,buyer_code,created_at')
         .eq('order_no', currentActiveOrder.order_no)
         .single();
 
       if (data) {
-        if (data.status === 'APPROVED' && data.assigned_code) {
+        if (data.status === 'APPROVED' && data.buyer_code) {
           clearInterval(waitPollingTimer);
           waitPollingTimer = null;
           xaStorage.removeItem('xa_active_order');
@@ -1782,7 +1788,7 @@ function startWaitingPolling() {
 
 // 승인 감지 시 필수 가이드 화면 먼저 열기
 async function onOrderApproved(orderRow) {
-  approvedCodeReady = orderRow.assigned_code;
+  approvedCodeReady = orderRow.buyer_code;
   showScreen('step-guide');
   if (window.lucide) lucide.createIcons();
 }
@@ -1841,8 +1847,13 @@ function parseIssuedAccountRecord(rawRecord) {
   let otpSecret = String(row.otp_url || row.otp_key || row.otp || row.two_fa || row.secret || row.otp_secret || '').trim();
   const productType = String(row.product_type || row.product || '').trim();
   const oldEmailType = String(row.email_type || row.email_info || row.mail_info || '').trim();
-  if (accountId.includes('----')) {
-    const parts = accountId.split('----').map(v => v.trim());
+  const rawAssigned = String(row.assigned_code || row.stock_code || '').trim();
+  if (!otpSecret && /-{4,}/.test(rawAssigned)) {
+    const fallbackParts = rawAssigned.split(/-{4,}/).map(v => v.trim());
+    otpSecret = fallbackParts.length >= 5 && fallbackParts[2].includes('@') ? (fallbackParts[4] || '') : (fallbackParts[2] || '');
+  }
+  if ((/-{4,}/.test(accountId))) {
+    const parts = accountId.split(/-{4,}/).map(v => v.trim());
     accountId = parts[0] || '';
     accountPw = accountPw || parts[1] || '';
     if (parts.length >= 5 && parts[2].includes('@')) {
@@ -1862,8 +1873,8 @@ function parseIssuedAccountRecord(rawRecord) {
 function adminCodePreview(code) {
   const str = String(code || '').trim();
   if (!str) return '-';
-  if (str.includes('----')) {
-    const first = str.split('----')[0];
+  if ((/-{4,}/.test(str))) {
+    const first = str.split(/-{4,}/)[0];
     return first.length > 18 ? first.slice(0,12) + '…' : first + ' · 상세 코드 숨김';
   }
   return str.length > 12 ? str.slice(0,5) + '••••' + str.slice(-4) : str.slice(0,3) + '••••';
@@ -1888,7 +1899,7 @@ async function displayAccountResult(code) {
   if (otpInterval) { clearInterval(otpInterval); otpInterval = null; }
 
   const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value || '정보 없음'; };
-  setText('res-code', cleanCode);
+  setText('res-code', '조회 중...');
   setText('res-id', '불러오는 중...');
   setText('res-pw', '불러오는 중...');
   setText('res-otp', '--- ---');
@@ -1915,7 +1926,7 @@ async function displayAccountResult(code) {
       throw new Error('승인된 코드지만 계정 정보가 연결되지 않았습니다. 관리자는 xa_stock과 orders의 계정 데이터 연결 상태를 확인해 주세요.');
     }
     if (!orderInfo) {
-      throw new Error('발급 코드의 조회 연결이 확인되지 않았습니다. 관리자에게 v49 SQL 설치 및 승인 주문의 assigned_code를 확인해 달라고 요청해 주세요.');
+      throw new Error('발급 코드의 조회 연결을 확인할 수 없습니다. v50 SQL 설치와 승인 기록의 buyer_code를 확인해 주세요.');
     }
     const parsed = parseIssuedAccountRecord(orderInfo);
     if (!parsed) {
@@ -1942,14 +1953,17 @@ async function displayAccountResult(code) {
       setText('res-otp-timer', '-');
     }
 
-    approvedCodeReady = cleanCode;
-    setText('res-code', cleanCode);
+    const displayCode = String(orderInfo.display_code || cleanCode).trim();
+    approvedCodeReady = displayCode;
+    currentSearchKey = displayCode;
+    setText('res-code', displayCode);
     setAccountResultState('success');
   } catch (err) {
     console.error('[X ACCOUNT] Account result load failed:', err);
     setText('res-id', '—');
     setText('res-pw', '—');
     setText('res-otp', '조회 불가');
+    setText('res-code', '조회 불가');
     setText('res-otp-timer', '-');
     document.getElementById('btn-open-mail')?.classList.add('hidden');
     document.getElementById('result-action-row')?.classList.remove('has-email');
@@ -2026,12 +2040,12 @@ async function verifyManualCode() {
         const r = await supabaseClient.rpc('get_account_result', { p_key: code });
         if (r.error) throw r.error;
         if (r.data?.lookup_error === 'MISSING_ACCOUNT_DATA') {
-          if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '발급 코드는 승인되었지만 계정 상세 정보가 연결되지 않았습니다. 관리자에게 문의해 주세요.'; }
+          if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '발급 코드는 승인되었지만 계정 정보가 연결되지 않았습니다. 관리자에게 문의해 주세요.'; }
           return;
         }
         if (r.data && parseIssuedAccountRecord(r.data)) order = normalizeAccountResult(r.data);
       } catch (e) {
-        if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '조회 서버를 확인할 수 없습니다. v49 SQL이 적용되었는지 확인해 주세요.'; }
+        if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '조회 서버를 확인할 수 없습니다. v50 SQL이 적용되었는지 확인해 주세요.'; }
         return;
       }
 
@@ -2220,7 +2234,8 @@ function askAdminConfirm(title, description, buttonText='확인 후 진행') {
   });
 }
 async function copyAdminCode(orderNo, button) {
-  const code = adminOrderCache.get(orderNo)?.assigned_code;
+  const order = adminOrderCache.get(orderNo);
+  const code = order?.buyer_code || order?.assigned_code;
   if (!code) return showAdminFlash('복사할 발급 코드가 없습니다.',true);
   const copied = await copyText(code);
   if (copied) {
@@ -2236,7 +2251,8 @@ async function toggleAdminAccountDetails(orderNo, button) {
   if (!details.classList.contains('hidden')) {
     details.replaceChildren(); details.classList.add('hidden'); button.textContent='계정 정보 확인'; return;
   }
-  const code = adminOrderCache.get(orderNo)?.assigned_code;
+  const order = adminOrderCache.get(orderNo);
+  const code = order?.buyer_code || order?.assigned_code;
   details.classList.remove('hidden');
   details.textContent='발급 코드의 계정 정보를 서버에서 확인하고 있습니다…';
   button.disabled=true;
@@ -2244,7 +2260,7 @@ async function toggleAdminAccountDetails(orderNo, button) {
     const {data,error}=await supabaseClient.rpc('get_account_result',{p_key:code});
     if (error) throw error;
     const record=parseIssuedAccountRecord(data);
-    if (!record) throw new Error('발급된 코드에 계정 정보가 연결되지 않았습니다. v49 SQL 또는 재고 원본을 확인해 주세요.');
+    if (!record) throw new Error('발급 코드에 계정 정보가 연결되지 않았습니다. v50 SQL 또는 재고 원본을 확인해 주세요.');
     details.replaceChildren();
     const pairs=[['계정 유형',record.productType||'계정'],['계정 ID',record.accountId],['비밀번호',record.accountPw],['2FA','설정됨: '+(record.otpSecret?'예':'아니오')]];
     if (record.isEmail) pairs.push(['이메일 연결', record.email ? '연결됨' : '확인 필요']);
@@ -2371,13 +2387,13 @@ async function loadAdminOrders() {
           <div>상품: <strong class="text-white">${safeProduct}</strong> (${safePrice})</div>
           <div>결제: <span class="text-gray-300">${safePayment}</span></div>
         </div>
-        ${order.assigned_code ? `
+        ${(order.buyer_code || order.assigned_code) ? `
           <div class="xa-admin-issue">
             <div class="xa-admin-issue-top">
               <span class="xa-admin-issue-label">지급 완료 · ${safeProduct} · 계정 조회 코드</span>
               <span class="text-[10px] text-green-300">승인 기록 보관됨</span>
             </div>
-            <span class="xa-admin-code-preview">${escapeHTML(adminCodePreview(order.assigned_code))}</span>
+            <span class="xa-admin-code-preview">${escapeHTML(order.buyer_code || adminCodePreview(order.assigned_code))}</span>
             <div class="flex gap-2 flex-wrap">
               <button class="x-btn-dark xa-admin-smallbtn" onclick='copyAdminCode(${orderNoArg}, this)' type="button">코드 복사</button>
               <button class="x-btn-dark xa-admin-smallbtn" onclick='toggleAdminAccountDetails(${orderNoArg}, this)' type="button">계정 정보 확인</button>
@@ -2430,16 +2446,22 @@ async function approveOrder(orderNo, btnEl) {
     if (!data?.success || !data.assigned_code) throw new Error(data?.message||'승인 결과에 발급 코드가 없습니다.');
 
     await refreshAdminData();
-    // 승인 성공과 실제 계정정보 조회 성공은 별개로 확인합니다.
+    // The server trigger creates an opaque buyer_code; do not expose the stock's raw composite code.
+    const approvedRow = adminOrderCache.get(orderNo);
+    const buyerCode = approvedRow?.buyer_code;
+    if (!buyerCode) {
+      showAdminFlash(`주문 ${orderNo}: 승인은 완료됐지만 짧은 발급 코드가 조회되지 않습니다. v50 SQL 적용 여부를 확인하세요. 이 주문을 다시 승인하지 마세요.`,true);
+      return;
+    }
     let verified=false;
     try {
-      const result=await supabaseClient.rpc('get_account_result',{p_key:data.assigned_code});
+      const result=await supabaseClient.rpc('get_account_result',{p_key:buyerCode});
       verified=!result.error && !!parseIssuedAccountRecord(result.data);
     } catch(_e) { verified=false; }
     if (verified) {
-      showAdminFlash(`주문 ${orderNo}: 승인 및 코드 지급 완료 · 구매자 계정 조회도 확인됐습니다.`);
+      showAdminFlash(`주문 ${orderNo}: 짧은 발급 코드 지급 및 계정 조회가 확인됐습니다.`);
     } else {
-      showAdminFlash(`주문 ${orderNo}: 승인·재고 지급은 완료됐지만, 구매자 계정 정보 조회는 확인되지 않았습니다. v49 SQL 설치 및 재고 데이터를 점검해 주세요. 중복 승인하지 마세요.`,true);
+      showAdminFlash(`주문 ${orderNo}: 승인·재고 지급은 완료됐지만, 구매자 계정 정보 조회는 확인되지 않았습니다. v50 SQL 설치 및 재고 데이터를 점검해 주세요. 중복 승인하지 마세요.`,true);
     }
   } catch(e) {
     showAdminFlash(`주문 ${orderNo}: 처리 실패 · ${(e?.message||'서버 연결을 확인해 주세요.')}`,true);
