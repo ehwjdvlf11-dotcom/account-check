@@ -1029,6 +1029,22 @@ body>.ambient-bg{display:none!important}
  #step-price .payment-chip .xa-pay-copy small{font-size:8.5px!important}
 }
 </style>
+
+<style id="xa-v61-admin-unmask-style">
+#admin-console-modal .xa-admin-code-preview {
+  white-space:pre-wrap!important;overflow-wrap:anywhere!important;word-break:break-word!important;
+  user-select:text!important;opacity:1!important;text-decoration:none!important;
+  font-size:11px!important;line-height:1.65!important;
+}
+#admin-console-modal .xa-admin-issue {max-width:100%;min-width:0}
+#admin-console-modal .xa-v61-refund-button {
+  display:block!important;width:100%!important;margin-top:10px!important;
+  padding:11px!important;font-size:11px!important;border-radius:8px!important;
+  color:#a6f1cd!important;border:1px solid rgba(76,215,152,.4)!important;
+  background:rgba(8,96,69,.14)!important;cursor:pointer;
+}
+#admin-console-modal .xa-v61-refund-button:disabled{cursor:wait;opacity:.55}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -1579,8 +1595,8 @@ body>.ambient-bg{display:none!important}
 <div class="xa-modal-panel max-w-xl w-full max-h-[90dvh] flex flex-col p-4 md:p-5 space-y-3">
 <div class="flex items-center justify-between pb-3" style="border-bottom:1px solid rgba(255,255,255,.08)">
 <div>
-<span class="xa-modal-kicker">ADMIN / ORDERS</span>
-<h3 class="xa-modal-title" style="font-size:16px">주문·재고 관리</h3>
+<span class="xa-modal-kicker">ADMIN / ORDERS · v61</span>
+<h3 class="xa-modal-title" style="font-size:16px">주문·재고 관리 <small style="font-size:10px;color:#8cd6bd">v61 · 반환=재고 복구</small></h3>
 </div>
 <div class="flex items-center gap-2">
 <button class="x-btn-dark text-[10px] py-1 px-2.5" onclick="logoutAdmin()" style="color:#ffa3ad;border-color:rgba(255,120,135,.3)" type="button">로그아웃</button>
@@ -2284,13 +2300,8 @@ function getSafeTotp(secret) {
 }
 
 function adminCodePreview(code) {
-  const str = String(code || '').trim();
-  if (!str) return '-';
-  if ((/-{4,}/.test(str))) {
-    const first = str.split(/-{4,}/)[0];
-    return first.length > 18 ? first.slice(0,12) + '…' : first + ' · 상세 코드 숨김';
-  }
-  return str.length > 12 ? str.slice(0,5) + '••••' + str.slice(-4) : str.slice(0,3) + '••••';
+  // 관리자 콘솔에서는 원문 전체 표시. 구매자 화면에는 적용하지 않음.
+  return String(code ?? '').trim() || '-';
 }
 
 async function retryAccountResult() {
@@ -2573,7 +2584,13 @@ async function logoutAdmin() {
   alert('안전하게 로그아웃 되었습니다.');
 }
 
-function openAdminConsole() {
+async function openAdminConsole() {
+  // 전체 계정 정보는 관리자 인증된 세션에만 표시합니다.
+  const {data, error} = await supabaseClient.auth.getUser();
+  if (error || String(data?.user?.email || '').toLowerCase() !== 'admin@xaccount.com') {
+    alert('관리자 계정 인증 후 조회할 수 있습니다.');
+    return;
+  }
   document.getElementById('admin-console-modal').classList.remove('hidden');
   refreshAdminData();
 }
@@ -2847,7 +2864,7 @@ async function loadAdminOrders() {
       }
 
       const item = document.createElement('div');
-      item.className = 'x-inner v51-admin-order p-3.5 space-y-2 text-xs ' + (isPending ? 'border-cyan-400/40 bg-cyan-950/15' : (isRefunded ? 'opacity-50' : 'opacity-85'));
+      item.className = 'x-inner v51-admin-order p-3.5 space-y-2 text-xs ' + (isPending ? 'border-cyan-400/40 bg-cyan-950/15' : (isRefunded ? 'opacity-90' : 'opacity-85'));
 
       item.innerHTML = `
         <div class="flex items-center justify-between">
@@ -2862,18 +2879,18 @@ async function loadAdminOrders() {
           <div>상품: <strong class="text-white">${safeProduct}</strong> (${safePrice})</div>
           <div>결제: <span class="text-gray-300">${safePayment}</span></div>
         </div>
-        ${(isApproved && (order.buyer_code || order.assigned_code)) ? `
+        ${((isApproved || isRefunded) && (order.buyer_code || order.assigned_code)) ? `
           <div class="xa-admin-issue">
             <div class="xa-admin-issue-top">
-              <span class="xa-admin-issue-label">지급 완료 · ${safeProduct} · ${/일반|general/i.test(String(order.product_type || '')) ? '등록된 2FA 조회 코드' : '이메일 조회 코드'}</span>
-              <span class="text-[10px] text-green-300">승인 기록 보관됨</span>
+              <span class="xa-admin-issue-label">${isRefunded ? '반환 주문 · 원본 계정 정보' : `발급 완료 · ${safeProduct} · 전체 조회 코드`}</span>
+              <span class="text-[10px] text-cyan-300">관리자 전체 표시</span>
             </div>
-            <span class="xa-admin-code-preview">${escapeHTML(/일반|general/i.test(String(order.product_type || '')) && !normalizeTotpSecret(order.buyer_code) ? '저장된 2FA 조회 코드 연결 필요' : adminCodePreview(order.buyer_code || order.assigned_code))}</span>
-            <div class="flex gap-2 flex-wrap">
-              <button class="x-btn-dark xa-admin-smallbtn" onclick='copyAdminCode(${orderNoArg}, this)' type="button">코드 복사</button>
-              <button class="x-btn-dark xa-admin-smallbtn" onclick='toggleAdminAccountDetails(${orderNoArg}, this)' type="button">정보 확인</button>
-            </div>
-            <div class="xa-admin-detail-view hidden"></div>
+            ${order.buyer_code ? `<div style="font-size:10px;color:#91b9c9">조회 코드</div><div class="xa-admin-code-preview">${escapeHTML(adminCodePreview(order.buyer_code))}</div>` : ''}
+            ${order.assigned_code ? `<div style="font-size:10px;color:#91b9c9;margin-top:6px">재고 원본 (ID · PW · 2FA 등)</div><div class="xa-admin-code-preview">${escapeHTML(adminCodePreview(order.assigned_code))}</div>` : ''}
+            ${isApproved ? `<div class="flex gap-2 flex-wrap">
+              <button class="x-btn-dark xa-admin-smallbtn" onclick='copyAdminCode(${orderNoArg}, this)' type="button">조회 코드 복사</button>
+              <button class="x-btn-dark xa-admin-smallbtn" onclick='toggleAdminAccountDetails(${orderNoArg}, this)' type="button">계정 정보 확인</button>
+            </div><div class="xa-admin-detail-view hidden"></div>` : ''}
           </div>
         ` : (isApproved ? `<div class="xa-admin-issue" style="color:#ffb9c5">승인 상태인데 발급 코드가 없습니다. 관리자에게 확인이 필요합니다.</div>` : '')}
         ${isPending ? `
@@ -2882,9 +2899,10 @@ async function loadAdminOrders() {
           </button>
         ` : ''}
         ${(isApproved || (isRefunded && order.assigned_code)) ? `
-          <details class="v51-admin-danger-actions"><summary><i data-lucide="settings-2"></i> 주문 관리 <i data-lucide="chevron-down"></i></summary>
-            <button class="x-btn-dark v51-admin-danger" onclick='refundOrder(${orderNoArg}, this)' type="button"><i data-lucide="rotate-ccw"></i> ${isRefunded ? '미전달 테스트 재고 복구 (+1)' : '미전달 주문 반환 · 재고 자동 복구 (+1)'}</button>
-          </details>
+          <button class="x-btn-dark v51-admin-danger xa-v61-refund-button" onclick='refundOrder(${orderNoArg}, this)' type="button">
+            <i data-lucide="rotate-ccw" style="width:14px;height:14px;display:inline;vertical-align:-3px"></i>
+            ${isRefunded ? '반환된 주문 · 재고 +1 복구' : '반환 처리 · 재고 +1 자동 복구'}
+          </button>
         ` : ''}
       `;
       listEl.appendChild(item);
@@ -2950,14 +2968,14 @@ async function refundOrder(orderNo, btnEl) {
   if (!order || !['APPROVED', 'REFUNDED'].includes(order.status)) {
     return showAdminFlash('반환 또는 테스트 복구 가능한 주문이 아닙니다.', true);
   }
-  const confirmed = await askAdminConfirm('미전달 주문 반환 · 자동 재고 복구',
+  const confirmed = await askAdminConfirm('주문 반환 · 재고 +1 복구',
     `주문번호: ${orderNo}\n이 계정의 비밀번호, OTP키, 조회 코드를 구매자에게 전달하거나 열람시킨 적이 없어야 합니다.\n확인 후 반환 처리와 재고 +1을 서버에서 함께 수행합니다.\n실제 송금 환불은 별도 처리해야 합니다.`,
-    '미전달 확인 · 반환 및 +1');
+    '반환하고 재고 +1');
   if (!confirmed) return;
 
   btnEl.disabled = true;
   const oldText = btnEl.innerText;
-  btnEl.innerText = '반환 · 재고 복구 중…';
+  btnEl.innerText = '반환 및 재고 복구 중…';
   try {
     if (!supabaseClient) throw new Error('서버에 연결되지 않았습니다.');
     const { data, error } = await supabaseClient.rpc('xa_refund_unseen_and_restock_v60', {
@@ -2968,9 +2986,9 @@ async function refundOrder(orderNo, btnEl) {
     if (!data?.success) throw new Error(data?.message || '복구 확인에 실패했습니다.');
     await refreshAdminData();
     if (data.restocked === true && data.stock_available === true) {
-      showAdminFlash(`주문 ${orderNo}: 미전달 반환 완료 · 재고가 정상적으로 +1 복구됐습니다.`);
+      showAdminFlash(`주문 ${orderNo}: 반환 완료! 판매 가능 재고가 +1 복구됐습니다.`);
     } else if (data.stock_available === true) {
-      showAdminFlash(`주문 ${orderNo}: 이미 판매 가능 재고입니다. 중복 증가 없이 유지했습니다.`);
+      showAdminFlash(`주문 ${orderNo}: 이미 복구된 재고입니다. 중복으로 늘리지 않았습니다.`);
     } else {
       showAdminFlash(`주문 ${orderNo}: 반환 기록은 확인했지만 재고 상태를 재확인해야 합니다.`, true);
     }
@@ -2993,7 +3011,11 @@ async function loadAdminStock() {
 
   try {
     const { data, error } = await supabaseClient.from('xa_stock').select('*').order('id', { ascending: true });
-    if (error || !data) return;
+    if (error || !data) {
+      stockView.innerHTML = '<div class="text-red-300 text-xs">재고 조회 실패: 관리자 인증과 DB 조회 권한을 확인하세요.</div>';
+      document.getElementById('adm-count-stock').innerText = '조회 오류';
+      return;
+    }
 
     const unusedGeneral = data.filter(s => s.product_type === '일반 계정' && !s.is_used);
     const unusedEmail = data.filter(s => s.product_type === '이메일 계정' && !s.is_used);
@@ -3012,24 +3034,28 @@ async function loadAdminStock() {
           <strong class="text-xl text-blue-300 font-bold mt-1 block">${unusedEmail.length}개</strong>
         </div>
       </div>
-      <div class="text-xs font-bold text-gray-300 mt-2">미사용 재고 목록 (총 ${totalUnused}개)</div>
+      <div class="text-xs font-bold text-gray-300 mt-2">전체 재고 목록 (판매 가능 ${totalUnused}개 / 등록된 모든 재고)</div>
       <div class="space-y-1 max-h-48 overflow-y-auto text-xs mono">
         ${data.map(s => `
           <div class="flex items-center justify-between p-2 rounded bg-black/40 border border-white/5 ${s.is_used ? 'opacity-70' : ''}">
             <span class="text-gray-400 shrink-0 mt-0.5">[${escapeHTML(s.product_type)}]</span>
             <div class="flex-1 px-3 min-w-0">
-              <div class="xa-admin-code-preview ${s.is_used ? 'line-through opacity-60' : ''}">${escapeHTML(adminCodePreview(s.code))}</div>
+              <div class="xa-admin-code-preview">${escapeHTML(adminCodePreview(s.code))}</div>
             </div>
             ${s.is_used ? `
-              <span class="text-amber-300 font-sans font-bold text-[10px]" title="기존 발급 이력과 충돌 방지">재판매 보류</span>
+              <span class="text-amber-300 font-sans font-bold text-[10px]" title="재고가 차감된 상태입니다. 반환 및 재고 복구를 주문 목록에서 실행하세요.">발급됨 · 미복구</span>
             ` : `
-              <span class="text-green-400 font-sans font-bold text-[10px]">미사용</span>
+              <span class="text-green-400 font-sans font-bold text-[10px]">판매 가능</span>
             `}
           </div>
         `).join('')}
       </div>
     `;
-  } catch (e) {}
+  } catch (e) {
+    console.error('[X ACCOUNT] Stock load failed:', e);
+    stockView.textContent = '재고 목록을 불러오지 못했습니다. 관리자 인증 및 서버 연결을 확인하세요.';
+    document.getElementById('adm-count-stock').innerText = '조회 오류';
+  }
 }
 
 // 초기 로딩 시 복원 및 아이콘 세팅
