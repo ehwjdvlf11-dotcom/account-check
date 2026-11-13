@@ -1067,13 +1067,13 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
 <button class="x-btn-dark copy-btn" onclick="copyField('res-otp', this)" type="button">복사</button>
 </div>
 <details class="v51-code-disclosure" id="v51-code-disclosure">
-<summary><span><i data-lucide="key-round"></i> 발급 코드 보관하기</span><span class="v51-expand-caption">다음 조회에 필요 <i data-lucide="chevron-down"></i></span></summary>
+<summary><span><i data-lucide="key-round"></i> 계정 조회 코드 보관하기</span><span class="v51-expand-caption">다음 조회에 필요 <i data-lucide="chevron-down"></i></span></summary>
 <div class="v51-code-inner">
- <span class="v51-code-label">내 계정 조회 코드</span>
+ <span class="v51-code-label">등록된 계정 조회 코드</span>
  <div class="v51-code-value" id="v51-code-preview">조회 코드를 안전하게 보관하세요.</div>
  <div class="v51-code-full mono" id="res-code">정보 없음</div>
  <button class="x-btn-dark v51-code-copy" onclick="copyField('res-code', this)" type="button"><i data-lucide="copy"></i> 조회 코드 복사</button>
- <p>이 코드는 비밀번호처럼 관리해 주세요. 기존 긴 코드도 조회에 필요한 경우 그대로 복사할 수 있습니다.</p>
+ <p>일반 계정의 조회 코드는 재고에 등록된 2FA 비밀키입니다. 실시간 6자리 OTP와 다르며, 외부에 공개하지 마세요.</p>
 </div>
 </details>
 </div>
@@ -2000,7 +2000,7 @@ async function displayAccountResult(code) {
       throw new Error('승인된 코드지만 계정 정보가 연결되지 않았습니다. 관리자는 xa_stock과 orders의 계정 데이터 연결 상태를 확인해 주세요.');
     }
     if (!orderInfo) {
-      throw new Error('발급 코드의 조회 연결을 확인할 수 없습니다. v50 SQL 설치와 승인 기록의 buyer_code를 확인해 주세요.');
+      throw new Error('발급 코드의 조회 연결을 확인할 수 없습니다. v52 SQL과 승인 기록의 2FA 조회 코드 연결을 확인해 주세요.');
     }
     const parsed = parseIssuedAccountRecord(orderInfo);
     if (!parsed) {
@@ -2024,14 +2024,26 @@ async function displayAccountResult(code) {
       setText('res-otp-timer', '-');
     }
 
+    // v52: 일반 계정의 조회 코드는 원래 저장된 TOTP 비밀키와 동일해야 합니다.
+    // 6자리 실시간 OTP와 조회용 비밀키는 서로 다른 값입니다.
     const displayCode = String(orderInfo.display_code || cleanCode).trim();
+    const generalProduct = !isEmail && /일반|general/i.test(String(parsed.productType || ''));
+    if (generalProduct) {
+      const registered2faKey = normalizeTotpSecret(parsed.otpSecret);
+      if (!registered2faKey) {
+        throw new Error('일반 계정에 저장된 2FA 인증키를 찾지 못했습니다. 재고 원본을 점검해 주세요.');
+      }
+      if (normalizeTotpSecret(displayCode) !== registered2faKey) {
+        throw new Error('조회 코드가 저장된 2FA 인증키와 다릅니다. XA 임의 코드를 사용하지 말고 v52 서버 연결을 적용해 주세요.');
+      }
+    }
     approvedCodeReady = displayCode;
     currentSearchKey = displayCode;
     setText('res-code', displayCode);
     const preview = document.getElementById('v51-code-preview');
-    if (preview) preview.textContent = /-{4,}/.test(displayCode)
-      ? '이전 방식 코드 · 길이가 길어 기본 화면에서 숨겼어요.'
-      : '조회 코드가 준비됐어요. 아래 버튼으로 복사하세요.';
+    if (preview) preview.textContent = generalProduct
+      ? '재고에 등록된 2FA 인증키와 동일한 조회 코드입니다.'
+      : '기존 이메일 계정 조회 코드입니다.';
     setAccountResultState('success');
   } catch (err) {
     console.error('[X ACCOUNT] Account result load failed:', err);
@@ -2322,6 +2334,9 @@ async function copyAdminCode(orderNo, button) {
   const order = adminOrderCache.get(orderNo);
   const code = order?.buyer_code || order?.assigned_code;
   if (!code) return showAdminFlash('복사할 발급 코드가 없습니다.',true);
+  if (/일반|general/i.test(String(order?.product_type || '')) && !normalizeTotpSecret(code)) {
+    return showAdminFlash('일반 계정의 조회 코드가 2FA키로 연결되지 않았습니다. v52 SQL 적용 및 원본 재고 확인이 필요합니다.',true);
+  }
   const copied = await copyText(code);
   if (copied) {
     const old = button.textContent;
@@ -2366,7 +2381,13 @@ async function toggleAdminAccountDetails(orderNo, button) {
     row('계정 종류',record.productType||'계정');
     row('계정 ID',record.accountId);
     row('비밀번호',record.accountPw);
-    const otpDD=row('실시간 2FA',record.otpSecret?'계산 중…':'인증키 없음','v51-admin-otp-row');
+    if (!record.isEmail) {
+      const actual2faKey = normalizeTotpSecret(record.otpSecret);
+      const buyerKey = String(order?.buyer_code || '').trim();
+      row('조회 코드 = 저장된 2FA키', actual2faKey && normalizeTotpSecret(buyerKey) === actual2faKey
+        ? buyerKey : '조회 코드 미연결 · v52 SQL 점검 필요');
+    }
+    const otpDD=row('실시간 6자리 OTP',record.otpSecret?'계산 중…':'인증키 없음','v51-admin-otp-row');
     const totp=getSafeTotp(record.otpSecret);
     if(totp){
       const live=document.createElement('span');live.className='v51-admin-live-otp';
@@ -2504,10 +2525,10 @@ async function loadAdminOrders() {
         ${(order.buyer_code || order.assigned_code) ? `
           <div class="xa-admin-issue">
             <div class="xa-admin-issue-top">
-              <span class="xa-admin-issue-label">지급 완료 · ${safeProduct} · 계정 조회 코드</span>
+              <span class="xa-admin-issue-label">지급 완료 · ${safeProduct} · ${/일반|general/i.test(String(order.product_type || '')) ? '등록된 2FA 조회 코드' : '이메일 조회 코드'}</span>
               <span class="text-[10px] text-green-300">승인 기록 보관됨</span>
             </div>
-            <span class="xa-admin-code-preview">${escapeHTML(order.buyer_code && !/-{4,}/.test(order.buyer_code) ? order.buyer_code : adminCodePreview(order.assigned_code))}</span>
+            <span class="xa-admin-code-preview">${escapeHTML(/일반|general/i.test(String(order.product_type || '')) && !normalizeTotpSecret(order.buyer_code) ? '저장된 2FA 조회 코드 연결 필요' : adminCodePreview(order.buyer_code || order.assigned_code))}</span>
             <div class="flex gap-2 flex-wrap">
               <button class="x-btn-dark xa-admin-smallbtn" onclick='copyAdminCode(${orderNoArg}, this)' type="button">코드 복사</button>
               <button class="x-btn-dark xa-admin-smallbtn" onclick='toggleAdminAccountDetails(${orderNoArg}, this)' type="button">정보 확인</button>
@@ -2561,7 +2582,7 @@ async function approveOrder(orderNo, btnEl) {
     const approvedRow = adminOrderCache.get(orderNo);
     const buyerCode = approvedRow?.buyer_code;
     if (!buyerCode) {
-      showAdminFlash(`주문 ${orderNo}: 승인은 완료됐지만 짧은 발급 코드가 조회되지 않습니다. v50 SQL 적용 여부를 확인하세요. 이 주문을 다시 승인하지 마세요.`,true);
+      showAdminFlash(`주문 ${orderNo}: 승인은 완료됐지만 저장된 2FA 조회 코드가 확인되지 않습니다. v52 SQL 적용 여부를 확인하세요. 이 주문을 다시 승인하지 마세요.`,true);
       return;
     }
     let verified=false;
@@ -2570,9 +2591,9 @@ async function approveOrder(orderNo, btnEl) {
       verified=!result.error && !!parseIssuedAccountRecord(result.data);
     } catch(_e) { verified=false; }
     if (verified) {
-      showAdminFlash(`주문 ${orderNo}: 짧은 발급 코드 지급 및 계정 조회가 확인됐습니다.`);
+      showAdminFlash(`주문 ${orderNo}: 등록된 조회 코드 지급 및 계정 조회가 확인됐습니다.`);
     } else {
-      showAdminFlash(`주문 ${orderNo}: 승인·재고 지급은 완료됐지만, 구매자 계정 정보 조회는 확인되지 않았습니다. v50 SQL 설치 및 재고 데이터를 점검해 주세요. 중복 승인하지 마세요.`,true);
+      showAdminFlash(`주문 ${orderNo}: 승인·재고 지급은 완료됐지만, 구매자 계정 정보 조회는 확인되지 않았습니다. v52 SQL 및 재고 원본을 점검해 주세요. 중복 승인하지 마세요.`,true);
     }
   } catch(e) {
     showAdminFlash(`주문 ${orderNo}: 처리 실패 · ${(e?.message||'서버 연결을 확인해 주세요.')}`,true);
