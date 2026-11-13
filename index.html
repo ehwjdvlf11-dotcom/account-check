@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>X ACCOUNT | 간편 주문 & 계정 조회</title>
+<title>X ACCOUNT | 상품·결제 한 화면</title>
 <meta content="#080d13" name="theme-color"/>
 <meta content="X ACCOUNT 주문 접수 및 발급 안내 페이지" name="description"/>
 <!-- Tailwind CSS CDN -->
@@ -787,6 +787,247 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
+
+<style id="v53-pearl-forest-functional-theme">
+/* V53 / OPTION 03. Customer view only; admin and inbox preserve v52 logic and dark theme. */
+:root{--v53-ink:#142e2c;--v53-green:#075f51;--v53-green2:#087864;--v53-dim:#677e7b;--v53-border:#dce8e1;--v53-paper:#fff;--v53-wash:#f4f8f5}
+html{scroll-behavior:smooth}
+body{color:#162e2b!important;min-height:100dvh!important;display:block!important;padding:26px 16px 48px!important;background:radial-gradient(ellipse at 0 -5%,#d8eadd,transparent 45%),radial-gradient(ellipse at 100% 100%,#e6efed,transparent 45%),#eaf0ee!important}
+body>.ambient-bg{display:none!important}
+.main-shell{width:min(100%,810px)!important;margin:0 auto!important}
+#main-card{--cyan:#0b795f;--cyan-hi:#0b795f;--text:#1b3833;--text-hi:#122b28;--muted:#647b76;--muted-2:#6e847f;--muted-3:#8ca09a;--line:#dce8e1;--line-soft:#e7eeea;--green:#138766;--gold:#ab8752;
+  color:#173c34!important;background:#f6f9f6!important;border:1px solid #d8e5df!important;border-radius:22px!important;box-shadow:0 25px 75px rgba(21,65,48,.11)!important;overflow:hidden!important;padding:0!important;animation:none!important;}
+#main-card:before{display:none!important}
+#main-card .xa-top{background:#fff!important;padding:18px 31px!important;border-bottom:1px solid #e2eae6!important;min-height:65px;}
+#main-card .xa-brandline{display:flex;gap:7px!important;color:#1a3430!important;font-size:14px!important;font-weight:900!important;letter-spacing:-.03em!important}
+#main-card .xa-brandline:before{content:'X';display:grid;place-items:center;width:31px;height:31px;border-radius:9px;background:#d6fd9b;color:#0a4835;font-size:16px;font-weight:950;margin-right:4px;transform:rotate(-5deg)}
+#main-card .xa-brand-dot,#main-card .xa-top-divider{display:none!important}
+#main-card .xa-brandline>span:last-child{color:#98aca4;font-size:9px;letter-spacing:.11em!important}
+#main-card .log-viewer-open-btn{background:#f8fbf8!important;color:#275d50!important;border:1px solid #d4e5dc!important;border-radius:9px!important;height:34px!important;font-size:11px!important}
+#main-card .log-viewer-open-btn:hover{background:#e7f5ee!important}
+#main-card .xa-hero{display:none;margin:0!important;padding:26px 31px 12px!important;background:linear-gradient(170deg,#f5fbf6,#f6f9f6)!important}
+#main-card:has(#step-price:not(.hidden)) .xa-hero{display:block!important}
+#main-card .xa-hero-title{font-size:clamp(25px,4vw,34px)!important;letter-spacing:-.06em!important;color:#163d31!important;line-height:1.21!important;margin:0!important}
+#main-card .xa-hero-title em{color:#087762;font-style:normal}
+#main-card .xa-hero .xa-eyebrow{color:#12826c!important;letter-spacing:.16em;font-size:9px!important;margin-bottom:7px!important}
+#main-card .xa-hero-lead{color:#6c827b!important;margin:7px 0 0!important;max-width:520px!important;font-size:12px!important;line-height:1.65!important}
+#main-card .xa-live{display:none!important}
+/* OPTION 03: true one-row minimal underline step navigation */
+#step-indicator-bar.v53-miniline{box-sizing:border-box!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important;background:#fff!important;border-bottom:1px solid #dde8e0!important;margin:0!important;padding:0 28px!important;min-height:43px!important;width:100%!important}
+#step-indicator-bar .xa-progress-step{min-width:0!important;width:100%!important;position:relative!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:8px!important;border:0!important;border-radius:0!important;background:transparent!important;color:#86958d!important;min-height:43px!important;padding:9px 2px!important;box-shadow:none!important;white-space:nowrap!important;font-family:inherit!important;cursor:default!important;text-decoration:none!important}
+#step-indicator-bar button.xa-progress-step{cursor:pointer!important}
+#step-indicator-bar button.xa-progress-step:hover:not(.active){color:#366e5d!important;background:#f7fbf8!important}
+#step-indicator-bar .xa-progress-step span{display:inline!important;background:none!important;border:0!important;width:auto!important;height:auto!important;border-radius:0!important;padding:0!important;color:inherit!important;box-shadow:none!important;font-size:10px!important;letter-spacing:.03em!important;font-weight:900!important}
+#step-indicator-bar .xa-progress-step b{display:inline!important;font-size:12px!important;letter-spacing:-.025em!important;font-weight:800!important;color:inherit!important;line-height:1.3!important}
+#step-indicator-bar .xa-progress-step.active{color:#075f51!important}
+#step-indicator-bar .xa-progress-step.active:after{content:""!important;position:absolute!important;left:12%!important;right:12%!important;bottom:-2px!important;height:3px!important;background:#0b7e64!important;border-radius:8px!important}
+#step-indicator-bar .xa-progress-step.complete:not(.active){color:#438a73!important}
+#step-indicator-bar .xa-progress-line{display:none!important}
+#main-card .xa-rule{display:none!important}
+#main-card .xa-screen{padding:22px 31px 30px!important;margin:0!important;min-height:0!important}
+#main-card .xa-stage-heading{margin-bottom:10px!important}
+#main-card .xa-stage-number{font-size:9px!important;letter-spacing:.13em!important;color:#12856a!important}
+#main-card .xa-stage-heading h3{color:#182f2a!important;font-size:20px!important;letter-spacing:-.05em!important;margin:3px 0 2px!important}
+#main-card .xa-stage-heading p{color:#778b84!important;font-size:11.5px!important}
+#main-card .xa-utility{padding:0!important;margin:0 0 16px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important}
+#main-card .xa-utility-label{color:#84968f!important;font-size:10px!important}
+#main-card .xa-link-button{color:#096c58!important;font-size:11px!important;font-weight:850!important}
+#main-card .xa-link-button:hover{color:#085040!important;text-decoration:underline}
+#main-card .xa-product-grid{gap:12px!important;margin-top:10px!important}
+#main-card .x-inner:not(.xa-status),#main-card .xa-product-grid .product-card,#main-card .payment-chip,#main-card .xa-order-summary-card,#main-card .xa-info-card,#main-card .xa-msg-box{background:#fff!important;border:1px solid #dce8e0!important;color:#1a3a32!important;box-shadow:none!important}
+#main-card .product-card{min-height:159px!important;display:flex!important;flex-direction:column!important;padding:17px!important;border-radius:16px!important;transform:none!important;transition:border-color .15s ease,box-shadow .15s ease!important}
+#main-card .product-card:before{display:none!important}
+#main-card .product-card:hover{border-color:#72ae95!important;transform:translateY(-1px)!important}
+#main-card .product-card.selected{background:linear-gradient(160deg,#f0fff6,#fff 80%)!important;border:1.5px solid #168a6d!important;box-shadow:0 0 0 3px rgba(41,143,98,.09)!important}
+#main-card .product-badge{align-self:flex-start!important;background:#e9f6ec!important;border:1px solid #d0e7d6!important;color:#397a63!important;border-radius:7px!important;letter-spacing:.06em!important;font-size:9px!important;padding:5px 7px!important}
+#main-card .product-badge.alt{background:#eef6fb!important;color:#4b7c8c!important;border-color:#d5e8ef!important}
+#main-card .product-name{font-size:17px!important;color:#1b3833!important;font-weight:900!important;line-height:1.3!important;margin:12px 0 0!important}
+#main-card .product-name-note{font-size:10.5px!important;font-weight:550!important;color:#70857d!important;margin-top:4px!important;display:block!important}
+#main-card .product-price{color:#133a32!important;font-size:25px!important;letter-spacing:-.045em!important;font-weight:950!important;margin-top:auto!important;padding-top:14px!important}
+#main-card .product-price small{color:#6a827a!important;font-size:10px!important}
+#main-card .xa-screen-actions{margin-top:17px!important}
+#main-card .xa-primary-cta,#main-card .x-btn-white{background:#075f51!important;color:#fff!important;border:1px solid #075f51!important;border-radius:11px!important;box-shadow:0 7px 20px rgba(7,95,81,.13)!important;font-weight:850!important;min-height:46px!important}
+#main-card .xa-primary-cta:hover:not(:disabled),#main-card .x-btn-white:hover:not(:disabled){background:#034d41!important;filter:none!important;transform:translateY(-1px)!important}
+#main-card .xa-screen-note{color:#7d8f89!important;font-size:10.5px!important;margin-top:8px!important;text-align:center!important}
+#main-card .xa-subrow{margin:0 0 12px!important;color:#8a9b93!important}
+#main-card .xa-subrow .xa-back-link{color:#126f59!important}
+#main-card .xa-subrow>span{color:#8a9b93!important}
+#main-card .xa-selected-product{border-radius:12px!important;padding:12px 14px!important;margin-bottom:16px!important}
+#main-card .xa-selected-product small,#main-card .xa-order-summary-card small{color:#70857e!important}
+#main-card .xa-selected-product strong,#main-card #payment-selected-price{color:#183c32!important}
+#main-card .xa-payment-heading{margin:6px 0 7px!important}
+#main-card .xa-payment-heading h4{color:#1e3932!important;font-size:14px!important}
+#main-card .xa-payment-options{gap:8px!important}
+#main-card .payment-chip{min-height:61px!important;padding:11px 13px!important;border-radius:12px!important}
+#main-card .payment-chip.selected{background:#effaf3!important;border-color:#168c70!important;box-shadow:0 0 0 2px rgba(10,117,87,.09)!important}
+#main-card .payment-chip strong{color:#1d392f!important;font-size:12px!important}
+#main-card .payment-chip small{color:#788980!important;font-size:10px!important}
+#main-card .payment-chip .xa-pay-action{color:#0c7a60!important}
+#main-card .xa-order-summary-card{border-radius:14px!important;padding:14px 16px!important;margin-top:12px!important}
+#main-card .xa-summary-heading{border-color:#e5ece9!important}
+#main-card .xa-summary-heading span{color:#799087!important}
+#main-card .xa-summary-heading .xa-summary-status{background:#eaf5ee!important;color:#287e63!important}
+#main-card .xa-summary-main strong,#main-card #summary-prod-badge,#main-card #summary-pay-badge{color:#1a3f36!important}
+#main-card #summary-total-price{color:#08705a!important;font-size:25px!important}
+#main-card .xa-price-breakdown span{color:#718781!important}
+#main-card .xa-price-breakdown b{color:#173b32!important}
+#main-card .xa-live-pill{background:#eaf8ef!important;border-color:#bee1cc!important;color:#1b805f!important}
+#main-card .xa-flow3{margin:15px 0!important;color:#6d8579!important}
+#main-card .xa-flow3 .step{color:#457263!important}
+#main-card .xa-info-card{padding:16px!important;border-radius:14px!important}
+#main-card .xa-info-card small{color:#798c84!important}
+#main-card .xa-info-card strong{color:#173b32!important}
+#main-card .xa-msg-box{padding:13px!important;border-radius:13px!important}
+#main-card .xa-msg-head,#main-card .xa-msg-head b{color:#39695b!important}
+#main-card .xa-bubble{background:#f1f7f2!important;border:1px solid #e1ebe4!important;border-radius:9px!important;color:#37574b!important}
+#main-card .xa-sub-actions button{color:#0b6b56!important}
+#main-card .xa-sub-actions .danger{color:#bb6570!important}
+#main-card .xa-query-progress{display:none!important}
+#main-card .xa-back-link{color:#176c58!important}
+#main-card .xa-notice,#main-card .v51-query-note,#main-card .v51-guide-disclosure{background:#fff!important;border:1px solid #dce8df!important;color:#576e64!important;border-radius:11px!important}
+#main-card .xa-notice summary,#main-card .v51-guide-disclosure summary{color:#446b5d!important;font-weight:800!important}
+#main-card .xa-notice p,#main-card .v51-guide-disclosure p{color:#74867d!important}
+#main-card .access-panel{padding:16px!important;border-radius:15px!important}
+#main-card .access-status,#main-card .xa-code-label{color:#206e58!important}
+#main-card .x-input,#main-card input#manual-code-input{background:#f7faf7!important;border:1px solid #d8e5dd!important;color:#173b31!important;border-radius:10px!important;min-height:48px!important}
+#main-card input#manual-code-input::placeholder{color:#a0aaa4!important}
+#main-card .xa-paste-btn,#main-card .x-btn-dark{background:#fff!important;border:1px solid #d6e3db!important;color:#186851!important;border-radius:9px!important}
+#main-card #step-result .xa-result-head{padding:2px 0 12px!important;border-bottom:1px solid #e1ece4!important;gap:12px!important}
+#main-card .xa-result-head h3{color:#173a31!important;font-size:22px!important;letter-spacing:-.048em!important}
+#main-card .xa-result-head p{color:#657d71!important}
+#main-card .xa-result-head .xa-eyebrow{color:#157f62!important}
+#main-card #account-status-pill{background:#e9f8ef!important;color:#167c5d!important;border:1px solid #c7e8d2!important}
+#main-card #account-result-error{background:#fff0f1!important;border:1px solid #edc5cb!important;color:#9b2639!important}
+#main-card #account-result-error p{color:#b44857!important}
+#main-card #step-result>.space-y-2{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important;margin-top:14px!important}
+#main-card #step-result>.space-y-2>*{margin:0!important;min-width:0!important}
+#main-card #step-result .result-field{min-height:112px!important;border-radius:13px!important;padding:14px!important;align-items:flex-start!important;flex-direction:column!important;justify-content:space-between!important;gap:9px!important}
+#main-card .result-label-line b{color:#496b5d!important}
+#main-card .result-label-line em{color:#8fa29a!important}
+#main-card .result-label-line .tile{color:#157c64!important;background:#edf7ef!important;border-color:#dbebdf!important}
+#main-card #step-result .result-field .copy-btn{align-self:flex-end!important;min-height:32px!important;padding:6px 12px!important}
+#main-card .result-value{color:#162f29!important;overflow-wrap:anywhere!important;white-space:normal!important}
+#main-card #res-otp{color:#0b7e63!important;font-size:23px!important}
+#main-card .otp-ring{border-color:#b4dec9!important;color:#17825d!important}
+#main-card #v51-code-disclosure{background:#fff!important;border:1px solid #dce8e0!important;color:#265344!important;border-radius:13px!important;min-width:0!important;overflow:hidden!important}
+#main-card #v51-code-disclosure>summary{color:#235b48!important;background:#f7fbf8!important;font-size:12px!important}
+#main-card #v51-code-disclosure .v51-code-inner{background:#fff!important;color:#1d3c31!important}
+#main-card #v51-code-disclosure .v51-code-value{color:#597d6c!important}
+#main-card #v51-code-disclosure #res-code{color:#123b2c!important;background:#f5f9f6!important;border:1px solid #e2ede6!important;word-break:break-all!important}
+#main-card #v51-code-disclosure p{color:#798e82!important}
+#main-card #result-action-row{margin-top:12px!important}
+#main-card #btn-open-mail{color:#075f51!important;background:#eaf7f0!important;border-color:#c0decf!important}
+#main-card #site-footnote{color:#94a79b!important}
+#main-card .xa-guide-head h3{color:#183d32!important}
+#main-card .xa-guide-head p{color:#70857a!important}
+#main-card .v51-quickguide{background:#fff!important;border:1px solid #e0e9e3!important;border-radius:12px!important}
+#main-card .v51-quickguide>div{color:#436d5b!important}
+/* Preserve dark interfaces, but widen order console for dense admin scanning. */
+#admin-console-modal,#admin-login-modal,#agreement-modal,#email-inbox-modal,#xa-inbox-viewer{color:#e9f3f5}
+#admin-console-modal .xa-modal-panel{max-width:min(96vw,950px)!important;border-radius:18px!important}
+#admin-console-modal .xa-admin-tabs{gap:7px!important}
+#admin-console-modal .v51-admin-order{border-radius:11px!important}
+#xa-inbox-viewer .xa-inbox-window{width:min(95vw,880px)!important}
+/* Accessibility + small screens */
+#main-card button:focus-visible,#main-card [role="button"]:focus-visible,#main-card input:focus-visible{outline:3px solid #78cbb1!important;outline-offset:2px!important}
+@media(max-width:640px){
+ body{padding:10px 8px 26px!important}
+ .main-shell{width:100%!important;margin:0!important}
+ #main-card{border-radius:17px!important}
+ #main-card .xa-top{padding:13px 17px!important;min-height:58px}
+ #main-card .xa-brandline{font-size:12px!important;gap:4px!important}
+ #main-card .xa-brandline:before{width:28px;height:28px;margin-right:4px;font-size:14px}
+ #main-card .xa-hero{padding:18px 17px 12px!important}
+ #main-card .xa-hero-title{font-size:25px!important}
+ #main-card .xa-hero-lead{font-size:11px!important}
+ #step-indicator-bar.v53-miniline{padding:0 10px!important;gap:2px!important;min-height:40px!important}
+ #step-indicator-bar .xa-progress-step{gap:4px!important;padding:8px 1px!important;min-height:40px!important}
+ #step-indicator-bar .xa-progress-step b{display:inline!important;font-size:10.2px!important}
+ #step-indicator-bar .xa-progress-step span{font-size:9.5px!important}
+ #main-card .xa-screen{padding:17px 16px 23px!important}
+ #main-card .xa-stage-heading h3{font-size:18px!important}
+ #main-card .xa-product-grid{gap:8px!important}
+ #main-card .product-card{padding:13px!important;min-height:149px!important;border-radius:12px!important}
+ #main-card .product-name{font-size:14px!important}
+ #main-card .product-price{font-size:22px!important}
+ #main-card .xa-summary-main{gap:8px!important}
+ #main-card #step-result>.space-y-2{grid-template-columns:1fr!important;gap:8px!important}
+ #main-card #step-result .result-field{min-height:79px!important;flex-direction:row!important;align-items:center!important}
+ #main-card #step-result .result-field .copy-btn{align-self:center!important}
+ #main-card #step-result .result-value{font-size:12px!important}
+ #admin-console-modal .xa-modal-panel{max-width:100%!important}
+}
+@media(max-width:365px){#step-indicator-bar .xa-progress-step b{font-size:9px!important}#step-indicator-bar .xa-progress-step span{font-size:8.5px!important}#main-card .xa-product-grid{gap:6px!important}}
+@media(prefers-reduced-motion:reduce){#main-card *{transition:none!important;animation:none!important}}
+</style>
+
+<style id="v54-onepage-product-payment">
+/* v54: actual purchase/product fusion, not merely a compressed progress indicator. */
+#step-indicator-bar.xa-two-step-line{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0!important;width:100%!important;max-width:none!important}
+#step-indicator-bar.xa-two-step-line .xa-progress-step{width:100%!important;min-width:0!important;min-height:37px!important;padding:7px 8px!important;justify-content:center!important}
+#step-indicator-bar.xa-two-step-line .xa-progress-step b{white-space:nowrap!important}
+#step-indicator-bar.xa-two-step-line .xa-progress-step.active{color:#09664e!important}
+#main-card:has(#step-price:not(.hidden)) .xa-hero{display:none!important}
+#main-card #step-price.xa-merged-screen{padding-top:12px!important;padding-bottom:16px!important}
+#step-price .xa-utility{padding:0 0 10px!important;margin:0!important;border:0!important}
+#step-price .xa-merged-title{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:0 0 12px}
+#step-price .xa-merged-title h3{font-size:22px;line-height:1.22;color:#143a2f;font-weight:900;letter-spacing:-.055em;margin:2px 0 4px}
+#step-price .xa-merged-title p{font-size:11.5px;color:#718a7c;margin:0;line-height:1.45}
+#step-price .xa-merged-title .xa-stage-number{font-size:9px;letter-spacing:.13em;color:#16866a}
+#step-price .xa-merged-title-note{border:1px solid #cfe5da;border-radius:99px;padding:6px 9px;color:#287e62;font-size:10px;background:#eef8f1;white-space:nowrap;font-weight:800}
+#step-price .xa-merged-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:stretch}
+#step-price .xa-merged-pane{border:1px solid #e1ebe5;border-radius:15px;background:#ffffff;box-shadow:0 4px 16px rgba(18,58,37,.027);padding:12px;min-width:0}
+#step-price .xa-merged-pane-head{display:flex;align-items:center;gap:7px;margin-bottom:10px;min-height:25px}
+#step-price .xa-merged-pane-head strong{color:#20463a;font-size:13px;font-weight:850;letter-spacing:-.025em}
+#step-price .xa-merged-pane-head small{color:#8aa096;font-size:9.4px;margin-left:auto;white-space:nowrap}
+#step-price .xa-mini-number{width:22px;height:22px;border-radius:7px;background:#e4f4e9;color:#087257;font-weight:900;font-size:10px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+#step-price .xa-product-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;margin:0!important}
+#step-price .product-card{min-height:120px!important;padding:11px!important;border-radius:10px!important;gap:0!important;justify-content:space-between!important;min-width:0!important}
+#step-price .product-badge{font-size:8.3px!important;letter-spacing:.075em!important;padding:3px 5px!important}
+#step-price .product-name{font-size:13.5px!important;line-height:1.32!important;margin-top:9px!important}
+#step-price .product-name-note{font-size:9.6px!important;white-space:normal!important;line-height:1.25!important;color:#6e8b7b!important}
+#step-price .product-price{font-size:20px!important;padding-top:8px!important;margin-top:0!important}
+#step-price .product-price small{font-size:9px!important}
+#step-price .xa-payment-options{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin:0!important}
+#step-price .payment-chip{min-height:56px!important;padding:9px 10px!important;gap:8px!important;border-radius:10px!important;margin:0!important}
+#step-price .payment-chip .pay-badge-icon{width:33px!important;min-width:33px!important;height:33px!important;font-size:10px!important}
+#step-price .payment-chip .xa-pay-copy strong{font-size:11.3px!important}
+#step-price .payment-chip .xa-pay-copy small{font-size:9.5px!important;line-height:1.3!important}
+#step-price .xa-merged-summary{display:flex!important;align-items:center;justify-content:space-between;gap:15px;padding:12px 15px!important;margin-top:10px!important;background:#f1f8f3!important;border:1px solid #d3e7d9!important;border-radius:13px!important}
+#step-price .xa-merged-summary-left{min-width:0}
+#step-price .xa-merged-summary-left>small,#step-price .xa-merged-summary-right>small{display:block;font-size:9px!important;letter-spacing:.025em;color:#688577!important;margin-bottom:4px}
+#step-price .xa-merged-summary-choice{display:flex;gap:5px;align-items:center;flex-wrap:wrap;font-size:12px;color:#204838}
+#step-price .xa-merged-summary-choice b{font-weight:850!important;color:#204838!important}
+#step-price .xa-merged-summary-breakdown{margin-top:5px;font-size:9.5px;color:#6b8475;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+#step-price .xa-merged-summary-breakdown b{font-size:9.8px;color:#476d56;font-weight:800}
+#step-price .xa-merged-summary-right{text-align:right;white-space:nowrap;margin-left:auto}
+#step-price #summary-total-price{font-size:25px!important;line-height:1.1!important;color:#086d53!important;letter-spacing:-.045em!important;font-variant-numeric:tabular-nums!important}
+#step-price .xa-merged-actions{margin-top:10px!important}
+#step-price .xa-merged-actions .xa-primary-cta{width:100%!important;min-height:46px!important;justify-content:center!important;font-size:12px!important}
+#step-price .xa-merged-actions .xa-screen-note{font-size:10px!important;margin-top:6px!important}
+@media(min-width:790px){#step-price .xa-merged-grid{gap:14px}#step-price .xa-merged-pane{padding:14px}}
+@media(max-width:720px){
+ #step-price .xa-merged-grid{grid-template-columns:1fr;gap:9px}
+ #step-price .xa-merged-pane{padding:10px!important}
+ #step-price .product-card{min-height:101px!important;padding:10px!important}
+ #step-price .xa-merged-pane-head{margin-bottom:7px}
+ #step-price .xa-payment-options{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+ #step-price .payment-chip{min-height:64px!important;flex-direction:column!important;align-items:flex-start!important;padding:8px!important;gap:5px!important;position:relative!important}
+ #step-price .payment-chip .pay-badge-icon{width:24px!important;min-width:24px!important;height:23px!important;font-size:9px!important}
+ #step-price .payment-chip .xa-pay-copy strong{font-size:10.5px!important;line-height:1.2!important}
+ #step-price .payment-chip .xa-pay-copy small{font-size:9px!important;line-height:1.25!important}
+ #step-price .payment-chip .xa-pay-action{position:absolute!important;right:9px!important;top:9px!important}
+ #step-price .xa-merged-title h3{font-size:20px}
+ #step-price .xa-merged-title-note{font-size:9px}
+}
+@media(max-width:385px){
+ #step-price .xa-merged-pane-head small{display:none}
+ #step-price .xa-merged-title-note{display:none}
+ #step-price .product-price{font-size:18px!important}
+ #step-price #summary-total-price{font-size:22px!important}
+ #step-price .payment-chip .xa-pay-copy small{font-size:8.5px!important}
+}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -809,33 +1050,24 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
 <div class="xa-hero-row">
 <div>
 <p class="xa-eyebrow">ACCOUNT ACCESS SERVICE</p>
-<h2 class="xa-hero-title">계정 구매</h2>
-<p class="xa-hero-lead">상품을 고르고 결제 방식을 선택하세요. 승인 후 발급 코드를 확인할 수 있어요.</p>
+<h2 class="xa-hero-title">필요한 계정을 <em>더 간편하게.</em></h2>
+<p class="xa-hero-lead">상품을 선택하고 결제 방법을 확인하세요. 승인 후 계정 정보를 조회할 수 있어요.</p>
 </div>
 <span class="xa-live"><i></i>QUICK ORDER</span>
 </div>
 </div>
 <!-- 진행 단계 인디케이터 -->
-<div aria-label="구매 진행 단계" class="xa-progress" id="step-indicator-bar">
-<div class="xa-progress-step active" id="dot-step-price"><span>01</span><b>상품 선택</b></div>
-<div class="xa-progress-line"></div>
-<div class="xa-progress-step" id="dot-step-waiting"><span>02</span><b>결제 선택</b></div>
-<div class="xa-progress-line"></div>
-<div class="xa-progress-step" id="dot-step-result"><span>03</span><b>주문·발급</b></div>
-</div>
+<nav aria-label="구매 진행 단계" class="xa-progress v53-miniline xa-two-step-line" id="step-indicator-bar">
+  <button type="button" class="xa-progress-step active" id="dot-step-price" aria-current="step" onclick="showScreen('step-price')"><span>01</span><b>상품 · 결제</b></button>
+  <span class="xa-progress-step" id="dot-step-result"><span>02</span><b>주문 · 발급</b></span>
+</nav>
 <div class="xa-rule"></div>
 <!-- 1. 가격표 및 주문 생성 화면 (step-price) -->
-<section class="xa-screen" id="step-price">
-<div class="xa-utility">
-<span class="xa-utility-label">이미 코드를 받으셨나요?</span>
-<button class="xa-link-button" onclick="showScreen('step-query')" type="button">기존 코드 조회 <span>↗</span></button>
-</div>
-<div class="xa-stage-heading">
-<span class="xa-stage-number">STEP 01</span>
-<h3>어떤 계정이 필요하세요?</h3>
-<p>원하는 상품을 하나 선택하세요.</p>
-</div>
-<div class="xa-product-grid">
+<section class="xa-screen xa-merged-screen" id="step-price">
+  <div class="xa-utility"><span class="xa-utility-label">이미 발급받으셨나요?</span><button type="button" class="xa-link-button" onclick="showScreen('step-query')">기존 코드 조회 <span aria-hidden="true">↗</span></button></div>
+  <div class="xa-merged-title"><div><span class="xa-stage-number">ONE PAGE ORDER</span><h3>상품과 결제를 한 번에.</h3><p>상품과 결제수단을 선택하면 아래 금액이 바로 바뀝니다.</p></div><span class="xa-merged-title-note">1분 간편 주문</span></div>
+  <div class="xa-merged-grid">
+    <div class="xa-merged-pane"><div class="xa-merged-pane-head"><span class="xa-mini-number">01</span><strong>상품 선택</strong><small>원하는 계정을 선택하세요</small></div><div class="xa-product-grid">
 <div aria-pressed="true" class="product-card x-inner selected" onclick="selectProduct(this, '일반 계정', '15,000 KRW')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProduct(this, '일반 계정', '15,000 KRW')}" role="button" tabindex="0">
 <span class="product-badge">STANDARD</span>
 <div class="product-name">일반 계정<span class="product-name-note">이메일 변경 불가</span></div>
@@ -848,17 +1080,8 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
 <div class="product-price">20,000<small> KRW</small></div>
 <span class="xa-select-ind"></span>
 </div>
-</div>
-
-
-
-
-
-<div class="xa-screen-actions"><button class="xa-primary-cta" id="btn-to-payment" onclick="showScreen('step-payment')" type="button"><span>결제 방법 선택하기</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button><p class="xa-screen-note">결제 전 금액을 한 번 더 확인할 수 있어요.</p></div></section>
-<!-- 2. 입금 확인 대기 화면 (step-waiting) -->
-<section class="xa-screen hidden" id="step-payment"><div class="xa-subrow xa-payment-backrow"><button class="xa-back-link" onclick="showScreen('step-price')" type="button">← 상품 다시 선택</button><span>STEP 02 / 02</span></div><div class="xa-stage-heading xa-payment-intro"><span class="xa-stage-number">STEP 02</span><h3>결제 방식을 선택하세요</h3><p>금액을 확인한 뒤 주문을 접수하세요.</p></div><div class="xa-selected-product x-inner"><div><small>선택한 상품</small><strong id="payment-selected-product">일반 계정</strong></div><div class="xa-selected-product-price"><small>상품 금액</small><strong id="payment-selected-price">15,000원</strong></div></div><div class="xa-payment-heading">
-<div><span class="xa-stage-number">PAYMENT METHOD</span><h4>송금 수단</h4></div>
-</div><div class="xa-payment-options">
+</div></div>
+    <div class="xa-merged-pane"><div class="xa-merged-pane-head"><span class="xa-mini-number">02</span><strong>결제 선택</strong><small>입금 안내는 오픈채팅에서</small></div><div class="xa-payment-options">
 <div aria-pressed="true" class="payment-chip selected" id="chip-kakao" onclick="selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)}" role="button" tabindex="0">
 <span class="pay-badge-icon kakao">Pay</span>
 <span class="xa-pay-copy"><strong>카카오페이 익명 송금</strong><small>오픈채팅에서 판매자 안내에 따라 송금</small></span>
@@ -869,23 +1092,23 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
 <span class="xa-pay-copy"><strong>컬쳐랜드 문화상품권</strong><small>상품 금액에 5,000원 추가</small></span>
 <span class="xa-pay-action"></span>
 </div>
-</div><div aria-live="polite" class="xa-order-summary-card">
-<div class="xa-summary-heading"><span>ORDER SUMMARY</span><span class="xa-summary-status">실시간 계산</span></div>
-<div class="xa-summary-main">
-<div class="min-w-0">
-<small>선택한 상품</small><strong id="summary-prod-badge">일반 계정</strong>
-<div class="xa-price-breakdown">
-<div><span>상품 금액</span><b id="summary-base-price">15,000원</b></div>
-<div><span>결제 수단 추가금</span><b id="summary-payment-fee">0원</b></div>
-</div>
-</div>
-<div class="xa-sum-right">
-<small class="xa-total-label">TOTAL PAYMENT</small>
-<strong class="xa-total-price" id="summary-total-price">15,000원</strong>
-<small style="margin-top:9px">송금 수단</small><strong class="summary-method" id="summary-pay-badge">카카오페이</strong>
-</div>
-</div>
-</div><div class="xa-screen-actions xa-payment-actions"><button class="xa-primary-cta" onclick="openAgreementModal()" type="button"><span>주문 내용 확인하기</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button><p class="xa-screen-note">입금은 오픈채팅에서 판매자 확인 후 진행됩니다.</p></div></section><section class="xa-screen hidden" id="step-waiting">
+</div></div>
+  </div>
+  <div class="xa-order-summary-card xa-merged-summary" aria-live="polite">
+    <div class="xa-merged-summary-left">
+      <small>선택 내역</small>
+      <div class="xa-merged-summary-choice"><b id="summary-prod-badge">일반 계정</b><span aria-hidden="true">·</span><b id="summary-pay-badge">카카오페이</b></div>
+      <div class="xa-merged-summary-breakdown">상품 <b id="summary-base-price">15,000원</b><span aria-hidden="true">·</span>추가금 <b id="summary-payment-fee">0원</b></div>
+    </div>
+    <div class="xa-merged-summary-right"><small>최종 결제금액</small><strong id="summary-total-price">15,000원</strong></div>
+  </div>
+  <div class="xa-screen-actions xa-merged-actions">
+    <button class="xa-primary-cta" id="btn-to-payment" onclick="openAgreementModal()" type="button"><span>약관 확인하고 주문 접수</span><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+    <p class="xa-screen-note">주문 접수 후 오픈채팅에서 안내를 확인하고 송금해 주세요. 자동결제는 진행되지 않습니다.</p>
+  </div>
+</section>
+<!-- 2. 입금 확인 대기 화면 (step-waiting) -->
+<section class="xa-screen hidden" id="step-waiting">
 <div style="text-align:center">
 <span class="xa-live-pill"><span class="dot"></span>주문 접수 · 입금 확인 대기</span>
 </div>
@@ -984,11 +1207,11 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
 <div class="xa-guide-item">
 <span class="tile"><i data-lucide="shield-check"></i></span>
 <div>
-<strong>02. 12시간 교환 규정</strong>
+<strong>02. 초기 12시간 점검 권장 안내</strong>
 <ul>
-<li>본 거래는 정상 노출 상태의 X 계정 양도입니다.</li>
-<li>발급 수령 시점부터 12시간 이내 계정 자체의 중대한 문제 확인 시 1회 교환됩니다.</li>
-<li>단, 구매자 과실이나 X 시스템/운영정책 위반으로 발생한 제한은 제외됩니다.</li>
+<li>수령 직후 로그인 가능 여부와 제공된 계정 정보가 주문 내용과 일치하는지 확인해 주세요.</li>
+<li>문제가 있으면 가능하면 수령 후 12시간 안에 주문번호와 확인 자료를 함께 보내 주세요. 이는 빠른 확인을 위한 권장 시간입니다.</li>
+<li>12시간이 지나도 법률상 청약철회·계약 불이행·하자 구제 권리는 제한되지 않으며, 처리 방법은 확인된 사실과 법령에 따라 결정합니다.</li>
 </ul>
 </div>
 </div>
@@ -1156,54 +1379,153 @@ body{background:radial-gradient(ellipse at 50% -10%,rgba(41,121,153,.16),transpa
   </section>
 </div>
 
-<!-- 모달: 약관 동의 및 주문 접수 -->
-<div aria-modal="true" class="fixed inset-0 xa-modal backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" id="agreement-modal" role="dialog">
-<div class="xa-modal-panel max-w-md w-full p-5 md:p-6 space-y-3.5">
-<div class="flex items-start justify-between">
-<div>
-<span class="xa-modal-kicker">ORDER COMPLIANCE</span>
-<h4 class="xa-modal-title">주문 확인 및 이용 조건</h4>
+<!-- 모달: 약관 동의 및 주문 접수: v55 Pearl & Forest -->
+<div aria-modal="true" aria-labelledby="xa55-agreement-title" class="fixed inset-0 xa-modal hidden" id="agreement-modal" role="dialog">
+  <div class="xa-modal-panel xa55-agreement-shell">
+    <div class="xa55-agreement-head">
+      <div class="xa55-agreement-heading">
+        <span class="xa55-kicker"><span class="xa55-kicker-dot"></span> CHECKOUT · FINAL REVIEW</span>
+        <h4 id="xa55-agreement-title">주문 확인 및 이용 조건</h4>
+        <p>주문 상품과 정보 제공·환불·문제 처리 조건을 확인해 주세요.</p>
+      </div>
+      <button class="xa55-close" onclick="closeAgreementModal()" type="button" aria-label="닫기">×</button>
+    </div>
+    <div class="xa55-agreement-scroll">
+      <div class="xa55-summary" aria-label="주문 정보">
+        <div class="xa55-summary-top">
+          <div><small>선택한 상품</small><strong id="modal-order-summary">일반 계정 · 15,000원</strong></div>
+          <div><small>결제수단</small><strong id="modal-pay-summary">카카오페이 익명 송금</strong></div>
+        </div>
+        <div class="xa55-summary-bottom"><span>최종 결제 금액</span><strong id="modal-total-summary">15,000원</strong></div>
+      </div>
+      <div class="xa55-section-title"><span>주문 확인 및 이용 조건</span><span>TERMS v57 · 2026.11.13</span></div>
+      <div class="xa-terms-box xa55-terms-list" aria-label="필수 거래조건 네 항목">
+        <article class="xa-terms-item xa55-term-card">
+          <span class="xa-terms-num">01</span>
+          <div><strong>이용 제한</strong>
+            <p>사기·피싱·보이스피싱 유도, 마약·불법 약물 판매·홍보, 불법 도박·사설 토토 홍보, 불법 촬영물·성착취물 유포, 사칭·스팸, 협박·괴롭힘 등 <b>위법하거나 타인에게 피해를 주는 목적</b>으로 계정을 이용해서는 안 됩니다. 위법 정황이 확인되면 사실관계를 확인하고 피해 방지를 위한 신고·증빙 보존 등 적법한 조치를 취할 수 있습니다. <b>계정 이용 제한·회수·환급 여부는 계약과 법령 및 귀책사유에 따라 판단합니다.</b></p>
+          </div>
+        </article>
+        <article class="xa-terms-item xa55-term-card">
+          <span class="xa-terms-num">02</span>
+          <div><strong>로그인 및 초기 확인</strong>
+            <p>전달받은 ID·비밀번호로 로그인한 뒤 OTP(2단계 인증)를 진행하고, <b>수령 당시 로그인 가능 여부와 안내된 노출 상태(서치벤 등)</b>를 가능한 한 빠르게 확인해 주세요. 문제가 발견되면 주문번호, 확인 시각, 오류 증상과 민감정보를 가린 증빙자료를 첨부해 관리자에게 문의해 주세요.</p>
+          </div>
+        </article>
+        <article class="xa-terms-item xa55-term-card">
+          <span class="xa-terms-num">03</span>
+          <div><strong>교환 및 하자 처리 규정</strong>
+            <p>거래 대상은 주문 시 안내한 유형과 상태의 계정 접속정보입니다. <b>발급 코드 수령 후 12시간 이내에 초기 문제를 신고하는 것을 권장</b>하며, 인도 당시 존재한 중대한 로그인 하자나 계약 내용과의 불일치가 확인되는 경우 <b>1회 교환을 우선 안내</b>합니다. 구매자 사용·설정 변경 등 구매자 귀책으로 발생한 문제는 그 원인과 증빙에 따라 교환이 제한될 수 있습니다. <b>12시간 경과 또는 1회 교환 안내가 법정 환급·손해배상 등 권리를 없애지는 않습니다.</b></p>
+          </div>
+        </article>
+        <article class="xa-terms-item xa55-term-card">
+          <span class="xa-terms-num">04</span>
+          <div><strong>계정 관리 및 보안</strong>
+            <p>구매자는 ID·비밀번호·발급 코드·OTP 비밀키를 안전하게 보관하고 제3자와 공유하지 않아야 합니다. 아이디·닉네임·프로필 사진 등 <b>인도 전 정보 구성은 사전에 고지한 상품 조건에 따라 판매자가 결정</b>할 수 있으나, <b>인도 후 판매자가 구매자 동의 없이 계정에 접근하거나 정보를 변경·회수하지 않습니다.</b> 생년월일 등 중요한 설정 변경은 계정 제한 가능성을 고려하여 신중히 진행해 주세요.</p>
+          </div>
+        </article>
+      </div>
+      <div class="xa55-policy-note xa56-dispute-note">
+        <span class="xa55-policy-icon" aria-hidden="true">i</span>
+        <div><strong>문제 접수 및 증빙 안내</strong>
+        <p>문제가 있으면 주문번호와 증상을 오픈채팅으로 알려주세요. 비밀번호·발급 코드·OTP 비밀키 전체는 보내지 말고, 민감정보를 가린 화면을 첨부해 주세요. 판매자는 관련 법령에 따라 주문·지급·문의 기록을 적정하게 관리합니다.</p></div>
+      </div>
+      <p class="xa55-legal-footnote">이 조건은 거래 당사자의 초기 확인과 분쟁 처리 절차를 안내하기 위한 것입니다. 법정 청약철회권, 계약 불이행·하자 및 손해배상에 관한 권리를 일괄 배제하지 않습니다.</p>
+    </div>
+    <div class="xa55-agreement-footer">
+      <label class="xa-agree xa55-agree">
+        <input id="single-agree-check" onchange="toggleModalOrderBtn()" type="checkbox"/>
+        <span><b>[필수]</b> 주문 상품·금액 및 이용 제한·초기 확인·교환·보안 조건을 확인하고 동의합니다.</span>
+      </label>
+      <div class="xa-modal-actions xa55-actions">
+        <button class="xa55-cancel" onclick="closeAgreementModal()" type="button">돌아가기</button>
+        <button class="xa55-submit" disabled id="btn-modal-submit" onclick="submitOrderFromModal()" type="button">확인하고 주문 접수 <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="xa55-bottom-caption">주문 접수는 결제 완료가 아니며, 입금 확인은 운영자가 별도로 진행합니다.</div>
+    </div>
+  </div>
 </div>
-<button class="xa-modal-close" onclick="closeAgreementModal()" type="button">×</button>
-</div>
-<div class="xa-tiles">
-<div class="xa-tile"><small>선택 상품</small><strong id="modal-order-summary">일반 계정 · 15,000원</strong></div>
-<div class="xa-tile right"><small>송금 수단</small><strong id="modal-pay-summary">카카오페이 익명 송금</strong></div>
-<div class="xa-tile total"><small>최종 결제 금액</small><strong id="modal-total-summary">15,000원</strong></div>
-</div>
-<div class="xa-terms-box">
-<div class="xa-terms-item">
-<span class="xa-terms-num">01</span>
-<div>
-<strong>디지털 정보 열람 및 청약철회 안내</strong>
-<p>계정 정보가 제공·열람된 이후 단순 변심에 따른 취소·환불은 제한될 수 있습니다. 다만 관련 법령상 보장되는 청약철회, 환급 및 하자에 대한 권리는 이 안내로 배제되지 않습니다.</p>
-</div>
-</div>
-<div class="xa-terms-item">
-<span class="xa-terms-num">02</span>
-<div>
-<strong>초기 상태 확인 및 문의</strong>
-<p>수령 직후 제공 정보와 접속 상태를 확인하고, 문제가 있으면 확인 가능한 자료와 함께 즉시 문의해 주세요. 교환·환급 여부와 처리 범위는 확인된 사실 및 관련 법령에 따라 안내합니다.</p>
-</div>
-</div>
-<div class="xa-terms-item">
-<span class="xa-terms-num">03</span>
-<div>
-<strong>서비스 정책 및 이용 책임</strong>
-<p>X의 이용약관·운영정책에 따라 계정의 양도·공유·이용이 제한될 수 있으며, 장기간 이용이나 특정 기능의 지속 가능성을 보장하지 않습니다. 구매 전 최신 정책을 확인하고 관련 법령과 서비스 정책을 준수해 주세요.</p>
-</div>
-</div>
-</div>
-<label class="xa-agree">
-<input id="single-agree-check" onchange="toggleModalOrderBtn()" type="checkbox"/>
-<span>[필수] 상품·결제 금액 및 이용 조건을 확인했습니다.</span>
-</label>
-<div class="xa-modal-actions">
-<button class="x-btn-dark" onclick="closeAgreementModal()" type="button">취소</button>
-<button class="x-btn-white" disabled="" id="btn-modal-submit" onclick="submitOrderFromModal()" type="button"><span>동의하고 주문 접수 →</span></button>
-</div>
-</div>
-</div>
+
+<style id="xa56-terms-seller-buyer">
+/* v57: Four-part seller–buyer terms. Does not change order / payment / admin logic. */
+#agreement-modal .xa56-dispute-note{background:#edf8f1!important;border-color:#d5e9dd!important;gap:9px}
+#agreement-modal .xa56-dispute-note .xa55-policy-icon{background:#d8efe1!important;color:#176a4f!important}
+#agreement-modal .xa56-dispute-note strong{color:#1b644c!important}
+#agreement-modal .xa56-dispute-note p{color:#537364!important;margin-bottom:0!important}
+#agreement-modal .xa55-term-card{padding:11px 12px!important}
+#agreement-modal .xa55-term-card p{font-size:11.2px!important;line-height:1.61!important}
+@media(max-width:480px){#agreement-modal .xa55-term-card{gap:9px!important;padding:10px!important}}
+</style>
+<style id="xa55-agreement-pearl-forest">
+/* v55 — purchase confirmation dialog only. Preserve product, admin, email, and Supabase functionality. */
+#agreement-modal{background:rgba(10,30,25,.64)!important;backdrop-filter:blur(11px)!important;padding:14px!important;z-index:120!important}
+#agreement-modal.hidden{display:none!important}
+#agreement-modal .xa55-agreement-shell{
+  width:min(100%,590px)!important;max-width:590px!important;max-height:min(92dvh,850px)!important;
+  overflow:hidden!important;display:flex!important;flex-direction:column!important;gap:0!important;
+  margin:auto!important;padding:0!important;border-radius:22px!important;
+  background:#f9fbf9!important;color:#16382e!important;border:1px solid #e4eee8!important;
+  box-shadow:0 25px 78px rgba(5,35,26,.32)!important;
+}
+#agreement-modal .xa55-agreement-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:20px 23px 17px;border-bottom:1px solid #e8f0eb;background:#fff}
+#agreement-modal .xa55-kicker{display:flex;align-items:center;gap:7px;color:#138267;font-size:9.5px;font-weight:850;letter-spacing:.1em;line-height:1}
+#agreement-modal .xa55-kicker-dot{display:inline-block;width:7px;height:7px;border-radius:100%;background:#0f9978;box-shadow:0 0 0 4px #e7f6ee}
+#agreement-modal .xa55-agreement-heading h4{font-size:21px;color:#103a2e;font-weight:900;letter-spacing:-.045em;line-height:1.3;margin:8px 0 5px}
+#agreement-modal .xa55-agreement-heading p{font-size:11.5px;color:#708a80;margin:0;line-height:1.5}
+#agreement-modal .xa55-close{display:grid;place-items:center;width:32px;height:32px;flex-shrink:0;background:#f3f8f5;border:1px solid #e3ece6;border-radius:10px;color:#436b5f;font-size:23px;line-height:1;cursor:pointer}
+#agreement-modal .xa55-close:hover{background:#e7f5ed}
+#agreement-modal .xa55-agreement-scroll{padding:15px 21px 14px;overflow-y:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#b3cec0 transparent}
+#agreement-modal .xa55-summary{border:1px solid #e3ede6;background:linear-gradient(140deg,#eff8f2,#f8fcf9);border-radius:14px;overflow:hidden;margin-bottom:15px}
+#agreement-modal .xa55-summary-top{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px}
+#agreement-modal .xa55-summary-top div{min-width:0}
+#agreement-modal .xa55-summary small{display:block;font-size:10px;font-weight:700;color:#749085;margin-bottom:5px}
+#agreement-modal .xa55-summary strong{display:block;color:#173e33;font-size:11.8px;font-weight:850;line-height:1.5;overflow-wrap:anywhere}
+#agreement-modal .xa55-summary-bottom{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 14px;border-top:1px solid #e0ebe3;background:#e8f4ec}
+#agreement-modal .xa55-summary-bottom span{font-size:11px;font-weight:800;color:#41675a}
+#agreement-modal .xa55-summary-bottom strong{font-size:19px;font-weight:950;letter-spacing:-.05em;color:#075d46;white-space:nowrap}
+#agreement-modal .xa55-section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 2px 9px}
+#agreement-modal .xa55-section-title span:first-child{font-size:12.5px;font-weight:900;letter-spacing:-.03em;color:#184a3b}
+#agreement-modal .xa55-section-title span:last-child{font-size:9px;font-weight:750;letter-spacing:.085em;color:#9aaba0}
+#agreement-modal .xa55-terms-list{border:0!important;background:none!important;max-height:none!important;padding:0!important;overflow:visible!important;display:grid;gap:8px}
+#agreement-modal .xa55-term-card{display:flex!important;align-items:flex-start;gap:12px!important;padding:12px 13px!important;margin:0!important;border:1px solid #e2ebe5!important;border-radius:13px!important;background:#fff!important;box-shadow:0 1px 3px rgba(20,64,46,.035)}
+#agreement-modal .xa55-term-card .xa-terms-num{display:grid;place-items:center;background:#eaf7ef;border-radius:8px;color:#0e8061;font:900 11px/1 ui-monospace,monospace;width:28px;min-width:28px;height:27px;margin-top:1px}
+#agreement-modal .xa55-term-card strong{font-size:12px;font-weight:900;letter-spacing:-.03em;line-height:1.45;color:#153b2f;margin:1px 0 5px}
+#agreement-modal .xa55-term-card p{font-size:11.6px;line-height:1.64;color:#61756b;margin:0;word-break:keep-all;overflow-wrap:anywhere}
+#agreement-modal .xa55-term-card p b{color:#285b46;font-weight:800}
+#agreement-modal .xa55-policy-note{display:flex;align-items:flex-start;gap:10px;background:#fff8e8;border:1px solid #f0e1b8;border-radius:13px;padding:11px 12px;margin-top:10px}
+#agreement-modal .xa55-policy-icon{display:grid;place-items:center;border-radius:7px;width:22px;height:22px;flex-shrink:0;background:#ffebbb;color:#9b6710;font-weight:900;font-size:13px}
+#agreement-modal .xa55-policy-note strong{font-size:11.5px;font-weight:900;color:#704b11}
+#agreement-modal .xa55-policy-note p{color:#826939;font-size:10.7px;line-height:1.65;margin:5px 0 4px;word-break:keep-all}
+#agreement-modal .xa55-policy-note a{font-size:10.4px;font-weight:850;color:#8a601b;text-decoration:underline;text-underline-offset:2px}
+#agreement-modal .xa55-legal-footnote{font-size:10px;line-height:1.65;color:#7a8e83;margin:11px 3px 3px;word-break:keep-all}
+#agreement-modal .xa55-agreement-footer{flex-shrink:0;background:#fff;border-top:1px solid #e8f0eb;padding:12px 21px 14px}
+#agreement-modal .xa55-agree{display:flex!important;align-items:center!important;gap:10px!important;margin:0 0 10px!important;padding:11px 12px!important;background:#f3f8f5!important;border:1px solid #dcebe0!important;border-radius:11px!important;cursor:pointer}
+#agreement-modal .xa55-agree input{accent-color:#0a8064!important;width:17px!important;height:17px!important;margin:0!important}
+#agreement-modal .xa55-agree span{color:#36584c!important;font-size:11.2px!important;line-height:1.55!important;font-weight:650!important}
+#agreement-modal .xa55-agree b{color:#0d8062}
+#agreement-modal .xa55-actions{display:grid!important;grid-template-columns:1fr 2fr!important;gap:9px!important}
+#agreement-modal .xa55-actions button{min-height:43px!important;border-radius:10px!important;font-size:12px!important;font-weight:850!important;letter-spacing:-.01em!important;cursor:pointer}
+#agreement-modal .xa55-cancel{background:#f5f7f5!important;border:1px solid #dde7e0!important;color:#436657!important}
+#agreement-modal .xa55-submit{background:#076f54!important;border:1px solid #076f54!important;color:#fff!important;box-shadow:0 4px 12px rgba(3,115,80,.12)!important}
+#agreement-modal .xa55-submit:not(:disabled):hover{background:#055840!important}
+#agreement-modal .xa55-submit:disabled{background:#cbd9d1!important;border-color:#cbd9d1!important;color:#eff4ef!important;cursor:not-allowed!important;box-shadow:none!important}
+#agreement-modal .xa55-bottom-caption{text-align:center;color:#9aad9f;font-size:9.6px;line-height:1.5;margin-top:8px}
+#agreement-modal :is(button,a,input):focus-visible{outline:3px solid #78c6a1;outline-offset:2px}
+@media(max-width:600px){
+ #agreement-modal{padding:9px!important}
+ #agreement-modal .xa55-agreement-shell{border-radius:17px!important;max-height:94dvh!important}
+ #agreement-modal .xa55-agreement-head{padding:16px 15px 12px}
+ #agreement-modal .xa55-agreement-heading h4{font-size:18px}
+ #agreement-modal .xa55-agreement-scroll{padding:12px 13px}
+ #agreement-modal .xa55-agreement-footer{padding:11px 13px 12px}
+ #agreement-modal .xa55-term-card{padding:10px!important;gap:9px!important}
+ #agreement-modal .xa55-term-card p{font-size:11.1px}
+ #agreement-modal .xa55-summary-top{padding:10px 11px}
+ #agreement-modal .xa55-summary-bottom{padding:8px 11px}
+}
+@media(prefers-reduced-motion:reduce){#agreement-modal *{transition:none!important}}
+</style>
+
 <style id="xa-admin-v49-ui">
 /* 승인/재고 코드를 같은 디자인으로 표시하고 기본 상태에서는 비밀키를 숨깁니다. */
 .xa-admin-flash{padding:12px 14px;border:1px solid rgba(119,211,161,.35);border-radius:10px;background:rgba(68,153,113,.11);color:#b7ebd1;font-size:11.5px;line-height:1.65}
@@ -1634,23 +1956,28 @@ async function submitOrderFromModal() {
 
 // 화면 전환
 function showScreen(screenId) {
-  ['step-price', 'step-payment', 'step-waiting', 'step-query', 'step-guide', 'step-result'].forEach(id => {
+  // v54 merges product and payment into one real screen.
+  // Legacy calls to step-payment are redirected without bypassing consent or order creation.
+  if (screenId === 'step-payment') screenId = 'step-price';
+  ['step-price', 'step-waiting', 'step-query', 'step-guide', 'step-result'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('hidden', id !== screenId);
   });
 
   const dPrice = document.getElementById('dot-step-price');
-  const dWait = document.getElementById('dot-step-waiting');
   const dRes = document.getElementById('dot-step-result');
-  if (dPrice && dWait && dRes) {
-    dPrice.classList.toggle('active', screenId === 'step-price');
-    dWait.classList.toggle('active', screenId === 'step-payment');
-    dRes.classList.toggle('active', screenId === 'step-waiting' || screenId === 'step-result' || screenId === 'step-guide');
+  if (dPrice && dRes) {
+    const isSelection = screenId === 'step-price';
+    dPrice.classList.toggle('active', isSelection);
+    dPrice.classList.toggle('complete', !isSelection);
+    dRes.classList.toggle('active', !isSelection);
+    for (const step of [dPrice,dRes]) {
+      if (step.classList.contains('active')) step.setAttribute('aria-current','step');
+      else step.removeAttribute('aria-current');
+    }
   }
-
-  if (screenId === 'step-price') {
-    if (waitPollingTimer) clearInterval(waitPollingTimer);
-  }
+  document.getElementById('main-card')?.setAttribute('data-current-screen',screenId);
+  if (screenId === 'step-price' && waitPollingTimer) clearInterval(waitPollingTimer);
 }
 
 // 주문번호 난수 생성
@@ -1682,7 +2009,7 @@ function getKstString() {
 async function createOrderAndShowWaiting() {
   if (isCreatingOrder) return;
   isCreatingOrder = true;
-  const submitBtn = document.querySelector('#step-payment .xa-primary-cta');
+  const submitBtn = document.querySelector('#step-price .xa-merged-actions .xa-primary-cta');
   if (submitBtn) { submitBtn.disabled = true; submitBtn.dataset.originalText = submitBtn.innerHTML; submitBtn.innerText = '주문 접수 중...'; }
 
   const orderNo = generateOrderNo();
@@ -2045,6 +2372,7 @@ async function displayAccountResult(code) {
       ? '재고에 등록된 2FA 인증키와 동일한 조회 코드입니다.'
       : '기존 이메일 계정 조회 코드입니다.';
     setAccountResultState('success');
+    document.getElementById('v51-code-disclosure')?.setAttribute('open','');
   } catch (err) {
     console.error('[X ACCOUNT] Account result load failed:', err);
     setText('res-id', '—');
