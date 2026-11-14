@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
@@ -844,7 +844,7 @@ body>.ambient-bg{display:none!important}
 #main-card .product-badge.alt{background:#eef6fb!important;color:#4b7c8c!important;border-color:#d5e8ef!important}
 #main-card .product-name{font-size:17px!important;color:#1b3833!important;font-weight:900!important;line-height:1.3!important;margin:12px 0 0!important}
 #main-card .product-name-note{font-size:10.5px!important;font-weight:550!important;color:#70857d!important;margin-top:4px!important;display:block!important}
-#main-card .product-price{color:#133a32!important;font-size:25px!important;letter-spacing:-.045em!important;font-weight:950!important;margin-top:auto!important;padding-top:14px!important}
+#main-card .product-price{color:#29352F!important;font-size:25px!important;letter-spacing:-.045em!important;font-weight:950!important;margin-top:auto!important;padding-top:14px!important}
 #main-card .product-price small{color:#6a827a!important;font-size:10px!important}
 #main-card .xa-screen-actions{margin-top:17px!important}
 #main-card .xa-primary-cta,#main-card .x-btn-white{background:#075f51!important;color:#fff!important;border:1px solid #075f51!important;border-radius:11px!important;box-shadow:0 7px 20px rgba(7,95,81,.13)!important;font-weight:850!important;min-height:46px!important}
@@ -1184,6 +1184,59 @@ body>.ambient-bg{display:none!important}
 .xa91-mail-btn:hover{background:#086848}
 
 </style>
+
+<style id="xa96-compact-unified-result">
+/* v96: compact styling ONLY for completed multi-account view. Order, admin, and email logic unchanged. */
+#main-card #step-bulk {padding:10px 13px 15px!important}
+#main-card #step-bulk .xa90-issued-wrap{gap:8px!important}
+#main-card #step-bulk .xa90-issued-hero{padding:11px 12px!important;border-radius:12px!important}
+#main-card #step-bulk .xa90-issued-hero-head{gap:9px!important}
+#main-card #step-bulk .xa90-issued-hero-icon{width:32px!important;height:32px!important;flex-shrink:0}
+#main-card #step-bulk .xa90-issued-hero-icon svg{width:18px!important;height:18px!important}
+#main-card #step-bulk .xa90-issued-hero-title{font-size:14px!important;line-height:1.35!important}
+#main-card #step-bulk .xa90-issued-hero-desc{font-size:10.5px!important;line-height:1.5!important;margin-top:2px!important}
+#main-card #step-bulk .xa90-issued-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+#main-card #step-bulk .xa90-stat{padding:10px 12px!important;border-radius:11px!important}
+#main-card #step-bulk .xa90-stat-k{font-size:10px!important;margin-bottom:5px!important}
+#main-card #step-bulk .xa90-stat-v{font-size:21px!important}
+#main-card #step-bulk .xa90-acc-list{gap:7px!important}
+#main-card #step-bulk .xa90-acc-item{border-radius:12px!important}
+#main-card #step-bulk .xa90-acc-head{padding:10px 12px!important;gap:7px!important;min-height:45px!important}
+#main-card #step-bulk .xa90-acc-head-left{gap:8px!important}
+#main-card #step-bulk .xa90-acc-check{width:27px!important;height:27px!important}
+#main-card #step-bulk .xa90-acc-check svg{width:16px!important;height:16px!important}
+#main-card #step-bulk .xa90-acc-title{gap:7px!important}
+#main-card #step-bulk .xa90-acc-title strong{font-size:12.5px!important}
+#main-card #step-bulk .xa90-chip{padding:4px 8px!important;font-size:9.5px!important}
+#main-card #step-bulk .xa90-chevron{width:16px!important;height:16px!important}
+#main-card #step-bulk .xa90-acc-body{padding:0 12px 10px!important}
+/* On narrow screens, show label and value together at left, copy action at right. */
+#main-card #step-bulk .xa90-field{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) auto!important;
+ grid-template-areas:"label copy" "value copy";
+ align-items:center!important;
+ column-gap:9px!important;row-gap:3px!important;
+ padding:7px 0!important;
+}
+#main-card #step-bulk .xa90-field:first-child{padding-top:5px!important}
+#main-card #step-bulk .xa90-field-label{grid-area:label;font-size:10.5px!important;gap:5px!important}
+#main-card #step-bulk .xa90-field-label svg{width:13px!important;height:13px!important}
+#main-card #step-bulk .xa90-field-value{grid-area:value;font-size:11.5px!important;line-height:1.4!important;min-width:0!important}
+#main-card #step-bulk .xa90-copy-btn{grid-area:copy;width:auto!important;min-width:54px!important;min-height:29px!important;padding:0 8px!important;font-size:10px!important;border-radius:8px!important;align-self:center!important}
+#main-card #step-bulk .xa91-mail-field{margin:5px 0!important;padding:7px!important;border-radius:8px!important}
+#main-card #step-bulk .xa91-mail-field .xa90-field-value{font-size:10px!important}
+#main-card #step-bulk .xa90-action-row{grid-template-columns:1fr 1fr!important;gap:7px!important}
+#main-card #step-bulk .xa90-action-row button{min-height:39px!important;border-radius:9px!important;font-size:10.5px!important;padding:6px!important}
+#main-card #step-bulk .xa90-empty-note{padding:10px!important;font-size:10.5px!important}
+@media(min-width:641px){
+ .main-shell:has(#step-bulk:not(.hidden)){width:min(100%,420px)!important}
+}
+@media(max-width:335px){
+ #main-card #step-bulk{padding:9px!important}
+ #main-card #step-bulk .xa90-action-row{grid-template-columns:1fr!important}
+}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -1318,7 +1371,22 @@ body>.ambient-bg{display:none!important}
 <button class="danger" onclick="cancelWaitingOrder()" type="button">주문 종료</button>
 </div>
 </section>
-<section class="xa-screen hidden" id="step-bulk"><div id="xa87-bulk-status-wrap"><div class="xa87-bulk-panel"><strong>여러 계정 발급 현황</strong><p id="xa87-bulk-summary">발급 확인 중</p><div id="xa87-bulk-progress" style="font-weight:800;margin-bottom:10px">조회 중</div><div id="xa87-bulk-list"></div><div class="xa87-subtotal">승인 완료 후에는 이 화면이 통합 조회 화면으로 바뀝니다. 발급 정보는 브라우저에 저장하지 않습니다.</div></div><div class="xa-screen-actions"><button class="xa-primary-cta" type="button" onclick="xa87CheckBulkStatus()">발급 상태 다시 확인</button></div></div><div id="xa90-bulk-issued" class="hidden xa90-issued-wrap"><div class="xa90-issued-hero"><div class="xa90-issued-hero-head"><div class="xa90-issued-hero-icon"><i data-lucide="check"></i></div><div><div class="xa90-issued-hero-title">계정 발급이 완료되었습니다!</div><div class="xa90-issued-hero-desc">주문하신 계정이 모두 발급되었습니다. 아래에서 계정 정보를 확인하세요.</div></div></div></div><div class="xa90-issued-stats"><div class="xa90-stat"><div class="xa90-stat-k">발급 계정 수</div><div class="xa90-stat-v" id="xa90-issued-count">0개</div></div><div class="xa90-stat"><div class="xa90-stat-k">발급 상태</div><div class="xa90-stat-v is-complete" id="xa90-issued-status">완료</div></div></div><div id="xa90-issued-list" class="xa90-acc-list"></div><div class="xa90-action-row"><button class="xa90-copy-all" type="button" onclick="xa90CopyAllIssued(this)">전체 계정 정보 복사</button><button class="xa90-home-btn" type="button" onclick="resetToHome()">주문 내역으로 돌아가기</button></div><div class="xa90-empty-note hidden" id="xa90-issued-error">일부 계정 정보를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</div></div></section>
+<section class="xa-screen hidden" id="step-bulk"><div id="xa87-bulk-status-wrap"><div class="xa87-bulk-panel"><strong>여러 계정 발급 현황</strong><p id="xa87-bulk-summary">발급 확인 중</p><div id="xa87-bulk-progress" style="font-weight:800;margin-bottom:10px">조회 중</div><div id="xa87-bulk-list"></div><div class="xa87-subtotal">승인 완료 후에는 이 화면이 통합 조회 화면으로 바뀝니다. 발급 정보는 브라우저에 저장하지 않습니다.</div></div><div class="xa-screen-actions"><button class="xa-primary-cta" type="button" onclick="xa87CheckBulkStatus()">발급 상태 다시 확인</button></div></div><div id="xa90-bulk-issued" class="hidden xa90-issued-wrap xa100-issued">
+  <div class="xa100-result-top" role="status">
+    <div class="xa100-done-emblem" aria-hidden="true">✓</div>
+    <div class="xa100-result-copy">
+      <strong>계정 발급 완료</strong>
+      <span><b id="xa90-issued-count">0개</b>의 계정을 확인하고 필요한 정보를 복사하세요</span>
+    </div>
+    <span id="xa90-issued-status" class="xa100-done-badge">완료</span>
+  </div>
+  <div id="xa90-issued-list" class="xa90-acc-list xa100-list" aria-label="발급 완료 계정 목록"></div>
+  <div class="xa90-action-row xa100-footer-actions">
+    <button class="xa90-copy-all" type="button" onclick="xa90CopyAllIssued(this)"><i data-lucide="copy"></i> 전체 정보 복사</button>
+    <button class="xa90-home-btn" type="button" onclick="resetToHome()"><i data-lucide="arrow-left"></i> 주문 내역</button>
+  </div>
+  <div class="xa90-empty-note hidden" id="xa90-issued-error" role="alert">일부 계정 정보를 불러오지 못했습니다. 다시 확인해 주세요.</div>
+</div></section>
 <!-- 3. 기존 코드 직접 조회 화면 (step-query) -->
 <section class="xa-screen hidden" id="step-query">
 <div class="xa-query-progress">
@@ -1336,17 +1404,20 @@ body>.ambient-bg{display:none!important}
 <p>받으신 CODE, ID, PW는 안전하게 개인 보관해 주세요. 기존 구매 계정은 발급 코드로 조회할 수 있습니다.</p>
 <p>수령 후 계정 보안 설정을 확인하고 변경 가능한 정보를 수정해 주세요.</p>
 </details>
-<div class="x-inner access-panel">
-<div class="access-status"><span class="access-status-icon"><i data-lucide="shield-check"></i></span>SECURE ACCESS</div>
-<label class="xa-code-label" for="manual-code-input"><span class="tile"><i data-lucide="file-text"></i></span>발급 코드 입력</label>
-<div class="xa-code-row">
-<input autocomplete="off" class="x-input mono" id="manual-code-input" placeholder="전달받은 발급 코드를 입력하세요" spellcheck="false" type="text"/>
-<button class="xa-paste-btn" onclick="pasteManualCode()" type="button">붙여넣기</button>
-</div>
-<div class="hidden xa-err" id="manual-code-err">유효하지 않은 코드입니다. 코드를 다시 확인해 주세요.</div>
-<button class="x-btn-white xa-verify" id="btn-manual-verify" onclick="verifyManualCode()" type="button">
-          코드 조회 및 계정 정보 확인 →
-        </button>
+<div class="x-inner access-panel xa105-access">
+  <div class="xa105-access-top">
+    <div class="xa105-access-symbol"><i data-lucide="scan-line"></i></div>
+    <div class="xa105-access-heading"><strong>발급 코드 조회</strong><span>받으신 코드로 계정 정보를 안전하게 확인하세요.</span></div>
+    <span class="xa105-access-secure"><i data-lucide="lock-keyhole"></i> 보안 조회</span>
+  </div>
+  <label class="xa105-code-label" for="manual-code-input">발급 코드</label>
+  <div class="xa-code-row xa105-code-controls">
+    <input autocomplete="off" class="x-input mono" id="manual-code-input" placeholder="발급 코드를 붙여넣거나 입력하세요" spellcheck="false" type="text"/>
+    <button class="xa-paste-btn" onclick="pasteManualCode()" type="button"><i data-lucide="clipboard-paste"></i><span>붙여넣기</span></button>
+  </div>
+  <div class="hidden xa-err" id="manual-code-err">유효하지 않은 코드입니다. 코드를 다시 확인해 주세요.</div>
+  <button class="x-btn-white xa-verify xa105-submit" id="btn-manual-verify" onclick="verifyManualCode()" type="button"><span>계정 정보 조회</span><i data-lucide="arrow-right"></i></button>
+  <div class="xa105-access-help"><i data-lucide="shield-check"></i> 조회한 계정 정보는 다른 사람과 공유하지 마세요.</div>
 </div>
 </section>
 <!-- 3.5. 승인 후 이용 안내. 이전 코드 조회 시 이 화면을 건너뜁니다. -->
@@ -1416,20 +1487,24 @@ body>.ambient-bg{display:none!important}
 </div>
 <button class="x-btn-dark copy-btn" onclick="copyField('res-otp', this)" type="button">복사</button>
 </div>
+<div class="x-inner result-field result-mail-card hidden" id="result-mail-card">
+<div class="min-w-0 flex-1">
+<span class="result-label-line"><span class="tile"><i data-lucide="mail-search"></i></span><b>X 메일 확인</b><em>MAIL LOOKUP</em></span>
+<div class="result-subcopy" id="result-mail-copy">이메일 아이디·비밀번호 대신 사이트에서 조회</div>
+</div>
+<button class="x-btn-dark copy-btn result-mail-btn" id="btn-open-mail" onclick="openEmailInboxModal()" type="button">X 메일 조회</button>
+</div>
 <section class="v51-code-disclosure xa74-code-card" id="v51-code-disclosure" aria-label="계정 조회 코드">
   <div class="xa74-code-head">
     <span class="xa74-code-title"><i data-lucide="key-round" aria-hidden="true"></i> 계정 조회 코드</span>
     <button class="x-btn-dark v51-code-copy" onclick="copyField('res-code', this)" type="button">복사</button>
   </div>
   <div class="v51-code-full mono" id="res-code">정보 없음</div>
-  <div class="xa74-code-hint">다음 조회에 필요 · 타인 공유 금지</div>
+  <div class="xa74-code-hint" id="xa74-code-hint">다음 조회에 필요 · 타인 공유 금지</div>
   <span class="hidden" id="v51-code-preview">조회 코드를 안전하게 보관하세요.</span>
 </section>
 </div>
-<div id="result-action-row" class="has-email" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px">
-<button class="w-full x-btn-dark hidden" id="btn-open-mail" onclick="openEmailInboxModal()" style="min-height:44px;font-size:12px;color:#9fe0ff;border-color:rgba(104,189,233,.45)" type="button">
-<i data-lucide="mail-search" style="width:15px;height:15px"></i><span>X 메일 조회</span>
-</button>
+<div id="result-action-row" style="display:grid;grid-template-columns:1fr;gap:9px;margin-top:10px">
 <button class="w-full x-btn-dark" onclick="resetToHome()" style="min-height:44px;font-size:12px" type="button">
 <i data-lucide="house" style="width:14px;height:14px"></i><span>처음으로 돌아가기</span>
 </button>
@@ -1480,8 +1555,27 @@ body>.ambient-bg{display:none!important}
       <button class="email-notice-v46-confirm" onclick="showRealInbox()" type="button"><i data-lucide="mail-open" aria-hidden="true"></i> 확인</button>
     </div>
   </section>
+  <section class="xa97-hotmail-panel hidden" aria-label="Hotmail 메일함 안내">
+    <div class="xa97-hotmail-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 6 9-6"/><circle cx="18" cy="17" r="4" fill="#e9f6ed"/><path d="M18 15v2.5"/><path d="M18 19h.01"/></svg></div>
+    <p class="xa97-hotmail-heading">Hotmail 메일함 안내</p>
+    <p class="xa97-hotmail-email"></p>
+    <p class="xa97-hotmail-message">관리자 문의 부탁드립니다.</p>
+    <button type="button" class="xa97-hotmail-close" onclick="closeInboxModal()">확인</button>
+  </section>
 </div>
 
+<!-- v97: Hotmail 계정은 사이트 메일 조회 대신 관리자 안내만 표시 -->
+<style id="xa97-hotmail-notice-style">
+#email-inbox-modal .xa97-hotmail-panel{width:min(100%,390px);padding:30px 24px 23px;border:1px solid #d9e9dd;border-radius:20px;background:linear-gradient(155deg,#fff,#f3faf5);box-shadow:0 22px 60px rgba(12,63,35,.18);color:#184331;text-align:center;font-family:inherit}
+#email-inbox-modal .xa97-hotmail-symbol{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 15px;border-radius:16px;border:1px solid #d1e8da;background:#e9f6ed;color:#116b4f}
+#email-inbox-modal .xa97-hotmail-symbol svg{width:27px;height:27px}
+#email-inbox-modal .xa97-hotmail-heading{font-size:12px;color:#608a72;font-weight:800;margin:0 0 8px}
+#email-inbox-modal .xa97-hotmail-message{font-size:18px;line-height:1.5;font-weight:900;letter-spacing:-.03em;color:#14452e;margin:0 0 22px}
+#email-inbox-modal .xa97-hotmail-close{display:block;width:100%;min-height:45px;border:0;border-radius:11px;background:#137653;color:#fff;font-size:13px;font-weight:850;cursor:pointer}
+#email-inbox-modal .xa97-hotmail-close:hover{background:#0f6245}
+#email-inbox-modal .xa97-hotmail-close:focus-visible{outline:2px solid #0a9970;outline-offset:3px}
+@media(max-width:480px){#email-inbox-modal .xa97-hotmail-panel{padding:25px 20px 20px;border-radius:16px}}
+</style>
 <!-- v47: 서버가 연결되어 있을 때 실제 메시지 목록을 보여주는 이메일 확인함 -->
 <div class="xa-inbox-overlay hidden" id="xa-inbox-viewer" role="dialog" aria-modal="true" aria-labelledby="xa-inbox-title">
   <section class="xa-inbox-window" tabindex="-1">
@@ -1747,6 +1841,7 @@ body>.ambient-bg{display:none!important}
       <div class="xa62-kpi xa62-kpi-green"><span>판매 가능</span><b id="adm-count-stock">—</b></div>
       <div class="xa62-kpi xa62-kpi-amber"><span>오늘 접수</span><b id="xa62-count-holds">—</b></div>
     </div>
+    <div class="xa108-overview" id="xa108-overview" aria-live="polite"><span>관리자 서버 연결 확인 중…</span></div>
     <nav class="xa62-tabbar" aria-label="관리 메뉴">
       <button type="button" id="adm-tab-orders" class="is-active" onclick="switchAdminTab('orders')" aria-current="page"><span aria-hidden="true" class="xa72-admin-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>승인 대기</span></button>
       <button type="button" id="adm-tab-stock" onclick="switchAdminTab('stock')"><span aria-hidden="true" class="xa72-admin-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="M3 7v10l9 5 9-5V7M12 12v10"/></svg></span><span>현재 재고</span></button>
@@ -1759,7 +1854,14 @@ body>.ambient-bg{display:none!important}
       <select id="xa62-stock-filter" class="hidden" onchange="setV62StockFilter(this.value)" aria-label="재고 종류">
         <option value="ALL">전체 재고</option><option value="GENERAL">일반 계정</option><option value="EMAIL">이메일 계정</option>
       </select>
+      <select id="xa108-period" class="hidden" aria-label="판매 조회 기간" onchange="xa108ChangePeriod(this.value)">
+        <option value="today">오늘</option><option value="7">최근 7일</option><option value="30">최근 30일</option><option value="all">전체 기간</option>
+      </select>
     </div>
+    <details class="xa108-activity" id="xa108-activity">
+      <summary><span><i data-lucide="clipboard-list"></i> 작업 기록·조회 상태</span><span class="xa108-activity-hint" id="xa108-log-status">확인</span></summary>
+      <div id="xa108-activity-content" class="xa108-activity-content">관리자 작업 기록을 확인 중…</div>
+    </details>
     <div class="hidden xa-admin-flash xa62-flash" id="xa-admin-flash" role="status" aria-live="polite"></div>
     <div class="xa62-scroll" id="xa62-scroll">
       <section class="xa62-view" id="adm-orders-view" aria-label="주문 관리"><div class="xa62-empty">주문 불러오는 중…</div></section>
@@ -1767,7 +1869,7 @@ body>.ambient-bg{display:none!important}
       <section class="xa62-view hidden" id="adm-sales-view" aria-label="오늘 판매완료"><div class="xa62-empty">오늘 판매내역 불러오는 중…</div></section>
       <section class="xa62-view hidden" id="adm-history-view" aria-label="오늘 거래 이력"><div class="xa62-empty">오늘 이력 불러오는 중…</div></section>
     </div>
-    <footer class="xa62-footer"><span id="xa62-update-status">관리자 전용 · 서버 연결 대기</span><span>과거 기록은 Supabase에 보존</span></footer>
+    <footer class="xa62-footer"><span id="xa62-update-status">관리자 전용 · 서버 연결 대기</span><span id="xa108-data-coverage">조회 범위 확인 중</span></footer>
   </div>
 </div>
 
@@ -1884,7 +1986,7 @@ function xa90BuildCopyBlock(item){
   // Email credentials and OTP secrets are NEVER copied or shown in the bulk result.
   const lines=[`[${item.index}번 계정]`,`X 계정 아이디: ${item.accountId||'-'}`,`X 계정 비밀번호: ${item.accountPw||'-'}`];
   if(item.isEmail) lines.push('X 메일: 사이트 내 X 메일 조회 버튼 이용');
-  lines.push(`조회 코드: ${item.buyerCode||'-'}`);
+  lines.push(`조회 코드: ${item.lookupCode||'관리자에게 문의해 주세요'}`);
   return lines.join('\n');
 }
 async function xa90CopyAllIssued(btn){
@@ -1902,11 +2004,15 @@ async function xa90LoadIssuedAccounts(rows){
     try{
       const {data,error}=await supabaseClient.rpc('get_account_result',{p_key:String(row.buyer_code).trim()});
       if(error)throw error;
-      const parsed=parseIssuedAccountRecord(data);
+      const normalized=normalizeAccountResult(data);
+      const parsed=parseIssuedAccountRecord(normalized);
       if(!parsed)throw new Error('계정 정보를 읽지 못했습니다.');
-      return {index:idx+1,buyerCode:String(row.buyer_code).trim(),accountId:parsed.accountId||'',accountPw:parsed.accountPw||'',email:parsed.email||'',otpSecret:normalizeTotpSecret(parsed.otpSecret)||'',isEmail:!!parsed.isEmail,error:''};
+      const rpcCode=String(normalized?.display_code || normalized?.buyer_code || '').trim();
+      const orderCode=String(row?.buyer_code || '').trim();
+      const lookupCode=(rpcCode && !/-{4,}/.test(rpcCode)) ? rpcCode : ((orderCode && !/-{4,}/.test(orderCode)) ? orderCode : '');
+      return {index:idx+1,buyerCode:orderCode,lookupCode:lookupCode || '',accountId:parsed.accountId||'',accountPw:parsed.accountPw||'',email:parsed.email||'',otpSecret:normalizeTotpSecret(parsed.otpSecret)||'',isEmail:!!parsed.isEmail,error:''};
     }catch(err){
-      return {index:idx+1,buyerCode:String(row?.buyer_code||'').trim(),accountId:'',accountPw:'',email:'',otpSecret:'',isEmail:false,error:err?.message||'조회 실패'};
+      return {index:idx+1,buyerCode:String(row?.buyer_code||'').trim(),lookupCode: '',accountId:'',accountPw:'',email:'',otpSecret:'',isEmail:false,error:err?.message||'조회 실패'};
     }
   }));
 }
@@ -1924,11 +2030,11 @@ function xa91UpdateOtpFields(){
 }
 function xa91OpenBulkMail(index){
   const item=xa90IssuedAccounts[Number(index)];
-  if(!item || !item.isEmail || !item.email?.includes('@') || !item.buyerCode){
+  const lookupKey=String(item?.lookupCode || item?.buyerCode || '').trim();
+  if(!item || !item.isEmail || !item.email?.includes('@') || !lookupKey){
     alert('이 계정의 X 메일 조회 정보를 확인할 수 없습니다.');return;
   }
-  // Existing v47 mailbox needs these two values to resolve X mail on the server.
-  currentSearchKey=item.buyerCode;
+  currentSearchKey=lookupKey;
   currentEmailForInbox=item.email;
   openEmailInboxModal();
 }
@@ -1940,20 +2046,59 @@ function xa90RenderIssuedAccounts(items){
   xa90IssuedAccounts=Array.isArray(items)?items:[];
   if(countEl)countEl.textContent=`${xa90IssuedAccounts.length}개`;
   const hasError=xa90IssuedAccounts.some(x=>x.error);
-  if(errEl){errEl.classList.toggle('hidden',!hasError);errEl.textContent='일부 계정 정보를 불러오지 못했습니다. 다시 접속하거나 관리자에게 문의해 주세요.';}
+  if(errEl){
+    errEl.classList.toggle('hidden',!hasError);
+    errEl.textContent='일부 계정 정보를 불러오지 못했습니다. 관리자에게 문의해 주세요.';
+  }
   listEl.replaceChildren();
   xa90IssuedAccounts.forEach((item,idx)=>{
     const details=document.createElement('details');
-    details.className='xa90-acc-item';
-    if(idx===0)details.open=true;
-    // Email addresses/passwords are not revealed. Show the existing internal mailbox action.
-    const mailRow=(item.isEmail && !item.error)?`<div class="xa90-field xa91-mail-field"><div class="xa90-field-label"><i data-lucide="mail-search"></i><span>X 메일 확인</span></div><div class="xa90-field-value">이메일 아이디·비밀번호 대신 사이트에서 조회</div><button type="button" class="xa90-copy-btn xa91-mail-btn">X 메일 조회</button></div>`:'';
-    const otpRow=item.error?`<div class="xa90-field"><div class="xa90-field-label"><i data-lucide="triangle-alert"></i><span>상태</span></div><div class="xa90-field-value">${xa90EscapeHtml(item.error)}</div><button type="button" class="xa90-copy-btn" data-copy="buyerCode">조회코드 복사</button></div>`:
-      `<div class="xa90-field"><div class="xa90-field-label"><i data-lucide="shield-check"></i><span>실시간 OTP</span></div><div class="xa90-field-value mono" data-xa91-otp-index="${idx}">조회 중…</div><button type="button" class="xa90-copy-btn xa91-otp-copy">복사</button></div>`;
-    const safeName=item.error?'조회 실패':item.accountId;
-    const safePass=item.error?'조회 실패':item.accountPw;
-    details.innerHTML=`<summary class="xa90-acc-head"><div class="xa90-acc-head-left"><div class="xa90-acc-check"><i data-lucide="check"></i></div><div class="xa90-acc-title"><strong>${item.index}번 계정</strong><span class="xa90-chip">${item.error?'조회 확인 필요':'발급완료'}</span></div></div><i data-lucide="chevron-down" class="xa90-chevron"></i></summary><div class="xa90-acc-body"><div class="xa90-field"><div class="xa90-field-label"><i data-lucide="user-round"></i><span>X 계정 ID</span></div><div class="xa90-field-value mono">${xa90EscapeHtml(safeName||'조회 실패')}</div><button type="button" class="xa90-copy-btn" data-copy="accountId">복사</button></div><div class="xa90-field"><div class="xa90-field-label"><i data-lucide="key-round"></i><span>X 계정 비밀번호</span></div><div class="xa90-field-value mono">${xa90EscapeHtml(safePass||'조회 실패')}</div><button type="button" class="xa90-copy-btn" data-copy="accountPw">복사</button></div>${otpRow}${mailRow}<div class="xa90-field"><div class="xa90-field-label"><i data-lucide="file-key-2"></i><span>계정 조회 코드</span></div><div class="xa90-field-value mono">${xa90EscapeHtml(item.buyerCode||'-')}</div><button type="button" class="xa90-copy-btn" data-copy="buyerCode">복사</button></div></div>`;
-    details.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',()=>xa90CopyText(item[btn.dataset.copy]||'',btn)));
+    details.className='xa90-acc-item xa100-account';
+    details.open=xa90IssuedAccounts.length<=3 || idx<2;
+    const failed=Boolean(item.error);
+    const idText=failed?'조회 실패':String(item.accountId||'조회 실패');
+    const pwText=failed?'조회 실패':String(item.accountPw||'조회 실패');
+    const codeText=String(item.lookupCode||'');
+    const mailAvailable=Boolean(item.isEmail && !failed && item.email && item.email.includes('@'));
+    const hotmail=mailAvailable && xa97IsHotmailAddress(item.email);
+    const number=String(item.index || idx+1).padStart(2,'0');
+    const smallCopy=(key,description)=>`<button type="button" class="xa100-copy" data-copy="${key}" aria-label="${description} 복사" title="${description} 복사">복사</button>`;
+    const otpCell=failed
+      ? `<div class="xa100-tool xa100-tool-error"><span class="xa100-tool-label">조회 상태</span><span class="xa100-error-text">${xa90EscapeHtml(item.error)}</span></div>`
+      : `<div class="xa100-tool xa100-otp-cell"><span class="xa100-tool-label">실시간 OTP</span><div class="xa100-tool-content"><strong class="xa100-otp-number" data-xa91-otp-index="${idx}">조회 중…</strong><button type="button" class="xa100-copy xa91-otp-copy" aria-label="OTP 복사">복사</button></div></div>`;
+    const mailCell=mailAvailable
+      ? `<div class="xa100-tool xa100-mail-cell ${hotmail?'is-hotmail':''}"><div class="xa100-mail-head"><span class="xa100-tool-label">X 메일</span><span class="xa100-mail-type">${hotmail?'Hotmail 메일함':'메일함'}</span></div><button type="button" class="xa100-mail-open xa91-mail-btn">X 메일 조회 <i data-lucide="arrow-up-right"></i></button></div>`
+      : '';
+    details.innerHTML=`
+      <summary class="xa90-acc-head xa100-account-head">
+        <span class="xa100-num">${number}</span>
+        <span class="xa100-account-title"><strong>${item.index||idx+1}번 계정</strong><small>${failed?'정보 확인 필요':'계정 정보 확인'}</small></span>
+        <span class="xa100-account-status ${failed?'is-error':''}">${failed?'확인 필요':'발급 완료'}</span>
+        <i data-lucide="chevron-down" class="xa90-chevron xa100-chevron"></i>
+      </summary>
+      <div class="xa90-acc-body xa100-account-body">
+        <div class="xa100-credentials">
+          <div class="xa100-credential">
+            <span class="xa100-label">X 아이디</span>
+            <div class="xa100-credential-line"><strong class="xa100-value">${xa90EscapeHtml(idText)}</strong>${smallCopy('accountId','아이디')}</div>
+          </div>
+          <div class="xa100-credential">
+            <span class="xa100-label">비밀번호</span>
+            <div class="xa100-credential-line"><strong class="xa100-value">${xa90EscapeHtml(pwText)}</strong>${smallCopy('accountPw','비밀번호')}</div>
+          </div>
+        </div>
+        <div class="xa100-tools ${mailAvailable?'has-mail':''}">${otpCell}${mailCell}</div>
+        <div class="xa100-code-line">
+          <span class="xa100-code-label"><i data-lucide="key-round"></i> 조회 코드</span>
+          <strong class="xa100-code-value ${codeText?'':'is-missing'}">${xa90EscapeHtml(codeText||'코드 확인 필요')}</strong>
+          ${smallCopy('lookupCode','조회 코드')}
+        </div>
+      </div>`;
+    details.querySelectorAll('[data-copy]').forEach(btn=>{
+      const value=String(item[btn.dataset.copy]||'');
+      if(failed || !value){btn.disabled=true;btn.title='조회 정보를 확인할 수 없습니다.';btn.textContent='불가';}
+      else btn.addEventListener('click',()=>xa90CopyText(value,btn));
+    });
     details.querySelector('.xa91-mail-btn')?.addEventListener('click',()=>xa91OpenBulkMail(idx));
     details.querySelector('.xa91-otp-copy')?.addEventListener('click',()=>{
       const token=details.querySelector('[data-xa91-otp-index]')?.textContent||'';
@@ -1997,7 +2142,16 @@ async function xa87CheckBulkStatus(){
     if(summary)summary.textContent=`${numbers.length}개 주문 · ${approved}개 발급 완료`;
     if(allDone){
       if(currentActiveOrder.status!=='APPROVED'){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);}
-      if(document.getElementById('main-card')?.getAttribute('data-current-screen')==='step-waiting')showScreen('step-bulk');
+      const screen = document.getElementById('main-card')?.getAttribute('data-current-screen');
+      // Display the same usage guide as single-account issuance, then reveal the bulk result.
+      if (!xa104BulkGuideSeen.has(order.order_no) && !xa104BulkGuidePendingOrder && (screen==='step-waiting' || screen==='step-bulk')) {
+        xa104BulkGuidePendingOrder = order.order_no;
+        v68DirectCodeLookup = false;
+        showScreen('step-guide');
+        if(window.lucide) lucide.createIcons();
+      } else if (xa104BulkGuideSeen.has(order.order_no) && screen==='step-waiting') {
+        showScreen('step-bulk');
+      }
     }
     xa87LastCodes=valid;
     xa87SetBulkRows(valid);
@@ -2050,6 +2204,7 @@ async function xa87ApproveGroup(orderNo,button){
     if(!data?.success || Number(data.approved_count)!==list.length)
       throw new Error(data?.message || '서버에서 전량 발급 성공을 확인하지 못했습니다.');
     success=true;
+    xa108NoteAction('묶음 승인',list.length+'개 계정 · '+String(list[0].order_no||''));
   }catch(e){err=e?.message || '서버 통신 오류';}
   finally{
     try{await refreshAdminData();}
@@ -2387,16 +2542,36 @@ async function copyText(text) {
   } catch (e) { return false; }
 }
 
+// v98: Hotmail 계정은 메일 API를 호출하지 않고 즉시 관리자 문의 안내를 표시합니다.
+function xa97IsHotmailAddress(email) {
+  const value = String(email || '').trim().toLowerCase();
+  if (!value.includes('@')) return false;
+  const domain = value.slice(value.lastIndexOf('@') + 1);
+  return /^(hotmail|outlook|live)\.[a-z]{2,}(?:\.[a-z]{2,})?$/.test(domain);
+}
+function xa97ShowHotmailNotice(){
+  const modal = document.getElementById('email-inbox-modal');
+  if (!modal) return;
+  closeInboxViewer();
+  modal.querySelector('.email-notice-v46')?.classList.add('hidden');
+  modal.querySelector('.xa97-hotmail-panel')?.classList.remove('hidden');
+  const mailText = modal.querySelector('.xa97-hotmail-email');
+  if(mailText) mailText.textContent = String(currentEmailForInbox || '').trim();
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.xa97-hotmail-close')?.focus();
+  if (window.lucide) lucide.createIcons();
+}
 function openEmailInboxModal() {
   if (!currentEmailForInbox || !String(currentEmailForInbox).includes('@')) {
     alert('이 주문에는 확인 가능한 이메일 주소가 연결되어 있지 않습니다. 계정 조회 정보를 확인해 주세요.');
     return;
   }
-  const modal = document.getElementById('email-inbox-modal');
-  if (!modal) return;
-  modal.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  if (window.lucide) lucide.createIcons();
+  if (xa97IsHotmailAddress(currentEmailForInbox)) {
+    xa97ShowHotmailNotice();
+    return;
+  }
+  openInboxViewer();
 }
 
 function closeInboxModal() {
@@ -2405,6 +2580,10 @@ function closeInboxModal() {
 }
 
 function showRealInbox() {
+  if (xa97IsHotmailAddress(currentEmailForInbox)) {
+    xa97ShowHotmailNotice();
+    return;
+  }
   closeInboxModal();
   openInboxViewer();
 }
@@ -2441,6 +2620,10 @@ function inboxSetStatus(message, isError=false) {
   if (status) { status.textContent = message; status.classList.toggle('error', isError); }
 }
 function openInboxViewer() {
+  if (xa97IsHotmailAddress(currentEmailForInbox)) {
+    xa97ShowHotmailNotice();
+    return;
+  }
   if (!currentSearchKey || !currentEmailForInbox) {
     alert('발급 코드와 이메일 연결 정보가 없습니다. 먼저 계정을 다시 조회해 주세요.');
     return;
@@ -2466,6 +2649,7 @@ function closeInboxViewer() {
   document.getElementById('btn-open-mail')?.focus();
 }
 async function loadConnectedInbox() {
+  if (xa97IsHotmailAddress(currentEmailForInbox)) return; // Never request Hotmail mail here.
   if (inboxLoading) return;
   const status = document.getElementById('xa-inbox-status');
   const list = document.getElementById('xa-inbox-content');
@@ -2896,6 +3080,10 @@ function startWaitingPolling() {
 let v68DirectCodeLookup = false;
 let v66GuideFromApprovedOrder = false;
 let v66GuideContinueBusy = false;
+// Guide is shown once for a newly approved multi-account order, before exposing accounts.
+// A manual lookup remains direct and never invokes this gate.
+let xa104BulkGuidePendingOrder = '';
+const xa104BulkGuideSeen = new Set();
 async function onOrderApproved(orderRow) {
   if(currentActiveOrder){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);}
   const code = String(orderRow?.buyer_code || '').trim();
@@ -2912,6 +3100,15 @@ async function onOrderApproved(orderRow) {
 }
 
 async function proceedToResult() {
+  if (xa104BulkGuidePendingOrder) {
+    const key = xa104BulkGuidePendingOrder;
+    xa104BulkGuidePendingOrder = '';
+    xa104BulkGuideSeen.add(key);
+    showScreen('step-bulk');
+    await xa87CheckBulkStatus();
+    if(window.lucide) lucide.createIcons();
+    return;
+  }
   if (!approvedCodeReady || v66GuideContinueBusy) return;
   v66GuideContinueBusy = true;
   try {
@@ -3056,8 +3253,7 @@ async function displayAccountResult(code) {
   setText('res-otp', '--- ---');
   setText('res-otp-timer', '30');
   currentEmailForInbox = '';
-  document.getElementById('btn-open-mail')?.classList.add('hidden');
-  document.getElementById('result-action-row')?.classList.remove('has-email');
+  document.getElementById('result-mail-card')?.classList.add('hidden');
 
   try {
     if (!supabaseClient) throw new Error('Supabase 라이브러리 또는 프로젝트 연결을 확인할 수 없습니다.');
@@ -3091,8 +3287,13 @@ async function displayAccountResult(code) {
     // 이메일 확인함 버튼은 이 사이트 안에서 X 발신 메일만 조회합니다.
     currentEmailForInbox = isEmail ? String(email || '').trim() : '';
     const hasMailbox = Boolean(isEmail && currentEmailForInbox.includes('@'));
-    document.getElementById('btn-open-mail')?.classList.toggle('hidden', !hasMailbox);
-    document.getElementById('result-action-row')?.classList.toggle('has-email', hasMailbox);
+    document.getElementById('result-mail-card')?.classList.toggle('hidden', !hasMailbox);
+    const mailCopy = document.getElementById('result-mail-copy');
+    if (mailCopy) {
+      mailCopy.textContent = xa97IsHotmailAddress(currentEmailForInbox)
+        ? '이메일 아이디·비밀번호 대신 사이트에서 조회'
+        : '이메일 아이디·비밀번호 대신 사이트에서 조회';
+    }
 
     if (otpSecret && normalizeTotpSecret(otpSecret)) {
       startOtpEngine(otpSecret);
@@ -3101,26 +3302,15 @@ async function displayAccountResult(code) {
       setText('res-otp-timer', '-');
     }
 
-    // v52: 일반 계정의 조회 코드는 원래 저장된 TOTP 비밀키와 동일해야 합니다.
-    // 6자리 실시간 OTP와 조회용 비밀키는 서로 다른 값입니다.
-    const displayCode = String(orderInfo.display_code || cleanCode).trim();
-    const generalProduct = !isEmail && /일반|general/i.test(String(parsed.productType || ''));
-    if (generalProduct) {
-      const registered2faKey = normalizeTotpSecret(parsed.otpSecret);
-      if (!registered2faKey) {
-        throw new Error('일반 계정에 저장된 2FA 인증키를 찾지 못했습니다. 재고 원본을 점검해 주세요.');
-      }
-      if (normalizeTotpSecret(displayCode) !== registered2faKey) {
-        throw new Error('조회 코드가 저장된 2FA 인증키와 다릅니다. XA 임의 코드를 사용하지 말고 v52 서버 연결을 적용해 주세요.');
-      }
-    }
+    // 고객 화면에는 항상 실제 조회에 사용한 짧은 발급 코드를 우선 표시합니다.
+    // display_code가 내려오더라도 원본 재고 문자열(---- 포함)이라면 화면에는 노출하지 않습니다.
+    let displayCode = String(orderInfo.display_code || orderInfo.buyer_code || cleanCode).trim();
+    if (!displayCode || displayCode.includes('----')) displayCode = cleanCode;
     approvedCodeReady = displayCode;
     currentSearchKey = displayCode;
     setText('res-code', displayCode);
     const preview = document.getElementById('v51-code-preview');
-    if (preview) preview.textContent = generalProduct
-      ? '재고에 등록된 2FA 인증키와 동일한 조회 코드입니다.'
-      : '기존 이메일 계정 조회 코드입니다.';
+    if (preview) preview.textContent = '다음 조회에 필요한 발급 코드입니다. 타인과 공유하지 마세요.';
     setAccountResultState('success');
     document.getElementById('v51-code-disclosure')?.setAttribute('open','');
   } catch (err) {
@@ -3132,8 +3322,7 @@ async function displayAccountResult(code) {
     const preview = document.getElementById('v51-code-preview');
     if (preview) preview.textContent = '연결을 확인해 주세요.';
     setText('res-otp-timer', '-');
-    document.getElementById('btn-open-mail')?.classList.add('hidden');
-    document.getElementById('result-action-row')?.classList.remove('has-email');
+    document.getElementById('result-mail-card')?.classList.add('hidden');
     setAccountResultState('error', err?.message || '계정 정보 조회 중 알 수 없는 오류가 발생했습니다.');
   }
 }
@@ -3181,6 +3370,7 @@ async function copyField(elId, btnEl) {
 }
 
 function resetToHome() {
+  xa104BulkGuidePendingOrder = '';
   xa90IssuedAccounts=[];
   xa90IssuedOrderNo='';
   xa90SetIssuedVisible(false);
@@ -3362,7 +3552,7 @@ function closeAdminConsole() {
   document.getElementById('admin-console-modal').classList.add('hidden');
 }
 
-function switchAdminTab(tabName) {
+function xa108Legacy_switchAdminTab(tabName) {
   const filter = document.querySelector('.v51-admin-filters');
   if (filter) filter.classList.toggle('hidden', tabName !== 'orders');
   const ordersTabBtn = document.getElementById('adm-tab-orders');
@@ -3383,7 +3573,7 @@ function switchAdminTab(tabName) {
   }
 }
 
-async function refreshAdminData() {
+async function xa108Legacy_refreshAdminData() {
   await Promise.all([loadAdminOrders(), loadAdminStock()]);
 }
 
@@ -3533,7 +3723,7 @@ async function toggleAdminAccountDetails(orderNo, button) {
 }
 
 // 주문 대기 목록 불러오기 (사용되지 않는 구형 관리자 코드 · v63의 하단 구현이 우선 적용됨)
-async function loadAdminOrders() {
+async function xa108Legacy_loadAdminOrders() {
   clearAllV51AdminOtp();
   const listEl = document.getElementById('adm-orders-view');
   if (!supabaseClient) return;
@@ -3710,7 +3900,7 @@ async function approveOrder(orderNo, btnEl) {
     const {data,error}=await supabaseClient.rpc('approve_xa_order',{p_order_no:orderNo});
     if(error) throw error;
     if (!data?.success || !data.assigned_code) throw new Error(data?.message||'승인 결과에 발급 코드가 없습니다.');
-
+    xa108NoteAction('개별 승인',orderNo);
     await refreshAdminData();
     // The server trigger creates an opaque buyer_code; do not expose the stock's raw composite code.
     const approvedRow = adminOrderCache.get(orderNo);
@@ -3758,6 +3948,7 @@ async function refundOrder(orderNo, btnEl) {
     });
     if (error) throw error;
     if (!data?.success) throw new Error(data?.message || '복구 확인에 실패했습니다.');
+    xa108NoteAction('주문 반환',orderNo);
     await refreshAdminData();
     if (data.restocked === true && data.stock_available === true) {
       showAdminFlash(`주문 ${orderNo}: 반환 완료! 판매 가능 재고가 +1 복구됐습니다.`);
@@ -3779,7 +3970,7 @@ async function restoreStockCode(code, btnEl) {
 }
 
 // 재고 현황 불러오기
-async function loadAdminStock() {
+async function xa108Legacy_loadAdminStock() {
   const stockView = document.getElementById('adm-stock-view');
   if (!supabaseClient) return;
 
@@ -3877,6 +4068,19 @@ let v62AllOrders = [];
 let v62AllStock = [];
 let v62AvailableStock = [];
 let v62InvalidStock = [];
+let xa108Period='today';
+let xa108HasApprovedAt=false;
+let xa108PeriodSearch={orders:'',stock:'',sales:'',history:''};
+let xa108OrdersFetched=0;
+let xa108AllRowsTruncated=false;
+let xa108CurrentCount=0;
+let xa108LastError='';
+let xa108ActivityEvents=[];
+let xa108SessionEvents=[];
+let xa108AuditEnabled=false;
+let xa108OpenOrderGroups=new Set();
+let xa108OpenStockDetails=new Set();
+let xa108ActivityLoading=false;
 let v62StockById = new Map();
 let v62StockByCode = new Map();
 let v62RefreshBusy = false;
@@ -3908,49 +4112,48 @@ let v62LastStockSuccess = false;
 
 function switchAdminTab(tabName) {
   if (!['orders','stock','sales','history'].includes(tabName)) return;
-  v62Tab = tabName;
-  const ids = {orders:'adm-orders-view',stock:'adm-stock-view',sales:'adm-sales-view',history:'adm-history-view'};
-  Object.entries(ids).forEach(([name,id]) => {
-    document.getElementById(id)?.classList.toggle('hidden', name !== tabName);
-    const btn = document.getElementById('adm-tab-' + name);
-    btn?.classList.toggle('is-active', name === tabName);
-    if (btn) {
-      if (name === tabName) btn.setAttribute('aria-current','page');
-      else btn.removeAttribute('aria-current');
-    }
+  xa108PeriodSearch[v62Tab]=v62Search;
+  v62Tab=tabName;
+  const ids={orders:'adm-orders-view',stock:'adm-stock-view',sales:'adm-sales-view',history:'adm-history-view'};
+  Object.entries(ids).forEach(([name,id])=>{
+    document.getElementById(id)?.classList.toggle('hidden',name!==tabName);
+    const btn=document.getElementById('adm-tab-'+name);
+    btn?.classList.toggle('is-active',name===tabName);
+    if(btn){if(name===tabName)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current');}
   });
-  const stockFilter = document.getElementById('xa62-stock-filter');
-  stockFilter?.classList.toggle('hidden', tabName !== 'stock');
-  const search = document.getElementById('xa62-search');
-  if (search) {
-    search.placeholder = tabName === 'stock' ? '계정 ID 또는 코드 검색'
-      : tabName === 'sales' ? '오늘 판매 주문번호·코드 검색'
-      : tabName === 'history' ? '오늘 주문번호·상태 검색'
-      : '승인대기 주문번호·상품 검색';
-    search.value = v62Search = '';
+  document.getElementById('xa62-stock-filter')?.classList.toggle('hidden',tabName!=='stock');
+  document.getElementById('xa108-period')?.classList.toggle('hidden',!['sales','history'].includes(tabName));
+  const search=document.getElementById('xa62-search');
+  v62Search=xa108PeriodSearch[tabName]||'';
+  if(search){
+    search.placeholder=tabName==='stock'?'계정 ID·재고번호 검색':tabName==='sales'?'판매 주문번호 검색':tabName==='history'?'거래 주문번호·상태 검색':'승인대기 주문번호·상품 검색';
+    search.value=v62Search;
   }
-  const scroll = document.getElementById('xa62-scroll');
-  if (scroll) scroll.scrollTop = 0;
+  const scroll=document.getElementById('xa62-scroll');if(scroll)scroll.scrollTop=0;
   renderV62CurrentTab();
 }
-function setV62Search(value) { v62Search = String(value ?? '').trim().toLowerCase(); renderV62CurrentTab(); }
+function setV62Search(value) { v62Search = String(value ?? '').trim().toLowerCase(); xa108PeriodSearch[v62Tab]=v62Search; renderV62CurrentTab(); }
 function setV62StockFilter(value) { v62StockFilter = String(value || 'ALL'); renderV62Stock(); }
 
 async function refreshAdminData() {
-  if (v62RefreshBusy) return;
-  v62RefreshBusy = true;
-  const status = document.getElementById('xa62-update-status');
-  if (status) status.textContent = '서버 데이터 갱신 중…';
-  try {
-    // 조회 순서를 고정해 주문 연결 상태를 먼저 파악합니다.
+  if(v62RefreshBusy)return;
+  v62RefreshBusy=true;
+  const status=document.getElementById('xa62-update-status');
+  if(status)status.textContent='서버 데이터 갱신 중…';
+  try{
     await loadAdminOrders();
     await loadAdminStock();
-    if (status) status.textContent = (v62LastOrdersSuccess && v62LastStockSuccess)
-      ? '갱신 완료 · ' + new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})
-      : '일부 정보 조회 실패 · 다시 시도';
-  } finally { v63LastSyncAt = Date.now(); v62RefreshBusy = false; }
+    if(status)status.textContent=v62LastOrdersSuccess&&v62LastStockSuccess
+      ? '정상 갱신 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})
+      : '조회 실패 · 진단 버튼 확인';
+    xa108RenderOverview();
+    await xa108LoadEvents();
+  }catch(e){
+    xa108LastError=String(e?.message||'갱신 오류');
+    if(status)status.textContent='조회 실패 · 재시도 필요';
+    console.error('[X ACCOUNT v108] refresh',e);
+  }finally{v63LastSyncAt=Date.now();v62RefreshBusy=false;}
 }
-
 function v62MatchesSearch(...fields) {
   return !v62Search || fields.some(v => String(v ?? '').toLowerCase().includes(v62Search));
 }
@@ -3959,18 +4162,23 @@ function v62TypeMatch(row) {
   const general = /일반|general/i.test(String(row?.product_type || ''));
   return v62StockFilter === 'GENERAL' ? general : !general;
 }
-function v62IsValidStock(row) {
-  const code = String(row?.code || '').trim();
-  if (!code) return false;
-  if (/일반|general/i.test(String(row?.product_type || ''))) {
-    const parts = code.split('----');
-    if (parts.length < 3 || !parts[0].trim() || !parts[1].trim()) return false;
-    const secret = parts[2].trim().toUpperCase();
-    return secret.length >= 16 && secret.length <= 128 && /^[A-Z2-7]+$/.test(secret);
+function xa108StockProblem(row) {
+  const parts=String(row?.code||'').trim().split(/-{4,}/).map(x=>x.trim());
+  const general=/일반|general/i.test(String(row?.product_type||''));
+  if(general){
+    if(parts.length<3 || !parts[0] || !parts[1])return '계정 ID 또는 비밀번호 누락';
+    if(!normalizeTotpSecret(parts[2]))return '2FA 인증키 형식 오류';
+    return '';
   }
-  return true;
+  if(parts.length<5)return '이메일 계정 필수 5개 항목 부족';
+  if(!parts[0] || !parts[1] || !parts[3])return '계정 정보 또는 이메일 비밀번호 누락';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parts[2]))return '이메일 주소 형식 오류';
+  if(!normalizeTotpSecret(parts[4]))return '2FA 인증키 형식 오류';
+  return '';
 }
+function v62IsValidStock(row) { return !xa108StockProblem(row); }
 function v62Status(order) {
+  if(order?.status==='PENDING' && !v63IsVisiblePending(order))return '시간 경과 (DB 대기)';
   return ({PENDING:'승인 대기',APPROVED:'판매 완료',REFUNDED:'반환 완료',EXPIRED:'승인시간 만료',CANCELLED:'취소'})[String(order?.status||'')] || String(order?.status||'상태 미확인');
 }
 function v62StatusClass(order) {
@@ -3980,7 +4188,7 @@ function v62Empty(message, sub='') {
   return `<div class="xa62-empty"><strong>${escapeHTML(message)}</strong>${sub?`<div style="font-size:10px;margin-top:6px">${escapeHTML(sub)}</div>`:''}</div>`;
 }
 function v62OrderFullMatch(order) {
-  return v62MatchesSearch(order.order_no,order.product_type,order.payment_method,order.status,order.assigned_code,order.buyer_code);
+  return v62MatchesSearch(order.order_no,order.product_type,order.payment_method,order.status);
 }
 function v62FormatTime(date) {
   if (!date) return '—';
@@ -4012,7 +4220,7 @@ function v62OrderCard(order, view='orders') {
   const credentials = detailAvailable
     ? `<div class="xa81-detail-action"><button type="button" class="xa81-open-detail" onclick='openV81OrderDetails(${arg})' aria-label="${no} 계정 상세정보 보기"><i data-lucide="shield-check" aria-hidden="true"></i> 계정 정보 보기 <span aria-hidden="true">›</span></button></div>`
     : '';
-  return `<article class="xa62-order ${isPending?'is-pending':''}">
+  return `<article class="xa62-order ${isPending?'is-pending':''} ${isPending&&v63PendingRemainingMs(order)<300000?'xa108-urgent':''}">
     <div class="xa62-card-head"><div style="min-width:0"><div class="xa62-order-num">${no}${xa87Siblings.length>1?` <small>· 묶음 ${xa87Siblings.length}개</small>`:''}</div><span class="xa62-card-time">${escapeHTML(v62FormatTime(order.created_at))}</span></div><span class="xa62-status ${v62StatusClass(order)}">${escapeHTML(v62Status(order))}</span></div>
     <div class="xa62-compact-meta"><div><span class="xa62-meta-label">상품 · 가격</span><span class="xa62-meta-value">${escapeHTML(order.product_type||'—')} · ${escapeHTML(order.price||'—')}</span></div><div><span class="xa62-meta-label">결제 방법</span><span class="xa62-meta-value">${escapeHTML(order.payment_method||'—')}</span></div></div>
     ${view === 'history' && detailAvailable ? `<div class="xa62-split-note">재고 상태: <b>${escapeHTML(stockState)}</b></div>` : ''}
@@ -4022,87 +4230,70 @@ function v62OrderCard(order, view='orders') {
   </article>`;
 }
 
-// v94: Admin order list uses a column projection rather than a broad SELECT *.
-// The SQL editor and diagnostic counts can see orders; verify the list itself too.
+// v108: Page server-sorted metadata; never update order status from a read operation.
 let xa94LastOrderFetch='조회 전';
 async function loadAdminOrders() {
-  v62LastOrdersSuccess = false;
-  if (!supabaseClient) return;
+  if(!supabaseClient)return;
+  const prior=v62LastOrdersSuccess;
   try {
-    // The frontend must not turn a query failure or a suspicious empty result into "0 orders".
     const {data:identity,error:identityError}=await supabaseClient.auth.getUser();
-    if(identityError || String(identity?.user?.email||'').toLowerCase() !== 'admin@xaccount.com')
-      throw new Error('관리자 로그인 세션이 유효하지 않습니다. 다시 로그인해 주세요.');
-
-    const fields='id,order_no,status,product_type,payment_method,price,created_at,buyer_code,assigned_code';
-    let rows=null;
-    let reason='';
-    // A simple projected query avoids the previous select(*) + nullsFirst ordering combination.
-    const first=await supabaseClient.from('xa_orders').select(fields).limit(1500);
-    if(first.error) reason=`필수 필드 조회 오류: ${first.error.code||''} ${first.error.message||''}`;
-    else if(Array.isArray(first.data) && first.data.length){rows=first.data; reason='필수 필드 조회';}
-    else reason='필수 필드 조회에서 0건';
-
-    // If the first request unexpectedly returns no rows, retry without the projection.
-    if(!rows){
-      const retry=await supabaseClient.from('xa_orders').select('*').limit(1500);
-      if(!retry.error && Array.isArray(retry.data) && retry.data.length){
-        rows=retry.data;reason='전체 필드 재조회 성공';
-      }else{
-        reason += retry.error ? ` / 전체 재조회 오류: ${retry.error.code||''} ${retry.error.message||''}` : ' / 전체 재조회도 0건';
+    if(identityError || String(identity?.user?.email||'').toLowerCase()!=='admin@xaccount.com')
+      throw new Error('관리자 로그인 세션이 유효하지 않습니다. 다시 로그인하세요.');
+    const baseFields='id,order_no,status,product_type,payment_method,price,created_at,buyer_code,assigned_code';
+    let withApproved=xa108HasApprovedAt || !xa108OrdersFetched;
+    let fetched=[],offset=0,limit=500,maximum=5000,count=null;
+    const periodDays=xa108Period==='all' ? null : Math.max(30,Number(xa108Period)||30);
+    const cutoff=periodDays ? new Date(Date.now()-(periodDays+2)*86400000).toISOString() : null;
+    for(;;){
+      let req=supabaseClient.from('xa_orders')
+        .select(baseFields+(withApproved?',approved_at':''), {count:offset===0?'exact':undefined})
+        .order('created_at',{ascending:false})
+        .range(offset,offset+limit-1);
+      if(cutoff)req=req.gte('created_at',cutoff);
+      let {data,error,count:serverCount}=await req;
+      if(error && withApproved && /approved_at|42703|PGRST204|PGRST200|column/i.test((error.message||'')+' '+(error.code||''))){
+        withApproved=false;
+        req=supabaseClient.from('xa_orders').select(baseFields,{count:offset===0?'exact':undefined})
+          .order('created_at',{ascending:false}).range(offset,offset+limit-1);
+        if(cutoff)req=req.gte('created_at',cutoff);
+        ({data,error,count:serverCount}=await req);
       }
+      if(error)throw new Error(`주문 조회 오류 (${error.code||'DB'}): ${error.message||'원인 미확인'}`);
+      if(offset===0)count=serverCount;
+      fetched.push(...(data||[]));
+      offset+=data?.length||0;
+      if(!data || data.length<limit || fetched.length>=maximum)break;
     }
-
-    if(!rows){
-      // A count query returning a non-zero number proves that a blank result is suspicious.
-      const probe=await supabaseClient.from('xa_orders').select('order_no',{count:'exact',head:true});
-      if(probe.error) throw new Error(`${reason} / 전체 주문 확인 실패: ${probe.error.message||probe.error.code||'알 수 없는 오류'}`);
-      if(Number(probe.count||0)>0)
-        throw new Error(`${reason}. DB에서는 ${probe.count}건을 볼 수 있지만 관리자 상세목록만 0건입니다. 권한/조회 응답을 점검해야 합니다.`);
-      rows=[];
-      reason='실제 조회 가능한 주문 0건';
-    }
-
-    // The DB remains authoritative. Do not mint or approve missing orders in the browser.
-    rows.sort((a,b)=>new Date(b?.created_at||0)-new Date(a?.created_at||0));
-    xa94LastOrderFetch=`${reason} · ${rows.length}건`;
-    const expired=[];
-    rows.forEach(o=>{
-      if(o.status==='PENDING' && isOrderExpired(o.created_at,o.payment_method)){
-        o.status='EXPIRED';
-        if(o.id!==null && o.id!==undefined) expired.push(o.id);
-      }
-    });
-    if(expired.length){
-      // Preserve existing expiration semantics. This does NOT approve or issue stock.
-      try{
-        const response=await supabaseClient.from('xa_orders').update({status:'EXPIRED'}).in('id',expired).eq('status','PENDING');
-        if(response.error) console.warn('[X ACCOUNT v94] 만료 상태 저장 지연:',response.error.message);
-      }catch(e){console.warn('[X ACCOUNT v94] 만료 상태 저장 지연:',e);}
-    }
-    v62AllOrders=rows;
-    adminOrderCache=new Map(rows.map(o=>[o.order_no,o]));
+    if(!fetched.length && Number(count||0)>0) throw new Error(`DB에는 ${count}건이 있지만 조회 목록이 비어 있습니다.`);
+    xa108HasApprovedAt=withApproved;
+    xa108OrdersFetched=fetched.length;
+    xa108CurrentCount=Number(count??fetched.length);
+    xa108AllRowsTruncated=xa108CurrentCount>fetched.length;
+    // If no DB timestamp migration was applied, approval date remains explicitly provisional.
+    xa94LastOrderFetch=`서버 정렬·페이지 조회 · ${fetched.length}/${xa108CurrentCount}건`;
+    v62AllOrders=fetched;
+    adminOrderCache=new Map(fetched.map(o=>[o.order_no,o]));
     v62LastOrdersSuccess=true;
+    xa108LastError='';
     renderV62All();
-    const clientOrder=currentActiveOrder;
-    if(clientOrder?.order_no && !rows.some(r=>r.order_no===clientOrder.order_no)){
-      showAdminFlash('현재 브라우저의 주문이 관리자 목록에 없습니다. DB 원본을 확인하세요.',true);
+    if(xa108AllRowsTruncated)showAdminFlash('목록이 5,000건 제한에 도달했습니다. 최근 기간으로 조회해 주세요.',true);
+    if(currentActiveOrder?.order_no && !fetched.some(r=>r.order_no===currentActiveOrder.order_no)){
+      // The chosen date range might exclude the buyer's current order; don't claim missing DB records.
+      console.info('[X ACCOUNT] 현재 주문이 선택된 관리자 기간 범위 밖에 있을 수 있습니다.');
     }
   }catch(e){
-    xa94LastOrderFetch=`실패: ${e?.message||'알 수 없는 오류'}`;
-    v62AllOrders=[];
-    adminOrderCache=new Map();
-    const node=document.getElementById('adm-orders-view');
-    if(node)node.innerHTML=v62Empty('주문 목록 조회 실패',e?.message||'관리자 인증을 확인하세요.');
-    const sale=document.getElementById('adm-sales-view');
-    if(sale)sale.innerHTML=v62Empty('판매완료 조회 실패');
-    const history=document.getElementById('adm-history-view');
-    if(history)history.innerHTML=v62Empty('이력 조회 실패');
-    showAdminFlash('주문 조회 실패: '+(e?.message||'조회 응답 오류'),true);
-    console.error('[X ACCOUNT v94] Admin orders:',e);
+    v62LastOrdersSuccess=false;
+    xa108LastError=String(e?.message||'주문 조회 오류');
+    xa94LastOrderFetch='실패: '+xa108LastError;
+    for(const id of ['adm-orders-view','adm-sales-view','adm-history-view']){
+      const node=document.getElementById(id);
+      if(node)node.innerHTML=v62Empty('주문 조회 실패 · 0건으로 처리하지 않음',xa108LastError);
+    }
+    showAdminFlash('주문 조회 실패: '+xa108LastError,true);
+    console.error('[X ACCOUNT v108] Admin orders:',e);
+    // Keep previous fetched data in memory for diagnostics; UI stays in the error state.
   }
 }
-
 async function v62FetchStockByUsed(isUsed) {
   const all = [];
   for(let offset=0;offset<10000;offset+=500){
@@ -4149,37 +4340,94 @@ async function loadAdminStock() {
   }
 }
 
+function xa108GetGroup(order) {
+  const siblings=xa87AdminSiblings(order?.order_no);
+  return siblings.length>1?siblings:[];
+}
+function xa108GroupCard(members){
+  const first=members[0],id=String(first.order_no).slice(0,-1),total=members.reduce((sum,o)=>sum+parseWon(o.price),0);
+  const pending=members.filter(v63IsVisiblePending), complete=members.every(v63IsVisiblePending);
+  const remaining=Math.max(0,Math.min(...members.map(v63PendingRemainingMs)));
+  const urgent=remaining>0&&remaining<300000;
+  const allChecked=members.every(o=>o.status==='PENDING');
+  const key=inlineJsArg(id);
+  const children=members.map((o,i)=>`<div class="xa108-group-member"><span>${i+1}번 · ${escapeHTML(o.order_no)}</span><span>${escapeHTML(v62Status(o))}</span></div>`).join('');
+  return `<article class="xa62-order xa108-group ${urgent?'xa108-urgent':''}" data-xa108-group="${escapeHTML(id)}">
+    <div class="xa62-card-head"><div><div class="xa62-order-num">묶음 주문 · ${members.length}개 <small>${urgent?' · 마감 임박':''}</small></div><span class="xa62-card-time">${escapeHTML(v62FormatTime(first.created_at))}</span></div><span class="xa62-status pending">${complete?'승인 대기':'상태 확인'}</span></div>
+    <div class="xa62-compact-meta"><div><span class="xa62-meta-label">상품 · 총액</span><span class="xa62-meta-value">${escapeHTML(first.product_type)} × ${members.length} · ${formatWon(total)}</span></div><div><span class="xa62-meta-label">결제 방법</span><span class="xa62-meta-value">${escapeHTML(first.payment_method||'—')}</span></div></div>
+    <div class="xa63-countdown ${urgent?'xa108-urgent-time':''}"><span>${urgent?'마감 임박 · 우선 확인':'승인 남은 시간'}</span><strong>${xa108MmSs(remaining)}</strong></div>
+    <details class="xa108-group-details" data-group="${escapeHTML(id)}" ontoggle="xa108TrackGroup(this)"><summary>${members.length}개 계정 주문 펼치기 <i data-lucide="chevron-down"></i></summary>${children}</details>
+    ${complete&&allChecked?`<div class="xa62-actions"><button class="xa62-btn primary" type="button" onclick='xa87ApproveGroup(${inlineJsArg(first.order_no)},this)'>입금 확인 · ${members.length}개 일괄 발급</button></div>`:`<div class="xa62-warning">일부 주문 상태가 다릅니다. 묶음 승인 전 서버 기록을 확인하세요.</div>`}
+  </article>`;
+}
+function xa108MmSs(ms){const sec=Math.max(0,Math.floor(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
+function xa108TrackGroup(el){const id=el?.dataset?.group;if(!id||!el.isConnected)return;if(el.open)xa108OpenOrderGroups.add(id);else xa108OpenOrderGroups.delete(id);}
+function xa108RestoreGroups(root){root.querySelectorAll('details[data-group]').forEach(el=>{if(xa108OpenOrderGroups.has(el.dataset.group))el.open=true;});}
 function renderV62Orders() {
-  const el=document.getElementById('adm-orders-view');if(!el || !v62LastOrdersSuccess)return;
-  const rows = v62AllOrders.filter(o => v63IsVisiblePending(o) && v62OrderFullMatch(o));
-  el.innerHTML=`<div class="xa62-section-note"><strong>승인 대기</strong><span>카카오 20분 · 컬쳐랜드 20분 · ${rows.length}건</span></div>`+
-    (rows.length?rows.map(o=>v62OrderCard(o,'orders')).join(''):v62Empty('지금 승인 대기 중인 주문이 없어.','카카오페이 20분, 컬쳐랜드 20분 동안만 승인할 수 있습니다. 주문 기록은 보존됩니다.'));
+  const el=document.getElementById('adm-orders-view');if(!el||!v62LastOrdersSuccess)return;
+  const rows=v62AllOrders.filter(o=>v63IsVisiblePending(o));
+  const seen=new Set(),grouped=[];
+  rows.sort((a,b)=>v63PendingRemainingMs(a)-v63PendingRemainingMs(b));
+  for(const order of rows){
+    if(seen.has(order.order_no))continue;
+    const sibling=xa108GetGroup(order);
+    if(sibling.length>1){
+      sibling.forEach(r=>seen.add(r.order_no));
+      if(sibling.some(v62OrderFullMatch))grouped.push({orders:sibling,remaining:Math.min(...sibling.map(v63PendingRemainingMs))});
+    }else{
+      seen.add(order.order_no);
+      if(v62OrderFullMatch(order))grouped.push({orders:[order],remaining:v63PendingRemainingMs(order)});
+    }
+  }
+  grouped.sort((a,b)=>a.remaining-b.remaining);
+  const urgent=grouped.filter(g=>g.remaining<300000).length;
+  el.innerHTML=`<div class="xa62-section-note"><strong>승인 대기 · ${grouped.length}건의 구매</strong><span>${urgent?'마감 임박 '+urgent+'건 · ':''}결제수단별 20분</span></div>`+
+    (grouped.length?grouped.map(g=>g.orders.length>1?xa108GroupCard(g.orders):v62OrderCard(g.orders[0],'orders')).join(''):
+     v62Empty('현재 승인 대기 주문이 없습니다.','만료 주문은 거래 이력에서 확인할 수 있습니다.'));
+  xa108RestoreGroups(el);
   if(window.lucide)lucide.createIcons();
 }
 function v62StockCard(s,flag='available') {
-  const code = String(s.code || '');
-  const isGeneral = /일반|general/i.test(String(s.product_type||''));
-  const parts = isGeneral ? code.split('----') : [];
-  const label = flag==='available'?'판매 가능':'형식·발급 연결 점검';
-  const stockId = JSON.stringify(String(s.id));
-  const compactName = isGeneral && parts.length >= 3 ? parts[0] : code;
-  const completeDetails = isGeneral && parts.length >= 3 ? `
-    <div class="xa76-field"><span>계정 ID · 전체</span><div class="xa76-full-text">${escapeHTML(parts[0])}</div></div>
-    <div class="xa76-field"><span>비밀번호 · 전체</span><div class="xa76-full-text">${escapeHTML(parts[1])}</div></div>
-    <div class="xa76-field"><span>2FA 인증키 · 전체</span><div class="xa76-full-text">${escapeHTML(parts[2])}</div></div>` : '';
+  const parts=String(s.code||'').split(/-{4,}/);
+  const isGeneral=/일반|general/i.test(String(s.product_type||''));
+  const accountId=parts[0]||'식별값 없음';
+  const label=flag==='available'?'판매 가능':'점검 필요';
+  const stockId=JSON.stringify(String(s.id));
+  const problem=xa108StockProblem(s) || (flag==='invalid'?'이미 발급된 코드 또는 재고 연결 불일치':'');
   return `<article class="xa62-stockcard xa76-stockcard">
     <div class="xa62-card-head"><div><div class="xa62-order-num">${escapeHTML(s.product_type||'재고')} <span class="xa76-stock-id">#${escapeHTML(s.id)}</span></div></div><span class="xa62-status ${flag==='available'?'available':'pending'}">${label}</span></div>
-    <div class="xa76-preview"><span>${isGeneral && parts.length>=3?'계정 ID':'등록 코드'}</span><strong>${escapeHTML(compactName)}</strong></div>
-    <details class="xa76-stock-details"><summary><span class="xa76-toggle-closed">전체 정보 보기</span><span class="xa76-toggle-open">정보 접기</span><span class="xa76-arrow" aria-hidden="true"></span></summary>
-      <div class="xa76-details-content">
-        ${completeDetails}
-        <div class="xa76-field"><span>${isGeneral?'등록 원본 · 전체':'조회 코드 · 전체'}</span><div class="xa76-full-text">${escapeHTML(code)}</div></div>
-      </div>
+    <div class="xa76-preview"><span>계정 ID</span><strong>${escapeHTML(accountId)}</strong></div>
+    ${problem?`<div class="xa108-stock-problem">${escapeHTML(problem)}</div>`:''}
+    <details class="xa76-stock-details" data-stock="${escapeHTML(s.id)}" ontoggle='xa108StockToggle(this,${stockId})'>
+      <summary><span class="xa76-toggle-closed">관리자 상세정보 보기</span><span class="xa76-toggle-open">상세정보 접기</span><span class="xa76-arrow" aria-hidden="true"></span></summary>
+      <div class="xa76-details-content"></div>
     </details>
     <div class="xa62-actions"><button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>전체 코드 복사</button>
-    ${flag==='available' ? `<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button>` : ''}</div>
+    ${flag==='available'?`<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button>`:''}</div>
   </article>`;
 }
+function xa108StockToggle(el,id){
+  if(!el?.isConnected)return;
+  const target=el?.querySelector('.xa76-details-content');
+  if(!target)return;
+  const key=String(id);
+  if(!el.open){target.replaceChildren();xa108OpenStockDetails.delete(key);return;}
+  const row=v62StockById.get(key);
+  if(!row){target.textContent='재고 정보가 없습니다. 목록을 새로고침해 주세요.';return;}
+  xa108OpenStockDetails.add(key);
+  const parts=String(row.code||'').split(/-{4,}/);
+  target.replaceChildren();
+  const keys=parts.length>=5&&parts[2].includes('@')
+    ? ['X 계정 ID','X 비밀번호','이메일 주소','이메일 비밀번호','2FA 비밀키']
+    : ['X 계정 ID','X 비밀번호','2FA 비밀키'];
+  parts.slice(0,keys.length).forEach((value,i)=>{
+    const wrap=document.createElement('div');wrap.className='xa76-field';
+    const label=document.createElement('span');label.textContent=keys[i]||'기타';
+    const body=document.createElement('div');body.className='xa76-full-text';body.textContent=value;
+    wrap.append(label,body);target.append(wrap);
+  });
+}
+function xa108RestoreStockDetails(root){root.querySelectorAll('details[data-stock]').forEach(el=>{if(xa108OpenStockDetails.has(String(el.dataset.stock)))el.open=true;});}
 // v71: server-only exclusion: don't delete, change a sold order, or fake local stock state.
 async function excludeV71Stock(stockId, button) {
   const stock = v62StockById.get(String(stockId));
@@ -4200,6 +4448,7 @@ async function excludeV71Stock(stockId, button) {
     const {data,error} = await supabaseClient.rpc('xa_exclude_available_stock_v75', {p_stock_id:String(stockId),p_reason:'관리자 품질 점검'});
     if (error) throw error;
     if (!data?.success) throw new Error(data?.message || '판매 제외를 확인할 수 없습니다.');
+    xa108NoteAction('재고 판매 제외','#'+stockId);
     await loadAdminStock();
     showAdminFlash(`재고 #${stockId}: 판매 가능 목록에서 제외했습니다. 주문 기록은 유지됩니다.`);
   } catch(err) {
@@ -4219,53 +4468,86 @@ async function excludeV71Stock(stockId, button) {
 }
 
 function renderV62Stock() {
-  const el = document.getElementById('adm-stock-view');if(!el||!v62LastStockSuccess)return;
-  const rows = v62AvailableStock.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.code,s.id));
-  const g=v62AvailableStock.filter(s=>/일반|general/i.test(String(s.product_type||''))).length;
-  const e=v62AvailableStock.length-g;
-  el.innerHTML=`<div class="xa62-section-note"><strong>즉시 판매 가능 · ${rows.length}개</strong><span>일반 ${g} / 이메일 ${e}</span></div>`+
-    (rows.length?rows.map(s=>v62StockCard(s)).join(''):v62Empty('판매 가능한 재고가 없어.','차감된 재고는 현재 재고 목록에 표시되지 않아.'));
+  const el=document.getElementById('adm-stock-view');if(!el||!v62LastStockSuccess)return;
+  const available=v62AvailableStock, bad=v62InvalidStock;
+  const g=available.filter(s=>/일반|general/i.test(String(s.product_type||''))).length;
+  const e=available.length-g;
+  const low=[['일반',g],['이메일',e]].filter(([name,c])=>c<=3).map(([name,c])=>`${name} ${c}개`);
+  const all=[...available.map(s=>({...s,xa108Flag:'available'})),...bad.map(s=>({...s,xa108Flag:'invalid'}))];
+  const rows=all.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0]));
+  el.innerHTML=`<div class="xa108-stock-summary"><span>일반 <b>${g}</b>개</span><span>이메일 <b>${e}</b>개</span><span>점검 필요 <b>${bad.length}</b>개</span></div>`+
+    (low.length?`<div class="xa108-alert">재고 부족 알림 · ${escapeHTML(low.join(' / '))} 남음</div>`:'')+
+    (bad.length?`<div class="xa108-alert">품질 점검 대상 ${bad.length}개는 판매 가능 수량 집계에서 제외했습니다. 서버 발급 검증도 별도 확인이 필요합니다.</div>`:'')+
+    `<div class="xa62-section-note"><strong>${rows.length}개 재고 표시</strong><span>판매 가능 ${available.length}개</span></div>`+
+    (rows.length?rows.map(s=>v62StockCard(s,s.xa108Flag)).join(''):v62Empty('해당 재고가 없습니다.','상품 유형 또는 검색어를 확인하세요.'));
+  xa108RestoreStockDetails(el);
   if(window.lucide)lucide.createIcons();
 }
 function v62NeedsRestock(order) {
   const stock = v62StockByCode.get(String(order.assigned_code||''));
   return order.status==='REFUNDED' && !!order.assigned_code && (!stock || stock.is_used !== false);
 }
-function v63TodaySales() {
-  // DB에 승인 시각(approved_at)이 별도로 없어 당일 접수 + 최종 APPROVED 기준으로 집계합니다.
-  return v62AllOrders.filter(o => o.status==='APPROVED' && v63IsToday(o));
+function xa108OrderInWindow(o, field){
+  const time=field==='approved' ? (o.approved_at||o.created_at) : o.created_at;
+  if(!time)return false;
+  const d=new Date(time);if(!Number.isFinite(d.getTime()))return false;
+  const now=new Date();
+  if(xa108Period==='today')return getKstYmd(d)===getKstYmd(now);
+  if(xa108Period==='all')return true;
+  const days=Number(xa108Period)||7;
+  const startKst=new Date(getKstYmd(now)+'T00:00:00+09:00');
+  return d.getTime()>=startKst.getTime()-(days-1)*86400000;
 }
-function renderV63Sales() {
-  const el=document.getElementById('adm-sales-view');if(!el || !v62LastOrdersSuccess)return;
-  const today = v63TodaySales();
-  const general = today.filter(o=>/일반|general/i.test(String(o.product_type||''))).length;
-  const email = today.length-general;
-  const rows=today.filter(v62OrderFullMatch);
-  const total = today.reduce((acc,o)=>acc+(typeof parseWon==='function'?parseWon(o.price):Number(String(o.price||'').replace(/[^0-9]/g,''))||0),0);
-  el.innerHTML=`<div class="xa63-sales-kpis"><div><span>오늘 판매완료</span><strong>${today.length}건</strong></div><div><span>일반 계정 출고</span><strong>${general}개</strong></div><div><span>이메일 계정 출고</span><strong>${email}개</strong></div></div>`+
-    `<div class="xa62-section-note"><strong>승인 완료된 주문만 표시</strong><span>${total.toLocaleString('ko-KR')}원</span></div>`+
-    (rows.length?rows.map(o=>v62OrderCard(o,'sales')).join(''):v62Empty('오늘 판매완료된 주문이 없어.','승인 처리하면 주문 대기에서 이 탭으로 이동합니다.'));
+function v63TodaySales(){return v62AllOrders.filter(o=>o.status==='APPROVED'&&xa108OrderInWindow(o,'approved'));}
+function xa108GroupHistoryOrders(rows,view){
+  const seen=new Set(),result=[];
+  for(const o of rows){
+    if(seen.has(o.order_no))continue;
+    const group=xa108GetGroup(o);
+    if(group.length>1){
+      group.forEach(r=>seen.add(r.order_no));
+      if(group.some(v62OrderFullMatch))result.push(...group.filter(x=>xa108OrderInWindow(x,view==='sales'?'approved':'created')));
+    }else{seen.add(o.order_no);if(v62OrderFullMatch(o))result.push(o);}
+  }
+  return result;
+}
+function renderV63Sales(){
+  const el=document.getElementById('adm-sales-view');if(!el||!v62LastOrdersSuccess)return;
+  const rows=v63TodaySales();
+  const general=rows.filter(o=>/일반|general/i.test(String(o.product_type||''))).length;
+  const email=rows.length-general;
+  const total=rows.reduce((sum,o)=>sum+parseWon(o.price),0);
+  const title=xa108Period==='today'?'오늘':xa108Period==='all'?'전체':`최근 ${xa108Period}일`;
+  el.innerHTML=`<div class="xa63-sales-kpis"><div><span>${title} 판매</span><strong>${rows.length}건</strong></div><div><span>일반 계정</span><strong>${general}개</strong></div><div><span>이메일 계정</span><strong>${email}개</strong></div></div>`+
+    `<div class="xa62-section-note"><strong>승인 완료 총액</strong><span>${formatWon(total)}</span></div>`+
+    (!xa108HasApprovedAt?`<div class="xa108-alert">승인 시각 미설치 · 주문 접수일로 임시 집계 중입니다. 정확한 승인일 통계는 동봉된 선택 SQL 적용 후부터 기록됩니다.</div>`:'')+
+    (rows.some(o=>!o.approved_at)&&xa108HasApprovedAt?`<div class="xa108-alert">과거 승인 기록 중 일부는 정확한 승인 시간이 없어 주문 접수일로 추정했습니다.</div>`:'')+
+    (rows.filter(v62OrderFullMatch).length?rows.filter(v62OrderFullMatch).map(o=>v62OrderCard(o,'sales')).join(''):
+     v62Empty('선택 기간 판매완료 내역이 없습니다.','조회 기간을 변경하거나 다른 주문을 확인하세요.'));
   if(window.lucide)lucide.createIcons();
 }
-function renderV62History() {
+function renderV62History(){
   const el=document.getElementById('adm-history-view');if(!el||!v62LastOrdersSuccess)return;
-  const today=v62AllOrders.filter(v63IsToday);
-  const rows=today.filter(v62OrderFullMatch);
-  const byStatus=(status)=>today.filter(o=>o.status===status).length;
-  el.innerHTML=`<div class="xa62-section-note"><strong>${escapeHTML(getKstYmd(new Date()))} 거래 기록</strong><span>오늘 ${today.length}건</span></div>`+
-    `<div class="xa63-history-chips"><span>판매 ${byStatus('APPROVED')}</span><span>반환 ${byStatus('REFUNDED')}</span><span>만료 ${byStatus('EXPIRED')}</span><span>대기 ${today.filter(v63IsVisiblePending).length}</span></div>`+
-    (rows.length?rows.map(o=>v62OrderCard(o,'history')).join(''):v62Empty('오늘 거래 기록이 없어.','지난 날짜 기록은 화면에서만 숨겨지며 Supabase DB에 계속 보존됩니다.'));
+  const rows=v62AllOrders.filter(o=>xa108OrderInWindow(o,'created'));
+  const byStatus=status=>rows.filter(o=>o.status===status).length;
+  const periodLabel=xa108Period==='today'?'오늘':xa108Period==='all'?'전체 기간':`최근 ${xa108Period}일`;
+  el.innerHTML=`<div class="xa62-section-note"><strong>${periodLabel} 거래 이력</strong><span>${rows.length}건</span></div>`+
+    `<div class="xa63-history-chips"><span>판매 ${byStatus('APPROVED')}</span><span>반환 ${byStatus('REFUNDED')}</span><span>만료 ${byStatus('EXPIRED')+rows.filter(o=>o.status==='PENDING'&&!v63IsVisiblePending(o)).length}</span><span>대기 ${rows.filter(v63IsVisiblePending).length}</span></div>`+
+    (rows.filter(v62OrderFullMatch).length?rows.filter(v62OrderFullMatch).map(o=>v62OrderCard(o,'history')).join(''):
+     v62Empty('해당 기간 거래 기록이 없습니다.','조회 기간과 검색어를 확인하세요.'));
   if(window.lucide)lucide.createIcons();
 }
-function renderV62Summary() {
-  const pending = v62AllOrders.filter(v63IsVisiblePending).length;
-  const approved = v63TodaySales().length;
-  const today = v62AllOrders.filter(v63IsToday).length;
-  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=String(v);};
+function renderV62Summary(){
+  const pending=v62AllOrders.filter(v63IsVisiblePending).length;
+  const sales=v62AllOrders.filter(o=>o.status==='APPROVED' && getKstYmd(o.approved_at||o.created_at)===getKstYmd(new Date())).length;
+  const today=v62AllOrders.filter(v63IsToday).length;
+  const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=String(val);};
   set('adm-count-pending',v62LastOrdersSuccess?pending:'—');
-  set('xa62-count-issued',v62LastOrdersSuccess?approved:'—');
+  set('xa62-count-issued',v62LastOrdersSuccess?sales:'—');
   set('adm-count-stock',v62LastStockSuccess?v62AvailableStock.length:'—');
   set('xa62-count-holds',v62LastOrdersSuccess?today:'—');
+  const issued=document.getElementById('xa62-count-issued');
+  if(issued)issued.title=xa108HasApprovedAt?'승인 시각 기준 (이전 기록은 접수일 추정)':'임시 집계: 주문 접수일 기준 · 승인일 SQL 미설치';
 }
 function renderV62CurrentTab(){
   if(v62Tab==='orders')renderV62Orders();
@@ -4273,7 +4555,64 @@ function renderV62CurrentTab(){
   else if(v62Tab==='sales')renderV63Sales();
   else if(v62Tab==='history')renderV62History();
 }
-function renderV62All() { renderV62Summary();renderV62CurrentTab(); }
+function renderV62All(){renderV62Summary();renderV62CurrentTab();xa108RenderOverview();}
+function xa108ChangePeriod(value){
+  if(!['today','7','30','all'].includes(value))return;
+  xa108Period=value;
+  // Existing 30-day buffer covers today/7/30; only all requires a full server fetch.
+  if(value==='all' || xa108OrdersFetched===0){refreshAdminData();return;}
+  renderV62All();
+}
+function xa108RenderOverview(){
+  const el=document.getElementById('xa108-overview');
+  const coverage=document.getElementById('xa108-data-coverage');
+  if(coverage)coverage.textContent=xa108AllRowsTruncated?`${xa108OrdersFetched}/${xa108CurrentCount}건만 표시 · 범위 축소 권장`:`${xa108OrdersFetched}건 조회 · ${xa108HasApprovedAt?'승인일 기록 활성':'승인일 임시 기준'}`;
+  if(!el)return;
+  if(!v62LastOrdersSuccess || !v62LastStockSuccess){el.innerHTML='<span class="xa108-err">주문 또는 재고 조회 실패 · 진단 버튼을 눌러 확인</span>';return;}
+  const pending=v62AllOrders.filter(v63IsVisiblePending);
+  const urgent=pending.filter(o=>v63PendingRemainingMs(o)<300000).length;
+  const general=v62AvailableStock.filter(s=>/일반|general/i.test(String(s.product_type||''))).length;
+  const email=v62AvailableStock.length-general;
+  el.innerHTML=`<span class="xa108-online"><i></i> 정상 연결</span><span>${urgent?'마감 임박 '+urgent+'개 · ':''}일반 ${general}개 / 이메일 ${email}개</span><span>${v62InvalidStock.length?'재고 점검 '+v62InvalidStock.length+'개':'재고 형식 정상'}</span>`;
+}
+function xa108NoteAction(label,detail){
+  xa108SessionEvents.unshift({label:String(label||'작업'),detail:String(detail||''),when:new Date()});
+  xa108SessionEvents=xa108SessionEvents.slice(0,30);
+  xa108RenderActivity();
+}
+async function xa108LoadEvents(){
+  if(xa108ActivityLoading || !supabaseClient)return;
+  xa108ActivityLoading=true;
+  try{
+    // Optional migration table. Without SQL, only this browser session's confirmed events are shown.
+    const {data,error}=await supabaseClient.from('xa_admin_events_v108')
+      .select('event_type,order_no,stock_id,created_at').order('created_at',{ascending:false}).limit(30);
+    if(error){xa108AuditEnabled=false;xa108ActivityEvents=[];}
+    else{xa108AuditEnabled=true;xa108ActivityEvents=Array.isArray(data)?data:[];}
+    xa108RenderActivity();
+  }catch(e){xa108AuditEnabled=false;xa108RenderActivity();}
+  finally{xa108ActivityLoading=false;}
+}
+function xa108RenderActivity(){
+  const el=document.getElementById('xa108-activity-content');
+  const status=document.getElementById('xa108-log-status');
+  if(status)status.textContent=xa108AuditEnabled?'서버 기록':'이번 접속 기록';
+  if(!el)return;
+  const results=xa108AuditEnabled?xa108ActivityEvents.map(x=>({label:({'ORDER_APPROVED':'주문 승인','ORDER_REFUNDED':'주문 반환','ORDER_EXPIRED':'만료 처리','STOCK_EXCLUDED':'재고 제외','STOCK_RESTORED':'재고 복구'})[x.event_type]||x.event_type,detail:x.order_no||('재고 #'+x.stock_id),when:new Date(x.created_at)})):xa108SessionEvents;
+  el.replaceChildren();
+  const note=document.createElement('p');note.className='xa108-log-note';
+  note.textContent=xa108AuditEnabled?'서버에서 확인된 실제 처리 기록 · 비밀번호와 인증키는 기록하지 않습니다.':'서버 기록용 SQL 미설치 · 이 브라우저 접속 중 확인한 작업만 표시합니다. 페이지를 닫으면 기록이 사라집니다.';
+  el.append(note);
+  if(!results.length){const empty=document.createElement('p');empty.className='xa108-log-empty';empty.textContent='아직 표시할 작업 기록이 없습니다.';el.append(empty);return;}
+  results.slice(0,30).forEach(x=>{
+    const row=document.createElement('div');row.className='xa108-log-row';
+    const a=document.createElement('b');a.textContent=x.label;
+    const b=document.createElement('span');b.textContent=x.detail;
+    const c=document.createElement('small');c.textContent=Number.isFinite(x.when?.getTime())?x.when.toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+    row.append(a,b,c);el.append(row);
+  });
+}
+
 async function copyV62OrderPart(orderNo,field) {
   if (!['buyer_code','assigned_code'].includes(field))return;
   const row=adminOrderCache.get(orderNo);
@@ -4952,7 +5291,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 #step-price .product-badge{display:none!important}
 #step-price .product-name{font-size:12px!important;color:#214538!important;font-weight:900!important;margin-top:3px!important}
 #step-price .product-name-note{font-size:9.5px!important;color:#6e8979!important}
-#step-price .product-price{font-weight:950!important;letter-spacing:-.055em!important;font-size:21px!important;margin-top:12px!important;color:#124c39!important}
+#step-price .product-price{font-weight:950!important;letter-spacing:-.055em!important;font-size:21px!important;margin-top:12px!important;color:#29352F!important}
 #step-price .product-price small{color:#6e917d!important;font-size:9px!important;letter-spacing:0!important}
 #step-price .xa-select-ind{border-color:#b6d4c2!important}
 #step-price .product-card.selected .xa-select-ind{background:#0b7857!important;border-color:#087052!important;color:white!important;box-shadow:0 2px 8px #0c8c5b2b!important}
@@ -5275,5 +5614,390 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 #step-waiting .xa82-keep-note{text-align:center;font-size:10px;line-height:1.6;margin:8px 2px 0;color:#799b90}
 @media(max-width:360px){#step-waiting .xa-sub-actions{gap:4px 8px!important}#step-waiting .xa-sub-actions button{font-size:10px!important}}
 </style>
+
+<style id="xa98-contrast-fix">
+#main-card #step-bulk .xa90-field-label{color:#264c3d!important;font-weight:900!important}
+#main-card #step-bulk .xa90-field-value{color:#0f241b!important;font-weight:800!important}
+#main-card #step-bulk .xa91-mail-field .xa90-field-value{color:#355848!important;font-weight:700!important}
+#main-card #step-bulk .xa90-copy-btn{color:#0d6c4e!important;border-color:#c4dbc9!important;background:#fff!important}
+#main-card #step-bulk .xa90-chip{background:#e7f6ed!important;color:#0d6c4e!important;border:1px solid #c6e4d1!important}
+#main-card #step-bulk .xa90-field-value.mono{letter-spacing:.01em}
+#email-inbox-modal .xa97-hotmail-panel{border:1px solid #cfe3d5!important;background:linear-gradient(155deg,#ffffff,#f4fbf6)!important;color:#153728!important}
+#email-inbox-modal .xa97-hotmail-heading{font-size:12px!important;color:#5c7f6c!important;font-weight:900!important}
+#email-inbox-modal .xa97-hotmail-email{margin:0 0 10px!important;font-size:12px!important;font-weight:800!important;color:#29543f!important;word-break:break-all!important}
+#email-inbox-modal .xa97-hotmail-message{font-size:20px!important;line-height:1.45!important;color:#133b29!important}
+#xa-inbox-viewer .xa-inbox-window,#xa-inbox-viewer .xa-inbox-header,#xa-inbox-viewer .xa-inbox-toolbar,#xa-inbox-viewer .xa-inbox-status,#xa-inbox-viewer .xa-inbox-content{color:#173526!important}
+#xa-inbox-viewer .xa-inbox-status{font-weight:800!important}
+#xa-inbox-viewer .xa-inbox-empty strong{color:#143526!important}
+#xa-inbox-viewer .xa-inbox-empty p{color:#476152!important}
+</style>
+
+
+<style id="xa100-premium-compact-result">
+#main-card #step-bulk .xa100-issued{display:grid;gap:10px!important;min-width:0}
+#main-card #step-bulk .xa100-result-top{position:relative;display:flex;align-items:center;gap:12px;min-height:60px;padding:12px 14px;border-radius:18px;border:1px solid rgba(194,232,211,.95);background:linear-gradient(135deg,#effaf3 0%,#ffffff 54%,#f0fbf6 100%);box-shadow:0 14px 30px rgba(16,106,69,.08), inset 0 1px 0 rgba(255,255,255,.9);overflow:hidden}
+#main-card #step-bulk .xa100-result-top::before{content:'';position:absolute;inset:auto auto -26px -26px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at center,rgba(21,170,108,.16),rgba(21,170,108,0) 68%)}
+#main-card #step-bulk .xa100-result-top::after{content:'';position:absolute;top:-18px;right:-18px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at center,rgba(90,218,166,.13),rgba(90,218,166,0) 66%)}
+#main-card #step-bulk .xa100-done-emblem{position:relative;z-index:1;display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(180deg,#21b972,#0d7d56);color:#fff;flex-shrink:0;box-shadow:0 12px 20px rgba(12,116,75,.22)}
+#main-card #step-bulk .xa100-done-emblem{font-size:21px;font-weight:900;line-height:1}
+#main-card #step-bulk .xa100-result-copy{position:relative;z-index:1;display:grid;gap:3px;flex:1;min-width:0;line-height:1.3}
+#main-card #step-bulk .xa100-result-copy strong{font-size:15px;font-weight:900;color:#113827;letter-spacing:-.035em}
+#main-card #step-bulk .xa100-result-copy span{font-size:10.5px;color:#446f59;font-weight:700;letter-spacing:-.01em}
+#main-card #step-bulk .xa100-result-copy b{color:#0b8d61;font-weight:900}
+#main-card #step-bulk .xa100-done-badge{position:relative;z-index:1;flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:999px;background:linear-gradient(180deg,#0d8a5f,#0b7350);color:#fff;font-size:10px;font-weight:900;box-shadow:0 8px 18px rgba(11,115,80,.18)}
+#main-card #step-bulk .xa100-list{display:grid;gap:10px!important}
+#main-card #step-bulk .xa100-account{overflow:hidden;border-radius:18px!important;border:1px solid #d6eade!important;background:linear-gradient(180deg,#ffffff 0%,#fbfefd 100%)!important;box-shadow:0 12px 26px rgba(10,62,38,.06)!important}
+#main-card #step-bulk .xa100-account[open]{border-color:#c4e2d0!important;box-shadow:0 16px 28px rgba(10,84,52,.09)!important}
+#main-card #step-bulk .xa100-account-head{display:flex!important;align-items:center;gap:9px!important;min-height:43px!important;padding:9px 12px!important;background:linear-gradient(180deg,#fcfffd,#f4faf7)!important;cursor:pointer}
+#main-card #step-bulk .xa100-account[open] .xa100-account-head{border-bottom:1px solid #e4f0e9}
+#main-card #step-bulk .xa100-num{flex:0 0 auto;display:grid;place-items:center;width:28px;height:28px;border-radius:10px;background:linear-gradient(180deg,#ecfaf2,#daf1e4);color:#0d7c56;font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;box-shadow:inset 0 1px 0 rgba(255,255,255,.85)}
+#main-card #step-bulk .xa100-account-title{flex:1;min-width:0;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+#main-card #step-bulk .xa100-account-title strong{color:#163d2c;font-size:12.4px;font-weight:900}
+#main-card #step-bulk .xa100-account-title small{color:#779383;font-size:10px;font-weight:700}
+#main-card #step-bulk .xa100-account-status{display:inline-flex;padding:4px 8px;background:linear-gradient(180deg,#eaf8ef,#ddf2e6);color:#0b7b56;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap;border:1px solid #cce5d5}
+#main-card #step-bulk .xa100-account-status.is-error{background:#fff1e7;color:#a54d23;border-color:#f2cfba}
+#main-card #step-bulk .xa100-account-body{padding:10px 12px 12px!important;display:grid;gap:8px;min-width:0}
+#main-card #step-bulk .xa100-credentials{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;min-width:0}
+#main-card #step-bulk .xa100-credential{min-width:0;background:linear-gradient(180deg,#ffffff,#f9fcfa);border:1px solid #e1efe7;border-radius:12px;padding:8px 8px 8px 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.88)}
+#main-card #step-bulk .xa100-label{display:block;font-size:9.8px;color:#51705d;font-weight:900;margin:0 0 4px;line-height:1.2}
+#main-card #step-bulk .xa100-credential-line{display:flex;align-items:center;justify-content:space-between;gap:4px;min-width:0}
+#main-card #step-bulk .xa100-value{font:800 11.5px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#173729;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;user-select:text}
+#main-card #step-bulk .xa100-copy{flex:0 0 auto;width:35px;height:26px;min-height:26px!important;display:inline-flex;align-items:center;justify-content:center;border:1px solid #cfe5d6;border-radius:8px;background:#fff;color:#0a7451;font:900 10px/1 inherit;cursor:pointer;padding:0 2px;white-space:nowrap!important;word-break:keep-all!important;box-shadow:0 3px 8px rgba(10,76,47,.04)}
+#main-card #step-bulk .xa100-copy:hover{background:#ecf8f0;border-color:#add8bc}
+#main-card #step-bulk .xa100-copy:disabled{cursor:not-allowed;opacity:.52}
+#main-card #step-bulk .xa100-tools{display:grid;grid-template-columns:1fr;gap:8px;min-width:0}
+#main-card #step-bulk .xa100-tools.has-mail{grid-template-columns:1fr}
+#main-card #step-bulk .xa100-tool{background:linear-gradient(180deg,#f8fcfa,#f1f8f4);border:1px solid #dcece2;border-radius:14px;min-height:48px;padding:8px 10px;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+#main-card #step-bulk .xa100-tool-label{font-size:10px;color:#466c58;font-weight:900;line-height:1.3}
+#main-card #step-bulk .xa100-tool-content{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+#main-card #step-bulk .xa100-otp-number{font:900 16px/1.25 ui-monospace,Consolas,monospace;letter-spacing:.08em;color:#066b47;overflow:hidden;min-width:0;text-overflow:ellipsis;white-space:nowrap}
+#main-card #step-bulk .xa100-tool .xa100-copy{width:34px;height:24px;min-height:24px!important;background:#fff}
+#main-card #step-bulk .xa100-mail-cell{background:linear-gradient(135deg,#f7fbf9 0%,#edf8f3 100%);border:1px solid #dbece2}
+#main-card #step-bulk .xa100-mail-cell.is-hotmail{background:linear-gradient(135deg,#fbfcff 0%,#f1f7ff 100%);border-color:#d7e4f3}
+#main-card #step-bulk .xa100-mail-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#main-card #step-bulk .xa100-mail-type{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid #d7e8de;color:#5c7f6c;font-size:9.6px;font-weight:900;white-space:nowrap}
+#main-card #step-bulk .xa100-mail-cell.is-hotmail .xa100-mail-type{border-color:#d7e2f5;color:#58709a;background:#fff}
+#main-card #step-bulk .xa100-mail-open{width:100%;min-height:34px!important;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #0f8b62;border-radius:11px;background:linear-gradient(180deg,#1eb978,#0e855c);color:white;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 10px 18px rgba(16,129,85,.18)}
+#main-card #step-bulk .xa100-mail-open:hover{background:linear-gradient(180deg,#18aa6d,#0a7751)}
+#main-card #step-bulk .xa100-mail-open svg{width:13px;height:13px}
+#main-card #step-bulk .xa100-error-text{color:#943e28;font-size:10px;font-weight:800;overflow-wrap:anywhere}
+#main-card #step-bulk .xa100-code-line{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;min-height:38px;padding:6px 8px 6px 10px;border:1px solid #dcebe1;background:linear-gradient(180deg,#ffffff,#fbfefd);border-radius:12px;min-width:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.88)}
+#main-card #step-bulk .xa100-code-label{display:inline-flex;gap:5px;align-items:center;font-size:10px;font-weight:900;color:#456d57;white-space:nowrap}
+#main-card #step-bulk .xa100-code-label svg{width:13px;height:13px;color:#187954}
+#main-card #step-bulk .xa100-code-value{font:900 11.8px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.01em;color:#0f3d2a;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;user-select:text}
+#main-card #step-bulk .xa100-code-value.is-missing{color:#a56b31;font-size:10px;font-family:inherit}
+#main-card #step-bulk .xa100-footer-actions{display:grid;grid-template-columns:1.15fr 1fr;gap:8px!important}
+#main-card #step-bulk .xa100-footer-actions button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:38px!important;border-radius:11px!important;padding:7px 9px!important;font-size:11px!important;letter-spacing:-.01em}
+#main-card #step-bulk .xa100-footer-actions svg{width:13px;height:13px;flex-shrink:0}
+#main-card #step-bulk .xa100-footer-actions .xa90-copy-all{background:linear-gradient(180deg,#149165,#0c724f);border-color:#0c6b4c;color:#fff;box-shadow:0 12px 18px rgba(9,103,70,.16)}
+#main-card #step-bulk .xa100-footer-actions .xa90-home-btn{background:#fff;border-color:#d4e5d9;color:#285a42}
+@media(max-width:430px){
+ #main-card #step-bulk .xa100-result-top{padding:10px 11px;border-radius:16px}
+ #main-card #step-bulk .xa100-result-copy strong{font-size:14px}
+ #main-card #step-bulk .xa100-result-copy span{font-size:10px}
+ #main-card #step-bulk .xa100-account-body{padding:9px 10px 10px!important}
+ #main-card #step-bulk .xa100-credentials{gap:6px}
+ #main-card #step-bulk .xa100-credential{padding:7px 7px 7px 9px}
+ #main-card #step-bulk .xa100-value{font-size:10.8px}
+ #main-card #step-bulk .xa100-code-line{gap:5px;padding-inline:7px}
+}
+@media(max-width:370px){
+ #main-card #step-bulk .xa100-account-head{padding-inline:10px!important}
+ #main-card #step-bulk .xa100-account-status{font-size:9px;padding:4px 7px}
+ #main-card #step-bulk .xa100-credentials{grid-template-columns:1fr}
+ #main-card #step-bulk .xa100-copy{width:33px!important;min-width:33px!important;font-size:9px!important}
+ #main-card #step-bulk .xa100-code-label{font-size:9px}
+ #main-card #step-bulk .xa100-code-value{font-size:9.8px}
+ #main-card #step-bulk .xa100-footer-actions{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){#main-card #step-bulk .xa100-account *{transition:none!important}}
+</style>
+
+
+<style id="xa102-step-result-refresh">
+#main-card #step-result .xa68-quick-lookup{margin:0 0 12px!important;padding:13px 14px!important;border-radius:18px!important;background:linear-gradient(145deg,#f2fbf5 0%,#e6f4eb 100%)!important;border:1px solid #d6eadc!important;box-shadow:0 12px 28px rgba(19,96,62,.08)!important}
+#main-card #step-result .xa68-quick-head{margin-bottom:9px!important}
+#main-card #step-result .xa68-quick-head span{font-size:14px!important;font-weight:900!important;color:#174936!important}
+#main-card #step-result .xa68-quick-controls{display:grid!important;grid-template-columns:minmax(0,1fr) 92px!important;gap:10px!important}
+#main-card #step-result .xa68-quick-controls input{height:52px!important;border-radius:16px!important;border:1px solid #d8e9dd!important;background:#fff!important;color:#12392c!important;font-size:15px!important;padding:0 16px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)!important}
+#main-card #step-result .xa68-quick-controls button{height:52px!important;border-radius:16px!important;border:1px solid #0c8a5c!important;background:linear-gradient(180deg,#16a56c,#0d8659)!important;color:#fff!important;font-size:16px!important;font-weight:900!important;box-shadow:0 10px 20px rgba(16,129,85,.22)!important}
+#main-card #step-result .xa-result-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end!important;gap:10px!important;padding:4px 0 14px!important;margin:0 0 10px!important;border-bottom:1px solid #dfebe2!important}
+#main-card #step-result .xa-result-head #account-result-kicker{display:none!important}
+#main-card #step-result .xa-result-head h3{display:block!important;margin:0!important;font-size:18px!important;line-height:1.35!important;font-weight:950!important;color:#153f2f!important;letter-spacing:-.04em!important}
+#main-card #step-result .xa-result-head #account-result-description{display:none!important}
+#main-card #step-result .xa-status{display:inline-flex!important;align-items:center!important;gap:7px!important;padding:0 16px!important;min-height:48px!important;border-radius:14px!important;background:linear-gradient(180deg,#eef9f1,#e4f4e9)!important;border:1px solid #cee4d4!important;color:#148257!important;font-size:15px!important;font-weight:900!important;box-shadow:0 8px 18px rgba(18,110,66,.08)!important}
+#main-card #step-result .xa-status i{width:10px!important;height:10px!important;border-radius:50%!important;background:#1ca96e!important;box-shadow:0 0 0 5px rgba(28,169,110,.12)!important}
+#main-card #step-result .xa-result-note{margin-top:0!important;margin-bottom:12px!important;padding:0!important;border-radius:16px!important;border:1px solid #dce9df!important;background:linear-gradient(180deg,#fbfefc,#f5faf7)!important;overflow:hidden!important;box-shadow:0 10px 24px rgba(18,91,58,.05)!important}
+#main-card #step-result .xa-result-note>summary{min-height:56px!important;padding:0 18px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;font-size:14px!important;font-weight:900!important;color:#265140!important}
+#main-card #step-result .xa-result-note p{padding:0 18px 14px!important;margin:0!important;color:#627a6c!important;font-size:12px!important;line-height:1.7!important}
+#main-card #step-result .space-y-2{display:grid!important;gap:14px!important}
+#main-card #step-result .result-field{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;min-height:96px!important;padding:18px!important;border-radius:20px!important;border:1px solid #dbe9df!important;background:linear-gradient(180deg,#ffffff 0%,#fcfffd 100%)!important;box-shadow:0 14px 32px rgba(16,72,46,.08)!important}
+#main-card #step-result .result-field.is-otp{background:linear-gradient(180deg,#f3fbf5 0%,#ecf8f0 100%)!important;border-color:#cfe6d5!important;box-shadow:0 16px 34px rgba(14,116,71,.10)!important}
+#main-card #step-result .result-field .min-w-0{flex:1 1 auto!important;min-width:0!important}
+#main-card #step-result .result-label-line{display:flex!important;align-items:center!important;gap:12px!important;margin:0 0 8px!important}
+#main-card #step-result .result-label-line .tile{width:38px!important;height:38px!important;border-radius:13px!important;background:linear-gradient(180deg,#f0f8f3,#e5f2ea)!important;border:1px solid #d7e8dd!important;color:#2c7658!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.95)!important}
+#main-card #step-result .result-label-line b{font-size:17px!important;color:#295342!important;font-weight:900!important;letter-spacing:-.02em!important}
+#main-card #step-result .result-label-line em{display:none!important}
+#main-card #step-result .result-value{font-size:17px!important;line-height:1.45!important;font-weight:900!important;color:#133d2f!important;letter-spacing:-.02em!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#main-card #step-result .copy-btn{flex:0 0 auto!important;min-width:78px!important;height:50px!important;min-height:50px!important;padding:0 16px!important;border-radius:16px!important;border:1px solid #d2e4d8!important;background:linear-gradient(180deg,#ffffff,#f7fbf8)!important;color:#118458!important;font-size:15px!important;font-weight:900!important;box-shadow:0 8px 18px rgba(17,97,63,.07)!important}
+#main-card #step-result #res-otp{font-size:25px!important;line-height:1!important;color:#0f8b5d!important;letter-spacing:.08em!important}
+#main-card #step-result .otp-ring{width:44px!important;height:44px!important;border-width:4px!important}
+#main-card #step-result #res-otp-timer{font-size:14px!important;font-weight:900!important}
+#main-card #step-result #result-mail-card .result-subcopy{font-size:13px!important;line-height:1.55!important;color:#6a7f73!important}
+#main-card #step-result #result-mail-card .result-mail-btn{min-width:128px!important;height:50px!important;border-radius:16px!important;border:1px solid #0e8a5d!important;background:linear-gradient(180deg,#17a66d,#0c8558)!important;color:#fff!important;box-shadow:0 12px 22px rgba(15,134,88,.22)!important}
+#main-card #step-result #v51-code-disclosure{padding:18px!important;border-radius:20px!important;border:1px solid #dbe9df!important;background:linear-gradient(180deg,#ffffff,#fcfffd)!important;box-shadow:0 14px 32px rgba(16,72,46,.08)!important}
+#main-card #step-result #v51-code-disclosure .xa74-code-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:12px!important}
+#main-card #step-result #v51-code-disclosure .xa74-code-title{display:flex!important;align-items:center!important;gap:10px!important;font-size:17px!important;font-weight:900!important;color:#295342!important}
+#main-card #step-result #v51-code-disclosure .xa74-code-title svg{width:20px!important;height:20px!important;color:#2d7b5b!important}
+#main-card #step-result #res-code{display:block!important;margin-top:0!important;padding:16px 18px!important;border-radius:16px!important;border:1px solid #dfe9e2!important;background:#fbfdfb!important;color:#123b2c!important;font-size:18px!important;font-weight:900!important;line-height:1.45!important;letter-spacing:.01em!important;word-break:break-all!important}
+#main-card #step-result #xa74-code-hint{margin-top:10px!important;color:#76897d!important;font-size:13px!important;font-weight:700!important}
+#main-card #step-result #result-action-row{margin-top:16px!important;display:grid!important;grid-template-columns:1fr!important}
+#main-card #step-result #result-action-row button{min-height:62px!important;border-radius:18px!important;border:1px solid #d5e6da!important;background:linear-gradient(180deg,#ffffff,#f8fbf9)!important;color:#295342!important;font-size:18px!important;font-weight:900!important;box-shadow:0 12px 26px rgba(18,82,52,.08)!important}
+#main-card #step-result #result-action-row button svg{width:18px!important;height:18px!important}
+#email-inbox-modal .xa97-hotmail-panel{width:min(calc(100vw - 24px),420px)!important;padding:28px 22px 22px!important;border-radius:20px!important;border:1px solid #dce8df!important;background:linear-gradient(180deg,#ffffff,#f5faf7)!important;box-shadow:0 24px 68px rgba(16,61,41,.22)!important;color:#153d30!important;text-align:center!important}
+#email-inbox-modal .xa97-hotmail-symbol{width:58px!important;height:58px!important;margin:0 auto 16px!important;border-radius:18px!important;background:linear-gradient(180deg,#eef8f1,#e4f1e9)!important;border:1px solid #d8e6dc!important;color:#18815a!important}
+#email-inbox-modal .xa97-hotmail-heading{font-size:20px!important;font-weight:950!important;color:#163f31!important;margin:0 0 8px!important}
+#email-inbox-modal .xa97-hotmail-email{margin:0 0 10px!important;font-size:13px!important;font-weight:800!important;color:#557969!important;overflow-wrap:anywhere!important}
+#email-inbox-modal .xa97-hotmail-message{margin:0 0 16px!important;padding:14px 14px!important;border-radius:14px!important;background:#eef7f1!important;border:1px solid #d8e7dd!important;color:#0d6f4f!important;font-size:16px!important;font-weight:900!important;line-height:1.5!important}
+#email-inbox-modal .xa97-hotmail-close{width:100%!important;min-height:48px!important;border-radius:14px!important;border:1px solid #0e8a5c!important;background:linear-gradient(180deg,#17a66d,#0c8558)!important;color:#fff!important;font-size:15px!important;font-weight:900!important;box-shadow:0 12px 22px rgba(15,134,88,.22)!important}
+@media(max-width:520px){
+ #main-card #step-result .xa68-quick-lookup{padding:11px 12px!important;border-radius:16px!important}
+ #main-card #step-result .xa68-quick-controls{grid-template-columns:minmax(0,1fr) 84px!important;gap:8px!important}
+ #main-card #step-result .xa68-quick-controls input,#main-card #step-result .xa68-quick-controls button{height:48px!important;border-radius:14px!important;font-size:14px!important}
+ #main-card #step-result .xa-result-head h3{font-size:16px!important}
+ #main-card #step-result .xa-status{min-height:42px!important;padding:0 12px!important;font-size:13px!important}
+ #main-card #step-result .result-field{min-height:84px!important;padding:14px!important;border-radius:18px!important;gap:10px!important}
+ #main-card #step-result .result-label-line{gap:10px!important;margin-bottom:6px!important}
+ #main-card #step-result .result-label-line .tile{width:34px!important;height:34px!important;border-radius:12px!important}
+ #main-card #step-result .result-label-line b{font-size:14px!important}
+ #main-card #step-result .result-value{font-size:14px!important}
+ #main-card #step-result .copy-btn,#main-card #step-result #result-mail-card .result-mail-btn{min-width:66px!important;height:44px!important;min-height:44px!important;padding:0 13px!important;font-size:13px!important;border-radius:14px!important}
+ #main-card #step-result #res-otp{font-size:22px!important}
+ #main-card #step-result .otp-ring{width:38px!important;height:38px!important}
+ #main-card #step-result #v51-code-disclosure{padding:14px!important;border-radius:18px!important}
+ #main-card #step-result #v51-code-disclosure .xa74-code-title{font-size:15px!important}
+ #main-card #step-result #res-code{padding:14px!important;font-size:15px!important;border-radius:14px!important}
+ #main-card #step-result #xa74-code-hint{font-size:12px!important}
+ #main-card #step-result #result-action-row button{min-height:54px!important;font-size:16px!important;border-radius:16px!important}
+}
+</style>
+
+
+<style id="xa103-compact-elegant">
+/* v103 final overrides: lighter site palette, tighter information density. */
+#main-card #step-result .space-y-2 {gap:7px!important}
+#main-card #step-result .xa68-quick-lookup {padding:9px 10px!important;border-radius:12px!important;margin:0 0 8px!important;box-shadow:none!important}
+#main-card #step-result .xa68-quick-head {margin-bottom:5px!important}
+#main-card #step-result .xa68-quick-head span {font-size:11px!important}
+#main-card #step-result .xa68-quick-controls {grid-template-columns:minmax(0,1fr) 65px!important;gap:6px!important}
+#main-card #step-result .xa68-quick-controls input, #main-card #step-result .xa68-quick-controls button {height:36px!important;min-height:36px!important;border-radius:9px!important;font-size:11px!important;box-shadow:none!important}
+#main-card #step-result .xa68-quick-controls input {padding:0 10px!important}
+#main-card #step-result .xa68-quick-controls button {background:#263d36!important;border-color:#263d36!important}
+#main-card #step-result .xa-result-head {margin:0 0 5px!important;padding:3px 0 7px!important}
+#main-card #step-result .xa-result-head h3 {font-size:14px!important}
+#main-card #step-result .xa-status {min-height:27px!important;padding:0 9px!important;border-radius:8px!important;font-size:10px!important;box-shadow:none!important}
+#main-card #step-result .xa-status i {width:6px!important;height:6px!important;box-shadow:none!important}
+#main-card #step-result .xa-result-note {margin:0 0 6px!important;border-radius:10px!important;box-shadow:none!important}
+#main-card #step-result .xa-result-note>summary {min-height:35px!important;padding:0 11px!important;font-size:11px!important}
+#main-card #step-result .xa-result-note p {font-size:10px!important;padding:0 11px 8px!important}
+#main-card #step-result .result-field {min-height:51px!important;padding:7px 10px!important;gap:7px!important;border-radius:11px!important;box-shadow:0 3px 10px rgba(31,61,45,.035)!important;flex-direction:row!important;align-items:center!important}
+#main-card #step-result .result-label-line {gap:7px!important;margin:0 0 3px!important}
+#main-card #step-result .result-label-line .tile {width:20px!important;height:20px!important;border-radius:6px!important;box-shadow:none!important}
+#main-card #step-result .result-label-line .tile svg {width:13px!important;height:13px!important}
+#main-card #step-result .result-label-line b {font-size:10px!important;font-weight:850!important}
+#main-card #step-result .result-value {font-size:12px!important;line-height:1.25!important}
+#main-card #step-result .copy-btn {height:28px!important;min-height:28px!important;min-width:41px!important;padding:0 7px!important;border-radius:8px!important;font-size:10px!important;box-shadow:none!important;background:#fff!important;color:#263d36!important;border-color:#ccdcd2!important;align-self:center!important}
+#main-card #step-result #res-otp {font-size:17px!important;letter-spacing:.05em!important}
+#main-card #step-result .otp-ring {width:26px!important;height:26px!important;border-width:3px!important}
+#main-card #step-result #res-otp-timer {font-size:9px!important}
+#main-card #step-result #result-mail-card .result-subcopy {font-size:9px!important;line-height:1.35!important;color:#4e6b5d!important}
+#main-card #step-result #result-mail-card .result-mail-btn {min-width:79px!important;height:30px!important;min-height:30px!important;border-radius:8px!important;background:#263d36!important;border-color:#263d36!important;color:#fff!important;font-size:10px!important;box-shadow:none!important;padding:0 7px!important}
+#main-card #step-result #v51-code-disclosure {padding:9px 10px!important;border-radius:11px!important;box-shadow:none!important}
+#main-card #step-result #v51-code-disclosure .xa74-code-head {margin-bottom:5px!important;gap:6px!important}
+#main-card #step-result #v51-code-disclosure .xa74-code-title {font-size:11px!important;gap:5px!important}
+#main-card #step-result #v51-code-disclosure .xa74-code-title svg {width:14px!important;height:14px!important}
+#main-card #step-result #res-code {padding:8px 10px!important;font-size:12px!important;line-height:1.35!important;border-radius:8px!important;max-height:52px!important;overflow:auto!important}
+#main-card #step-result #xa74-code-hint {font-size:9px!important;margin-top:5px!important}
+#main-card #step-result #result-action-row {margin-top:8px!important}
+#main-card #step-result #result-action-row button {min-height:36px!important;height:36px!important;font-size:11px!important;border-radius:9px!important;box-shadow:none!important;background:#263d36!important;color:#fff!important;border-color:#263d36!important}
+/* Multi-account view: vertical information rows, consistent with the single lookup. */
+#main-card #step-bulk .xa100-issued {gap:6px!important}
+#main-card #step-bulk .xa100-result-top {min-height:41px!important;padding:7px 9px!important;border-radius:10px!important;gap:7px!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-result-top::before,#main-card #step-bulk .xa100-result-top::after {display:none!important}
+#main-card #step-bulk .xa100-done-emblem {width:25px!important;height:25px!important;border-radius:7px!important;box-shadow:none!important;font-size:15px!important}
+#main-card #step-bulk .xa100-result-copy strong {font-size:12px!important}
+#main-card #step-bulk .xa100-result-copy span {font-size:9px!important}
+#main-card #step-bulk .xa100-done-badge {font-size:9px!important;padding:4px 7px!important;border-radius:7px!important;background:#e1f1e7!important;color:#176c4b!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-list {gap:6px!important}
+#main-card #step-bulk .xa100-account {border-radius:11px!important;box-shadow:0 4px 13px rgba(22,57,36,.05)!important}
+#main-card #step-bulk .xa100-account[open] {box-shadow:0 4px 13px rgba(22,57,36,.05)!important}
+#main-card #step-bulk .xa100-account-head {min-height:34px!important;padding:5px 9px!important;gap:6px!important}
+#main-card #step-bulk .xa100-num {width:22px!important;height:22px!important;border-radius:6px!important;font-size:9px!important}
+#main-card #step-bulk .xa100-account-title strong {font-size:11px!important}
+#main-card #step-bulk .xa100-account-title small {display:none!important}
+#main-card #step-bulk .xa100-account-status {padding:3px 6px!important;border-radius:6px!important;font-size:9px!important}
+#main-card #step-bulk .xa100-account-body {padding:4px 9px 7px!important;gap:0!important;display:block!important}
+#main-card #step-bulk .xa100-credentials {display:block!important}
+#main-card #step-bulk .xa100-credential {display:grid!important;grid-template-columns:80px minmax(0,1fr)!important;align-items:center!important;gap:5px!important;min-height:33px!important;padding:3px 0!important;background:transparent!important;border:0!important;border-radius:0!important;border-bottom:1px solid #e9f0eb!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-label {margin:0!important;font-size:10px!important;color:#3c5c4b!important}
+#main-card #step-bulk .xa100-credential-line {gap:5px!important}
+#main-card #step-bulk .xa100-value {font-size:11px!important;color:#143b2c!important}
+#main-card #step-bulk .xa100-copy {min-width:36px!important;width:36px!important;height:25px!important;min-height:25px!important;border-radius:7px!important;color:#263d36!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-tools.has-mail,#main-card #step-bulk .xa100-tools {display:block!important}
+#main-card #step-bulk .xa100-tool {display:grid!important;grid-template-columns:80px minmax(0,1fr)!important;align-items:center!important;gap:5px!important;min-height:34px!important;padding:3px 0!important;border:0!important;border-radius:0!important;border-bottom:1px solid #e9f0eb!important;background:transparent!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-tool-label {font-size:10px!important;font-weight:850!important;color:#3c5c4b!important}
+#main-card #step-bulk .xa100-otp-number {font-size:13px!important;letter-spacing:.05em!important}
+#main-card #step-bulk .xa100-tool .xa100-copy {height:25px!important;min-height:25px!important}
+#main-card #step-bulk .xa100-mail-cell {display:grid!important;grid-template-columns:80px minmax(0,1fr)!important;min-height:36px!important;padding:3px 0!important;background:transparent!important}
+#main-card #step-bulk .xa100-mail-head {display:block!important}
+#main-card #step-bulk .xa100-mail-type {display:none!important}
+#main-card #step-bulk .xa100-mail-open {height:28px!important;min-height:28px!important;max-width:none!important;padding:0 8px!important;background:#263d36!important;border-color:#263d36!important;border-radius:7px!important;font-size:10px!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-mail-open:hover {background:#344e43!important}
+#main-card #step-bulk .xa100-mail-cell.is-hotmail {background:transparent!important;border-color:#e9f0eb!important}
+#main-card #step-bulk .xa100-code-line {display:grid!important;grid-template-columns:80px minmax(0,1fr) auto!important;gap:5px!important;min-height:34px!important;padding:3px 0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-code-label {font-size:10px!important;color:#3c5c4b!important;gap:3px!important}
+#main-card #step-bulk .xa100-code-label svg {width:12px!important;height:12px!important}
+#main-card #step-bulk .xa100-code-value {font-size:11px!important;text-align:left!important;color:#143b2c!important}
+#main-card #step-bulk .xa100-footer-actions {gap:6px!important;margin-top:2px!important}
+#main-card #step-bulk .xa100-footer-actions button {height:33px!important;min-height:33px!important;font-size:10px!important;box-shadow:none!important}
+#main-card #step-bulk .xa100-footer-actions .xa90-copy-all {background:#263d36!important;border-color:#263d36!important;color:#fff!important}
+#main-card #step-bulk .xa100-footer-actions .xa90-home-btn {background:#f9fbf9!important;color:#263d36!important;border-color:#cfddd3!important}
+/* Consistent keyboard focus and subtle interactions */
+#main-card #step-result button:hover,#main-card #step-bulk button:hover {filter:brightness(.96)}
+#main-card #step-result button:focus-visible,#main-card #step-bulk button:focus-visible {outline:2px solid #15976a!important;outline-offset:2px!important}
+@media(max-width:370px){
+ #main-card #step-bulk .xa100-credential,#main-card #step-bulk .xa100-tool,#main-card #step-bulk .xa100-mail-cell {grid-template-columns:71px minmax(0,1fr)!important}
+ #main-card #step-bulk .xa100-code-line{grid-template-columns:71px minmax(0,1fr) auto!important}
+ #main-card #step-result #result-mail-card .result-subcopy{font-size:8px!important}
+}
+</style>
+
+<style id="xa104-unified-premium">
+/* Consistent brand tokens and mild depth throughout the checkout & order flow */
+#main-card{--xa104-charcoal:#263c36;--xa104-deep:#19372e;--xa104-sage:#d6e9db;--xa104-ivory:#fbfdfb;--xa104-stroke:#d9e7dd;--xa104-muted:#597568;--xa104-elev:0 9px 23px rgba(28,67,46,.065)}
+#main-card .xa-primary-cta,#main-card .xa-merged-actions .xa-primary-cta,#main-card #btn-copy-and-open{border:1px solid #263c36!important;background:linear-gradient(135deg,#304740,#233931)!important;color:#fff!important;border-radius:12px!important;box-shadow:0 9px 17px rgba(31,56,45,.16)!important;letter-spacing:-.02em!important;font-weight:850!important;transition:filter .17s ease,transform .17s ease,box-shadow .17s ease!important}
+#main-card .xa-primary-cta:hover,#main-card #btn-copy-and-open:hover{filter:brightness(1.09);box-shadow:0 12px 22px rgba(31,56,45,.19)!important;transform:translateY(-1px)}
+#main-card .xa-primary-cta:active,#main-card #btn-copy-and-open:active{transform:translateY(0)}
+#main-card .xa-primary-cta:focus-visible,#main-card .payment-chip:focus-visible,#main-card .product-card:focus-visible{outline:2px solid #228968!important;outline-offset:3px!important}
+#main-card .xa-merged-pane{border:1px solid var(--xa104-stroke)!important;border-radius:16px!important;background:linear-gradient(180deg,#ffffff,#fafdfa)!important;box-shadow:var(--xa104-elev)!important}
+#main-card .xa-merged-pane-head{color:var(--xa104-deep)!important;font-weight:900!important}
+#main-card .product-card{border-radius:14px!important;border-color:#d8e7dd!important;background:linear-gradient(165deg,#fff,#fbfdfb)!important;box-shadow:0 3px 10px rgba(19,68,40,.04)!important;transition:border-color .18s,transform .18s,box-shadow .18s!important}
+#main-card .product-card.selected{border-color:#75b697!important;background:linear-gradient(160deg,#f1f9f3,#fff)!important;box-shadow:0 0 0 2px rgba(27,133,88,.08),0 6px 14px rgba(21,92,55,.07)!important}
+#main-card .payment-chip{border:1px solid #d9e7dd!important;border-radius:13px!important;background:#fff!important;transition:background .18s,border-color .18s!important}
+#main-card .payment-chip.selected{border-color:#88bea0!important;background:linear-gradient(110deg,#eff8f2,#fbfdfa)!important;box-shadow:inset 3px 0 #27835d!important}
+#main-card .payment-chip strong{color:#254638!important;font-weight:850!important}
+#main-card .payment-chip small{color:#678073!important}
+#main-card .xa87-qty{border-color:#dce8df!important;background:#f8fbf9!important;border-radius:13px!important}
+#main-card .xa87-counter button{border:1px solid #d5e5dc!important;background:white!important;color:#2b5141!important;border-radius:9px!important;font-weight:900!important}
+#main-card .xa87-counter output{color:#1a4031!important;font-weight:950!important}
+#main-card .xa-order-summary-card{background:linear-gradient(120deg,#ecf6ef,#fafcfa)!important;border:1px solid #d0e4d5!important;border-radius:15px!important;box-shadow:var(--xa104-elev)!important}
+#main-card .xa-order-summary-card strong,#main-card #summary-total-price{color:#1a4833!important;font-weight:950!important}
+#main-card #step-waiting .xa-info-card,#main-card #step-waiting .xa-msg-box,#main-card #step-waiting .xa77-gift-panel{border:1px solid #d8e7dd!important;border-radius:16px!important;background:linear-gradient(165deg,#fff,#f9fcfa)!important;box-shadow:var(--xa104-elev)!important}
+#main-card #step-waiting .xa-live-pill{border-radius:99px!important;background:#e9f5ed!important;color:#256e50!important;border:1px solid #d5e8da!important}
+#main-card #step-waiting .xa87-bulk-panel{border:1px solid #cfe3d7!important;border-radius:14px!important;background:#f3f9f5!important;color:#214534!important}
+#main-card #step-waiting .xa-bubble{color:#244b38!important;line-height:1.62!important}
+#main-card #step-guide{padding-top:8px!important}
+#main-card #step-guide .xa70-guide-heading{display:flex!important;align-items:center!important;gap:10px!important;padding:12px 15px!important;border:1px solid #cfe3d8!important;border-radius:14px!important;background:linear-gradient(125deg,#ecf7f0,#fff)!important;box-shadow:var(--xa104-elev)!important}
+#main-card #step-guide .xa70-guide-heading h3{font-size:17px!important;font-weight:900!important;color:#1d4735!important}
+#main-card #step-guide .xa69-guide-list{border:1px solid #dbe9df!important;border-radius:14px!important;background:#fff!important;overflow:hidden!important;box-shadow:var(--xa104-elev)!important}
+#main-card #step-guide .xa69-guide-row{padding:10px 12px!important;gap:11px!important}
+#main-card #step-guide .xa69-guide-row strong{font-size:12px!important;color:#244735!important}
+#main-card #step-guide .xa69-guide-row p{font-size:10.5px!important;line-height:1.55!important;color:#5d7668!important}
+#main-card #step-guide .xa69-guide-emoji{border:1px solid #d8e9df!important;background:#f0f8f3!important;border-radius:10px!important}
+#main-card #step-guide .xa69-guide-foot{color:#5b7466!important}
+#main-card #step-bulk .xa100-result-top{border-radius:13px!important;background:linear-gradient(120deg,#eef8f1,#fff)!important;box-shadow:var(--xa104-elev)!important}
+#main-card #step-bulk .xa100-account{border-radius:13px!important;box-shadow:var(--xa104-elev)!important}
+#main-card #step-bulk .xa100-account-head{border-radius:12px!important}
+#main-card #step-bulk .xa100-mail-open,#main-card #step-result #btn-open-mail{border:1px solid #cdded2!important;background:linear-gradient(180deg,#edf6f0,#dcefe4)!important;color:#235740!important;box-shadow:0 5px 12px rgba(21,85,55,.07)!important;font-weight:900!important}
+#main-card #step-bulk .xa100-mail-open:hover{background:#d5eadd!important}
+#main-card #step-bulk .xa100-copy,#main-card #step-result .copy-btn{border-color:#d8e5dc!important;background:#fff!important;color:#285e46!important}
+#main-card #step-bulk .xa100-code-value{color:#184433!important}
+#main-card #step-bulk .xa100-account-status{background:#e7f4eb!important;color:#1e7551!important;border-radius:99px!important}
+#admin-console-modal .xa62-header{background:linear-gradient(130deg,#f2f9f4,#fff)!important;border-bottom:1px solid #e0ebe4!important}
+#admin-console-modal .xa62-kpi,#admin-console-modal .xa62-order,#admin-console-modal .xa62-stockcard{border-color:#d9e7dd!important;box-shadow:0 5px 14px rgba(20,76,47,.055)!important}
+#admin-console-modal button{transition:filter .15s,background .15s}
+@media(max-width:430px){#main-card .xa-merged-pane{border-radius:13px!important}#main-card .xa-order-summary-card{border-radius:13px!important}#main-card #step-guide .xa69-guide-row{padding:9px 10px!important}}
+@media(prefers-reduced-motion:reduce){#main-card .xa-primary-cta,#main-card .product-card{transition:none!important;transform:none!important}}
+</style>
+
+
+
+
+<style id="xa106-mint-lookup-layout">
+/* Preserve the redesigned v105 lookup structure while restoring the v104 mint / white brand theme. */
+#main-card #step-query .xa105-access{display:block!important;margin-top:11px!important;padding:16px!important;border-radius:17px!important;background:linear-gradient(145deg,#fff,#f5faf7)!important;border:1px solid #d7e9dd!important;box-shadow:0 10px 25px rgba(18,97,59,.07)!important}
+#main-card #step-query .xa105-access-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;min-width:0}
+#main-card #step-query .xa105-access-symbol{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border:1px solid #cfe6d8;border-radius:12px;background:linear-gradient(135deg,#e9f8ef,#d7f0e2);color:#0c7653}
+#main-card #step-query .xa105-access-symbol svg{width:20px;height:20px}
+#main-card #step-query .xa105-access-heading{flex:1;display:grid;gap:3px;min-width:0}
+#main-card #step-query .xa105-access-heading strong{color:#183e2d;font-size:17px;font-weight:950;line-height:1.25;letter-spacing:-.035em}
+#main-card #step-query .xa105-access-heading span{color:#687e70;font-size:10.7px;font-weight:650;line-height:1.4}
+#main-card #step-query .xa105-access-secure{display:flex;align-items:center;gap:4px;white-space:nowrap;padding:6px 8px;border:1px solid #d4e8db;border-radius:99px;background:#ecf8f0;color:#207555;font-size:9px;font-weight:850}
+#main-card #step-query .xa105-access-secure svg{width:12px;height:12px}
+#main-card #step-query .xa105-code-label{display:block;margin:0 0 7px;color:#29543c;font-size:11.5px;font-weight:900}
+#main-card #step-query .xa105-code-controls{display:flex;gap:8px!important;margin:0!important}
+#main-card #step-query #manual-code-input{flex:1;min-width:0;height:47px;min-height:47px;padding:0 12px;border:1px solid #d5e6da;border-radius:11px;background:#fff;color:#153a2d;font-size:12px;box-shadow:inset 0 1px 3px rgba(23,67,41,.03)}
+#main-card #step-query #manual-code-input::placeholder{color:#84998b;opacity:1}
+#main-card #step-query .xa105-code-controls .xa-paste-btn{height:47px!important;min-height:47px!important;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 12px!important;border:1px solid #d4e6d9!important;border-radius:11px!important;background:#fff!important;color:#285d45!important;font-size:10.5px!important;font-weight:900!important;box-shadow:0 3px 8px rgba(22,79,48,.04)!important}
+#main-card #step-query .xa105-code-controls .xa-paste-btn svg{width:14px;height:14px}
+#main-card #step-query .xa105-submit{display:flex!important;align-items:center;justify-content:center;gap:8px;width:100%;height:47px!important;min-height:47px!important;margin:10px 0 0!important;border-radius:11px!important;border:1px solid #0b7554!important;background:linear-gradient(125deg,#178b62,#0c6c50)!important;color:#fff!important;box-shadow:0 6px 16px rgba(14,112,76,.16)!important;font-size:12.5px!important;font-weight:900!important}
+#main-card #step-query .xa105-submit svg{width:15px;height:15px}
+#main-card #step-query .xa105-access-help{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;color:#748a7c;font-size:9.7px;font-weight:650;text-align:center}
+#main-card #step-query .xa105-access-help svg{width:13px;height:13px;color:#268364}
+#main-card #step-query #manual-code-err{margin:9px 0 0;color:#ad4255!important}
+@media(max-width:450px){
+ #main-card #step-query .xa105-access{padding:13px!important;border-radius:15px!important}
+ #main-card #step-query .xa105-access-top{gap:8px;margin-bottom:14px}
+ #main-card #step-query .xa105-access-symbol{width:36px;height:36px;flex-basis:36px}
+ #main-card #step-query .xa105-access-heading strong{font-size:15px}
+ #main-card #step-query .xa105-access-heading span{font-size:9.5px}
+ #main-card #step-query .xa105-access-secure{padding:5px;font-size:8.5px}
+ #main-card #step-query .xa105-code-controls .xa-paste-btn{padding:0 9px!important;font-size:10px!important}
+ #main-card #step-query #manual-code-input{font-size:11px;padding:0 9px}
+}
+</style>
+
+
+<style id="xa108-admin-suite-styles">
+#admin-console-modal .xa108-overview{margin:0 11px 8px;display:flex;flex-wrap:wrap;gap:6px;padding:9px 10px;background:linear-gradient(110deg,#edf8f1,#f8fcf9);border:1px solid #dcebe0;border-radius:11px;color:#456b57;font-size:10px;font-weight:800}
+#admin-console-modal .xa108-overview span{display:inline-flex;align-items:center;gap:6px}
+#admin-console-modal .xa108-overview span+span{padding-left:7px;border-left:1px solid #d1e4d7}
+#admin-console-modal .xa108-online{color:#0b7855;font-weight:900}
+#admin-console-modal .xa108-online i{height:7px;width:7px;border-radius:100%;background:#1aa16e;display:inline-block}
+#admin-console-modal .xa108-err{color:#aa543a!important}
+#admin-console-modal #xa108-period{min-width:106px;width:110px!important;max-width:120px;flex:0 0 auto;min-height:36px;padding:0 7px;font-size:10px;font-weight:800;border-radius:9px;color:#315c47;background:#fff;border:1px solid #d7e7dc}
+#admin-console-modal #xa108-period.hidden{display:none!important}
+#admin-console-modal .xa108-activity{margin:0 11px 9px;border-radius:10px;border:1px solid #dce9e0;background:#fff;overflow:hidden}
+#admin-console-modal .xa108-activity>summary{display:flex;align-items:center;justify-content:space-between;gap:7px;padding:9px 11px;cursor:pointer;color:#2e5b47;font-weight:850;font-size:10.8px;list-style:none}
+#admin-console-modal .xa108-activity>summary>span:first-child{display:inline-flex;align-items:center;gap:7px}
+#admin-console-modal .xa108-activity>summary svg{width:14px;height:14px;color:#247957}
+#admin-console-modal .xa108-activity-hint{font-size:9px;color:#72947e}
+#admin-console-modal .xa108-activity-content{max-height:190px;overflow:auto;padding:0 11px 10px}
+#admin-console-modal .xa108-log-note{font-size:9.5px;line-height:1.5;color:#6e8978;margin:2px 0 9px}
+#admin-console-modal .xa108-log-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #e9f2ec;color:#315d49;font-size:10px}
+#admin-console-modal .xa108-log-row b{color:#0c7654}
+#admin-console-modal .xa108-log-row span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#admin-console-modal .xa108-log-row small{color:#879a8e;font-size:9px;white-space:nowrap}
+#admin-console-modal .xa108-log-empty{font-size:10px;color:#789180}
+#admin-console-modal .xa108-group{border:1px solid #b7deca!important;background:linear-gradient(165deg,#ffffff,#f4fbf7)!important}
+#admin-console-modal .xa108-urgent{border-color:#e9c996!important;background:#fffcf5!important}
+#admin-console-modal .xa108-urgent-time{border-color:#efd69d!important;background:#fff6e3!important;color:#8a612a!important}
+#admin-console-modal .xa108-urgent-time strong{color:#a56821!important}
+#admin-console-modal .xa108-group-details{border:1px solid #dfebe3;border-radius:9px;background:#fff;overflow:hidden}
+#admin-console-modal .xa108-group-details>summary{display:flex;align-items:center;justify-content:space-between;padding:9px 10px;font-size:10.5px;font-weight:850;color:#27664c;cursor:pointer;list-style:none}
+#admin-console-modal .xa108-group-details>summary svg{width:13px;height:13px}
+#admin-console-modal .xa108-group-details[open]>summary svg{transform:rotate(180deg)}
+#admin-console-modal .xa108-group-member{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-top:1px solid #edf2ee;font-size:9.5px;color:#577866;overflow-wrap:anywhere}
+#admin-console-modal .xa108-stock-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#admin-console-modal .xa108-stock-summary>span{border:1px solid #dcebe0;border-radius:9px;background:#fff;padding:9px 4px;color:#6b8474;text-align:center;font-size:9.3px;font-weight:800}
+#admin-console-modal .xa108-stock-summary b{color:#0b7654;font-size:14px}
+#admin-console-modal .xa108-alert{padding:9px 10px;border:1px solid #e8d4b6;background:#fff9ef;border-radius:9px;color:#8f6332;font-size:10.5px;font-weight:750;line-height:1.6}
+#admin-console-modal .xa108-stock-problem{padding:7px 9px;border:1px solid #edddbb;border-radius:8px;background:#fffaf0;color:#88652f;font-size:10px}
+#admin-console-modal .xa62-btn.primary,#admin-console-modal .xa62-btn.warn{min-height:38px!important;box-shadow:none!important;transform:none!important;border-radius:9px!important}
+#admin-console-modal .xa62-btn.primary{background:#0c7253!important;color:#fff!important}
+#admin-console-modal .xa62-btn:hover{filter:brightness(.98)}
+@media(max-width:400px){#admin-console-modal .xa108-overview{font-size:9.3px;padding:7px 8px}#admin-console-modal #xa108-period{min-width:90px;width:91px!important;font-size:9px}#admin-console-modal .xa108-stock-summary>span{padding:8px 2px}}
+</style>
+
 </body>
 </html>
