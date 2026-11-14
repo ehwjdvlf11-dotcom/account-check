@@ -1820,7 +1820,7 @@ body>.ambient-bg{display:none!important}
     <header class="xa62-header">
       <div class="xa62-head-title">
         <span class="xa62-kicker">X ACCOUNT · 관리자</span>
-        <h3>주문·재고 관리</h3>
+        <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
       <div class="xa62-head-actions">
@@ -6110,6 +6110,38 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 #admin-console-modal .xa62-tabbar{padding-top:4px!important}
 #admin-console-modal .xa62-scroll{padding-top:0!important}
 </style>
+
+
+<style id="xa112-admin-day-style">
+/* Fixed base date: 2024-08-08, inclusive calendar-day count in Asia/Seoul (base day = D+1). */
+#admin-console-modal .xa112-title-row{display:flex;align-items:center;flex-wrap:nowrap;gap:7px;min-width:0}
+#admin-console-modal .xa112-title-row h3{margin:4px 0 2px!important;white-space:nowrap;font-size:16px!important;line-height:1.25!important}
+#admin-console-modal .xa112-day-counter{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;padding:3px 7px;border:1px solid #cce6d7;border-radius:7px;background:#e9f7ef;color:#177553;font-size:10px;font-weight:900;line-height:1.4;letter-spacing:.015em;font-variant-numeric:tabular-nums;white-space:nowrap;box-shadow:inset 0 1px rgba(255,255,255,.82)}
+@media(max-width:400px){#admin-console-modal .xa112-title-row{gap:5px}#admin-console-modal .xa112-title-row h3{font-size:14px!important}#admin-console-modal .xa112-day-counter{font-size:9px;padding:2px 5px}}
+</style>
+<script id="xa112-admin-days-script">
+(function(){
+  'use strict';
+  const startUtc = Date.UTC(2024,7,8);
+  function updateDays(){
+    const el=document.getElementById('xa112-admin-day-counter');
+    if(!el)return;
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    const v={};
+    for(const p of parts){if(p.type==='year'||p.type==='month'||p.type==='day')v[p.type]=Number(p.value);}
+    const todayUtc=Date.UTC(v.year,v.month-1,v.day);
+    const elapsedDays=Math.round((todayUtc-startUtc)/86400000);
+    const days=elapsedDays>=0?elapsedDays+1:elapsedDays; // 기준일 당일을 1일째로 포함
+    el.textContent=days>=0?'D+'+days:'D'+days;
+    el.setAttribute('aria-label','2024년 8월 8일을 1일째로 포함하여 '+(elapsedDays>=0?days+'일째':Math.abs(days)+'일 전')); 
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',updateDays,{once:true});
+  else updateDays();
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)updateDays();});
+  window.addEventListener('focus',updateDays);
+  setInterval(updateDays,60000);
+})();
+</script>
 
 </body>
 </html>
