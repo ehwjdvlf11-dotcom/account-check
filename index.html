@@ -6,7 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>X ACCOUNT |</title>
-<meta content="#f4f8f4" name="theme-color"/>
+<meta content="#10172c" name="theme-color"/>
 <meta content="" name="description"/>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -1144,6 +1144,46 @@ body>.ambient-bg{display:none!important}
 #step-waiting .xa77-gift-step span:last-child{flex:1}
 @media(max-width:355px){#step-waiting .xa77-gift-title{flex-wrap:wrap}#step-waiting .xa77-gift-title strong{font-size:11.5px}#step-waiting .xa77-gift-sum{font-size:13px}}
 </style>
+<style>
+/* v88 - Original X ACCOUNT emerald palette; compact quantity row only. */
+.xa87-qty{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:5px 11px;border:1px solid #cfe9d9;border-radius:11px;background:#f4fbf7;color:#164d37}
+.xa87-qty-copy{display:flex;flex-direction:column;gap:1px;min-width:0}
+.xa87-qty-copy strong{font-size:12px;font-weight:850;color:#17533b}.xa87-qty-copy small{font-size:9.8px;color:#658e79}
+.xa87-counter{display:flex;align-items:center;gap:4px;background:#e9f5ed;border:1px solid #cde5d6;border-radius:10px;padding:2px;flex-shrink:0}
+.xa87-counter button{display:grid;place-items:center;width:32px;height:32px;border-radius:8px;font-size:18px;font-weight:750;background:#d5eddd;color:#086343;cursor:pointer;touch-action:manipulation}
+.xa87-counter button:disabled{opacity:.3;cursor:not-allowed}.xa87-counter button:focus-visible{outline:2px solid #087e5b;outline-offset:2px}.xa87-counter output{font-size:15px;font-weight:900;min-width:25px;text-align:center;color:#0b6549}
+.xa87-subtotal{font-size:11px;opacity:.78;margin-top:6px}
+.xa87-bulk-panel{margin:14px 0;padding:14px;border:1px solid rgba(125,178,174,.33);border-radius:15px;background:rgba(115,175,174,.09)}
+.xa87-bulk-panel strong{font-size:13px;font-weight:850}.xa87-bulk-panel p{font-size:12px;opacity:.78;margin:7px 0;line-height:1.5}
+.xa87-bulk-card{border:1px solid rgba(125,180,182,.3);padding:11px;border-radius:12px;margin-top:9px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.xa87-bulk-card span{font-size:12px;word-break:break-all}.xa87-bulk-card strong{font-size:11px;opacity:.8}
+.xa87-bulk-card button{flex-shrink:0;padding:9px 12px;border-radius:8px;background:#087f6d;color:white;font-weight:750;font-size:12px}
+.xa87-bulk-split{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.7;padding:12px;border-radius:12px;background:rgba(105,157,158,.08)}
+.xa90-issued-wrap{display:grid;gap:12px}
+.xa90-issued-hero{padding:16px;border:1px solid #cfe6d7;border-radius:16px;background:linear-gradient(180deg,#f7fcf8,#edf7f1)}
+.xa90-issued-hero-head{display:flex;align-items:center;gap:12px}.xa90-issued-hero-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:999px;background:#16a34a;color:#fff;box-shadow:0 8px 20px rgba(22,163,74,.22)}
+.xa90-issued-hero-title{font-size:16px;font-weight:900;color:#153b2f;letter-spacing:-.03em}.xa90-issued-hero-desc{margin-top:4px;font-size:12px;color:#587566;line-height:1.55}
+.xa90-issued-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.xa90-stat{padding:14px;border:1px solid #dbece1;border-radius:15px;background:#fff}
+.xa90-stat-k{font-size:11px;color:#648171;font-weight:700;margin-bottom:5px}.xa90-stat-v{font-size:26px;line-height:1;font-weight:900;color:#10392d;letter-spacing:-.04em}.xa90-stat-v.is-complete{color:#0b8b61}
+.xa90-acc-list{display:grid;gap:10px}.xa90-acc-item{border:1px solid #d5e7dc;border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 4px 14px rgba(6,53,34,.04)}
+.xa90-acc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 16px;cursor:pointer;background:#fbfdfb;list-style:none}.xa90-acc-head::-webkit-details-marker{display:none}
+.xa90-acc-head-left{display:flex;align-items:center;gap:11px;min-width:0}.xa90-acc-check{display:grid;place-items:center;width:34px;height:34px;border-radius:999px;background:#1cb15f;color:#fff;flex-shrink:0}
+.xa90-acc-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.xa90-acc-title strong{font-size:14px;font-weight:900;color:#163e32}.xa90-chip{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;background:#e7f5ec;color:#168a5f;font-size:11px;font-weight:900}
+.xa90-chevron{width:18px;height:18px;color:#5c7c6d;transition:transform .2s ease;flex-shrink:0}.xa90-acc-item[open] .xa90-chevron{transform:rotate(180deg)}
+.xa90-acc-body{padding:0 16px 16px}.xa90-field{display:grid;grid-template-columns:minmax(90px,118px) minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #eef4f0}.xa90-field:first-child{border-top:0;padding-top:2px}
+.xa90-field-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#3f6455}.xa90-field-label i{width:16px;height:16px;color:#0c8b63}.xa90-field-value{font-size:13px;font-weight:700;color:#15382d;word-break:break-all}.xa90-field-value.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.xa90-copy-btn{min-height:34px;padding:0 11px;border-radius:10px;border:1px solid #cfe2d6;background:#fff;color:#0d7e59;font-size:11px;font-weight:900}.xa90-copy-btn:hover{background:#f5fbf7}
+.xa90-action-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.xa90-action-row button{min-height:48px;border-radius:12px;font-size:12px;font-weight:900}
+.xa90-copy-all{border:1px solid #0b7f5a;background:linear-gradient(180deg,#0f8f66,#0a6f50);color:#fff}.xa90-home-btn{border:1px solid #d5e4da;background:#fff;color:#1b4135}
+.xa90-empty-note{padding:14px;border:1px dashed #cfe1d6;border-radius:14px;background:#fbfdfc;font-size:12px;color:#688071;line-height:1.6}
+@media(max-width:430px){.xa87-qty{padding:5px 8px;gap:7px}.xa87-qty-copy small{font-size:9.3px}.xa87-counter button{width:31px;height:31px}.xa90-issued-stats,.xa90-action-row{grid-template-columns:1fr}.xa90-field{grid-template-columns:1fr;align-items:flex-start;gap:6px}.xa90-copy-btn{width:100%}}
+/* v91: site-only mail lookup per email account */
+.xa91-mail-field{background:#f6fcf8;border:1px solid #e0eee5;border-radius:10px;padding:10px!important;margin:9px 0}
+.xa91-mail-field .xa90-field-value{font-size:11px;color:#648171;font-weight:600}
+.xa91-mail-btn{background:#087f5b;color:#fff;border:1px solid #087f5b}
+.xa91-mail-btn:hover{background:#086848}
+
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -1196,6 +1236,9 @@ body>.ambient-bg{display:none!important}
 <div class="product-price">20,000<small>원</small></div>
 <span class="xa-select-ind"></span>
 </div>
+</div><div class="xa87-qty" aria-label="구매 수량 선택">
+  <div class="xa87-qty-copy"><strong>구매 수량</strong><small>1~10개 · 같은 상품을 한 번에 주문</small></div>
+  <div class="xa87-counter"><button type="button" onclick="xa87ChangeQuantity(-1)" id="xa87-qty-minus" aria-label="수량 줄이기" disabled>−</button><output id="xa87-quantity" aria-live="polite">1</output><button type="button" onclick="xa87ChangeQuantity(1)" id="xa87-qty-plus" aria-label="수량 늘리기">+</button></div>
 </div></div>
     <div class="xa-merged-pane"><div class="xa-merged-pane-head"><span class="xa-mini-number">02</span><strong>결제 선택</strong></div><div class="xa-payment-options">
 <div aria-pressed="true" class="payment-chip selected" id="chip-kakao" onclick="selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPayment('카카오페이 익명 송금', 'https://open.kakao.com/o/sjPGWOFi', this)}" role="button" tabindex="0">
@@ -1250,6 +1293,7 @@ body>.ambient-bg{display:none!important}
 <span class="hidden" id="wait-time"></span>
 </div>
 
+<div class="xa87-bulk-panel hidden" id="xa87-wait-bulk"><strong id="xa87-bulk-count">여러 계정 주문</strong><p id="xa87-wait-progress">승인 대기 중</p><small>관리자가 계정 수만큼 지급합니다. 승인되면 이 화면에서 확인할 수 있습니다.</small></div>
 <div class="xa77-gift-panel hidden" id="xa77-gift-panel">
   <div class="xa77-gift-title"><span class="xa77-gift-mark">01</span><strong>컬쳐랜드 상품권 구매</strong><span class="xa77-gift-sum" id="xa77-gift-amount">20,000원</span></div>
   <p>구매 사이트는 새 탭으로 열립니다. 상품권 종류를 확인하고 구매한 뒤 이 화면으로 돌아오세요.</p>
@@ -1274,6 +1318,7 @@ body>.ambient-bg{display:none!important}
 <button class="danger" onclick="cancelWaitingOrder()" type="button">주문 종료</button>
 </div>
 </section>
+<section class="xa-screen hidden" id="step-bulk"><div id="xa87-bulk-status-wrap"><div class="xa87-bulk-panel"><strong>여러 계정 발급 현황</strong><p id="xa87-bulk-summary">발급 확인 중</p><div id="xa87-bulk-progress" style="font-weight:800;margin-bottom:10px">조회 중</div><div id="xa87-bulk-list"></div><div class="xa87-subtotal">승인 완료 후에는 이 화면이 통합 조회 화면으로 바뀝니다. 발급 정보는 브라우저에 저장하지 않습니다.</div></div><div class="xa-screen-actions"><button class="xa-primary-cta" type="button" onclick="xa87CheckBulkStatus()">발급 상태 다시 확인</button></div></div><div id="xa90-bulk-issued" class="hidden xa90-issued-wrap"><div class="xa90-issued-hero"><div class="xa90-issued-hero-head"><div class="xa90-issued-hero-icon"><i data-lucide="check"></i></div><div><div class="xa90-issued-hero-title">계정 발급이 완료되었습니다!</div><div class="xa90-issued-hero-desc">주문하신 계정이 모두 발급되었습니다. 아래에서 계정 정보를 확인하세요.</div></div></div></div><div class="xa90-issued-stats"><div class="xa90-stat"><div class="xa90-stat-k">발급 계정 수</div><div class="xa90-stat-v" id="xa90-issued-count">0개</div></div><div class="xa90-stat"><div class="xa90-stat-k">발급 상태</div><div class="xa90-stat-v is-complete" id="xa90-issued-status">완료</div></div></div><div id="xa90-issued-list" class="xa90-acc-list"></div><div class="xa90-action-row"><button class="xa90-copy-all" type="button" onclick="xa90CopyAllIssued(this)">전체 계정 정보 복사</button><button class="xa90-home-btn" type="button" onclick="resetToHome()">주문 내역으로 돌아가기</button></div><div class="xa90-empty-note hidden" id="xa90-issued-error">일부 계정 정보를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</div></div></section>
 <!-- 3. 기존 코드 직접 조회 화면 (step-query) -->
 <section class="xa-screen hidden" id="step-query">
 <div class="xa-query-progress">
@@ -1318,7 +1363,7 @@ body>.ambient-bg{display:none!important}
   <button type="button" class="xa-primary-cta xa67-continue xa69-guide-continue" onclick="proceedToResult()"><span>확인하고 계정 정보 보기</span><span aria-hidden="true">→</span></button>
 </section>
 <!-- 4. 계정 결과 화면 (step-result) -->
-<section class="xa-screen hidden" id="step-result">
+<section class="xa-screen hidden" id="step-result"><button class="hidden xa-link-button" id="xa87-return-bulk" type="button" onclick="showScreen('step-bulk');xa87CheckBulkStatus()">← 여러 계정 목록으로</button>
 <div class="xa68-quick-lookup" aria-label="기존 발급 코드 바로 조회">
   <div class="xa68-quick-head"><span>발급 코드 바로 조회</span></div>
   <div class="xa68-quick-controls">
@@ -1750,6 +1795,269 @@ const SUPABASE_URL = 'https://gjotvoufqqvrckicwpnj.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_U42wGuvhkR-KON09lk9lfA_LW9I-9gV';
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
+
+// v87: Same-product cart, checkout as multiple independently auditable stock orders.
+let selectedQuantity=1;
+const XA87_MAX_QUANTITY=10;
+const XA87_SEQUENCE='23456789AB';
+let xa87Checking=false;
+let xa87LastCodes=[];
+let xa90IssuedAccounts=[];
+let xa90IssuedOrderNo='';
+function xa87ChangeQuantity(delta){
+  if(currentActiveOrder?.order_no || isCreatingOrder) return;
+  selectedQuantity=Math.max(1,Math.min(XA87_MAX_QUANTITY,selectedQuantity+Number(delta||0)));
+  const out=document.getElementById('xa87-quantity');if(out)out.textContent=String(selectedQuantity);
+  const dec=document.getElementById('xa87-qty-minus');if(dec)dec.disabled=selectedQuantity===1;
+  const inc=document.getElementById('xa87-qty-plus');if(inc)inc.disabled=selectedQuantity===XA87_MAX_QUANTITY;
+  updateSummaryBadges();
+}
+function xa87BulkOrderNumbers(quantity){
+  // 7 shared unpredictable chars + one deterministic child index, all matching xa82ValidNo.
+  const head=generateOrderNo().slice(0,-1);
+  return Array.from({length:quantity},(_,i)=>head+XA87_SEQUENCE[i]);
+}
+function xa87IsBulk(order){return !!(order&&Array.isArray(order.bulk_order_nos)&&order.bulk_order_nos.length>1);}
+function xa87GroupNo(order){return xa87IsBulk(order)?order.order_no.slice(0,-1):order?.order_no||'';}
+function xa87BuildBulkRows(orderNos){
+  const unit=parseWon(selectedPrice),fee=getPaymentFee();
+  return orderNos.map((order_no,i)=>({order_no,product_type:selectedProduct,payment_method:selectedPayment,price:formatWon(unit+(i===0?fee:0)),status:'PENDING'}));
+}
+function xa87RenderWaitBulk(){
+  const el=document.getElementById('xa87-wait-bulk');if(!el)return;
+  const order=currentActiveOrder;
+  if(!xa87IsBulk(order)){el.classList.add('hidden');return;}
+  el.classList.remove('hidden');
+  const x=document.getElementById('xa87-bulk-count');
+  if(x)x.textContent=`${order.quantity}개 계정 · 일괄 주문`; 
+}
+function xa87SetBulkRows(rows){
+  const holder=document.getElementById('xa87-bulk-list');
+  if(!holder)return;
+  holder.replaceChildren();
+  const map=new Map((rows||[]).map(row=>[row.order_no,row]));
+  const nos=currentActiveOrder?.bulk_order_nos||[];
+  nos.forEach((no,i)=>{
+    const row=map.get(no); const div=document.createElement('div');div.className='xa87-bulk-card';
+    const info=document.createElement('span');
+    const state=row?.status==='APPROVED'&&row.buyer_code?'발급 완료':row?.status==='EXPIRED'?'만료':row?.status==='PENDING'?'승인 대기':'확인 중';
+    info.textContent=`${i+1}번 계정 · ${state}`;
+    div.appendChild(info);
+    if(row?.status==='APPROVED'&&row.buyer_code){
+      const btn=document.createElement('button');btn.type='button';btn.textContent='계정 조회';
+      btn.onclick=()=>xa87OpenIssued(row.buyer_code);div.appendChild(btn);
+    }
+    holder.appendChild(div);
+  });
+  const confirmed=nos.filter(n=>map.get(n)?.status==='APPROVED' && !!map.get(n)?.buyer_code).length;
+  document.getElementById('xa87-bulk-progress').textContent=`발급 확인 ${confirmed} / ${nos.length}`;
+}
+function xa87OpenIssued(code){
+  if(!code)return;
+  const back=document.getElementById('xa87-return-bulk');if(back)back.classList.remove('hidden');
+  void displayAccountResult(code);
+}
+// v91: Keep the original site-only X mailbox viewer for bulk email accounts.
+let xa91OtpTimer=null;
+function xa90SetIssuedVisible(visible){
+  document.getElementById('xa90-bulk-issued')?.classList.toggle('hidden',!visible);
+  document.getElementById('xa87-bulk-status-wrap')?.classList.toggle('hidden',!!visible);
+  if(!visible && xa91OtpTimer){clearInterval(xa91OtpTimer);xa91OtpTimer=null;}
+  if(visible){
+    xa91UpdateOtpFields();
+    if(!xa91OtpTimer)xa91OtpTimer=setInterval(xa91UpdateOtpFields,1000);
+  }
+}
+function xa90EscapeHtml(value){return String(value??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+async function xa90CopyText(text,btn){
+  const original=btn?btn.textContent:'';
+  const ok=await copyText(String(text||'')); // Existing KakaoTalk-friendly clipboard fallback
+  if(btn){btn.textContent=ok?'복사됨':'복사 실패';setTimeout(()=>btn.textContent=original,1200);}
+}
+function xa90BuildCopyBlock(item){
+  // Email credentials and OTP secrets are NEVER copied or shown in the bulk result.
+  const lines=[`[${item.index}번 계정]`,`X 계정 아이디: ${item.accountId||'-'}`,`X 계정 비밀번호: ${item.accountPw||'-'}`];
+  if(item.isEmail) lines.push('X 메일: 사이트 내 X 메일 조회 버튼 이용');
+  lines.push(`조회 코드: ${item.buyerCode||'-'}`);
+  return lines.join('\n');
+}
+async function xa90CopyAllIssued(btn){
+  if(!Array.isArray(xa90IssuedAccounts)||!xa90IssuedAccounts.length)return;
+  const ready=xa90IssuedAccounts.filter(x=>!x.error);
+  if(!ready.length){alert('조회할 수 있는 계정이 없습니다. 다시 확인해 주세요.');return;}
+  await xa90CopyText(ready.map(xa90BuildCopyBlock).join('\n\n'),btn);
+}
+async function xa90LoadIssuedAccounts(rows){
+  if(!supabaseClient)throw new Error('서버 연결이 필요합니다.');
+  const approved=(rows||[]).filter(r=>r?.status==='APPROVED'&&r?.buyer_code);
+  const orderedNumbers=currentActiveOrder?.bulk_order_nos||[];
+  approved.sort((a,b)=>orderedNumbers.indexOf(a.order_no)-orderedNumbers.indexOf(b.order_no));
+  return await Promise.all(approved.map(async(row,idx)=>{
+    try{
+      const {data,error}=await supabaseClient.rpc('get_account_result',{p_key:String(row.buyer_code).trim()});
+      if(error)throw error;
+      const parsed=parseIssuedAccountRecord(data);
+      if(!parsed)throw new Error('계정 정보를 읽지 못했습니다.');
+      return {index:idx+1,buyerCode:String(row.buyer_code).trim(),accountId:parsed.accountId||'',accountPw:parsed.accountPw||'',email:parsed.email||'',otpSecret:normalizeTotpSecret(parsed.otpSecret)||'',isEmail:!!parsed.isEmail,error:''};
+    }catch(err){
+      return {index:idx+1,buyerCode:String(row?.buyer_code||'').trim(),accountId:'',accountPw:'',email:'',otpSecret:'',isEmail:false,error:err?.message||'조회 실패'};
+    }
+  }));
+}
+function xa91UpdateOtpFields(){
+  // Render only the short-lived generated OTP; never expose the underlying TOTP secret.
+  document.querySelectorAll('[data-xa91-otp-index]').forEach(node=>{
+    const item=xa90IssuedAccounts[Number(node.dataset.xa91OtpIndex)];
+    if(!item)return;
+    const otp=getSafeTotp(item.otpSecret);
+    let value='인증키 없음';
+    if(otp){try{const tok=otp.generate();value=/^\d{6}$/.test(tok)?tok:'생성 오류';}catch(_){value='생성 오류';}}
+    else if(item.otpSecret && !window.OTPAuth?.TOTP)value='OTP 도구 연결 오류';
+    node.textContent=value;
+  });
+}
+function xa91OpenBulkMail(index){
+  const item=xa90IssuedAccounts[Number(index)];
+  if(!item || !item.isEmail || !item.email?.includes('@') || !item.buyerCode){
+    alert('이 계정의 X 메일 조회 정보를 확인할 수 없습니다.');return;
+  }
+  // Existing v47 mailbox needs these two values to resolve X mail on the server.
+  currentSearchKey=item.buyerCode;
+  currentEmailForInbox=item.email;
+  openEmailInboxModal();
+}
+function xa90RenderIssuedAccounts(items){
+  const listEl=document.getElementById('xa90-issued-list');
+  const errEl=document.getElementById('xa90-issued-error');
+  const countEl=document.getElementById('xa90-issued-count');
+  if(!listEl)return;
+  xa90IssuedAccounts=Array.isArray(items)?items:[];
+  if(countEl)countEl.textContent=`${xa90IssuedAccounts.length}개`;
+  const hasError=xa90IssuedAccounts.some(x=>x.error);
+  if(errEl){errEl.classList.toggle('hidden',!hasError);errEl.textContent='일부 계정 정보를 불러오지 못했습니다. 다시 접속하거나 관리자에게 문의해 주세요.';}
+  listEl.replaceChildren();
+  xa90IssuedAccounts.forEach((item,idx)=>{
+    const details=document.createElement('details');
+    details.className='xa90-acc-item';
+    if(idx===0)details.open=true;
+    // Email addresses/passwords are not revealed. Show the existing internal mailbox action.
+    const mailRow=(item.isEmail && !item.error)?`<div class="xa90-field xa91-mail-field"><div class="xa90-field-label"><i data-lucide="mail-search"></i><span>X 메일 확인</span></div><div class="xa90-field-value">이메일 아이디·비밀번호 대신 사이트에서 조회</div><button type="button" class="xa90-copy-btn xa91-mail-btn">X 메일 조회</button></div>`:'';
+    const otpRow=item.error?`<div class="xa90-field"><div class="xa90-field-label"><i data-lucide="triangle-alert"></i><span>상태</span></div><div class="xa90-field-value">${xa90EscapeHtml(item.error)}</div><button type="button" class="xa90-copy-btn" data-copy="buyerCode">조회코드 복사</button></div>`:
+      `<div class="xa90-field"><div class="xa90-field-label"><i data-lucide="shield-check"></i><span>실시간 OTP</span></div><div class="xa90-field-value mono" data-xa91-otp-index="${idx}">조회 중…</div><button type="button" class="xa90-copy-btn xa91-otp-copy">복사</button></div>`;
+    const safeName=item.error?'조회 실패':item.accountId;
+    const safePass=item.error?'조회 실패':item.accountPw;
+    details.innerHTML=`<summary class="xa90-acc-head"><div class="xa90-acc-head-left"><div class="xa90-acc-check"><i data-lucide="check"></i></div><div class="xa90-acc-title"><strong>${item.index}번 계정</strong><span class="xa90-chip">${item.error?'조회 확인 필요':'발급완료'}</span></div></div><i data-lucide="chevron-down" class="xa90-chevron"></i></summary><div class="xa90-acc-body"><div class="xa90-field"><div class="xa90-field-label"><i data-lucide="user-round"></i><span>X 계정 ID</span></div><div class="xa90-field-value mono">${xa90EscapeHtml(safeName||'조회 실패')}</div><button type="button" class="xa90-copy-btn" data-copy="accountId">복사</button></div><div class="xa90-field"><div class="xa90-field-label"><i data-lucide="key-round"></i><span>X 계정 비밀번호</span></div><div class="xa90-field-value mono">${xa90EscapeHtml(safePass||'조회 실패')}</div><button type="button" class="xa90-copy-btn" data-copy="accountPw">복사</button></div>${otpRow}${mailRow}<div class="xa90-field"><div class="xa90-field-label"><i data-lucide="file-key-2"></i><span>계정 조회 코드</span></div><div class="xa90-field-value mono">${xa90EscapeHtml(item.buyerCode||'-')}</div><button type="button" class="xa90-copy-btn" data-copy="buyerCode">복사</button></div></div>`;
+    details.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',()=>xa90CopyText(item[btn.dataset.copy]||'',btn)));
+    details.querySelector('.xa91-mail-btn')?.addEventListener('click',()=>xa91OpenBulkMail(idx));
+    details.querySelector('.xa91-otp-copy')?.addEventListener('click',()=>{
+      const token=details.querySelector('[data-xa91-otp-index]')?.textContent||'';
+      if(/^\d{6}$/.test(token))xa90CopyText(token,details.querySelector('.xa91-otp-copy'));
+    });
+    listEl.appendChild(details);
+  });
+  if(window.lucide)lucide.createIcons();
+  xa91UpdateOtpFields();
+}
+async function xa90MaybeRenderBulkIssued(rows){
+  const approved=(rows||[]).filter(r=>r?.status==='APPROVED'&&r?.buyer_code);
+  const numbers=currentActiveOrder?.bulk_order_nos||[];
+  const isComplete=approved.length===numbers.length&&numbers.length>1;
+  if(!isComplete){xa90SetIssuedVisible(false);return false;}
+  const groupNo=currentActiveOrder?.order_no||'';
+  if(groupNo!==xa90IssuedOrderNo || !xa90IssuedAccounts.length || xa90IssuedAccounts.some(x=>x.error)){
+    xa90IssuedOrderNo=groupNo;
+    const accounts=await xa90LoadIssuedAccounts(approved);
+    xa90RenderIssuedAccounts(accounts);
+  }
+  xa90SetIssuedVisible(true);
+  return true;
+}
+async function xa87CheckBulkStatus(){
+  if(xa87Checking||!xa87IsBulk(currentActiveOrder)||!supabaseClient)return;
+  xa87Checking=true;
+  try{
+    const order=currentActiveOrder, numbers=order.bulk_order_nos;
+    // Existing per-order access policy is reused; no new database permissions.
+    const {data,error}=await supabaseClient.from('xa_orders')
+      .select('order_no,status,buyer_code,created_at')
+      .in('order_no',numbers);
+    if(error)throw error;
+    if(!currentActiveOrder||currentActiveOrder.order_no!==order.order_no)return;
+    const rows=Array.isArray(data)?data:[];
+    const valid=rows.filter(r=>numbers.includes(r.order_no));
+    const approved=valid.filter(r=>r.status==='APPROVED'&&r.buyer_code).length;
+    const allDone=valid.length===numbers.length&&approved===numbers.length;
+    const summary=document.getElementById('xa87-bulk-summary');
+    if(summary)summary.textContent=`${numbers.length}개 주문 · ${approved}개 발급 완료`;
+    if(allDone){
+      if(currentActiveOrder.status!=='APPROVED'){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);}
+      if(document.getElementById('main-card')?.getAttribute('data-current-screen')==='step-waiting')showScreen('step-bulk');
+    }
+    xa87LastCodes=valid;
+    xa87SetBulkRows(valid);
+    await xa90MaybeRenderBulkIssued(valid);
+    const waiting=document.getElementById('xa87-wait-progress');
+    if(waiting)waiting.textContent=`발급 현황 ${approved}/${numbers.length}개`;
+    if(valid.some(r=>r.status==='EXPIRED')){
+      const msg=document.getElementById('xa87-wait-progress');
+      if(msg)msg.textContent=`일부 주문이 만료됐습니다 · 발급 ${approved}/${numbers.length}개 · 판매자에게 문의`;
+    }
+  }catch(err){console.warn('[X ACCOUNT v87] 묶음 주문 상태 조회 실패',err);}finally{xa87Checking=false;}
+}
+function xa87AdminSiblings(orderNo){
+  const str=String(orderNo||'');
+  if(!/^ORD-\d{6}-[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{8}$/.test(str))return [];
+  const prefix=str.slice(0,-1);
+  const list=XA87_SEQUENCE.map(c=>adminOrderCache.get(prefix+c)).filter(Boolean);
+  if(list.length<2 || list[0]?.order_no!==prefix+'2')return [];
+  const first=list[0];
+  // Guard against unrelated orders sharing a prefix, or individually created orders.
+  const created=new Date(first.created_at).getTime();
+  if(!list.every((r,i)=>r.order_no===prefix+XA87_SEQUENCE[i]&&r.product_type===first.product_type&&r.payment_method===first.payment_method&&Math.abs(new Date(r.created_at).getTime()-created)<120000))return [];
+  return list;
+}
+async function xa87ApproveGroup(orderNo,button){
+  if(!supabaseClient || button.disabled) return;
+  const list=xa87AdminSiblings(orderNo);
+  if(list.length < 2) return showAdminFlash('묶음 주문을 찾지 못했습니다. 목록을 새로고침하세요.',true);
+  if(!list.every(r=>r.status==='PENDING' && v63IsVisiblePending(r))) {
+    return showAdminFlash('일부 주문이 이미 승인 또는 만료됐습니다. 재고 상태 확인 후 개별 조치가 필요합니다.',true);
+  }
+  const total=list.reduce((sum,r)=>sum+parseWon(r.price),0);
+  const confirmed=await askAdminConfirm('묶음 주문 · 한 번에 발급',
+    `상품: ${list[0].product_type} · 수량: ${list.length}개\n결제수단: ${list[0].payment_method}\n확인할 송금액: ${formatWon(total)}\n\n실제 입금액을 확인한 뒤 승인해 주세요. 서버에서 전체 계정을 하나의 트랜잭션으로 발급합니다. 재고 부족·만료·검증 실패 시 전체 승인을 취소합니다.`,
+    `${list.length}개 일괄 발급`);
+  if(!confirmed)return;
+  button.disabled=true;
+  const oldText=button.textContent;
+  button.textContent=`${list.length}개 발급 확인 중…`;
+  let err=null, success=false;
+  try{
+    const {data,error}=await supabaseClient.rpc('xa_approve_order_batch_v89', {
+      p_order_nos:list.map(r=>r.order_no)
+    });
+    if(error) throw error;
+    if(!data?.success || Number(data.approved_count)!==list.length)
+      throw new Error(data?.message || '서버에서 전량 발급 성공을 확인하지 못했습니다.');
+    success=true;
+  }catch(e){err=e?.message || '서버 통신 오류';}
+  finally{
+    try{await refreshAdminData();}
+    catch(e){console.warn('묶음 주문 재조회 실패',e);}
+    button.disabled=false;
+    button.textContent=oldText;
+  }
+  const approved=list.filter(r=>adminOrderCache.get(r.order_no)?.status==='APPROVED').length;
+  if(approved===list.length){
+    return showAdminFlash(`묶음 ${list.length}개 발급 완료 · 판매 내역을 확인하세요.`);
+  }
+  if(!success){
+    return showAdminFlash(`묶음 승인 실패/미확인: ${err} · 실제 DB 주문 상태를 확인한 뒤 다시 시도하세요.`,true);
+  }
+  showAdminFlash('서버가 완료를 반환했으나 최신 상태를 조회하지 못했습니다. 다시 조회해 확인하세요.',true);
+}
+
+
 let selectedProduct = '일반 계정';
 let selectedPrice = '15,000 KRW';
 let selectedPayment = '카카오페이 익명 송금';
@@ -1787,7 +2095,7 @@ function xa83Snapshot(order) {
   if (!xa82ValidNo(order?.order_no)) return null;
   const out = {};
   for (const key of ['order_no','product_type','payment_method','price','base_price',
-                     'payment_fee','status','created_at_kst','created_at_ms','receipt_token']) {
+                     'payment_fee','status','created_at_kst','created_at_ms','receipt_token','quantity','bulk_order_nos']) {
     if (order[key] != null) out[key] = order[key];
   }
   return out;
@@ -1920,6 +2228,7 @@ function xa82RenderOrder(order) {
   set('wait-time',currentActiveOrder.created_at_kst);
   set('wait-order-msg-preview',buildOrderMessage(currentActiveOrder));
   showScreen('step-waiting');
+  xa87RenderWaitBulk();
   xa77UpdateWaiting();
   startWaitingPolling();
 }
@@ -1952,15 +2261,16 @@ function xa82MergeServer(order,row) {
   return {
     ...order,
     order_no:row.order_no||order.order_no,
-    status:row.status||order.status||'PENDING',
+    status:xa87IsBulk(order)?(order.status==='APPROVED'?'APPROVED':'PENDING'):(row.status||order.status||'PENDING'),
     product_type:row.product_type||order.product_type||'',
     payment_method:row.payment_method||order.payment_method||'',
-    price:row.price||order.price||'',
+    price:xa87IsBulk(order)?order.price:(row.price||order.price||''),
     created_at_ms:Number.isFinite(t)?t:Number(order.created_at_ms||Date.now()),
     created_at_kst:order.created_at_kst || (row.created_at?new Date(row.created_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}):'')
   };
 }
 async function xa82CheckOrderStatus() {
+  if(xa87IsBulk(currentActiveOrder)){await xa87CheckBulkStatus();return;}
   if(xa82CheckBusy || !currentActiveOrder || !supabaseClient) return;
   xa82CheckBusy = true;
   const checkingNo=currentActiveOrder.order_no;
@@ -2037,7 +2347,7 @@ function getPaymentFee() {
   return selectedPayment.includes('컬쳐랜드') ? 5000 : 0;
 }
 function getTotalPrice() {
-  return parseWon(selectedPrice) + getPaymentFee();
+  return parseWon(selectedPrice) * selectedQuantity + getPaymentFee();
 }
 // v77: 상품권 구매 링크와 주문 확인 채팅 링크는 별도입니다.
 const XA77_CULTURE_PURCHASE_URL = 'https://kko.to/CPZG4qil-x';
@@ -2280,9 +2590,9 @@ function updateSummaryBadges() {
   const base = document.getElementById('summary-base-price');
   const fee = document.getElementById('summary-payment-fee');
   const total = document.getElementById('summary-total-price');
-  if (pBadge) pBadge.innerText = selectedProduct;
+  if (pBadge) pBadge.innerText = `${selectedProduct} × ${selectedQuantity}개`;
   if (payBadge) payBadge.innerText = selectedPayment.includes('카카오') ? '카카오페이' : '컬쳐랜드 상품권';
-  if (base) base.innerText = formatWon(parseWon(selectedPrice));
+  if (base) base.innerText = `${formatWon(parseWon(selectedPrice))} × ${selectedQuantity}개 = ${formatWon(parseWon(selectedPrice)*selectedQuantity)}`;
   if (fee) fee.innerText = formatWon(getPaymentFee());
   if (total) total.innerText = formatWon(getTotalPrice());
   const timeHint = document.getElementById('xa77-order-time-hint');
@@ -2290,7 +2600,7 @@ function updateSummaryBadges() {
   const selectedProductEl = document.getElementById('payment-selected-product');
   const selectedPriceEl = document.getElementById('payment-selected-price');
   if (selectedProductEl) selectedProductEl.innerText = selectedProduct;
-  if (selectedPriceEl) selectedPriceEl.innerText = formatWon(parseWon(selectedPrice));
+  if (selectedPriceEl) selectedPriceEl.innerText = `${formatWon(parseWon(selectedPrice))} × ${selectedQuantity}개`;
 }
 
 // v64: 약관 최하단을 실제로 확인한 후에만 동의 및 주문 접수를 허용합니다.
@@ -2313,7 +2623,7 @@ function updateAgreementReadProgress() {
 function openAgreementModal() {
   const modalSummary = document.getElementById('modal-order-summary');
   const modalPay = document.getElementById('modal-pay-summary');
-  if (modalSummary) modalSummary.innerText = `${selectedProduct} · ${formatWon(parseWon(selectedPrice))}`;
+  if (modalSummary) modalSummary.innerText = `${selectedProduct} ${selectedQuantity}개 · ${formatWon(parseWon(selectedPrice))} × ${selectedQuantity}`;
   const modalTotal = document.getElementById('modal-total-summary');
   if (modalTotal) modalTotal.innerText = formatWon(getTotalPrice());
   if (modalPay) modalPay.innerText = selectedPayment;
@@ -2354,7 +2664,7 @@ function showScreen(screenId) {
   // v54 merges product and payment into one real screen.
   // Legacy calls to step-payment are redirected without bypassing consent or order creation.
   if (screenId === 'step-payment') screenId = 'step-price';
-  ['step-price', 'step-waiting', 'step-query', 'step-guide', 'step-result'].forEach(id => {
+  ['step-price', 'step-waiting', 'step-query', 'step-guide', 'step-result', 'step-bulk'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('hidden', id !== screenId);
   });
@@ -2411,7 +2721,9 @@ async function createOrderAndShowWaiting() {
   const submitBtn = document.querySelector('#step-price .xa-merged-actions .xa-primary-cta');
   if (submitBtn) { submitBtn.disabled = true; submitBtn.dataset.originalText = submitBtn.innerHTML; submitBtn.innerText = '주문 접수 중...'; }
 
-  const orderNo = generateOrderNo();
+  const quantity=selectedQuantity;
+  const bulkNumbers=quantity>1?xa87BulkOrderNumbers(quantity):null;
+  const orderNo = bulkNumbers?bulkNumbers[0]:generateOrderNo();
   const timeKst = getKstString();
   const orderData = {
     order_no: orderNo,
@@ -2423,7 +2735,8 @@ async function createOrderAndShowWaiting() {
 
   try {
     if (!supabaseClient) throw new Error('주문 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.');
-    const { error } = await supabaseClient.from('xa_orders').insert(orderData);
+    const rows=bulkNumbers?xa87BuildBulkRows(bulkNumbers):[orderData];
+    const { error } = await supabaseClient.from('xa_orders').insert(rows);
     if (error) throw error;
     // 조회 권한이 없는 환경에서도 이미 접수된 주문을 중복 생성하지 않도록 읽기 실패는 무시합니다.
     let serverCreatedAt = null;
@@ -2435,7 +2748,8 @@ async function createOrderAndShowWaiting() {
 
     currentActiveOrder = {
       ...orderData,
-      base_price: formatWon(parseWon(selectedPrice)),
+      ...(bulkNumbers?{quantity,bulk_order_nos:bulkNumbers}:{}),
+      base_price: formatWon(parseWon(selectedPrice)*quantity),
       payment_fee: formatWon(getPaymentFee()),
       chat_url: XA77_ORDER_CHAT_URL,
       created_at_kst: timeKst,
@@ -2455,6 +2769,7 @@ async function createOrderAndShowWaiting() {
     closeAgreementModal();
     showScreen('step-waiting');
     xa77UpdateWaiting();
+    xa87RenderWaitBulk();
     startWaitingPolling();
   } catch (err) {
     console.error('Order creation failed:', err);
@@ -2495,8 +2810,8 @@ function buildOrderMessage(order) {
   // 결제수단별 추가금이 있더라도 금액을 누락하거나 이중 표기하지 않습니다.
   return `[X ACCOUNT 주문 접수]
 주문번호: ${order.order_no}
-상품: ${order.product_type}
-주문 금액: ${order.price}
+상품: ${order.product_type}${xa87IsBulk(order)?` · ${order.quantity}개`:''}
+${xa87IsBulk(order)?`세부 주문번호: ${order.bulk_order_nos.join(', ')}\n`:''}주문 금액: ${order.price}
 결제수단: ${order.payment_method}
 접수시각: ${order.created_at_kst || getKstString()}
 본인은 '주문 확인 및 약관 안내'의 제01~04조(불법 행위 금지 및 거래 제한·초기 검수·교환 및 환불·계정 보안)와 주문 내용을 확인하고 동의했습니다. ${xa77IsCulture(order.payment_method) ? '상품권 구매 및 결제 확인 후 계정 발급을 요청합니다.' : '주문번호와 금액을 확인한 뒤 송금하겠으며, 입금 확인 후 계정 발급을 요청합니다.'}`;
@@ -2856,6 +3171,9 @@ async function copyField(elId, btnEl) {
 }
 
 function resetToHome() {
+  xa90IssuedAccounts=[];
+  xa90IssuedOrderNo='';
+  xa90SetIssuedVisible(false);
   if (otpInterval) clearInterval(otpInterval);
   currentEmailForInbox = '';
   closeInboxModal();
@@ -3634,8 +3952,12 @@ function v62OrderCard(order, view='orders') {
   const needsRestock = isRefunded && stock && stock.is_used === true;
   const detailAvailable = Boolean(order.buyer_code || order.assigned_code);
   const stockState = stock ? (stock.is_used===false?'판매 가능 재고':'재고 차감 상태') : (order.assigned_code?'원본 재고 확인 필요':'재고 미배정');
+  const xa87Siblings=xa87AdminSiblings(order.order_no);
   let actions = '';
-  if (view === 'orders' && isPending) actions = `<button class="xa62-btn primary" type="button" onclick='approveOrder(${arg},this)'>입금 확인 · 계정 발급</button>`;
+  if(view==='orders' && isPending && xa87Siblings.length>1 && xa87Siblings.filter(v63IsVisiblePending)[0]?.order_no===order.order_no){
+    actions=`<button class="xa62-btn primary" type="button" onclick='xa87ApproveGroup(${arg},this)'>묶음 주문 ${xa87Siblings.length}개 · 일괄 승인</button>`;
+  }
+  if (!actions && view === 'orders' && isPending && xa87Siblings.length<=1) actions = `<button class="xa62-btn primary" type="button" onclick='approveOrder(${arg},this)'>입금 확인 · 계정 발급</button>`;
   if (view === 'sales' && isApproved) actions = `<button class="xa62-btn warn" type="button" onclick='refundOrder(${arg},this)'>반환 · 재고 복구</button>`;
   if (view === 'history' && needsRestock) actions = `<button class="xa62-btn warn" type="button" onclick='refundOrder(${arg},this)'>미복구 재고 점검 · 복구</button>`;
   // v81: Credentials do not exist in the list DOM until an admin explicitly opens the details.
@@ -3644,7 +3966,7 @@ function v62OrderCard(order, view='orders') {
     ? `<div class="xa81-detail-action"><button type="button" class="xa81-open-detail" onclick='openV81OrderDetails(${arg})' aria-label="${no} 계정 상세정보 보기"><i data-lucide="shield-check" aria-hidden="true"></i> 계정 정보 보기 <span aria-hidden="true">›</span></button></div>`
     : '';
   return `<article class="xa62-order ${isPending?'is-pending':''}">
-    <div class="xa62-card-head"><div style="min-width:0"><div class="xa62-order-num">${no}</div><span class="xa62-card-time">${escapeHTML(v62FormatTime(order.created_at))}</span></div><span class="xa62-status ${v62StatusClass(order)}">${escapeHTML(v62Status(order))}</span></div>
+    <div class="xa62-card-head"><div style="min-width:0"><div class="xa62-order-num">${no}${xa87Siblings.length>1?` <small>· 묶음 ${xa87Siblings.length}개</small>`:''}</div><span class="xa62-card-time">${escapeHTML(v62FormatTime(order.created_at))}</span></div><span class="xa62-status ${v62StatusClass(order)}">${escapeHTML(v62Status(order))}</span></div>
     <div class="xa62-compact-meta"><div><span class="xa62-meta-label">상품 · 가격</span><span class="xa62-meta-value">${escapeHTML(order.product_type||'—')} · ${escapeHTML(order.price||'—')}</span></div><div><span class="xa62-meta-label">결제 방법</span><span class="xa62-meta-value">${escapeHTML(order.payment_method||'—')}</span></div></div>
     ${view === 'history' && detailAvailable ? `<div class="xa62-split-note">재고 상태: <b>${escapeHTML(stockState)}</b></div>` : ''}
     ${isPending ? `<div class="xa63-countdown">승인 가능 시간 · <strong>${String(Math.floor(Math.max(0,v63PendingRemainingMs(order))/60000)).padStart(2,'0')}:${String(Math.floor((Math.max(0,v63PendingRemainingMs(order))%60000)/1000)).padStart(2,'0')}</strong> 남음</div>` : ''}
