@@ -2001,10 +2001,9 @@ async function xa90LoadIssuedAccounts(rows){
       const normalized=normalizeAccountResult(data);
       const parsed=parseIssuedAccountRecord(normalized);
       if(!parsed)throw new Error('계정 정보를 읽지 못했습니다.');
-      const rpcCode=String(normalized?.display_code || normalized?.buyer_code || '').trim();
       const orderCode=String(row?.buyer_code || '').trim();
-      const lookupCode=(rpcCode && !/-{4,}/.test(rpcCode)) ? rpcCode : ((orderCode && !/-{4,}/.test(orderCode)) ? orderCode : '');
-      return {index:idx+1,buyerCode:orderCode,lookupCode:lookupCode || '',accountId:parsed.accountId||'',accountPw:parsed.accountPw||'',email:parsed.email||'',otpSecret:normalizeTotpSecret(parsed.otpSecret)||'',isEmail:!!parsed.isEmail,error:''};
+      const lookupCode=xa116LookupCodeFromRecord(parsed);
+      return {index:idx+1,buyerCode:orderCode,lookupCode,accountId:parsed.accountId||'',accountPw:parsed.accountPw||'',email:parsed.email||'',otpSecret:lookupCode,isEmail:!!parsed.isEmail,error:''};
     }catch(err){
       return {index:idx+1,buyerCode:String(row?.buyer_code||'').trim(),lookupCode: '',accountId:'',accountPw:'',email:'',otpSecret:'',isEmail:false,error:err?.message||'조회 실패'};
     }
@@ -2030,12 +2029,8 @@ function xa91OpenBulkMail(index){
   }
   currentEmailForInbox=address;
   currentSearchKey=String(item?.lookupCode||item?.buyerCode||'').trim();
-  // Hotmail/Outlook은 발급 조회코드의 유무와 관계없이 문의 안내를 표시해야 합니다.
-  if(xa97IsHotmailAddress(address)){
-    xa97ShowHotmailNotice();
-    return;
-  }
-  if(!currentSearchKey){alert('메일 조회에 필요한 발급 코드를 찾을 수 없습니다. 관리자에게 문의해 주세요.');return;}
+  // v117: 모든 메일 제공업체에 대해 공통 이메일 확인 안내를 먼저 보여줍니다.
+  // Hotmail은 안내를 확인한 뒤 관리자 문의 화면으로 이동합니다.
   openEmailInboxModal();
 }
 function xa90RenderIssuedAccounts(items){
@@ -2504,7 +2499,8 @@ async function xa82RestoreSaved() {
     const pointer=await xa83GetPointerAsync();
     if(!pointer || currentActiveOrder?.order_no) return;
     if(!xa82ValidToken(pointer.receipt_token)){
-      xa82ShowRecoveryError('이전 버전 주문은 보안 복구키가 없어 자동 복원이 제한됩니다. 주문번호를 관리자에게 문의하거나 기존 발급 조회 코드로 확인해 주세요.');
+      // Old order receipts cannot be restored by order number alone. Do not spam
+      // every visitor with a recovery banner; 2FA direct lookup remains available.
       return;
     }
     // Same KakaoTalk storage namespace: restore the exact receipt immediately.
@@ -2607,24 +2603,55 @@ function xa97ShowHotmailNotice(){
   document.body.style.overflow='hidden';
   panel.querySelector('.xa97-hotmail-close')?.focus({preventScroll:true});
 }
+// v117: 메일함 조회 전에 매번 필수 이용 안내를 보여줍니다.
 function openEmailInboxModal() {
   const email=String(currentEmailForInbox||'').trim();
   if(!email.includes('@')){
     alert('이 주문에는 확인 가능한 이메일 주소가 연결되어 있지 않습니다. 계정 조회 정보를 확인해 주세요.');return;
   }
+  const modal=document.getElementById('email-inbox-modal');
+  const notice=modal?.querySelector('.email-notice-v46');
+  const hotmailPanel=modal?.querySelector('.xa97-hotmail-panel');
+  if(!modal || !notice || !hotmailPanel){
+    alert('이메일 확인 안내를 불러올 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.');
+    return;
+  }
   currentEmailForInbox=email;
-  if(xa97IsHotmailAddress(email)){xa97ShowHotmailNotice();return;}
-  openInboxViewer();
+  // 직전 다른 계정의 Hotmail 화면이나 메일함 상태를 제거합니다.
+  inboxViewerOpen=false;
+  inboxLoading=false;
+  inboxRequestSequence++;
+  connectedInboxItems=[];
+  document.getElementById('xa-inbox-viewer')?.classList.add('hidden');
+  document.getElementById('xa-inbox-content')?.replaceChildren();
+  hotmailPanel.classList.add('hidden');
+  notice.classList.remove('hidden');
+  const foot=notice.querySelector('.email-notice-v46-foot span');
+  if(foot){
+    foot.textContent=xa97IsHotmailAddress(email)
+      ? '안내를 확인하면 관리자 문의 화면으로 이동합니다. 메일 관련 문의는 관리자에게 연락해 주세요.'
+      : '확인을 누르면 이메일 확인함이 열립니다. 메일이 오지 않는 경우 관리자에게 문의해 주세요.';
+  }
+  modal.classList.remove('hidden');
+  document.body.style.overflow='hidden';
+  if(window.lucide)lucide.createIcons();
+  notice.querySelector('.email-notice-v46-confirm')?.focus({preventScroll:true});
 }
 
 function closeInboxModal() {
-  document.getElementById('email-inbox-modal')?.classList.add('hidden');
+  const modal=document.getElementById('email-inbox-modal');
+  modal?.classList.add('hidden');
   document.body.style.overflow = '';
 }
 
 function showRealInbox() {
+  // 이 버튼은 기존 이메일 확인 안내의 '확인' 버튼에서만 호출합니다.
   if (xa97IsHotmailAddress(currentEmailForInbox)) {
     xa97ShowHotmailNotice();
+    return;
+  }
+  if(!currentSearchKey){
+    alert('메일 조회에 필요한 발급 코드를 찾을 수 없습니다. 관리자에게 문의해 주세요.');
     return;
   }
   closeInboxModal();
@@ -3230,7 +3257,7 @@ function parseIssuedAccountRecord(rawRecord) {
   if (parts.length >= 5 && parts[2].includes('@')) email = email || parts[2];
   if (oldMail.includes('@')) email = email || oldMail.split('/')[0].trim();
   if (email.includes('/')) email = email.split('/')[0].trim();
-  const candidates = [row.otp_url,row.otp_key,row.otp_secret,row.secret,row.otp,row.two_fa];
+  const candidates = [row.otp_url,row.otp_key,row.otp_secret,row.two_fa_secret,row.totp_secret,row.two_factor_secret,row.display_code,row.buyer_code,row.secret,row.otp,row.two_fa];
   if (splitAccount.length >= 5 && splitAccount[2].includes('@')) candidates.push(splitAccount[4]);
   else if (splitAccount.length >= 3) candidates.push(splitAccount[2]);
   if (splitStock.length >= 5 && splitStock[2].includes('@')) candidates.push(splitStock[4]);
@@ -3243,6 +3270,32 @@ function parseIssuedAccountRecord(rawRecord) {
   const isEmail = /이메일|email/i.test(productType) || email.includes('@');
   if (!id || !pw) return null;
   return {accountId:id,accountPw:pw,email,otpSecret,productType,isEmail};
+}
+// v116: Account lookup codes ARE the account's 2FA Base32 secret, never a stock record.
+function xa116LookupCodeFromRecord(record){
+  return normalizeTotpSecret(record?.otpSecret);
+}
+function xa116AdminLookupCode(order){
+  const record=parseIssuedAccountRecord({product_type:order?.product_type,assigned_code:order?.assigned_code});
+  return xa116LookupCodeFromRecord(record) || normalizeTotpSecret(order?.buyer_code);
+}
+// Legacy purchase records sometimes stored a full stock record in buyer_code.
+// The legacy lookup RPC still supports those records internally, but account lookup by the
+// actual 2FA secret is resolved by xa_lookup_2fa_v116 (installed with the optional SQL).
+async function xa116FetchAccountResult(key){
+  const {data,error}=await supabaseClient.rpc('get_account_result',{p_key:key});
+  const normalized=error?null:normalizeAccountResult(data);
+  if(normalized && parseIssuedAccountRecord(normalized))return normalized;
+  const secret=normalizeTotpSecret(key);
+  if(secret){
+    const fallback=await supabaseClient.rpc('xa_lookup_2fa_v116',{p_secret:secret});
+    if(!fallback.error && fallback.data && parseIssuedAccountRecord(fallback.data))return normalizeAccountResult(fallback.data);
+    if(fallback.error && !['PGRST202','42883'].includes(String(fallback.error.code||'')))throw fallback.error;
+    if(fallback.error && ['PGRST202','42883'].includes(String(fallback.error.code||'')))
+      throw new Error('2FA 조회 연결이 아직 설치되지 않았습니다. 관리자에게 문의해 주세요.');
+  }
+  if(error)throw error;
+  return normalized;
 }
 function getSafeTotp(secret) {
   const normalized = normalizeTotpSecret(secret);
@@ -3291,17 +3344,7 @@ async function displayAccountResult(code) {
   try {
     if (!supabaseClient) throw new Error('Supabase 라이브러리 또는 프로젝트 연결을 확인할 수 없습니다.');
 
-    const { data, error } = await supabaseClient.rpc('get_account_result', { p_key: cleanCode });
-    if (error) {
-      console.error('[X ACCOUNT] get_account_result RPC error:', error);
-      const codeText = error.code ? ` (${error.code})` : '';
-      if (error.code === 'PGRST202' || error.code === '42883') {
-        throw new Error(`계정 조회용 Supabase 함수가 아직 설치되지 않았습니다${codeText}. 함께 제공한 get_account_result.sql을 SQL Editor에서 실행해 주세요.`);
-      }
-      throw new Error(`Supabase 계정 조회 요청이 실패했습니다${codeText}. 관리자에게 오류 코드와 함께 문의해 주세요.`);
-    }
-
-    const orderInfo = normalizeAccountResult(data);
+    const orderInfo = await xa116FetchAccountResult(cleanCode);
     if (orderInfo?.lookup_error === 'MISSING_ACCOUNT_DATA') {
       throw new Error('승인된 코드지만 계정 정보가 연결되지 않았습니다. 관리자는 xa_stock과 orders의 계정 데이터 연결 상태를 확인해 주세요.');
     }
@@ -3324,8 +3367,8 @@ async function displayAccountResult(code) {
     const mailCopy = document.getElementById('result-mail-copy');
     if (mailCopy) {
       mailCopy.textContent = xa97IsHotmailAddress(currentEmailForInbox)
-        ? '이메일 아이디·비밀번호 대신 사이트에서 조회'
-        : '이메일 아이디·비밀번호 대신 사이트에서 조회';
+        ? '이메일 확인 안내 후 관리자 문의 화면으로 이동합니다.'
+        : '이메일 확인 안내 후 사이트에서 X 메일을 조회할 수 있습니다.';
     }
 
     if (otpSecret && normalizeTotpSecret(otpSecret)) {
@@ -3335,12 +3378,16 @@ async function displayAccountResult(code) {
       setText('res-otp-timer', '-');
     }
 
-    // 고객 화면에는 항상 실제 조회에 사용한 짧은 발급 코드를 우선 표시합니다.
-    // display_code가 내려오더라도 원본 재고 문자열(---- 포함)이라면 화면에는 노출하지 않습니다.
-    let displayCode = String(orderInfo.display_code || orderInfo.buyer_code || cleanCode).trim();
-    if (!displayCode || displayCode.includes('----')) displayCode = cleanCode;
-    approvedCodeReady = displayCode;
-    currentSearchKey = displayCode;
+    // v116: Display/copy only this account's 2FA secret. No fallback to an order key,
+    // stock record, email password, or a generated alternative code.
+    const displayCode = xa116LookupCodeFromRecord(parsed);
+    if(!displayCode){
+      throw new Error('이 계정의 2FA 비밀키를 확인할 수 없습니다. 관리자에게 문의해 주세요.');
+    }
+    // Keep the *actual* RPC lookup key for the current legacy session/mail path,
+    // while showing only the 2FA code to the buyer.
+    approvedCodeReady = cleanCode;
+    currentSearchKey = cleanCode;
     setText('res-code', displayCode);
     const preview = document.getElementById('v51-code-preview');
     if (preview) preview.textContent = '다음 조회에 필요한 발급 코드입니다. 타인과 공유하지 마세요.';
@@ -3454,13 +3501,12 @@ async function verifyManualCode() {
     let order = null;
     if (supabaseClient) {
       try {
-        const r = await supabaseClient.rpc('get_account_result', { p_key: code });
-        if (r.error) throw r.error;
-        if (r.data?.lookup_error === 'MISSING_ACCOUNT_DATA') {
-          if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '발급 코드는 승인되었지만 계정 정보가 연결되지 않았습니다. 관리자에게 문의해 주세요.'; }
+        const r = await xa116FetchAccountResult(code);
+        if (r?.lookup_error === 'MISSING_ACCOUNT_DATA') {
+          if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '승인된 계정의 정보를 확인할 수 없습니다. 관리자에게 문의해 주세요.'; }
           return;
         }
-        if (r.data && parseIssuedAccountRecord(r.data)) order = normalizeAccountResult(r.data);
+        if (r && parseIssuedAccountRecord(r)) order = normalizeAccountResult(r);
       } catch (e) {
         if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '조회 서버를 확인할 수 없습니다. v50 SQL이 적용되었는지 확인해 주세요.'; }
         return;
@@ -3695,11 +3741,8 @@ function askAdminConfirm(title, description, buttonText='확인 후 진행') {
 }
 async function copyAdminCode(orderNo, button) {
   const order = adminOrderCache.get(orderNo);
-  const code = order?.buyer_code || order?.assigned_code;
-  if (!code) return showAdminFlash('복사할 발급 코드가 없습니다.',true);
-  if (/일반|general/i.test(String(order?.product_type || '')) && !normalizeTotpSecret(code)) {
-    return showAdminFlash('일반 계정의 조회 코드가 2FA키로 연결되지 않았습니다. v52 SQL 적용 및 원본 재고 확인이 필요합니다.',true);
-  }
+  const code = xa116AdminLookupCode(order);
+  if (!code) return showAdminFlash('재고에서 2FA 비밀키를 찾지 못했습니다. 원본 재고를 확인해 주세요.',true);
   const copied = await copyText(code);
   if (copied) {
     const old = button.textContent;
@@ -3744,12 +3787,7 @@ async function toggleAdminAccountDetails(orderNo, button) {
     row('계정 종류',record.productType||'계정');
     row('계정 ID',record.accountId);
     row('비밀번호',record.accountPw);
-    if (!record.isEmail) {
-      const actual2faKey = normalizeTotpSecret(record.otpSecret);
-      const buyerKey = String(order?.buyer_code || '').trim();
-      row('조회 코드 = 저장된 2FA키', actual2faKey && normalizeTotpSecret(buyerKey) === actual2faKey
-        ? buyerKey : '조회 코드 미연결 · v52 SQL 점검 필요');
-    }
+    row('조회 코드 (2FA)',xa116LookupCodeFromRecord(record)||'2FA 확인 필요');
     const otpDD=row('실시간 6자리 OTP',record.otpSecret?'계산 중…':'인증키 없음','v51-admin-otp-row');
     const totp=getSafeTotp(record.otpSecret);
     if(totp){
@@ -3891,7 +3929,7 @@ async function xa108Legacy_loadAdminOrders() {
               <span class="xa-admin-issue-label">${isRefunded ? '반환 주문 · 원본 계정 정보' : `발급 완료 · ${safeProduct} · 전체 조회 코드`}</span>
               <span class="text-[10px] text-cyan-300">관리자 전체 표시</span>
             </div>
-            ${order.buyer_code ? `<div style="font-size:10px;color:#91b9c9">조회 코드</div><div class="xa-admin-code-preview">${escapeHTML(adminCodePreview(order.buyer_code))}</div>` : ''}
+            ${order.buyer_code ? `<div style="font-size:10px;color:#91b9c9">조회 코드 (2FA)</div><div class="xa-admin-code-preview">${escapeHTML(xa116AdminLookupCode(order) || '2FA 확인 필요')}</div>` : ''}
             ${order.assigned_code ? `<div style="font-size:10px;color:#91b9c9;margin-top:6px">재고 원본 (ID · PW · 2FA 등)</div><div class="xa-admin-code-preview">${escapeHTML(adminCodePreview(order.assigned_code))}</div>` : ''}
             ${isApproved ? `<div class="flex gap-2 flex-wrap">
               <button class="x-btn-dark xa-admin-smallbtn" onclick='copyAdminCode(${orderNoArg}, this)' type="button">조회 코드 복사</button>
@@ -4644,8 +4682,8 @@ function xa108RenderActivity(){
 async function copyV62OrderPart(orderNo,field) {
   if (!['buyer_code','assigned_code'].includes(field))return;
   const row=adminOrderCache.get(orderNo);
-  const value=String(row?.[field]??'');
-  if(!value)return showAdminFlash('복사할 코드가 없습니다.',true);
+  const value=field==='buyer_code' ? xa116AdminLookupCode(row) : String(row?.[field]??'');
+  if(!value)return showAdminFlash('2FA 비밀키 또는 재고 정보를 확인할 수 없습니다.',true);
   const ok=await copyText(value);
   showAdminFlash(ok?'전체 코드가 복사됐어.':'복사할 수 없습니다. 브라우저 클립보드 권한을 확인해 줘.',!ok);
 }
@@ -4744,13 +4782,8 @@ async function openV81OrderDetails(orderNo) {
     content.append(subtitle);
     content.append(xa81Field('계정 ID', record.accountId).wrap);
     content.append(xa81Field('비밀번호', record.accountPw).wrap);
-    if (!record.isEmail) {
-      const secret = normalizeTotpSecret(record.otpSecret);
-      if (secret) content.append(xa81Field('2단계 인증 비밀키 · 조회 코드', secret).wrap);
-      else if (key) content.append(xa81Field('발급 조회 코드', key).wrap);
-    } else if (key) {
-      content.append(xa81Field('발급 조회 코드', key).wrap);
-    }
+    const secret = xa116LookupCodeFromRecord(record);
+    content.append(xa81Field('2단계 인증 비밀키 · 조회 코드',secret||'2FA 확인 필요',!!secret).wrap);
     const otp = getSafeTotp(record.otpSecret);
     if (otp) {
       const otpField = xa81Field('실시간 6자리 인증번호', '', false, 'xa81-otp');
