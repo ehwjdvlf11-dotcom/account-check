@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v128-firstmail-stock-inbox" />
+<meta name="x-account-version" content="v129-lookup-mailbox-type-fix" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1487,7 +1487,7 @@ body>.ambient-bg{display:none!important}
   <button type="button" class="xa-primary-cta xa67-continue xa69-guide-continue" onclick="proceedToResult()"><span>확인하고 계정 정보 보기</span><span aria-hidden="true">→</span></button>
 </section>
 <!-- 4. 계정 결과 화면 (step-result) -->
-<section class="xa-screen hidden" id="step-result"><button class="hidden xa-link-button" id="xa87-return-bulk" type="button" onclick="showScreen('step-bulk');xa87CheckBulkStatus()">← 여러 계정 목록으로</button>
+<section class="xa-screen hidden" id="step-result" data-xa-mail-access="no"><button class="hidden xa-link-button" id="xa87-return-bulk" type="button" onclick="showScreen('step-bulk');xa87CheckBulkStatus()">← 여러 계정 목록으로</button>
 <div class="xa68-quick-lookup" aria-label="기존 발급 코드 바로 조회">
   <div class="xa68-quick-head"><span>발급 코드 바로 조회</span></div>
   <div class="xa68-quick-controls">
@@ -1540,12 +1540,12 @@ body>.ambient-bg{display:none!important}
 </div>
 <button class="x-btn-dark copy-btn" onclick="copyField('res-otp', this)" type="button">복사</button>
 </div>
-<div class="x-inner result-field result-mail-card hidden" id="result-mail-card">
+<div class="x-inner result-field result-mail-card hidden" id="result-mail-card" hidden aria-hidden="true">
 <div class="min-w-0 flex-1">
-<span class="result-label-line"><span class="tile"><i data-lucide="mail-search"></i></span><b>X 메일 확인</b><em>MAIL LOOKUP</em></span>
+<span class="result-label-line"><span class="tile"><i data-lucide="mail-search"></i></span><b>메일함 확인</b><em>MAIL LOOKUP</em></span>
 <div class="result-subcopy" id="result-mail-copy">이메일 아이디·비밀번호 대신 사이트에서 조회</div>
 </div>
-<button class="x-btn-dark copy-btn result-mail-btn" id="btn-open-mail" onclick="openEmailInboxModal()" type="button">X 메일 조회</button>
+<button class="x-btn-dark copy-btn result-mail-btn" id="btn-open-mail" onclick="openEmailInboxModal()" type="button">메일함 확인</button>
 </div>
 <section class="v51-code-disclosure xa74-code-card" id="v51-code-disclosure" aria-label="계정 조회 코드">
   <div class="xa74-code-head">
@@ -1564,9 +1564,15 @@ body>.ambient-bg{display:none!important}
 </div>
 </section>
 </div>
-<p id="site-footnote">주문 접수는 결제 요청 단계이며, 입금 확인은 운영자가 진행합니다. 계정 발급은 승인 완료 후에만 표시됩니다.</p>
+<p id="site-footnote">주문 접수는 결제 요청 단계이며, 입금 확인은 운영자가 진행합니다. 계정 발급은 승인 완료 후에만 표시됩니다. <span data-xa-build="132" style="opacity:.60;font-size:10px">· v132</span></p>
 </div>
 <!-- 이메일 확인 안내: 이메일 주소/비밀번호는 결과 화면에 노출하지 않고 X 메일만 사이트 내부에서 조회 -->
+<style id="xa-v131-mail-visibility">
+/* v131: fail-closed. Only a currently verified email-account result may show the mail button. */
+#main-card #step-result #result-mail-card{display:none!important}
+#main-card #step-result[data-xa-mail-access="yes"] #result-mail-card:not(.hidden):not([hidden]){display:flex!important}
+#main-card #step-result #result-mail-card[hidden]{display:none!important}
+</style>
 <style id="email-inbox-notice-v46">
 #result-action-row:not(.has-email){grid-template-columns:1fr!important}
 #result-action-row:not(.has-email) #btn-open-mail{display:none!important}
@@ -1637,7 +1643,7 @@ body>.ambient-bg{display:none!important}
         <span class="xa-inbox-heading-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 6 9-6M16 16l2 2 4-4"/></svg></span>
         <div>
           <div class="xa-inbox-kicker">X ACCOUNT · 이메일 확인</div>
-          <h3 id="xa-inbox-title">X 메일 확인함</h3>
+          <h3 id="xa-inbox-title">메일함 확인</h3>
           <p id="xa-inbox-account-caption">연결된 메일 확인</p>
         </div>
       </div>
@@ -1872,7 +1878,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v128</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v129</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -2036,7 +2042,7 @@ async function xa90CopyText(text,btn){
 function xa90BuildCopyBlock(item){
   // Email credentials and OTP secrets are NEVER copied or shown in the bulk result.
   const lines=[`[${item.index}번 계정]`,`X 계정 아이디: ${item.accountId||'-'}`,`X 계정 비밀번호: ${item.accountPw||'-'}`];
-  if(item.isEmail) lines.push('X 메일: 사이트 내 X 메일 조회 버튼 이용');
+  if(item.isEmail) lines.push('메일함: 사이트 내 메일함 확인 버튼 이용');
   lines.push(`조회 코드: ${xa118Only2FA(item.lookupCode)||'관리자에게 문의해 주세요'}`);
   return lines.join('\n');
 }
@@ -2085,8 +2091,10 @@ function xa91OpenBulkMail(index){
   if(!item || item.error || !item.isEmail || !address.includes('@')){
     alert('이 계정의 이메일 주소를 확인할 수 없습니다. 관리자에게 문의해 주세요.');return;
   }
+  currentMailAccessAllowed = true; // v131: verified bulk email account
   currentEmailForInbox=address;
-  currentSearchKey=String(item?.lookupCode||item?.buyerCode||'').trim();
+  currentSearchKey=String(item?.buyerCode||item?.lookupCode||'').trim(); // v133: preserve purchase receipt when available
+  currentMailboxLookupKey = normalizeTotpSecret(item?.lookupCode) || '';
   // v117: 모든 메일 제공업체에 대해 공통 이메일 확인 안내를 먼저 보여줍니다.
   // Hotmail은 안내를 확인한 뒤 관리자 문의 화면으로 이동합니다.
   openEmailInboxModal();
@@ -2120,7 +2128,7 @@ function xa90RenderIssuedAccounts(items){
       ? `<div class="xa100-tool xa100-tool-error"><span class="xa100-tool-label">조회 상태</span><span class="xa100-error-text">${xa90EscapeHtml(item.error)}</span></div>`
       : `<div class="xa100-tool xa100-otp-cell"><span class="xa100-tool-label"><i data-lucide="shield-check"></i><span>실시간 OTP</span></span><div class="xa100-tool-content"><strong class="xa100-otp-number" data-xa91-otp-index="${idx}">조회 중…</strong><button type="button" class="xa100-copy xa91-otp-copy" aria-label="OTP 복사"><i data-lucide="copy"></i><span>복사</span></button></div></div>`;
     const mailCell=mailAvailable
-      ? `<div class="xa100-tool xa100-mail-cell ${hotmail?'is-hotmail':''}"><div class="xa100-mail-head"><span class="xa100-tool-label"><i data-lucide="mail-search"></i><span>X 메일</span></span><span class="xa100-mail-type">${hotmail?'Hotmail 메일함':'메일함'}</span></div><button type="button" class="xa100-mail-open xa91-mail-btn">X 메일 조회 <i data-lucide="arrow-up-right"></i></button></div>`
+      ? `<div class="xa100-tool xa100-mail-cell ${hotmail?'is-hotmail':''}"><div class="xa100-mail-head"><span class="xa100-tool-label"><i data-lucide="mail-search"></i><span>메일함</span></span><span class="xa100-mail-type">${hotmail?'Hotmail 메일함':'메일함'}</span></div><button type="button" class="xa100-mail-open xa91-mail-btn">메일함 확인 <i data-lucide="arrow-up-right"></i></button></div>`
       : '';
     details.innerHTML=`
       <summary class="xa90-acc-head xa100-account-head">
@@ -2288,6 +2296,21 @@ let approvedCodeReady = null;
 
 let currentEmailForInbox = '';
 let currentSearchKey = '';
+let currentMailboxLookupKey = ''; // v130: issued account's exact 2FA secret for mail lookup
+let currentMailAccessAllowed = false; // v131: no mailbox unless a validated email account was selected
+let accountResultRequestSequence = 0; // v131: discard late responses for previous account lookups
+function xa131SetIndividualMailVisibility(allowed) {
+  const result = document.getElementById('step-result');
+  const card = document.getElementById('result-mail-card');
+  const verified = Boolean(allowed);
+  currentMailAccessAllowed = verified;
+  result?.setAttribute('data-xa-mail-access', verified ? 'yes' : 'no');
+  if (card) {
+    card.classList.toggle('hidden', !verified);
+    card.hidden = !verified;
+    card.setAttribute('aria-hidden', verified ? 'false' : 'true');
+  }
+}
 let isCreatingOrder = false;
 
 // v115 secure purchase: a 256-bit secret is generated locally; only its SHA-256 hash is stored in DB.
@@ -2663,6 +2686,8 @@ function xa97ShowHotmailNotice(){
 }
 // v117: 메일함 조회 전에 매번 필수 이용 안내를 보여줍니다.
 function openEmailInboxModal() {
+  // v131: reject stale or manually triggered mailbox clicks for general accounts.
+  if (!currentMailAccessAllowed) return;
   const email=String(currentEmailForInbox||'').trim();
   if(!email.includes('@')){
     alert('이 주문에는 확인 가능한 이메일 주소가 연결되어 있지 않습니다. 계정 조회 정보를 확인해 주세요.');return;
@@ -2703,6 +2728,7 @@ function closeInboxModal() {
 }
 
 function showRealInbox() {
+  if (!currentMailAccessAllowed) { closeInboxModal(); return; }
   // 이 버튼은 기존 이메일 확인 안내의 '확인' 버튼에서만 호출합니다.
   if (xa97IsHotmailAddress(currentEmailForInbox)) {
     xa97ShowHotmailNotice();
@@ -2739,8 +2765,10 @@ const XA_INBOX_ERRORS = {
   MAIL_RESOLVER_UNAVAILABLE: '메일 조회 서버가 주문 또는 재고 정보를 읽지 못했습니다. 서버 배포와 DB 권한을 확인해 주세요.',
   INVALID_STOCK_ID: '관리자 재고번호가 올바르지 않습니다.',
   UNAUTHORIZED: '메일 조회 권한을 확인할 수 없습니다. 관리자에게 문의해 주세요.',
-  RECEIPT_REQUIRED: '발급 코드의 권한 확인이 필요합니다. 관리자에게 문의해 주세요.',
-  AMBIGUOUS_ACCOUNT: '동일한 조회 코드가 여러 계정에 연결되어 있어 조회를 중단했습니다. 관리자에게 문의해 주세요.'
+  AMBIGUOUS_ACCOUNT: '동일한 조회 코드가 여러 계정에 연결되어 있어 조회를 중단했습니다. 관리자에게 문의해 주세요.',
+  RECEIPT_REQUIRED: '같은 2FA가 다른 X 계정에도 등록되어 있습니다. 메일함 보호를 위해 이 코드만으로는 메일을 열 수 없습니다. 승인된 주문의 고유 발급 코드로 조회하거나 관리자에게 구매내역 확인을 요청해 주세요.',
+  INBOX_SELECT_FAILED: '메일 서버가 받은편지함을 열지 못했습니다. 서버 폴더 설정을 확인해 주세요.',
+  MAIL_FETCH_FAILED: '메일 서버가 메시지 조회를 거부했습니다. 서버 로그를 확인해 주세요.'
 };
 function inboxText(value) { return String(value ?? ''); }
 function inboxNode(tag, className, textValue) {
@@ -2754,6 +2782,7 @@ function inboxSetStatus(message, isError=false) {
   if (status) { status.textContent = message; status.classList.toggle('error', isError); }
 }
 function openInboxViewer() {
+  if (xa128AdminMailStockId === null && !currentMailAccessAllowed) return;
   if (xa97IsHotmailAddress(currentEmailForInbox)) {
     xa97ShowHotmailNotice();
     return;
@@ -2784,6 +2813,7 @@ function closeInboxViewer() {
   document.getElementById('btn-open-mail')?.focus();
 }
 async function loadConnectedInbox() {
+  if (xa128AdminMailStockId === null && !currentMailAccessAllowed) return;
   if (xa97IsHotmailAddress(currentEmailForInbox)) return; // Never request Hotmail mail here.
   if (inboxLoading) return;
   const status = document.getElementById('xa-inbox-status');
@@ -2801,7 +2831,7 @@ async function loadConnectedInbox() {
   try {
     // Firstmail/GMX/Rambler: The Edge Function reads stored credentials server-side.
     // Admin-only inventory check uses a verified Supabase user JWT, never an email password.
-    let requestBody = { search_key: currentSearchKey };
+    let requestBody = { search_key: currentSearchKey }; // v133: unique approved buyer_code first; no 2FA fallback on ambiguity
     const requestHeaders = { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY };
     if (xa128AdminMailStockId !== null) {
       const {data:{session},error:sessionError} = await supabaseClient.auth.getSession();
@@ -2819,17 +2849,24 @@ async function loadConnectedInbox() {
     if (requestId !== inboxRequestSequence || !inboxViewerOpen) return;
     let payload = null;
     try { payload = await response.json(); } catch (error) {}
+    // v132: Non-sensitive error code and stage help identify the exact failing layer.
+    const safeError = String(payload?.error || '').replace(/[^A-Z0-9_]/g, '').slice(0,50);
+    const safeStage = String(payload?.stage || '').replace(/[^A-Z0-9_]/g, '').slice(0,50);
+    const diagnostic = safeError ? ` [${safeError}${safeStage ? ' / ' + safeStage : ''}]` : '';
     if (!response.ok) {
       if (response.status === 404) throw new Error('메일 조회 서버(fetch-mai)를 찾지 못했습니다. Supabase Edge Function 배포를 확인해 주세요.');
       if (response.status === 401 || response.status === 403) throw new Error('메일 조회 권한 확인에 실패했습니다. 서버 인증 설정을 확인해 주세요.');
-      throw new Error(XA_INBOX_ERRORS[payload?.error] || `메일 서버에서 오류가 발생했습니다 (HTTP ${response.status}).`);
+      throw new Error((XA_INBOX_ERRORS[payload?.error] || `메일 서버에서 오류가 발생했습니다 (HTTP ${response.status}).`) + diagnostic);
     }
     if (!payload || payload.ok !== true || !Array.isArray(payload.mails)) {
-      throw new Error(XA_INBOX_ERRORS[payload?.error] || '메일 서버가 올바른 형식의 데이터를 반환하지 않았습니다.');
+      throw new Error((XA_INBOX_ERRORS[payload?.error] || '메일 서버가 올바른 형식의 데이터를 반환하지 않았습니다.') + diagnostic);
     }
     // 서버가 이전 버전이어도 브라우저에서는 타사 메일을 절대 표시하지 않습니다.
     connectedInboxItems = payload.mails.filter(mail => mail && mail.isX === true);
     renderConnectedInbox();
+    if (!connectedInboxItems.length && Number.isFinite(Number(payload.diagnostics?.scanned))) {
+      inboxSetStatus(`연결됨 · X 메일 0개 (최근 ${Math.max(0, Number(payload.diagnostics.scanned))}통 확인)`);
+    }
     xa123RememberMailCheck(currentEmailForInbox,true);
   } catch (err) {
     if (requestId !== inboxRequestSequence || !inboxViewerOpen) return;
@@ -3274,7 +3311,7 @@ function setAccountResultState(state, message = '') {
   if (pill) pill.dataset.state = state;
   if (statusLabel) statusLabel.textContent = state === 'success' ? '조회 완료' : state === 'loading' ? '조회 중' : '조회 실패';
   const kicker = document.getElementById('account-result-kicker');
-  if (kicker) kicker.textContent = state === 'success' ? 'ACCESS VERIFIED' : state === 'loading' ? 'CHECKING ACCESS' : 'LOOKUP UNAVAILABLE';
+  if (kicker) kicker.textContent = state === 'success' ? 'ACCESS VERIFIED · v132' : state === 'loading' ? 'CHECKING ACCESS · v132' : 'LOOKUP UNAVAILABLE · v132';
   if (state === 'loading') {
     if (title) title.textContent = '계정 정보를 확인하고 있습니다';
     if (desc) desc.textContent = '계정 정보 조회 중…';
@@ -3312,6 +3349,11 @@ function normalizeTotpSecret(candidate) {
   value = value.replace(/[\s=]/g, '').toUpperCase();
   return /^[A-Z2-7]{16,128}$/.test(value) ? value : '';
 }
+function xa129HasMailbox(productType, parts) {
+  const label = String(productType || '').replace(/\s+/g, '');
+  if (/일반계정|generalaccount|normalaccount/i.test(label)) return false;
+  return Boolean(parts?.length >= 5 && parts[2]?.includes('@') && parts[3]);
+}
 function parseIssuedAccountRecord(rawRecord) {
   const row = normalizeAccountResult(rawRecord);
   if (!row || typeof row !== 'object' || row.lookup_error) return null;
@@ -3346,7 +3388,20 @@ function parseIssuedAccountRecord(rawRecord) {
     const valid = normalizeTotpSecret(candidate);
     if (valid) { otpSecret = valid; break; }
   }
-  const isEmail = /이메일|email/i.test(productType) || email.includes('@');
+  // v129: source-of-truth is the account's CURRENT record shape.
+  // A converted general account can retain stale email metadata in older orders.
+  const normalizedProductType = productType.replace(/\s+/g, '');
+  const explicitGeneral = /일반계정|generalaccount|normalaccount/i.test(normalizedProductType);
+  const explicitEmail = /이메일계정|emailaccount/i.test(normalizedProductType);
+  const recordHasMailbox = xa129HasMailbox(productType, parts);
+  const recordHasGeneralLayout = parts.length >= 3 && !parts[2].includes('@');
+  const isEmail = explicitGeneral ? false
+    : recordHasGeneralLayout ? false
+    : recordHasMailbox ? true
+    : parts.length >= 3 ? false
+    : explicitEmail && email.includes('@')
+      ? true : !productType && email.includes('@');
+  if (!isEmail) email = ''; // never retain an old mailbox on a general account
   if (!id || !pw) return null;
   return {accountId:id,accountPw:pw,email,otpSecret,productType,isEmail};
 }
@@ -3470,7 +3525,10 @@ async function retryAccountResult() {
 async function displayAccountResult(code, preloadedResult=undefined) {
   const cleanCode = xa124NormalizeLookupInput(code);
   if (!cleanCode) { setAccountResultState('error', '발급 코드가 비어 있습니다.'); return; }
+  const requestId = ++accountResultRequestSequence;
   currentSearchKey = cleanCode;
+  xa131SetIndividualMailVisibility(false); // hide mail UI immediately for every lookup
+  currentMailboxLookupKey = ''; // prevent stale mail lookup keys from another account
   document.getElementById('xa68-result-existing-notice')?.classList.toggle('hidden',v68DirectCodeLookup);
   document.getElementById('xa68-result-existing-notice')?.removeAttribute('open');
   showScreen('step-result');
@@ -3484,13 +3542,24 @@ async function displayAccountResult(code, preloadedResult=undefined) {
   setText('res-otp', '--- ---');
   setText('res-otp-timer', '30');
   currentEmailForInbox = '';
-  document.getElementById('result-mail-card')?.classList.add('hidden');
+  // v129: switching from email to general must close old mailbox UI and cancel pending mail rendering.
+  inboxViewerOpen = false;
+  inboxLoading = false;
+  inboxRequestSequence++;
+  xa128AdminMailStockId = null;
+  connectedInboxItems = [];
+  document.getElementById('xa-inbox-content')?.replaceChildren();
+  document.getElementById('xa-inbox-viewer')?.classList.add('hidden');
+  document.getElementById('email-inbox-modal')?.classList.add('hidden');
+  document.body.style.overflow = '';
+  xa131SetIndividualMailVisibility(false);
 
   try {
     if (!supabaseClient) throw new Error('Supabase 라이브러리 또는 프로젝트 연결을 확인할 수 없습니다.');
 
     const orderInfo = preloadedResult===undefined
       ? await xa116FetchAccountResult(cleanCode) : preloadedResult;
+    if (requestId !== accountResultRequestSequence) return; // ignore outdated account result
     if (orderInfo?.lookup_error === 'MISSING_ACCOUNT_DATA') {
       throw new Error('등록된 코드지만 계정 정보가 연결되지 않았습니다. 관리자는 xa_stock과 orders의 계정 데이터 연결 상태를 확인해 주세요.');
     }
@@ -3503,13 +3572,14 @@ async function displayAccountResult(code, preloadedResult=undefined) {
     }
     const { accountId, accountPw, email, isEmail } = parsed;
     let otpSecret = parsed.otpSecret;
+    currentMailboxLookupKey = isEmail ? normalizeTotpSecret(otpSecret) : '';
     setText('res-id', accountId || '미등록');
     setText('res-pw', accountPw || '미등록');
     // 이메일 주소/비밀번호는 결과 화면에 노출하지 않습니다.
     // 이메일 확인함 버튼은 이 사이트 안에서 X 발신 메일만 조회합니다.
     currentEmailForInbox = isEmail ? String(email || '').trim() : '';
     const hasMailbox = Boolean(isEmail && currentEmailForInbox.includes('@'));
-    document.getElementById('result-mail-card')?.classList.toggle('hidden', !hasMailbox);
+    xa131SetIndividualMailVisibility(hasMailbox);
     const mailCopy = document.getElementById('result-mail-copy');
     if (mailCopy) {
       mailCopy.textContent = xa97IsHotmailAddress(currentEmailForInbox)
@@ -3540,6 +3610,7 @@ async function displayAccountResult(code, preloadedResult=undefined) {
     setAccountResultState('success');
     document.getElementById('v51-code-disclosure')?.setAttribute('open','');
   } catch (err) {
+    if (requestId !== accountResultRequestSequence) return;
     console.error('[X ACCOUNT] Account result load failed:', err);
     setText('res-id', '—');
     setText('res-pw', '—');
@@ -3548,7 +3619,9 @@ async function displayAccountResult(code, preloadedResult=undefined) {
     const preview = document.getElementById('v51-code-preview');
     if (preview) preview.textContent = '연결을 확인해 주세요.';
     setText('res-otp-timer', '-');
-    document.getElementById('result-mail-card')?.classList.add('hidden');
+    currentEmailForInbox = '';
+    xa131SetIndividualMailVisibility(false);
+    currentMailboxLookupKey = '';
     setAccountResultState('error', err?.message || '계정 정보 조회 중 알 수 없는 오류가 발생했습니다.');
   }
 }
@@ -3598,6 +3671,9 @@ async function copyField(elId, btnEl) {
 }
 
 function resetToHome() {
+  ++accountResultRequestSequence;
+  xa131SetIndividualMailVisibility(false);
+  currentMailboxLookupKey = '';
   // v115: Explicit new-purchase action must NOT re-open the previously issued order.
   if(waitPollingTimer){clearInterval(waitPollingTimer);waitPollingTimer=null;}
   xa104BulkGuidePendingOrder='';
@@ -3664,7 +3740,7 @@ async function verifyManualCode() {
     }
 
     if (!order) {
-      if (errEl) { errEl.classList.remove('hidden'); errEl.innerText = '유효하지 않은 발급 코드입니다. 다시 확인해 주세요.'; }
+      if (errEl) { errEl.classList.remove('hidden'); errEl.innerText = '이 코드로 조회되는 계정이 없습니다. 저장된 2FA와 발급 이력을 관리자에게 확인해 주세요.'; }
       return;
     }
 
@@ -4631,6 +4707,10 @@ async function xa128OpenAdminInbox(stockId, button){
   const row = v62StockById.get(String(stockId));
   if(!row){showAdminFlash('해당 재고를 찾지 못했습니다. 새로고침해 주세요.',true);return;}
   const parts = String(row.code||'').split(/-{4,}/);
+  if (!xa129HasMailbox(row.product_type, parts)) {
+    showAdminFlash('일반 계정에는 메일함 확인 기능이 없습니다.', true);
+    return;
+  }
   const email = String(parts[2]||'').trim();
   if(!email.includes('@')){showAdminFlash('이메일 형식이 올바르지 않은 재고입니다.',true);return;}
   if(xa97IsHotmailAddress(email)){
@@ -4661,7 +4741,7 @@ function v62StockCard(s,flag='available') {
     <button type="button" class="xa109-stock-detail-button" onclick='openV109StockDetails(${stockId})'><i data-lucide="shield-check" aria-hidden="true"></i> 관리자 상세정보 보기 <span aria-hidden="true">›</span></button>
     <div class="xa62-actions xa127-stock-actions">
       <button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>원본 복사</button>
-      ${((parts.length>=5 && parts[2]?.includes('@')) || /이메일|email/i.test(String(s.product_type||'')))?`<button type="button" class="xa62-btn xa128-mail-check" onclick='xa128OpenAdminInbox(${stockId},this)'><i data-lucide="mail-search" aria-hidden="true"></i> X 메일 연결 검사</button>`:''}
+      ${xa129HasMailbox(s.product_type,parts)?`<button type="button" class="xa62-btn xa128-mail-check" onclick='xa128OpenAdminInbox(${stockId},this)'><i data-lucide="mail-search" aria-hidden="true"></i> 메일함 연결 검사</button>`:''}
       ${flag==='available'?`<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button><button type="button" class="xa62-btn xa127-exchange-btn" onclick='xa127ManageStock(${stockId},"EXCHANGE",this)'><i data-lucide="gift" aria-hidden="true"></i> 교환 지급</button>`:''}
       ${flag==='excluded'?`<button type="button" class="xa62-btn xa127-restore-btn" onclick='xa127ManageStock(${stockId},"RESTORE",this)'><i data-lucide="rotate-ccw" aria-hidden="true"></i> 판매 가능 복구</button>`:''}
     </div>
@@ -5208,7 +5288,7 @@ async function openV81OrderDetails(orderNo) {
     }
     if (record.isEmail) {
       const note=document.createElement('p');note.className='xa81-email-note';
-      note.textContent='이메일 계정은 고객 발급 화면의 X 메일 확인 기능을 이용할 수 있습니다.';
+      note.textContent='이메일 계정은 고객 발급 화면의 메일함 확인 기능을 이용할 수 있습니다.';
       content.append(note);
     }
   } catch (error) {
@@ -5236,7 +5316,7 @@ function openV109StockDetails(stockId){
   content.replaceChildren();
   const parts=String(row.code||'').split(/-{4,}/).map(v=>v.trim());
   const record=parseIssuedAccountRecord({product_type:row.product_type,assigned_code:row.code});
-  const isEmail=(parts.length>=5 && parts[2].includes('@')) || /이메일|email/i.test(row.product_type||'');
+  const isEmail=xa129HasMailbox(row.product_type,parts);
   const subtitle=document.createElement('p');
   subtitle.className='xa81-detail-subtitle';
   subtitle.textContent=(row.product_type||'계정')+' · '+(row.is_used?'판매 제외/사용됨':'판매 가능 재고');
@@ -6624,7 +6704,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 <style id="xa115-secure-order-style">
 #xa82-recovery-error:not(.hidden){background:#fff6e8!important;color:#704a21!important;border:1px solid #e9c899!important;border-radius:12px!important;padding:11px 13px!important;font-weight:700!important}
 </style>
-<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v128-firstmail-stock-inbox';</script>
+<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v129-lookup-mailbox-type-fix';</script>
 
 <style id="xa120-admin-ops-style">
 #admin-console-modal .xa120-health-trigger{position:relative!important}
@@ -6876,7 +6956,7 @@ const xa123State={open:false,filter:'all',query:'',cache:null,mailChecks:new Map
 const XA123_CATEGORIES={quality:'재고 품질',duplicate:'중복 계정',orders:'주문·재고',mail:'이메일 연결',lookup:'2FA 조회 코드'};
 function xa123ShortId(v){return String(v??'').replace(/[^a-zA-Z0-9_#-]/g,'').slice(0,28)||'—'}
 function xa123Parts(v){return String(v??'').split(/-{4,}/).map(x=>x.trim())}
-function xa123IsEmail(s,parts){return /이메일|email/i.test(String(s?.product_type||''))||(parts.length>=5&&parts[2].includes('@'))}
+function xa123IsEmail(s,parts){return xa129HasMailbox(s?.product_type,parts);}
 function xa123PublicId(s){return xa123Parts(s?.code)[0]||''}
 function xa123MailDomain(email){return String(email||'').toLowerCase().split('@')[1]||''}
 function xa123MaskEmail(email){const s=String(email||'');const a=s.split('@');if(a.length!==2)return '이메일 정보 확인 필요';return (a[0].slice(0,2)||'*')+'***@'+a[1]}
