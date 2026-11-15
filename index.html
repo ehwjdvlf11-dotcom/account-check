@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v126-all-status-2fa-lookup" />
+<meta name="x-account-version" content="v128-firstmail-stock-inbox" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1872,7 +1872,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v126</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v128</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -1934,7 +1934,7 @@ body>.ambient-bg{display:none!important}
 <div id="xa81-detail-backdrop" class="xa81-detail-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="xa81-detail-title" onclick="if(event.target===this) closeV81OrderDetails()">
   <div class="xa81-detail-dialog" role="document">
     <header class="xa81-detail-header">
-      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용 <b id="xa119-detail-version" style="color:#237956;font-weight:900;letter-spacing:.01em;margin-left:4px">v126</b></span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
+      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용 <b id="xa119-detail-version" style="color:#237956;font-weight:900;letter-spacing:.01em;margin-left:4px">v128</b></span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
       <button type="button" class="xa81-close" onclick="closeV81OrderDetails()" aria-label="상세정보 닫기"><span aria-hidden="true">×</span></button>
     </header>
     <div id="xa81-detail-content" class="xa81-detail-content" aria-live="polite">정보 확인 중…</div>
@@ -2713,6 +2713,7 @@ function showRealInbox() {
     return;
   }
   closeInboxModal();
+  xa128AdminMailStockId = null;
   openInboxViewer();
 }
 
@@ -2725,6 +2726,7 @@ let connectedInboxItems = [];
 let inboxLoading = false;
 let inboxRequestSequence = 0;
 let inboxViewerOpen = false;
+let xa128AdminMailStockId = null;
 const XA_INBOX_ERRORS = {
   AUTH_FAILED: '메일 서버 인증에 실패했습니다. 제공업체의 메일 접근 권한이나 연결 상태를 확인해 주세요.',
   NO_MAIL_ACCOUNT: '이 발급 코드에는 확인 가능한 메일 계정이 등록되지 않았습니다.',
@@ -2734,9 +2736,10 @@ const XA_INBOX_ERRORS = {
   TIMEOUT: '메일 서버의 응답 시간이 초과됐습니다.',
   TOO_FAST: '요청 간격이 너무 짧습니다. 잠시 뒤 다시 시도해 주세요.',
   CONNECTION_CLOSED: '메일 서버 연결이 끊어졌습니다.',
-  MAIL_RESOLVER_UNAVAILABLE: '메일 조회용 서버 함수가 업데이트되지 않았습니다. 관리자에게 문의해 주세요.',
+  MAIL_RESOLVER_UNAVAILABLE: '메일 조회 서버가 주문 또는 재고 정보를 읽지 못했습니다. 서버 배포와 DB 권한을 확인해 주세요.',
+  INVALID_STOCK_ID: '관리자 재고번호가 올바르지 않습니다.',
   UNAUTHORIZED: '메일 조회 권한을 확인할 수 없습니다. 관리자에게 문의해 주세요.',
-  RECEIPT_REQUIRED: '이 주문의 보안 복구 토큰이 필요합니다. 구매했던 브라우저에서 다시 열거나 관리자에게 문의해 주세요.',
+  RECEIPT_REQUIRED: '발급 코드의 권한 확인이 필요합니다. 관리자에게 문의해 주세요.',
   AMBIGUOUS_ACCOUNT: '동일한 조회 코드가 여러 계정에 연결되어 있어 조회를 중단했습니다. 관리자에게 문의해 주세요.'
 };
 function inboxText(value) { return String(value ?? ''); }
@@ -2755,8 +2758,8 @@ function openInboxViewer() {
     xa97ShowHotmailNotice();
     return;
   }
-  if (!currentSearchKey || !currentEmailForInbox) {
-    alert('발급 코드와 이메일 연결 정보가 없습니다. 먼저 계정을 다시 조회해 주세요.');
+  if ((!currentSearchKey && xa128AdminMailStockId === null) || !currentEmailForInbox) {
+    alert('발급 코드 또는 관리자 재고 연결 정보가 없습니다. 먼저 계정을 다시 조회해 주세요.');
     return;
   }
   const overlay = document.getElementById('xa-inbox-viewer');
@@ -2776,6 +2779,7 @@ function closeInboxViewer() {
   document.getElementById('xa-inbox-viewer')?.classList.add('hidden');
   document.body.style.overflow = '';
   connectedInboxItems = [];
+  xa128AdminMailStockId = null;
   document.getElementById('xa-inbox-content')?.replaceChildren();
   document.getElementById('btn-open-mail')?.focus();
 }
@@ -2785,7 +2789,7 @@ async function loadConnectedInbox() {
   const status = document.getElementById('xa-inbox-status');
   const list = document.getElementById('xa-inbox-content');
   const refresh = document.getElementById('xa-inbox-refresh');
-  if (!inboxViewerOpen || !status || !list || !refresh || !currentSearchKey) return;
+  if (!inboxViewerOpen || !status || !list || !refresh || (!currentSearchKey && xa128AdminMailStockId === null)) return;
   const requestId = ++inboxRequestSequence;
   inboxLoading = true;
   refresh.disabled = true;
@@ -2795,21 +2799,21 @@ async function loadConnectedInbox() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 22000);
   try {
+    // Firstmail/GMX/Rambler: The Edge Function reads stored credentials server-side.
+    // Admin-only inventory check uses a verified Supabase user JWT, never an email password.
+    let requestBody = { search_key: currentSearchKey };
+    const requestHeaders = { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY };
+    if (xa128AdminMailStockId !== null) {
+      const {data:{session},error:sessionError} = await supabaseClient.auth.getSession();
+      if(sessionError || !session?.access_token) throw new Error('관리자 세션이 만료됐습니다. 다시 로그인해 주세요.');
+      requestHeaders.Authorization = 'Bearer ' + session.access_token;
+      requestBody = { admin_stock_id: Number(xa128AdminMailStockId) };
+    }
     const response = await fetch(XA_MAIL_API, {
       method: 'POST',
       mode: 'cors',
-      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
-      // v122: 새 주문에서 메일함을 열 때는 2FA뿐 아니라 영수증 토큰도 서버에서 검증합니다.
-      // 레거시 주문에는 영수증 토큰이 없을 수 있습니다. 새로 생성하거나 저장하지 않습니다.
-      body: JSON.stringify((()=>{
-        const pointer = currentActiveOrder?.receipt_token ? currentActiveOrder : xa82GetPointer();
-        const payload = { search_key: currentSearchKey };
-        if(xa82ValidNo(pointer?.order_no) && xa82ValidToken(pointer?.receipt_token)){
-          payload.receipt_order_no=pointer.order_no;
-          payload.receipt_token=pointer.receipt_token;
-        }
-        return payload;
-      })()),
+      headers: requestHeaders,
+      body: JSON.stringify(requestBody),
       signal: controller.signal
     });
     if (requestId !== inboxRequestSequence || !inboxViewerOpen) return;
@@ -4529,7 +4533,7 @@ async function loadAdminOrders() {
 async function v62FetchStockByUsed(isUsed) {
   const all = [];
   for(let offset=0;offset<10000;offset+=500){
-    let query = supabaseClient.from('xa_stock').select('id,product_type,code,is_used');
+    let query = supabaseClient.from('xa_stock').select('id,product_type,code,is_used,is_excluded');
     query = isUsed ? query.eq('is_used',true) : query.or('is_used.eq.false,is_used.is.null');
     const {data,error} = await query.order('id',{ascending:true}).range(offset,offset+499);
     if (error) throw error;
@@ -4622,21 +4626,45 @@ function renderV62Orders() {
   xa120State.pendingFingerprint=xa120PendingFingerprint();
   if(window.lucide)lucide.createIcons();
 }
+// v128: 관리자 인증을 통해 판매 전·판매 후·판매 제외 이메일도 읽기 전용 검사.
+async function xa128OpenAdminInbox(stockId, button){
+  const row = v62StockById.get(String(stockId));
+  if(!row){showAdminFlash('해당 재고를 찾지 못했습니다. 새로고침해 주세요.',true);return;}
+  const parts = String(row.code||'').split(/-{4,}/);
+  const email = String(parts[2]||'').trim();
+  if(!email.includes('@')){showAdminFlash('이메일 형식이 올바르지 않은 재고입니다.',true);return;}
+  if(xa97IsHotmailAddress(email)){
+    showAdminFlash('Hotmail 계정은 관리자 문의 방식이며 IMAP 내부 조회 대상이 아닙니다.',true);
+    return;
+  }
+  try {
+    const {data:{user},error} = await supabaseClient.auth.getUser();
+    if(error || String(user?.email||'').toLowerCase()!=='admin@xaccount.com')
+      throw new Error('관리자 재로그인이 필요합니다.');
+    currentEmailForInbox=email;
+    xa128AdminMailStockId=String(stockId);
+    openInboxViewer();
+  } catch (e) {
+    showAdminFlash('이메일 연결 검사 실패: '+String(e?.message||e),true);
+  }
+}
 function v62StockCard(s,flag='available') {
   const parts=String(s.code||'').split(/-{4,}/);
-  const isGeneral=/일반|general/i.test(String(s.product_type||''));
   const accountId=parts[0]||'식별값 없음';
-  const label=flag==='available'?'판매 가능':'점검 필요';
+  const label=flag==='available'?'판매 가능':flag==='excluded'?'판매 제외':'점검 필요';
   const stockId=JSON.stringify(String(s.id));
-  const problem=xa108StockProblem(s) || (flag==='invalid'?'이미 발급된 코드 또는 재고 연결 불일치':'');
-  return `<article class="xa62-stockcard xa76-stockcard">
+  const problem=flag==='excluded'?'판매에서 제외된 계정입니다. 주문·중복 이력을 검사한 뒤 복구할 수 있습니다.':(xa108StockProblem(s) || (flag==='invalid'?'이미 발급된 코드 또는 재고 연결 불일치':''));
+  return `<article class="xa62-stockcard xa76-stockcard xa127-stockcard">
     <div class="xa62-card-head"><div><div class="xa62-order-num">${escapeHTML(s.product_type||'재고')} <span class="xa76-stock-id">#${escapeHTML(s.id)}</span></div></div><span class="xa62-status ${flag==='available'?'available':'pending'}">${label}</span></div>
     <div class="xa76-preview"><span>계정 ID</span><strong>${escapeHTML(accountId)}</strong></div>
     ${problem?`<div class="xa108-stock-problem">${escapeHTML(problem)}</div>`:''}
-    
     <button type="button" class="xa109-stock-detail-button" onclick='openV109StockDetails(${stockId})'><i data-lucide="shield-check" aria-hidden="true"></i> 관리자 상세정보 보기 <span aria-hidden="true">›</span></button>
-    <div class="xa62-actions"><button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>재고 원본 복사</button>
-    ${flag==='available'?`<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button>`:''}</div>
+    <div class="xa62-actions xa127-stock-actions">
+      <button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>원본 복사</button>
+      ${((parts.length>=5 && parts[2]?.includes('@')) || /이메일|email/i.test(String(s.product_type||'')))?`<button type="button" class="xa62-btn xa128-mail-check" onclick='xa128OpenAdminInbox(${stockId},this)'><i data-lucide="mail-search" aria-hidden="true"></i> X 메일 연결 검사</button>`:''}
+      ${flag==='available'?`<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button><button type="button" class="xa62-btn xa127-exchange-btn" onclick='xa127ManageStock(${stockId},"EXCHANGE",this)'><i data-lucide="gift" aria-hidden="true"></i> 교환 지급</button>`:''}
+      ${flag==='excluded'?`<button type="button" class="xa62-btn xa127-restore-btn" onclick='xa127ManageStock(${stockId},"RESTORE",this)'><i data-lucide="rotate-ccw" aria-hidden="true"></i> 판매 가능 복구</button>`:''}
+    </div>
   </article>`;
 }
 // v109: 재고 세부 항목은 주문과 동일한 관리자 전용 중앙 팝업에서만 표시합니다.
@@ -4679,20 +4707,63 @@ async function excludeV71Stock(stockId, button) {
   }
 }
 
+let xa127ExcludedOpen = false;
+function xa127ExcludedToggle(el){if(el?.isConnected)xa127ExcludedOpen=!!el.open}
+async function xa127ManageStock(stockId, action, button){
+  const row=v62StockById.get(String(stockId));
+  const exchange=action==='EXCHANGE';
+  if(!row||!['EXCHANGE','RESTORE'].includes(action)){
+    showAdminFlash('재고 정보를 확인할 수 없습니다. 새로고침해 주세요.',true);return;
+  }
+  if(exchange && (row.is_used===true||row.is_excluded===true)){
+    showAdminFlash('교환 지급은 판매 가능한 재고만 처리할 수 있습니다.',true);return;
+  }
+  if(!exchange && row.is_excluded!==true){
+    showAdminFlash('판매 제외된 재고만 복구할 수 있습니다.',true);return;
+  }
+  const idLabel=String(row.code||'').split(/-{4,}/)[0]||'계정 ID 확인 필요';
+  const title=exchange?'교환 지급 · 재고 차감':'판매 제외 · 재고 복구';
+  const description=exchange
+    ? `재고 #${stockId} · ${idLabel}\n이 계정을 교환으로 제공했다는 사실을 확인한 뒤 처리하세요.\n판매 가능 수량에서 즉시 빠지고, 주문·발급 기록은 변경되지 않습니다.\n교환 지급으로 표시한 재고는 일반 복구가 차단됩니다.`
+    : `재고 #${stockId} · ${idLabel}\n판매 제외 표시를 해제하고 다시 판매 가능한 재고로 전환합니다.\n서버에서 과거 주문 배정·동일 계정 중복·2FA 형식·교환 지급 이력을 검사합니다.\n기존 주문 또는 재고 이력은 삭제하지 않습니다.`;
+  const confirmed=await askAdminConfirm(title,description,exchange?'교환 지급 확정':'판매 가능으로 복구');
+  if(!confirmed)return;
+  if(button){button.disabled=true;button.dataset.originalHtml=button.innerHTML;button.textContent=exchange?'처리 중…':'복구 중…'}
+  try{
+    const {data,error}=await supabaseClient.rpc('xa127_manage_stock',{p_stock_id:String(stockId),p_action:action});
+    if(error)throw error;
+    if(!data?.success)throw new Error(data?.message||'서버에서 처리할 수 없다고 응답했습니다.');
+    xa108NoteAction(exchange?'교환 지급 · 재고 차감':'판매 제외 재고 복구','#'+stockId);
+    await loadAdminStock();
+    showAdminFlash(exchange?`재고 #${stockId}: 교환 지급 처리 · 판매 가능 수량에서 제외했습니다.`:`재고 #${stockId}: 판매 가능 재고로 복구했습니다.`);
+  }catch(err){
+    let msg=String(err?.message||err||'처리 오류');
+    if(/PGRST202|42883|schema cache|could not find the function/i.test(msg))msg='v127 관리자 재고 처리 SQL을 Supabase에 먼저 설치해 주세요.';
+    else if(/JWT|not authenticated|permission denied|42501/i.test(msg))msg='관리자 로그인 권한을 확인해 주세요.';
+    showAdminFlash((exchange?'교환 지급':'재고 복구')+' 실패: '+msg,true);
+    if(button?.isConnected){button.disabled=false;button.innerHTML=button.dataset.originalHtml||button.innerHTML;if(window.lucide)lucide.createIcons()}
+  }
+}
 function renderV62Stock() {
   const el=document.getElementById('adm-stock-view');if(!el||!v62LastStockSuccess)return;
   const available=v62AvailableStock, bad=v62InvalidStock;
+  const excluded=v62AllStock.filter(s=>s.is_excluded===true);
   const g=available.filter(s=>/일반|general/i.test(String(s.product_type||''))).length;
   const e=available.length-g;
   const low=[['일반',g],['이메일',e]].filter(([name,c])=>c<=3).map(([name,c])=>`${name} ${c}개`);
   const all=[...available.map(s=>({...s,xa108Flag:'available'})),...bad.map(s=>({...s,xa108Flag:'invalid'}))];
   const rows=all.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0]));
-  const statusFiltered=rows;
+  const excludedVisible=excluded.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0]));
+  const excludedList=excluded.length?`<details id="xa127-excluded-list" class="xa127-excluded" ${xa127ExcludedOpen||v62Search?'open':''} ontoggle="xa127ExcludedToggle(this)">
+     <summary><span><i data-lucide="archive" aria-hidden="true"></i> 판매 제외 재고 <b>${excludedVisible.length}개</b></span><span>목록 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></span></summary>
+     <div class="xa127-excluded-content"><p>판매 제외된 재고만 표시합니다. 이미 발급된 계정이나 교환 지급 재고는 서버에서 복구를 거부합니다.</p>${excludedVisible.length?excludedVisible.map(s=>v62StockCard(s,'excluded')).join(''):v62Empty('검색 조건에 맞는 판매 제외 재고가 없습니다.')}</div>
+  </details>`:'';
   el.innerHTML=xa123AuditPanel()+`<div class="xa108-stock-summary"><span>일반 <b>${g}</b>개</span><span>이메일 <b>${e}</b>개</span><span>점검 필요 <b>${bad.length}</b>개</span></div>`+
     (low.length?`<div class="xa108-alert">재고 부족 알림 · ${escapeHTML(low.join(' / '))} 남음</div>`:'')+
     (bad.length?`<div class="xa108-alert">품질 점검 대상 ${bad.length}개는 판매 가능 수량 집계에서 제외했습니다. 서버 발급 검증도 별도 확인이 필요합니다.</div>`:'')+
-    `<div class="xa62-section-note"><strong>${statusFiltered.length}개 재고 표시</strong><span>판매 가능 ${available.length}개</span></div>`+
-    (statusFiltered.length?statusFiltered.map(s=>v62StockCard(s,s.xa108Flag)).join(''):v62Empty('표시할 재고가 없습니다.','검색어나 재고 종류 필터를 확인해 주세요.'));
+    `<div class="xa62-section-note"><strong>${rows.length}개 재고 표시</strong><span>판매 가능 ${available.length}개</span></div>`+
+    (rows.length?rows.map(s=>v62StockCard(s,s.xa108Flag)).join(''):v62Empty('표시할 판매 가능 재고가 없습니다.','판매 제외 재고는 아래 별도 목록에서 확인하세요.'))+
+    excludedList;
   if(window.lucide)lucide.createIcons();
 }
 function v62NeedsRestock(order) {
@@ -4820,7 +4891,7 @@ function xa108RenderActivity(){
   const el=document.getElementById('xa108-activity-content');
   const status=document.getElementById('xa108-log-status');
   if(!el)return;
-  const types={'ORDER_APPROVED':'주문 승인','ORDER_REFUNDED':'주문 반환','ORDER_EXPIRED':'만료 처리','STOCK_EXCLUDED':'재고 제외','STOCK_RESTORED':'재고 복구','STOCK_STATUS_CHANGED':'재고 상태 변경'};
+  const types={'ORDER_APPROVED':'주문 승인','ORDER_REFUNDED':'주문 반환','ORDER_EXPIRED':'만료 처리','STOCK_EXCLUDED':'재고 제외','STOCK_RESTORED':'재고 복구','STOCK_STATUS_CHANGED':'재고 상태 변경','STOCK_EXCHANGE_ISSUED':'교환 지급 · 재고 차감','STOCK_EXCLUSION_RESTORED':'판매 제외 복구'};
   const remote=xa108AuditEnabled?xa108ActivityEvents.map(x=>({label:types[x.event_type]||String(x.event_type||'변경').slice(0,40),detail:xa120SafeLogDetail(x.order_no||('재고 #'+x.stock_id)),when:new Date(x.created_at),kind:/STOCK/i.test(x.event_type)?'stock':'orders',source:'서버'})):[];
   const local=xa108SessionEvents.map(x=>({label:xa120SafeLogDetail(x.label),detail:xa120SafeLogDetail(x.detail),when:new Date(x.when),kind:/재고/i.test(x.label)?'stock':'orders',source:'이번 접속'}));
   const health=xa120State.sessionIssues.map(x=>({label:x.label,detail:x.detail,when:new Date(x.when),kind:'system',source:'브라우저 점검'}));
@@ -6553,7 +6624,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 <style id="xa115-secure-order-style">
 #xa82-recovery-error:not(.hidden){background:#fff6e8!important;color:#704a21!important;border:1px solid #e9c899!important;border-radius:12px!important;padding:11px 13px!important;font-weight:700!important}
 </style>
-<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v126-all-status-2fa-lookup';</script>
+<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v128-firstmail-stock-inbox';</script>
 
 <style id="xa120-admin-ops-style">
 #admin-console-modal .xa120-health-trigger{position:relative!important}
@@ -6813,7 +6884,7 @@ function xa123MailType(domain){
   if(/^(hotmail|outlook|live|msn)\./i.test(domain))return '관리자 문의 방식';
   if(domain==='rambler.ru')return 'Rambler IMAP · 인증 미검사';
   if(domain.startsWith('gmx.'))return 'GMX IMAP · 인증 미검사';
-  return '메일 서버 지원 여부 확인 필요';
+  return 'Firstmail IMAP 후보 · 인증 미검사';
 }
 function xa123RememberMailCheck(address,success,reason=''){
   const email=String(address||'').trim().toLowerCase();
@@ -6999,5 +7070,33 @@ function xa123Jump(node){const type=node?.dataset?.xa123Type;const id=node?.data
 // Legacy paid X API panel is intentionally no longer invoked; prior opt-in cannot trigger bills.
 
 </script>
+
+<style id="xa127-stock-actions-ui">
+#admin-console-modal .xa127-stock-actions{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+#admin-console-modal .xa127-stock-actions>button{flex:1 1 95px!important;white-space:nowrap!important;min-height:35px!important;padding:7px 8px!important;font-weight:850!important;font-size:10px!important}
+#admin-console-modal .xa127-stock-actions>button svg{width:13px;height:13px;display:inline-block;vertical-align:-2px;margin-right:3px}
+#admin-console-modal .xa127-exchange-btn{color:#856019!important;background:#fffaf0!important;border:1px solid #e9d2a0!important}
+#admin-console-modal .xa127-exchange-btn:hover{background:#fff3d8!important}
+#admin-console-modal .xa127-restore-btn{color:#176348!important;background:#edf9f1!important;border:1px solid #b9ddc6!important}
+#admin-console-modal .xa127-restore-btn:hover{background:#dff3e7!important}
+#admin-console-modal .xa127-excluded{margin:12px 0 6px;border:1px solid #d8e8dd;border-radius:13px;overflow:hidden;background:#fff}
+#admin-console-modal .xa127-excluded>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px;cursor:pointer;list-style:none;background:#f4faf6;color:#245c43;font-size:11.5px;font-weight:850}
+#admin-console-modal .xa127-excluded>summary::-webkit-details-marker{display:none}
+#admin-console-modal .xa127-excluded>summary>span{display:inline-flex;align-items:center;gap:7px}
+#admin-console-modal .xa127-excluded>summary svg{height:14px;width:14px}
+#admin-console-modal .xa127-excluded>summary>span:last-child{font-size:10px;color:#6e8e78}
+#admin-console-modal .xa127-excluded[open]>summary>span:last-child svg{transform:rotate(180deg)}
+#admin-console-modal .xa127-excluded-content{padding:10px;display:grid;gap:9px}
+#admin-console-modal .xa127-excluded-content>p{margin:0;color:#607d68;font-size:10px;line-height:1.5}
+#admin-console-modal .xa127-excluded-content .xa127-stockcard{box-shadow:none!important}
+@media(max-width:370px){#admin-console-modal .xa127-stock-actions>button{flex:1 1 90px!important;font-size:9.5px!important}}
+</style>
+
+<style id="xa128-mail-check-style">
+#admin-console-modal .xa128-mail-check{background:#eff8f4!important;color:#146448!important;border:1px solid #d0e8d8!important}
+#admin-console-modal .xa128-mail-check:hover{background:#dff3e8!important}
+#admin-console-modal .xa128-mail-check svg{width:13px;height:13px;vertical-align:-2px;margin-right:3px}
+#xa-inbox-viewer{z-index:185!important}
+</style>
 </body>
 </html>
