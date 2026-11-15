@@ -1920,17 +1920,8 @@ function xa87ChangeQuantity(delta){
   const inc=document.getElementById('xa87-qty-plus');if(inc)inc.disabled=selectedQuantity===XA87_MAX_QUANTITY;
   updateSummaryBadges();
 }
-function xa87BulkOrderNumbers(quantity){
-  // 7 shared unpredictable chars + one deterministic child index, all matching xa82ValidNo.
-  const head=generateOrderNo().slice(0,-1);
-  return Array.from({length:quantity},(_,i)=>head+XA87_SEQUENCE[i]);
-}
 function xa87IsBulk(order){return !!(order&&Array.isArray(order.bulk_order_nos)&&order.bulk_order_nos.length>1);}
 function xa87GroupNo(order){return xa87IsBulk(order)?order.order_no.slice(0,-1):order?.order_no||'';}
-function xa87BuildBulkRows(orderNos){
-  const unit=parseWon(selectedPrice),fee=getPaymentFee();
-  return orderNos.map((order_no,i)=>({order_no,product_type:selectedProduct,payment_method:selectedPayment,price:formatWon(unit+(i===0?fee:0)),status:'PENDING'}));
-}
 function xa87RenderWaitBulk(){
   const el=document.getElementById('xa87-wait-bulk');if(!el)return;
   const order=currentActiveOrder;
@@ -1978,9 +1969,12 @@ function xa90SetIssuedVisible(visible){
 }
 function xa90EscapeHtml(value){return String(value??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 async function xa90CopyText(text,btn){
-  const original=btn?btn.textContent:'';
+  const original=btn?btn.innerHTML:'';
   const ok=await copyText(String(text||'')); // Existing KakaoTalk-friendly clipboard fallback
-  if(btn){btn.textContent=ok?'복사됨':'복사 실패';setTimeout(()=>btn.textContent=original,1200);}
+  if(btn){
+    btn.textContent=ok?'복사됨':'복사 실패';
+    setTimeout(()=>{if(btn.isConnected){btn.innerHTML=original;if(window.lucide)lucide.createIcons();}},1200);
+  }
 }
 function xa90BuildCopyBlock(item){
   // Email credentials and OTP secrets are NEVER copied or shown in the bulk result.
@@ -2134,13 +2128,9 @@ async function xa87CheckBulkStatus(){
   xa87Checking=true;
   try{
     const order=currentActiveOrder, numbers=order.bulk_order_nos;
-    // Existing per-order access policy is reused; no new database permissions.
-    const {data,error}=await supabaseClient.from('xa_orders')
-      .select('order_no,status,buyer_code,created_at')
-      .in('order_no',numbers);
-    if(error)throw error;
+    const receipt=await xa115ReadReceipt(order);
     if(!currentActiveOrder||currentActiveOrder.order_no!==order.order_no)return;
-    const rows=Array.isArray(data)?data:[];
+    const rows=(receipt.orders||[]).filter(r=>numbers.includes(r.order_no));
     const valid=rows.filter(r=>numbers.includes(r.order_no));
     const approved=valid.filter(r=>r.status==='APPROVED'&&r.buyer_code).length;
     const allDone=valid.length===numbers.length&&approved===numbers.length;
@@ -2150,12 +2140,12 @@ async function xa87CheckBulkStatus(){
       if(currentActiveOrder.status!=='APPROVED'){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);}
       const screen = document.getElementById('main-card')?.getAttribute('data-current-screen');
       // Display the same usage guide as single-account issuance, then reveal the bulk result.
-      if (!xa104BulkGuideSeen.has(order.order_no) && !xa104BulkGuidePendingOrder && (screen==='step-waiting' || screen==='step-bulk')) {
+      if (!xa104BulkGuideSeen.has(order.order_no) && !xa114GuideSeen(order.order_no) && !xa104BulkGuidePendingOrder && (screen==='step-waiting' || screen==='step-bulk')) {
         xa104BulkGuidePendingOrder = order.order_no;
         v68DirectCodeLookup = false;
         showScreen('step-guide');
         if(window.lucide) lucide.createIcons();
-      } else if (xa104BulkGuideSeen.has(order.order_no) && screen==='step-waiting') {
+      } else if ((xa104BulkGuideSeen.has(order.order_no) || xa114GuideSeen(order.order_no)) && screen==='step-waiting') {
         showScreen('step-bulk');
       }
     }
@@ -2172,7 +2162,11 @@ async function xa87CheckBulkStatus(){
       const msg=document.getElementById('xa87-wait-progress');
       if(msg) msg.textContent=`주문 ${numbers.length}건 중 ${valid.length}건만 DB에서 조회됨 · 판매자에게 주문번호 전달 필요`;
     }
-  }catch(err){console.warn('[X ACCOUNT v87] 묶음 주문 상태 조회 실패',err);}finally{xa87Checking=false;}
+  }catch(err){
+    console.warn('[X ACCOUNT v115] 묶음 주문 보안 조회 실패',err);
+    const status=document.getElementById('xa87-wait-progress');
+    if(status)status.textContent=err?.message||'주문 조회를 확인할 수 없습니다. 관리자에게 문의해 주세요.';
+  }finally{xa87Checking=false;}
 }
 function xa87AdminSiblings(orderNo){
   const str=String(orderNo||'');
@@ -2242,6 +2236,49 @@ let approvedCodeReady = null;
 let currentEmailForInbox = '';
 let currentSearchKey = '';
 let isCreatingOrder = false;
+
+// v115 secure purchase: a 256-bit secret is generated locally; only its SHA-256 hash is stored in DB.
+// A retry after a network timeout uses the same token and cannot create a duplicate order.
+const XA115_DRAFT_KEY='xa_order_request_v115';
+const XA115_RESET_MARKER='xa_order_reset_v115';
+let xa115MemoryDraft=null;
+function xa115NewToken(){
+  if(!window.crypto?.getRandomValues)throw new Error('보안 주문 토큰 생성이 지원되지 않는 브라우저입니다. 브라우저를 업데이트해 주세요.');
+  const bytes=new Uint8Array(32);window.crypto.getRandomValues(bytes);
+  return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
+}
+function xa115DraftFor(product,method,quantity){
+  let draft=xa115MemoryDraft;
+  if(!draft){try{draft=JSON.parse(localStorage.getItem(XA115_DRAFT_KEY)||'null');}catch(_){}}
+  if(!(draft && xa82ValidToken(draft.token) && draft.product===product &&
+       draft.method===method && draft.quantity===quantity &&
+       Date.now()-draft.savedAt<24*60*60*1000 && draft.savedAt<=Date.now()+60000)){
+    draft={token:xa115NewToken(),product,method,quantity,savedAt:Date.now()};
+  }
+  xa115MemoryDraft=draft;
+  try{localStorage.setItem(XA115_DRAFT_KEY,JSON.stringify(draft));}catch(_){}
+  return draft;
+}
+function xa115ClearDraft(){xa115MemoryDraft=null;try{localStorage.removeItem(XA115_DRAFT_KEY);}catch(_){}}
+function xa115ExplainRpcError(err){
+  if(['PGRST202','42883'].includes(String(err?.code||'')))return new Error('v115 서버 설정 SQL이 아직 설치되지 않았습니다. 신규 주문을 잠시 중단하고 관리자에게 문의해 주세요.');
+  if(err?.message?.includes('RECEIPT_REUSE_MISMATCH'))return new Error('이전 주문 요청이 남아 있습니다. 화면을 새로고침한 뒤 관리자에게 문의해 주세요.');
+  if(err?.message?.includes('INVALID_'))return new Error('주문 정보가 서버의 허용 범위와 맞지 않습니다. 관리자에게 문의해 주세요.');
+  return new Error('보안 주문 서버에 연결하지 못했습니다. 동일한 주문으로 다시 시도해 주세요. 기존 요청은 중복 생성되지 않습니다.');
+}
+async function xa115ReadReceipt(order){
+  if(!supabaseClient)throw new Error('주문 서버에 연결할 수 없습니다.');
+  if(!xa82ValidNo(order?.order_no) || !xa82ValidToken(order?.receipt_token))
+    throw new Error('기존 주문에는 보안 복구 토큰이 없습니다. 주문번호를 관리자에게 전달해 확인해 주세요.');
+  const {data,error}=await supabaseClient.rpc('xa_get_orders_for_receipt_v115',{
+    p_order_no:order.order_no,p_token:order.receipt_token
+  });
+  if(error)throw xa115ExplainRpcError(error);
+  if(!data || data.order_no!==order.order_no || !Array.isArray(data.orders) ||
+     data.orders.length!==(order.bulk_order_nos?.length||1))
+    throw new Error('주문 응답이 올바르지 않습니다. 관리자에게 문의해 주세요.');
+  return data;
+}
 
 const xaStorage = {
   getItem(key) { try { return window.localStorage.getItem(key); } catch (_) { return null; } },
@@ -2326,7 +2363,10 @@ function xa83Backup(order) {
 async function xa83GetPointerAsync() {
   const cached=xa82GetPointer();
   if(cached) return cached;
-  return await xa83DbRun('read');
+  const indexed=await xa83DbRun('read');
+  // A delayed IndexedDB write must never resurrect an order after explicit 'new order'.
+  if(indexed?.order_no && xaStorage.getItem(XA115_RESET_MARKER)===indexed.order_no)return null;
+  return indexed;
 }
 async function xa83LocalSnapshotMatch(pointer) {
   for (const raw of [xaStorage.getItem(XA82_STORAGE_KEY),xaStorage.getItem('xa_active_order')]) {
@@ -2357,8 +2397,8 @@ function xa82ClearSaved() {
   xaStorage.removeItem(XA82_STORAGE_KEY);
   xaStorage.removeItem('xa_active_order');
   try { sessionStorage.removeItem(XA82_STORAGE_KEY); } catch (_) {}
-  document.cookie = XA82_COOKIE_KEY+'=; Path=/; Max-Age=0; SameSite=Lax; Secure';
-  document.cookie = XA83_SNAPSHOT_COOKIE+'=; Path=/; Max-Age=0; SameSite=Lax; Secure';
+  try { document.cookie = XA82_COOKIE_KEY+'=; Path=/; Max-Age=0; SameSite=Lax; Secure'; } catch (_) {}
+  try { document.cookie = XA83_SNAPSHOT_COOKIE+'=; Path=/; Max-Age=0; SameSite=Lax; Secure'; } catch (_) {}
   void xa83DbRun('clear');
 
 }
@@ -2412,20 +2452,9 @@ function xa82NormalizeRow(data) {
 }
 async function xa82ReadServer(order) {
   if(!supabaseClient || !xa82ValidNo(order?.order_no)) return null;
-  if(xa82ValidToken(order.receipt_token)) {
-    const r=await supabaseClient.rpc('xa_get_order_for_receipt_v82',{
-      p_order_no:order.order_no,p_token:order.receipt_token
-    });
-    if(!r.error) return xa82NormalizeRow(r.data);
-    if(!['PGRST202','42883'].includes(r.error.code)) throw r.error;
-      // The migration has not been installed. Legacy same-browser orders still work.
-  }
-  // Legacy read used by the original v81 application.
-  const r=await supabaseClient.from('xa_orders')
-    .select('order_no,status,buyer_code,created_at,payment_method,product_type,price')
-    .eq('order_no',order.order_no).maybeSingle();
-  if(r.error) throw r.error;
-  return r.data||null;
+  // v115: do NOT fall back to anonymous xa_orders reads (orders are confidential).
+  const receipt=await xa115ReadReceipt(order);
+  return receipt.orders.find(row=>row.order_no===order.order_no)||null;
 }
 function xa82MergeServer(order,row) {
   const t=row?.created_at?new Date(row.created_at).getTime():NaN;
@@ -2474,6 +2503,10 @@ async function xa82RestoreSaved() {
   try {
     const pointer=await xa83GetPointerAsync();
     if(!pointer || currentActiveOrder?.order_no) return;
+    if(!xa82ValidToken(pointer.receipt_token)){
+      xa82ShowRecoveryError('이전 버전 주문은 보안 복구키가 없어 자동 복원이 제한됩니다. 주문번호를 관리자에게 문의하거나 기존 발급 조회 코드로 확인해 주세요.');
+      return;
+    }
     // Same KakaoTalk storage namespace: restore the exact receipt immediately.
     if(pointer.product_type && pointer.price && pointer.payment_method) {
       xa82RenderOrder(pointer);
@@ -2889,17 +2922,7 @@ function showScreen(screenId) {
   if (screenId === 'step-price' && waitPollingTimer) clearInterval(waitPollingTimer);
 }
 
-// 주문번호 난수 생성
-function generateOrderNo() {
-  const ymd = getKstYmd(new Date()).slice(2).replace(/-/g, '');
-  const alphabet = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-  const bytes = new Uint8Array(8);
-  if (window.crypto?.getRandomValues) crypto.getRandomValues(bytes);
-  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
-  let suffix = '';
-  for (const b of bytes) suffix += alphabet[b % alphabet.length];
-  return `ORD-${ymd}-${suffix}`;
-}
+// v115: order numbers are now generated exclusively by the server RPC.
 
 // 한국 시간 포맷
 function getKstString() {
@@ -2916,75 +2939,56 @@ function getKstString() {
 
 // 주문 접수 후 대기화면으로 이동 (팝업은 바로 띄우지 않고 대기화면을 먼저 안내)
 async function createOrderAndShowWaiting() {
-  if (isCreatingOrder) return;
-  if (currentActiveOrder?.order_no) {
-    xa82RenderOrder(currentActiveOrder);
-    return;
-  }
-  isCreatingOrder = true;
-  const submitBtn = document.querySelector('#step-price .xa-merged-actions .xa-primary-cta');
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.dataset.originalText = submitBtn.innerHTML; submitBtn.innerText = '주문 접수 중...'; }
-
-  const quantity=selectedQuantity;
-  const bulkNumbers=quantity>1?xa87BulkOrderNumbers(quantity):null;
-  const orderNo = bulkNumbers?bulkNumbers[0]:generateOrderNo();
-  const timeKst = getKstString();
-  const orderData = {
-    order_no: orderNo,
-    product_type: selectedProduct,
-    payment_method: selectedPayment,
-    price: formatWon(getTotalPrice()),
-    status: 'PENDING'
-  };
-
-  try {
-    if (!supabaseClient) throw new Error('주문 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.');
-    const rows=bulkNumbers?xa87BuildBulkRows(bulkNumbers):[orderData];
-    const { error } = await supabaseClient.from('xa_orders').insert(rows);
-    if (error) throw error;
-    // 조회 권한이 없는 환경에서도 이미 접수된 주문을 중복 생성하지 않도록 읽기 실패는 무시합니다.
-    let serverCreatedAt = null;
-    try {
-      const read = await supabaseClient.from('xa_orders').select('created_at').eq('order_no',orderNo).single();
-      if (!read.error && read.data?.created_at) serverCreatedAt = read.data.created_at;
-    } catch (_) {}
-
-
-    currentActiveOrder = {
-      ...orderData,
-      ...(bulkNumbers?{quantity,bulk_order_nos:bulkNumbers}:{}),
-      base_price: formatWon(parseWon(selectedPrice)*quantity),
-      payment_fee: formatWon(getPaymentFee()),
-      chat_url: XA77_ORDER_CHAT_URL,
-      created_at_kst: timeKst,
-      created_at_ms: serverCreatedAt ? new Date(serverCreatedAt).getTime() : Date.now()
+  if(isCreatingOrder)return;
+  if(currentActiveOrder?.order_no){xa82RenderOrder(currentActiveOrder);return;}
+  isCreatingOrder=true;
+  const submitBtn=document.querySelector('#step-price .xa-merged-actions .xa-primary-cta');
+  if(submitBtn){submitBtn.disabled=true;submitBtn.dataset.originalText=submitBtn.innerHTML;submitBtn.innerText='안전하게 주문 접수 중…';}
+  try{
+    if(!supabaseClient)throw new Error('주문 서버에 연결할 수 없습니다.');
+    const quantity=selectedQuantity;
+    const draft=xa115DraftFor(selectedProduct,selectedPayment,quantity);
+    const {data,error}=await supabaseClient.rpc('xa_create_order_v115',{
+      p_product_type:selectedProduct,
+      p_payment_method:selectedPayment,
+      p_quantity:quantity,
+      p_receipt_token:draft.token
+    });
+    if(error)throw xa115ExplainRpcError(error);
+    if(!data || !xa82ValidNo(data.order_no) ||
+       !Array.isArray(data.bulk_order_nos) || data.bulk_order_nos.length!==quantity ||
+       data.product_type!==selectedProduct || data.payment_method!==selectedPayment ||
+       parseWon(data.price)!==getTotalPrice()){
+      throw new Error('서버 주문 내역과 화면 가격이 다릅니다. 자동 재주문하지 말고 관리자에게 문의해 주세요.');
+    }
+    const createdMs=new Date(data.created_at).getTime();
+    const order={
+      order_no:data.order_no,
+      product_type:data.product_type,
+      payment_method:data.payment_method,
+      price:data.price,
+      status:'PENDING',
+      receipt_token:draft.token,
+      ...(quantity>1?{quantity,bulk_order_nos:data.bulk_order_nos}:{}),
+      base_price:data.base_price,
+      payment_fee:data.payment_fee,
+      chat_url:XA77_ORDER_CHAT_URL,
+      created_at_kst:Number.isFinite(createdMs)?new Date(createdMs).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}):getKstString(),
+      created_at_ms:Number.isFinite(createdMs)?createdMs:Date.now()
     };
-    xa82Persist(currentActiveOrder);
-
-    const msg = buildOrderMessage(currentActiveOrder);
-    document.getElementById('wait-order-no').innerText = orderNo;
-    document.getElementById('wait-product').innerText = selectedProduct;
-    document.getElementById('wait-price').innerText = orderData.price;
-    document.getElementById('wait-method').innerText = selectedPayment;
-    document.getElementById('wait-time').innerText = timeKst;
-    const previewEl = document.getElementById('wait-order-msg-preview');
-    if (previewEl) previewEl.innerText = msg;
-
+    currentActiveOrder=order;
+    xa82Persist(order);
+    xa115ClearDraft();
+    xa82RenderOrder(order);
     closeAgreementModal();
     showScreen('step-waiting');
-    xa77UpdateWaiting();
-    xa87RenderWaitBulk();
     startWaitingPolling();
-  } catch (err) {
-    console.error('Order creation failed:', err);
-    alert(`주문 접수에 실패했습니다.
-${err?.message || '서버 연결 상태를 확인해 주세요.'}`);
-  } finally {
-    isCreatingOrder = false;
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = submitBtn.dataset.originalText || '<span>주문 내용 확인하기</span>';
-    }
+  }catch(err){
+    console.warn('[X ACCOUNT v115] 주문 생성 실패',err);
+    alert(err?.message||'주문 서버 연결을 확인해 주세요.');
+  }finally{
+    isCreatingOrder=false;
+    if(submitBtn){submitBtn.disabled=false;submitBtn.innerHTML=submitBtn.dataset.originalText||'<span>주문 내용 확인하기</span>';}
   }
 }
 
@@ -3094,6 +3098,17 @@ let v66GuideContinueBusy = false;
 // A manual lookup remains direct and never invokes this gate.
 let xa104BulkGuidePendingOrder = '';
 const xa104BulkGuideSeen = new Set();
+// v114: Remember that the buyer has already acknowledged the guide for THIS order.
+// Only a non-secret per-order flag is stored; no account credentials or lookup codes.
+const XA114_GUIDE_KEY_PREFIX = 'xa_guide_seen_v114_';
+function xa114GuideSeen(orderNo){
+  if(!xa82ValidNo(orderNo))return false;
+  return xaStorage.getItem(XA114_GUIDE_KEY_PREFIX+orderNo)==='1';
+}
+function xa114GuideRemember(orderNo){
+  if(xa82ValidNo(orderNo))xaStorage.setItem(XA114_GUIDE_KEY_PREFIX+orderNo,'1');
+}
+
 async function onOrderApproved(orderRow) {
   if(currentActiveOrder){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);}
   const code = String(orderRow?.buyer_code || '').trim();
@@ -3103,8 +3118,15 @@ async function onOrderApproved(orderRow) {
     setAccountResultState('error', '승인된 주문에 조회 코드가 연결되지 않았습니다. 관리자에게 문의해 주세요.');
     return;
   }
-  v66GuideFromApprovedOrder = true;
   v68DirectCodeLookup = false;
+  // A returning approved buyer should see the result, not the usage guide again.
+  // The server is queried on each reload; passwords are NOT persisted locally.
+  if(xa114GuideSeen(currentActiveOrder?.order_no)){
+    v66GuideFromApprovedOrder = false;
+    await displayAccountResult(code);
+    return;
+  }
+  v66GuideFromApprovedOrder = true;
   showScreen('step-guide');
   if (window.lucide) lucide.createIcons();
 }
@@ -3114,6 +3136,7 @@ async function proceedToResult() {
     const key = xa104BulkGuidePendingOrder;
     xa104BulkGuidePendingOrder = '';
     xa104BulkGuideSeen.add(key);
+    xa114GuideRemember(key);
     showScreen('step-bulk');
     await xa87CheckBulkStatus();
     if(window.lucide) lucide.createIcons();
@@ -3128,7 +3151,7 @@ async function proceedToResult() {
     if (isDisplayed && v66GuideFromApprovedOrder) {
       // Keep only the order receipt (never the issued account password) so a
       // returning KakaoTalk buyer can recover the approved order from server.
-      if(currentActiveOrder){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);}
+      if(currentActiveOrder){currentActiveOrder.status='APPROVED';xa82Persist(currentActiveOrder);xa114GuideRemember(currentActiveOrder.order_no);}
       v66GuideFromApprovedOrder = false;
     }
   } finally {
@@ -3380,14 +3403,34 @@ async function copyField(elId, btnEl) {
 }
 
 function resetToHome() {
-  xa104BulkGuidePendingOrder = '';
+  // v115: Explicit new-purchase action must NOT re-open the previously issued order.
+  if(waitPollingTimer){clearInterval(waitPollingTimer);waitPollingTimer=null;}
+  xa104BulkGuidePendingOrder='';
   xa90IssuedAccounts=[];
   xa90IssuedOrderNo='';
   xa90SetIssuedVisible(false);
-  if (otpInterval) clearInterval(otpInterval);
-  currentEmailForInbox = '';
+  if(otpInterval){clearInterval(otpInterval);otpInterval=null;}
+  approvedCodeReady=null;
+  xa82LastApprovalNo='';
+  xa87LastCodes=[];
+  currentEmailForInbox='';
+  currentSearchKey='';
   closeInboxModal();
-  if (inboxViewerOpen) closeInboxViewer();
+  if(inboxViewerOpen)closeInboxViewer();
+  if(currentActiveOrder?.order_no)xaStorage.setItem(XA115_RESET_MARKER,currentActiveOrder.order_no);
+  currentActiveOrder=null;
+  // Hide sensitive account data from the previous purchase when starting a new one.
+  for(const id of ['res-id','res-pw','res-otp','res-code','res-code-preview']){
+    const field=document.getElementById(id);
+    if(field)field.textContent='';
+  }
+  document.getElementById('xa90-issued-list')?.replaceChildren();
+  document.getElementById('xa87-bulk-list')?.replaceChildren();
+  document.getElementById('v51-code-disclosure')?.classList.add('hidden');
+  xa82ClearSaved();
+  xa115ClearDraft();
+  const error=document.getElementById('xa82-recovery-error');
+  if(error){error.textContent='';error.classList.add('hidden');}
   showScreen('step-price');
 }
 
@@ -6143,5 +6186,9 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 })();
 </script>
 
+
+<style id="xa115-secure-order-style">
+#xa82-recovery-error:not(.hidden){background:#fff6e8!important;color:#704a21!important;border:1px solid #e9c899!important;border-radius:12px!important;padding:11px 13px!important;font-weight:700!important}
+</style>
 </body>
 </html>
