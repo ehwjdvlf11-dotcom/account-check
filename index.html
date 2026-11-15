@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v121-x-account-status" />
+<meta name="x-account-version" content="v123-free-admin-audit" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1238,6 +1238,58 @@ body>.ambient-bg{display:none!important}
  #main-card #step-bulk .xa90-action-row{grid-template-columns:1fr!important}
 }
 </style>
+<style id="xa123-free-audit-css">
+/* X ACCOUNT v123 / free admin diagnostics, same mint-forest visual language. */
+#admin-console-modal .xa123-panel{border:1px solid #d7e8dc;background:linear-gradient(180deg,#fff,#f8fcf9);border-radius:13px;margin:0 0 10px;overflow:hidden;box-shadow:0 4px 15px rgba(23,78,48,.045)}
+#admin-console-modal .xa123-panel>summary{padding:11px 12px;display:flex;align-items:center;justify-content:space-between;gap:7px;cursor:pointer;list-style:none;min-height:47px}
+#admin-console-modal .xa123-panel>summary::-webkit-details-marker{display:none}
+#admin-console-modal .xa123-title{display:flex;align-items:center;gap:5px;min-width:0;color:#164c36;font-size:11px;font-weight:850}
+#admin-console-modal .xa123-title svg{width:16px;height:16px;color:#16845b;flex:none}
+#admin-console-modal .xa123-title small{font-size:8px;color:#53846b;font-weight:850}
+#admin-console-modal .xa123-summary-state{display:inline-flex;align-items:center;gap:4px;font-size:9px;color:#387b55;font-weight:850;text-align:right}
+#admin-console-modal .xa123-summary-state svg{width:13px;height:13px;flex:none;transition:transform .2s}
+#admin-console-modal .xa123-panel[open] .xa123-summary-state svg{transform:rotate(180deg)}
+#admin-console-modal .xa123-inner{border-top:1px solid #e6efe8;padding:11px;display:grid;gap:10px}
+#admin-console-modal .xa123-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+#admin-console-modal .xa123-stats>div{border:1px solid #dfebe3;background:#f5faf6;border-radius:10px;padding:9px 3px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+#admin-console-modal .xa123-stats b{color:#116548;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums}
+#admin-console-modal .xa123-stats b small{font-size:10px;color:#779987}
+#admin-console-modal .xa123-stats span{font-size:8px;color:#557c68;font-weight:750;text-align:center;line-height:1.35}
+#admin-console-modal .xa123-help{font-size:9.5px;line-height:1.7;color:#4f7361;margin:0}
+#admin-console-modal .xa123-filter-wrap{display:flex;flex-wrap:wrap;gap:5px}
+#admin-console-modal .xa123-filter{display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:6px 9px;border:1px solid #d7e6dc;color:#315d45;background:white;font-size:9px;font-weight:800;cursor:pointer}
+#admin-console-modal .xa123-filter.is-selected{background:#dff3e5;color:#115d3b;border-color:#b2dac2}
+#admin-console-modal .xa123-filter b{font-size:9px;font-weight:950}
+#admin-console-modal .xa123-issues{max-height:238px;overflow:auto;display:grid;gap:6px;scrollbar-width:thin}
+#admin-console-modal .xa123-issue{padding:8px;display:flex;align-items:flex-start;gap:8px;border-radius:9px;border:1px solid #e1e9e2;background:#f9fbf9;min-width:0}
+#admin-console-modal .xa123-issue.xa123-critical{border-color:#efd7d1;background:#fff8f6}
+#admin-console-modal .xa123-issue.xa123-warning{border-color:#f3e2bd;background:#fffcf5}
+#admin-console-modal .xa123-issue-symbol{width:19px;height:19px;flex:none;border-radius:50%;display:grid;place-items:center;background:#e6efe8;color:#146a49;font-size:11px;font-weight:900}
+#admin-console-modal .xa123-critical .xa123-issue-symbol{background:#fbe8e2;color:#ad4532}
+#admin-console-modal .xa123-warning .xa123-issue-symbol{background:#fff1ca;color:#926600}
+#admin-console-modal .xa123-issue-main{flex:1;min-width:0;display:grid;gap:3px}
+#admin-console-modal .xa123-issue-main b{font-size:10px;color:#244d39}
+#admin-console-modal .xa123-issue-main small{font-size:9px;line-height:1.55;color:#607b68;overflow-wrap:anywhere}
+#admin-console-modal .xa123-issue>button,#admin-console-modal .xa123-search-row>button{border:1px solid #cadfd0;background:white;color:#176d4b;padding:5px 8px;border-radius:7px;font-size:9px;white-space:nowrap;cursor:pointer}
+#admin-console-modal .xa123-audit-actions{display:flex;gap:6px;flex-wrap:wrap}
+#admin-console-modal .xa123-audit-actions button{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 10px;border-radius:8px;border:1px solid #cfe4d6;background:#f3faf5;font-weight:850;font-size:10px;color:#206448;cursor:pointer}
+#admin-console-modal .xa123-audit-actions button svg{height:13px;width:13px}
+#admin-console-modal .xa123-mail-note{display:flex;align-items:flex-start;gap:6px;background:#f2f7f3;border:1px solid #e1ebe4;border-radius:9px;padding:9px;font-size:9.2px;line-height:1.7;color:#4f755f}
+#admin-console-modal .xa123-mail-note svg{flex:none;width:14px;height:14px;color:#4a8565;margin-top:1px}
+#admin-console-modal .xa123-search{display:grid;gap:7px;border-top:1px solid #e6efe8;padding-top:11px}
+#admin-console-modal .xa123-search-title{display:flex;align-items:center;gap:6px;color:#214f39;font-size:11px;font-weight:850}
+#admin-console-modal .xa123-search-title svg{width:14px;height:14px}
+#admin-console-modal .xa123-search input{border:1px solid #d5e4d8;background:#fff;border-radius:9px;min-width:0;width:100%;min-height:36px;padding:9px 11px;color:#234a37;font-size:11px;outline-color:#3caa79}
+#admin-console-modal .xa123-results{max-height:200px;overflow-y:auto;display:grid;gap:5px}
+#admin-console-modal .xa123-search-row{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:8px 9px;border:1px solid #e2ece6;background:#fff;border-radius:8px}
+#admin-console-modal .xa123-search-row>div{display:grid;gap:3px;min-width:0}
+#admin-console-modal .xa123-search-row b{font-size:10px;color:#23523a;overflow-wrap:anywhere}
+#admin-console-modal .xa123-search-row small{font-size:9px;color:#6c8979;overflow-wrap:anywhere}
+#admin-console-modal .xa123-result-count,#admin-console-modal .xa123-hint,#admin-console-modal .xa123-empty,#admin-console-modal .xa123-footnote{font-size:9px;line-height:1.6;color:#6b8372}
+#admin-console-modal .xa123-empty{padding:12px;text-align:center;border-radius:9px;background:#f7faf7}
+@media(max-width:470px){#admin-console-modal .xa123-inner{padding:9px}#admin-console-modal .xa123-stats b{font-size:14px}#admin-console-modal .xa123-summary-state{max-width:145px}}
+
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -1820,7 +1872,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v121</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v123</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -1882,7 +1934,7 @@ body>.ambient-bg{display:none!important}
 <div id="xa81-detail-backdrop" class="xa81-detail-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="xa81-detail-title" onclick="if(event.target===this) closeV81OrderDetails()">
   <div class="xa81-detail-dialog" role="document">
     <header class="xa81-detail-header">
-      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용 <b id="xa119-detail-version" style="color:#237956;font-weight:900;letter-spacing:.01em;margin-left:4px">v121</b></span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
+      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용 <b id="xa119-detail-version" style="color:#237956;font-weight:900;letter-spacing:.01em;margin-left:4px">v123</b></span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
       <button type="button" class="xa81-close" onclick="closeV81OrderDetails()" aria-label="상세정보 닫기"><span aria-hidden="true">×</span></button>
     </header>
     <div id="xa81-detail-content" class="xa81-detail-content" aria-live="polite">정보 확인 중…</div>
@@ -2007,7 +2059,8 @@ async function xa90LoadIssuedAccounts(rows){
       const parsed=parseIssuedAccountRecord(normalized);
       if(!parsed)throw new Error('계정 정보를 읽지 못했습니다.');
       const orderCode=String(row?.buyer_code || '').trim();
-      const lookupCode=xa118Only2FA(xa116LookupCodeFromRecord(parsed));
+      const lookupCode=xa118Only2FA(xa118Order2FA(row,parsed));
+      if(!lookupCode)throw new Error('계정 2FA 조회 코드를 확인할 수 없습니다. 관리자에게 문의해 주세요.');
       return {index:idx+1,buyerCode:orderCode,lookupCode,accountId:parsed.accountId||'',accountPw:parsed.accountPw||'',email:parsed.email||'',otpSecret:lookupCode,isEmail:!!parsed.isEmail,error:''};
     }catch(err){
       return {index:idx+1,buyerCode:String(row?.buyer_code||'').trim(),lookupCode: '',accountId:'',accountPw:'',email:'',otpSecret:'',isEmail:false,error:err?.message||'조회 실패'};
@@ -2773,6 +2826,7 @@ async function loadConnectedInbox() {
     // 서버가 이전 버전이어도 브라우저에서는 타사 메일을 절대 표시하지 않습니다.
     connectedInboxItems = payload.mails.filter(mail => mail && mail.isX === true);
     renderConnectedInbox();
+    xa123RememberMailCheck(currentEmailForInbox,true);
   } catch (err) {
     if (requestId !== inboxRequestSequence || !inboxViewerOpen) return;
     list.replaceChildren();
@@ -2784,6 +2838,7 @@ async function loadConnectedInbox() {
     card.append(heading,para);
     list.appendChild(card);
     inboxSetStatus('메일을 불러오지 못했습니다. 서버 설정을 확인해 주세요.',true);
+    xa123RememberMailCheck(currentEmailForInbox,false,err?.message||'');
   } finally {
     clearTimeout(timeout);
     if (requestId === inboxRequestSequence) { inboxLoading=false; refresh.disabled=false; }
@@ -3275,11 +3330,13 @@ function parseIssuedAccountRecord(rawRecord) {
   if (parts.length >= 5 && parts[2].includes('@')) email = email || parts[2];
   if (oldMail.includes('@')) email = email || oldMail.split('/')[0].trim();
   if (email.includes('/')) email = email.split('/')[0].trim();
-  const candidates = [row.otp_url,row.otp_key,row.otp_secret,row.two_fa_secret,row.totp_secret,row.two_factor_secret,row.display_code,row.buyer_code,row.secret,row.otp,row.two_fa];
-  if (splitAccount.length >= 5 && splitAccount[2].includes('@')) candidates.push(splitAccount[4]);
-  else if (splitAccount.length >= 3) candidates.push(splitAccount[2]);
+  // v123: 원본 재고 2FA가 우선입니다. 조회용 buyer_code는 원본 2FA를 덮어쓰지 못합니다.
+  const candidates = [];
   if (splitStock.length >= 5 && splitStock[2].includes('@')) candidates.push(splitStock[4]);
   else if (splitStock.length >= 3) candidates.push(splitStock[2]);
+  if (splitAccount.length >= 5 && splitAccount[2].includes('@')) candidates.push(splitAccount[4]);
+  else if (splitAccount.length >= 3) candidates.push(splitAccount[2]);
+  candidates.push(row.otp_url,row.otp_key,row.otp_secret,row.two_fa_secret,row.totp_secret,row.two_factor_secret,row.secret,row.otp,row.two_fa,row.display_code,row.buyer_code);
   let otpSecret = '';
   for (const candidate of candidates) {
     const valid = normalizeTotpSecret(candidate);
@@ -4275,7 +4332,7 @@ async function refreshAdminData() {
     xa108RenderOverview();
     xa120RunLocalChecks();
     await xa108LoadEvents();
-    await xa121LoadStatuses(false);
+    // v123: 유료 X API 상태 조회는 사용하지 않습니다. (비용 방지)
   }catch(e){
     xa108LastError=String(e?.message||'갱신 오류');
     if(status)status.textContent='조회 실패 · 재시도 필요';
@@ -4534,7 +4591,7 @@ function v62StockCard(s,flag='available') {
     <div class="xa62-card-head"><div><div class="xa62-order-num">${escapeHTML(s.product_type||'재고')} <span class="xa76-stock-id">#${escapeHTML(s.id)}</span></div></div><span class="xa62-status ${flag==='available'?'available':'pending'}">${label}</span></div>
     <div class="xa76-preview"><span>계정 ID</span><strong>${escapeHTML(accountId)}</strong></div>
     ${problem?`<div class="xa108-stock-problem">${escapeHTML(problem)}</div>`:''}
-    ${xa121StockCardStatus(s)}
+    
     <button type="button" class="xa109-stock-detail-button" onclick='openV109StockDetails(${stockId})'><i data-lucide="shield-check" aria-hidden="true"></i> 관리자 상세정보 보기 <span aria-hidden="true">›</span></button>
     <div class="xa62-actions"><button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>재고 원본 복사</button>
     ${flag==='available'?`<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button>`:''}</div>
@@ -4588,13 +4645,12 @@ function renderV62Stock() {
   const low=[['일반',g],['이메일',e]].filter(([name,c])=>c<=3).map(([name,c])=>`${name} ${c}개`);
   const all=[...available.map(s=>({...s,xa108Flag:'available'})),...bad.map(s=>({...s,xa108Flag:'invalid'}))];
   const rows=all.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0]));
-  const currentStatusFilter=xa121State.filter;
-  const statusFiltered=rows.filter(row=>xa121RowMatchesFilter(row,currentStatusFilter));
-  el.innerHTML=xa121StockPanel()+`<div class="xa108-stock-summary"><span>일반 <b>${g}</b>개</span><span>이메일 <b>${e}</b>개</span><span>점검 필요 <b>${bad.length}</b>개</span></div>`+
+  const statusFiltered=rows;
+  el.innerHTML=xa123AuditPanel()+`<div class="xa108-stock-summary"><span>일반 <b>${g}</b>개</span><span>이메일 <b>${e}</b>개</span><span>점검 필요 <b>${bad.length}</b>개</span></div>`+
     (low.length?`<div class="xa108-alert">재고 부족 알림 · ${escapeHTML(low.join(' / '))} 남음</div>`:'')+
     (bad.length?`<div class="xa108-alert">품질 점검 대상 ${bad.length}개는 판매 가능 수량 집계에서 제외했습니다. 서버 발급 검증도 별도 확인이 필요합니다.</div>`:'')+
     `<div class="xa62-section-note"><strong>${statusFiltered.length}개 재고 표시</strong><span>판매 가능 ${available.length}개</span></div>`+
-    (statusFiltered.length?statusFiltered.map(s=>v62StockCard(s,s.xa108Flag)).join(''):v62Empty('해당 상태의 재고가 없습니다.','계정 상태 필터를 변경하거나 전체 재고를 표시하세요.'));
+    (statusFiltered.length?statusFiltered.map(s=>v62StockCard(s,s.xa108Flag)).join(''):v62Empty('표시할 재고가 없습니다.','검색어나 재고 종류 필터를 확인해 주세요.'));
   if(window.lucide)lucide.createIcons();
 }
 function v62NeedsRestock(order) {
@@ -6455,7 +6511,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 <style id="xa115-secure-order-style">
 #xa82-recovery-error:not(.hidden){background:#fff6e8!important;color:#704a21!important;border:1px solid #e9c899!important;border-radius:12px!important;padding:11px 13px!important;font-weight:700!important}
 </style>
-<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v121-x-account-status';</script>
+<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v123-free-admin-audit';</script>
 
 <style id="xa120-admin-ops-style">
 #admin-console-modal .xa120-health-trigger{position:relative!important}
@@ -6624,7 +6680,7 @@ async function xa121LoadStatuses(force=false){
   xa121RefreshView();
   xa121AutoMaybe();
 }
-function xa121AutoEnabled(){try{return localStorage.getItem('xa121_auto_scan')==='yes'}catch{return false}}
+function xa121AutoEnabled(){return false} // v123: paid X API auto scan disabled
 function xa121ChangeAuto(value){
   try{
     if(value&&!confirm('관리자 창에서 하루에 한 번 재고 X 아이디를 자동 조회합니다. X API 사용 요금이 발생할 수 있습니다. 사용하시겠습니까?')){
@@ -6662,6 +6718,7 @@ function xa121NiceError(err){
   return msg.slice(0,140);
 }
 async function xa121RunScan(rawIds,automatic=false){
+  return; // v123: 유료 X API 검사 비활성화, 기존 배포 함수는 호출하지 않음
   if(xa121State.busy)return;
   if(!v62LastStockSuccess){xa121State.progress='재고 목록을 먼저 정상 조회해야 합니다.';xa121State.progressError=true;xa121RefreshView();return}
   if(!xa121State.installed){xa121State.progress='v121 상태 기록 SQL을 먼저 설치한 뒤 결과 새로고침을 눌러주세요.';xa121State.progressError=true;xa121RefreshView();return}
@@ -6699,6 +6756,206 @@ async function xa121RunScan(rawIds,automatic=false){
   }catch(e){xa121State.progress=`검사 오류 · ${xa121NiceError(e)}`;xa121State.progressError=true}
   finally{xa121State.busy=false;xa121RefreshView();}
 }
+</script>
+<script id="xa123-free-audit-js">
+// v123 무료 관리자 통합 점검 센터. No X API, no external network calls.
+const xa123State={open:false,filter:'all',query:'',cache:null,mailChecks:new Map(),mailVersion:0,checkedAt:0};
+const XA123_CATEGORIES={quality:'재고 품질',duplicate:'중복 계정',orders:'주문·재고',mail:'이메일 연결',lookup:'2FA 조회 코드'};
+function xa123ShortId(v){return String(v??'').replace(/[^a-zA-Z0-9_#-]/g,'').slice(0,28)||'—'}
+function xa123Parts(v){return String(v??'').split(/-{4,}/).map(x=>x.trim())}
+function xa123IsEmail(s,parts){return /이메일|email/i.test(String(s?.product_type||''))||(parts.length>=5&&parts[2].includes('@'))}
+function xa123PublicId(s){return xa123Parts(s?.code)[0]||''}
+function xa123MailDomain(email){return String(email||'').toLowerCase().split('@')[1]||''}
+function xa123MaskEmail(email){const s=String(email||'');const a=s.split('@');if(a.length!==2)return '이메일 정보 확인 필요';return (a[0].slice(0,2)||'*')+'***@'+a[1]}
+function xa123MailType(domain){
+  if(/^(hotmail|outlook|live|msn)\./i.test(domain))return '관리자 문의 방식';
+  if(domain==='rambler.ru')return 'Rambler IMAP · 인증 미검사';
+  if(domain.startsWith('gmx.'))return 'GMX IMAP · 인증 미검사';
+  return '메일 서버 지원 여부 확인 필요';
+}
+function xa123RememberMailCheck(address,success,reason=''){
+  const email=String(address||'').trim().toLowerCase();
+  if(!email.includes('@'))return;
+  const msg=String(reason||'');
+  const detail=success?'이번 접속에서 메일 서버 응답 성공':
+    /AUTH|인증|비밀번호/i.test(msg)?'메일 인증 실패':
+    /NOT_FOUND|연결 정보|찾지 못/i.test(msg)?'2FA와 메일 연결 정보 불일치':
+    /TIMEOUT|초과/i.test(msg)?'서버 응답 시간 초과':
+    /CONNECT|연결|서버/i.test(msg)?'메일 서버 연결 실패':'메일 조회 오류';
+  xa123State.mailChecks.set(email,{success:!!success,detail,checkedAt:Date.now()});
+  if(xa123State.mailChecks.size>50){const first=xa123State.mailChecks.keys().next().value;xa123State.mailChecks.delete(first)}
+  xa123State.mailVersion++;
+  xa123State.cache=null;
+}
+function xa123BuildAudit(){
+  const issues=[];const add=(category,level,label,detail,stockId='',orderNo='')=>{
+    issues.push({category,level,label,detail,stockId:String(stockId||''),orderNo:String(orderNo||'')});
+  };
+  const stocks=v62LastStockSuccess?v62AllStock:[];
+  const orders=v62LastOrdersSuccess?v62AllOrders:[];
+  let stock2FAOk=0,stock2FABad=0,order2FAOk=0,order2FABad=0,emails=0,mailReady=0,mailUnknown=0;
+  const seen={id:new Map(),email:new Map(),secret:new Map()};
+  let dupCount=0;
+  for(const stock of stocks){
+    const id=String(stock.id||'');
+    const p=xa123Parts(stock.code);
+    const isEmail=xa123IsEmail(stock,p);
+    const needed=isEmail?5:3;
+    const validKey=xa118SecretFromStock(stock.code);
+    if(validKey)stock2FAOk++;else {stock2FABad++;add('lookup','critical','2FA 조회 코드 확인 필요',`재고 #${id} · 2FA가 없거나 Base32 형식이 아닙니다.`,id)}
+    if(p.length!==needed)add('quality','warning','재고 필드 수 불일치',`재고 #${id} · ${isEmail?'이메일 5항목':'일반 3항목'}이어야 하지만 ${p.length}항목입니다.`,id);
+    if(!p[0]||!p[1])add('quality','critical','계정 ID 또는 비밀번호 누락',`재고 #${id} · 원본 입력 형식을 확인하세요.`,id);
+    else if(!/^[a-zA-Z0-9_]{1,15}$/.test(p[0]))add('quality','warning','X 아이디 형식 확인',`재고 #${id} · X 아이디 길이 또는 문자 구성을 확인하세요.`,id);
+    if(isEmail){
+      emails++;
+      const email=String(p[2]||'').trim().toLowerCase();
+      const password=String(p[3]||'').trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!password){
+        add('mail','critical','이메일 연결정보 누락',`재고 #${id} · 이메일 주소 또는 메일 비밀번호가 누락됐습니다.`,id);
+      }else{
+        mailReady++;
+        const domain=xa123MailDomain(email);
+        if(!(/^(hotmail|outlook|live|msn)\./i.test(domain)||domain==='rambler.ru'||domain.startsWith('gmx.'))){
+          mailUnknown++;
+          add('mail','info','메일 서버 지원 확인 필요',`재고 #${id} · ${domain.slice(0,45)} · 서버 호환성 미검사`,id);
+        }
+        const checked=xa123State.mailChecks.get(email);
+        if(checked&&!checked.success)add('mail','warning','최근 메일 조회 실패',`재고 #${id} · ${checked.detail} · 이번 브라우저 접속`,id);
+      }
+    }
+    const fields={id:String(p[0]||'').trim().toLowerCase(),email:isEmail?String(p[2]||'').trim().toLowerCase():'',secret:validKey};
+    for(const [kind,value] of Object.entries(fields)){
+      if(!value)continue;
+      const old=seen[kind].get(value);
+      if(old&&old!==id){
+        dupCount++;
+        const k={id:'X 아이디',email:'이메일 주소',secret:'2FA 비밀키'}[kind];
+        add('duplicate','critical','중복 '+k,`재고 #${old}와 #${id}에서 동일한 항목이 발견됐습니다.`,id);
+      }else seen[kind].set(value,id);
+    }
+  }
+  const usedForSale=new Map();
+  for(const o of orders){
+    if(!['APPROVED','REFUNDED'].includes(o.status))continue;
+    const no=String(o.order_no||'');
+    const assigned=String(o.assigned_code||'');
+    if(!assigned){
+      if(o.status==='APPROVED')add('orders','critical','판매 완료 주문의 발급 원본 누락',`주문 ${no} · 재고 배정값을 확인하세요.`,'',no);
+      continue;
+    }
+    const key=xa118SecretFromStock(assigned);
+    if(key)order2FAOk++;else{
+      order2FABad++;
+      add('lookup','critical','판매 주문의 조회 코드 확인 필요',`주문 ${no} · 할당 재고의 2FA를 확인할 수 없습니다.`,'',no);
+    }
+    const normalizedBuyer=xa118Only2FA(o.buyer_code);
+    if(key&&normalizedBuyer&&key!==normalizedBuyer)
+      add('lookup','warning','주문 조회 필드와 2FA 불일치',`주문 ${no} · 구매자 조회 필드와 실제 2FA가 다릅니다. 표시·재조회 연동 확인 필요.`,'',no);
+    const stock=v62StockByCode.get(assigned);
+    if(!stock)add('orders','warning','주문에 연결된 재고 미발견',`주문 ${no} · 등록된 재고 테이블에서 원본을 찾지 못했습니다.`,'',no);
+    else if(o.status==='APPROVED'&&stock.is_used===false)
+      add('orders','warning','판매완료 / 재고 판매가능 불일치',`주문 ${no} · 재사용/반환 이력 여부를 확인하세요.`,String(stock.id),no);
+    else if(o.status==='REFUNDED'&&stock.is_used===true)
+      add('orders','warning','반환완료 / 재고 사용됨',`주문 ${no} · 재고 재사용 여부를 확인하세요.`,String(stock.id),no);
+    if(o.status==='APPROVED'){
+      const prev=usedForSale.get(assigned);
+      if(prev&&prev!==no)add('orders','critical','동일 원본 재고 중복 판매 의심',`주문 ${prev}와 ${no} · 이력 확인 필요.`,String(stock?.id||''),no);
+      else usedForSale.set(assigned,no);
+    }
+  }
+  if(v62LastOrdersSuccess){
+    for(const o of orders){
+      if(o.status==='PENDING'&&!v63IsVisiblePending(o))
+        add('orders','warning','승인 시간이 지난 대기 주문',`주문 ${String(o.order_no||'')} · 서버에는 아직 PENDING으로 남아 있습니다.`,'',o.order_no);
+    }
+  }
+  const categoryCounts={quality:0,duplicate:0,orders:0,mail:0,lookup:0};
+  for(const issue of issues)categoryCounts[issue.category]++;
+  return {issues,categoryCounts,stats:{stocks:stocks.length,orders:orders.length,stock2FAOk,stock2FABad,order2FAOk,order2FABad,emails,mailReady,mailUnknown,dupCount},lastRun:Date.now()};
+}
+function xa123GetAudit(force=false){
+  const c=xa123State.cache;
+  if(!force&&c&&c.stocks===v62AllStock&&c.orders===v62AllOrders&&c.mailVersion===xa123State.mailVersion)return c.data;
+  const data=xa123BuildAudit();
+  xa123State.cache={stocks:v62AllStock,orders:v62AllOrders,mailVersion:xa123State.mailVersion,data};
+  return data;
+}
+function xa123IssueHtml(issue){
+  const id=issue.stockId||issue.orderNo||'';
+  const kind=issue.stockId?'stock':issue.orderNo?'order':'';
+  return `<div class="xa123-issue xa123-${issue.level}">
+    <span class="xa123-issue-symbol">${issue.level==='critical'?'!':issue.level==='warning'?'△':'i'}</span>
+    <div class="xa123-issue-main"><b>${escapeHTML(issue.label)}</b><small>${escapeHTML(issue.detail)}</small></div>
+    ${kind?`<button type="button" data-xa123-type="${kind}" data-xa123-id="${escapeHTML(id)}" onclick="xa123Jump(this)">보기</button>`:''}
+  </div>`;
+}
+function xa123FilteredIssues(a){
+  return a.issues.filter(x=>xa123State.filter==='all'||x.category===xa123State.filter);
+}
+function xa123IssueListHtml(a){
+  const issues=xa123FilteredIssues(a);
+  if(!issues.length)return '<div class="xa123-empty">선택한 항목에서 발견된 점검 문제가 없습니다.</div>';
+  return issues.slice(0,70).map(xa123IssueHtml).join('') + (issues.length>70?`<div class="xa123-footnote">${issues.length-70}건이 더 있습니다. 관련 재고/주문으로 검색해 주세요.</div>`:'');
+}
+function xa123SearchMatches(q){
+  if(!q)return [];
+  const matches=[];const query=q.toLowerCase();
+  if(v62LastStockSuccess){
+    for(const s of v62AllStock){
+      const user=xa123PublicId(s);const id=String(s.id||'');
+      const email=xa123Parts(s.code)[2]||'';
+      if(user.toLowerCase().includes(query)||id.includes(query)||email.toLowerCase().includes(query))
+        matches.push({type:'stock',id,label:'재고 #'+id,detail:user+' · '+(s.is_used?'사용됨/제외됨':'등록됨')});
+      if(matches.length>=80)break;
+    }
+  }
+  if(v62LastOrdersSuccess){
+    for(const o of v62AllOrders){
+      const no=String(o.order_no||'');
+      const id=xa118AccountIdFromStock(o.assigned_code||'');
+      if(no.toLowerCase().includes(query)||(id!=='계정 정보 확인 필요'&&id.toLowerCase().includes(query)))
+        matches.push({type:'order',id:no,label:'주문 '+no,detail:(o.product_type||'계정')+' · '+v62Status(o)});
+      if(matches.length>=130)break;
+    }
+  }
+  return matches.slice(0,30);
+}
+function xa123SearchResultsHtml(){
+  const q=xa123State.query.trim();
+  if(!q)return '<div class="xa123-hint">X 아이디·이메일·주문번호·재고번호로 한 번에 찾아보세요. 비밀번호나 2FA는 검색하지 않습니다.</div>';
+  const results=xa123SearchMatches(q);
+  if(!results.length)return '<div class="xa123-empty">일치하는 결과가 없습니다. 현재 불러온 데이터 범위만 검색합니다.</div>';
+  return `<div class="xa123-result-count">검색 결과 ${results.length}개${results.length===30?' · 최대 30개 표시':''}</div>` + results.map(x=>`<div class="xa123-search-row"><div><b>${escapeHTML(x.label)}</b><small>${escapeHTML(x.detail)}</small></div><button type="button" data-xa123-type="${x.type}" data-xa123-id="${escapeHTML(x.id)}" onclick="xa123Jump(this)">이동</button></div>`).join('');
+}
+function xa123AuditPanel(){
+  const a=xa123GetAudit();
+  const counts=a.categoryCounts;
+  const status=!v62LastStockSuccess||!v62LastOrdersSuccess?'일부 데이터 조회 대기':a.issues.length?'확인 필요 '+a.issues.length+'건':'현재 조회 범위 특이사항 없음';
+  const valid=a.stats.stock2FAOk+a.stats.order2FAOk, total=a.stats.stocks+a.stats.orders; // order2FA tested only approved/refunded
+  const categories=[['all','전체',a.issues.length],['lookup','2FA',counts.lookup],['quality','형식',counts.quality],['duplicate','중복',counts.duplicate],['orders','주문·재고',counts.orders],['mail','메일',counts.mail]];
+  return `<details id="xa123-audit" class="xa123-panel" ${xa123State.open?'open':''} ontoggle="xa123SetOpen(this)">
+    <summary><span class="xa123-title"><i data-lucide="shield-check"></i><b>무료 통합 점검 센터</b><small>v123</small></span><span class="xa123-summary-state">${escapeHTML(status)} <i data-lucide="chevron-down"></i></span></summary>
+    <div class="xa123-inner">
+      <div class="xa123-stats"><div><b>${a.stats.stock2FAOk}<small>/${a.stats.stocks}</small></b><span>재고 2FA 정상</span></div><div><b>${a.stats.order2FAOk}<small>/${a.stats.order2FAOk+a.stats.order2FABad}</small></b><span>판매 이력 2FA 정상</span></div><div><b>${a.stats.dupCount}</b><span>재고 중복 의심</span></div><div><b>${a.stats.mailReady}<small>/${a.stats.emails}</small></b><span>메일 연결정보</span></div></div>
+      <p class="xa123-help">등록 재고 <b>${a.stats.stocks}</b>건(사용/판매 제외 포함), 불러온 주문 <b>${a.stats.orders}</b>건 검사 · <b>조회 코드 = 재고의 2FA</b> 형식·연결 점검. 기존 데이터 변경 없음.</p>
+      <div class="xa123-filter-wrap">${categories.map(([key,label,count])=>`<button type="button" class="xa123-filter ${xa123State.filter===key?'is-selected':''}" onclick="xa123SetFilter('${key}')">${label} <b>${count}</b></button>`).join('')}</div>
+      <div id="xa123-issue-list" class="xa123-issues">${xa123IssueListHtml(a)}</div>
+      <div class="xa123-audit-actions"><button type="button" onclick="xa123ManualAudit()"><i data-lucide="refresh-cw"></i> 다시 점검</button><button type="button" onclick="xa123CopyAudit()"><i data-lucide="copy"></i> 민감정보 제외 결과 복사</button></div>
+      <div class="xa123-mail-note"><i data-lucide="info"></i> 메일 연결정보 검사는 주소·필드 구성을 확인합니다. <b>실제 IMAP 인증·수신은 자동 검사하지 않습니다.</b> Hotmail은 기존 관리자 문의 안내 방식입니다. 메일 조회 오류는 같은 브라우저 접속 중에 확인된 경우에만 기록합니다.</div>
+      <div class="xa123-search"><div class="xa123-search-title"><i data-lucide="search"></i> 주문·계정 통합 검색</div><input type="search" autocomplete="off" maxlength="80" placeholder="X 아이디 / 이메일 / 주문번호 / 재고번호" value="${escapeHTML(xa123State.query)}" oninput="xa123SetSearch(this.value)" aria-label="관리자 통합 검색"></div>
+      <div id="xa123-search-results" class="xa123-results">${xa123SearchResultsHtml()}</div>
+      <div class="xa123-footnote">DB 검색 범위: 재고 최대 10,000건 · 주문 화면 현재 조회 범위(최대 5,000건). 조회 실패나 누락 구간은 정상으로 판정하지 않습니다.</div>
+    </div>
+  </details>`;
+}
+function xa123SetOpen(el){if(!el.isConnected)return;xa123State.open=!!el.open}
+function xa123SetFilter(filter){if(!['all','quality','duplicate','orders','mail','lookup'].includes(filter))return;xa123State.filter=filter;const box=document.getElementById('xa123-issue-list');if(box)box.innerHTML=xa123IssueListHtml(xa123GetAudit());document.querySelectorAll('#xa123-audit .xa123-filter').forEach(b=>b.classList.toggle('is-selected',b.getAttribute('onclick')?.includes(`'${filter}'`)??false));}
+function xa123SetSearch(value){xa123State.query=String(value||'').slice(0,80);const out=document.getElementById('xa123-search-results');if(out)out.innerHTML=xa123SearchResultsHtml();}
+function xa123ManualAudit(){const a=xa123GetAudit(true);const l=document.getElementById('xa123-issue-list');if(l)l.innerHTML=xa123IssueListHtml(a);const note=document.querySelector('#xa123-audit .xa123-summary-state');if(note)note.textContent=a.issues.length?'확인 필요 '+a.issues.length+'건':'현재 조회 범위 특이사항 없음';showAdminFlash('서버에서 이미 조회한 데이터 '+a.stats.stocks+'개 재고 / '+a.stats.orders+'건 주문을 다시 점검했습니다. 유료 API 호출 없음.');}
+async function xa123CopyAudit(){const a=xa123GetAudit();const lines=['X ACCOUNT v123 무료 점검 · '+new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}),`재고 ${a.stats.stocks}개 · 주문 ${a.stats.orders}건`,`재고 2FA 정상 ${a.stats.stock2FAOk}/${a.stats.stocks}`,`판매 이력 2FA 정상 ${a.stats.order2FAOk}/${a.stats.order2FAOk+a.stats.order2FABad}`,`중복 의심 ${a.stats.dupCount}건`,`메일 연결정보 ${a.stats.mailReady}/${a.stats.emails}`,'검사 내역(비밀번호·2FA·메일 비밀번호 미포함):',...a.issues.slice(0,80).map(x=>x.label+' / '+x.detail),'실제 IMAP 인증 및 X 정지 상태는 미검사'];const ok=await copyText(lines.join('\n'));showAdminFlash(ok?'점검 결과가 복사됐습니다.':'복사 실패 · 브라우저 권한 확인',!ok)}
+function xa123Jump(node){const type=node?.dataset?.xa123Type;const id=node?.dataset?.xa123Id;if(!id||!['stock','order'].includes(type))return; if(type==='stock'){switchAdminTab('stock');}else{xa108Period='all';const p=document.getElementById('xa108-period');if(p)p.value='all';switchAdminTab('history');}const input=document.getElementById('xa62-search');if(input)input.value=String(id);setV62Search(String(id));}
+// Legacy paid X API panel is intentionally no longer invoked; prior opt-in cannot trigger bills.
+
 </script>
 </body>
 </html>
