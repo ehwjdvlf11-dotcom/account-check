@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v123-free-admin-audit" />
+<meta name="x-account-version" content="v126-all-status-2fa-lookup" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1454,7 +1454,7 @@ body>.ambient-bg{display:none!important}
 
 <details class="xa-notice v51-query-note">
 <summary><i data-lucide="shield-check"></i> 코드 보관·보안 안내 <i data-lucide="chevron-down"></i></summary>
-<p>받으신 CODE, ID, PW는 안전하게 개인 보관해 주세요. 기존 구매 계정은 발급 코드로 조회할 수 있습니다.</p>
+<p>받으신 CODE, ID, PW는 안전하게 개인 보관해 주세요. 등록된 계정은 보관·판매·제외 등 상태에 관계없이 2FA 코드로 조회할 수 있습니다.</p>
 <p>수령 후 계정 보안 설정을 확인하고 변경 가능한 정보를 수정해 주세요.</p>
 </details>
 <div class="x-inner access-panel xa105-access">
@@ -1511,7 +1511,7 @@ body>.ambient-bg{display:none!important}
 </div>
 <details class="xa-notice xa-result-note" id="xa68-result-existing-notice" style="margin-top:12px">
 <summary class="ttl"><i data-lucide="shield-alert"></i><span>수령·보안 안내</span><i data-lucide="chevron-down" class="notice-chevron"></i></summary>
-<p>수령한 <strong>계정 정보와 조회 코드는 추가 제공되지 않으니</strong> 안전하게 보관해 주세요. 기존 계정은 조회 코드로 다시 확인할 수 있습니다.</p>
+<p>수령한 <strong>계정 정보와 조회 코드는 추가 제공되지 않으니</strong> 안전하게 보관해 주세요. 등록된 계정은 상태와 관계없이 동일한 조회 코드로 확인할 수 있습니다.</p>
 <p>비밀번호와 인증 정보를 외부에 공유하지 말고, <strong>초기 확인 후 보안 설정을 변경</strong>해 주세요.</p>
 <p class="fine">※ 보안 관리 소홀로 인한 문제 발생 시 판매자는 따로 책임지지 않습니다.</p>
 </details>
@@ -1872,7 +1872,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v123</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v126</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -1934,7 +1934,7 @@ body>.ambient-bg{display:none!important}
 <div id="xa81-detail-backdrop" class="xa81-detail-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="xa81-detail-title" onclick="if(event.target===this) closeV81OrderDetails()">
   <div class="xa81-detail-dialog" role="document">
     <header class="xa81-detail-header">
-      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용 <b id="xa119-detail-version" style="color:#237956;font-weight:900;letter-spacing:.01em;margin-left:4px">v123</b></span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
+      <div><span class="xa81-detail-kicker">X ACCOUNT · 관리자 전용 <b id="xa119-detail-version" style="color:#237956;font-weight:900;letter-spacing:.01em;margin-left:4px">v126</b></span><h3 id="xa81-detail-title">계정 상세정보</h3><p id="xa81-detail-order">주문 확인 중</p></div>
       <button type="button" class="xa81-close" onclick="closeV81OrderDetails()" aria-label="상세정보 닫기"><span aria-hidden="true">×</span></button>
     </header>
     <div id="xa81-detail-content" class="xa81-detail-content" aria-live="polite">정보 확인 중…</div>
@@ -3382,20 +3382,61 @@ function xa116AdminLookupCode(order){
 // Legacy purchase records sometimes stored a full stock record in buyer_code.
 // The legacy lookup RPC still supports those records internally, but account lookup by the
 // actual 2FA secret is resolved by xa_lookup_2fa_v116 (installed with the optional SQL).
+// v124: 2FA codes always use the 2FA lookup first. Legacy opaque tokens use the
+// original RPC. Do not let a mismatched legacy response hide a valid 2FA result.
+function xa124NormalizeLookupInput(value){
+  const clean=String(value??'').replace(/[\u200B-\u200D\uFEFF]/g,'').trim();
+  return normalizeTotpSecret(clean) || clean;
+}
+function xa124IsMissingRpc(error){
+  return ['PGRST202','42883'].includes(String(error?.code||''));
+}
+function xa124RpcNetworkError(error){
+  const code=String(error?.code||'');
+  const status=error?.status===undefined?NaN:Number(error.status);
+  return /^08/.test(code) || status===0 || status>=500 || code==='PGRST002';
+}
 async function xa116FetchAccountResult(key){
-  const {data,error}=await supabaseClient.rpc('get_account_result',{p_key:key});
-  const normalized=error?null:normalizeAccountResult(data);
-  if(normalized && parseIssuedAccountRecord(normalized))return normalized;
-  const secret=normalizeTotpSecret(key);
+  if(!supabaseClient)throw new Error('조회 서버가 연결되지 않았습니다. 다시 접속해 주세요.');
+  const clean=xa124NormalizeLookupInput(key);
+  const secret=normalizeTotpSecret(clean);
+  let twoFaMissing=false,serverFailure=null,legacyError=null,legacyMissing=false;
   if(secret){
-    const fallback=await supabaseClient.rpc('xa_lookup_2fa_v116',{p_secret:secret});
-    if(!fallback.error && fallback.data && parseIssuedAccountRecord(fallback.data))return normalizeAccountResult(fallback.data);
-    if(fallback.error && !['PGRST202','42883'].includes(String(fallback.error.code||'')))throw fallback.error;
-    if(fallback.error && ['PGRST202','42883'].includes(String(fallback.error.code||'')))
-      throw new Error('2FA 조회 연결이 아직 설치되지 않았습니다. 관리자에게 문의해 주세요.');
+    // A 2FA secret is never treated as a composite code or another account's opaque key.
+    const r=await supabaseClient.rpc('xa_lookup_2fa_v116',{p_secret:secret});
+    if(!r.error){
+      const row=normalizeAccountResult(r.data);
+      const parsed=parseIssuedAccountRecord(row);
+      if(parsed && xa118Only2FA(parsed.otpSecret)===secret)return row;
+    }else if(xa124IsMissingRpc(r.error)){
+      twoFaMissing=true;
+    }else if(xa124RpcNetworkError(r.error)){
+      serverFailure=r.error;
+    }else{
+      // Other backend errors should not be misrepresented as 'invalid code'.
+      legacyError=r.error;
+    }
   }
-  if(error)throw error;
-  return normalized;
+  const r=await supabaseClient.rpc('get_account_result',{p_key:clean});
+  if(!r.error){
+    const row=normalizeAccountResult(r.data);
+    const parsed=parseIssuedAccountRecord(row);
+    // When the user enters a 2FA, accept a legacy result only if that
+    // record's actual issued 2FA matches. Do not surface a different account.
+    if(parsed && (!secret || xa118Only2FA(parsed.otpSecret)===secret))return row;
+    if(row?.lookup_error==='MISSING_ACCOUNT_DATA')return row;
+  }else if(xa124IsMissingRpc(r.error)){
+    legacyMissing=true;
+  }else if(xa124RpcNetworkError(r.error)){
+    serverFailure=r.error;
+  }else{
+    legacyError=r.error;
+  }
+  if(serverFailure)throw new Error('조회 서버 연결이 불안정합니다. 잠시 후 다시 조회해 주세요.');
+  if(secret && twoFaMissing)throw new Error('2FA 조회 함수가 설치되지 않았습니다. 관리자에게 문의해 주세요.');
+  if(legacyMissing && !secret)throw new Error('기존 코드 조회 함수가 설치되지 않았습니다. 관리자에게 문의해 주세요.');
+  if(legacyError)throw new Error('조회 서버에서 오류가 발생했습니다. 관리자에게 문의해 주세요.');
+  return null; // Not found, insufficient authorization, or ambiguous key: same public response.
 }
 function getSafeTotp(secret) {
   const normalized = normalizeTotpSecret(secret);
@@ -3422,8 +3463,8 @@ async function retryAccountResult() {
 }
 
 // 계정 정보 조회 및 화면 표시 (전용 RPC: get_account_result)
-async function displayAccountResult(code) {
-  const cleanCode = String(code || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+async function displayAccountResult(code, preloadedResult=undefined) {
+  const cleanCode = xa124NormalizeLookupInput(code);
   if (!cleanCode) { setAccountResultState('error', '발급 코드가 비어 있습니다.'); return; }
   currentSearchKey = cleanCode;
   document.getElementById('xa68-result-existing-notice')?.classList.toggle('hidden',v68DirectCodeLookup);
@@ -3444,12 +3485,13 @@ async function displayAccountResult(code) {
   try {
     if (!supabaseClient) throw new Error('Supabase 라이브러리 또는 프로젝트 연결을 확인할 수 없습니다.');
 
-    const orderInfo = await xa116FetchAccountResult(cleanCode);
+    const orderInfo = preloadedResult===undefined
+      ? await xa116FetchAccountResult(cleanCode) : preloadedResult;
     if (orderInfo?.lookup_error === 'MISSING_ACCOUNT_DATA') {
-      throw new Error('승인된 코드지만 계정 정보가 연결되지 않았습니다. 관리자는 xa_stock과 orders의 계정 데이터 연결 상태를 확인해 주세요.');
+      throw new Error('등록된 코드지만 계정 정보가 연결되지 않았습니다. 관리자는 xa_stock과 orders의 계정 데이터 연결 상태를 확인해 주세요.');
     }
     if (!orderInfo) {
-      throw new Error('발급 코드의 조회 연결을 확인할 수 없습니다. v52 SQL과 승인 기록의 2FA 조회 코드 연결을 확인해 주세요.');
+      throw new Error('입력한 코드에 연결된 계정 정보를 찾지 못했습니다. 코드 일치 여부 또는 중복 2FA 기록을 관리자에게 확인해 주세요.');
     }
     const parsed = parseIssuedAccountRecord(orderInfo);
     if (!parsed) {
@@ -3586,7 +3628,7 @@ function resetToHome() {
 // 3. 기존 코드 수동 직접 조회 기능
 async function verifyManualCode() {
   const input = document.getElementById('manual-code-input');
-  const code = (input?.value || '').trim();
+  const code = xa124NormalizeLookupInput(input?.value);
   const errEl = document.getElementById('manual-code-err');
   const btn = document.getElementById('btn-manual-verify');
 
@@ -3605,12 +3647,12 @@ async function verifyManualCode() {
       try {
         const r = await xa116FetchAccountResult(code);
         if (r?.lookup_error === 'MISSING_ACCOUNT_DATA') {
-          if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '승인된 계정의 정보를 확인할 수 없습니다. 관리자에게 문의해 주세요.'; }
+          if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '연결된 계정의 정보를 확인할 수 없습니다. 관리자에게 문의해 주세요.'; }
           return;
         }
         if (r && parseIssuedAccountRecord(r)) order = normalizeAccountResult(r);
       } catch (e) {
-        if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '조회 서버를 확인할 수 없습니다. v50 SQL이 적용되었는지 확인해 주세요.'; }
+        if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = '조회 서버를 확인할 수 없습니다. 관리자에게 문의해 주세요.'; }
         return;
       }
 
@@ -3625,7 +3667,7 @@ async function verifyManualCode() {
     approvedCodeReady = code;
     // Direct code lookup skips the buyer guide and all agreement dialogs.
     v68DirectCodeLookup = true;
-    await displayAccountResult(code);
+    await displayAccountResult(code, order);
   } catch (e) {
     if (errEl) { errEl.classList.remove('hidden'); errEl.innerText = '코드 조회 중 오류가 발생했습니다.'; }
   } finally {
@@ -3640,7 +3682,7 @@ async function lookupFromResultHeader() {
   const button = document.getElementById('xa68-result-code-button');
   const errorBox = document.getElementById('xa68-result-code-error');
   if (!input || !button || !errorBox || button.disabled) return;
-  const code = String(input.value || '').replace(/[\u200B-\u200D\uFEFF]/g,'').trim();
+  const code = xa124NormalizeLookupInput(input.value);
   const showInlineError = (message) => {errorBox.textContent=message;errorBox.classList.remove('hidden');};
   errorBox.classList.add('hidden');
   if (!code) {showInlineError('발급 코드를 입력해 주세요.');input.focus();return;}
@@ -6511,7 +6553,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 <style id="xa115-secure-order-style">
 #xa82-recovery-error:not(.hidden){background:#fff6e8!important;color:#704a21!important;border:1px solid #e9c899!important;border-radius:12px!important;padding:11px 13px!important;font-weight:700!important}
 </style>
-<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v123-free-admin-audit';</script>
+<script id="xa119-build-stamp">window.XA_ACCOUNT_BUILD='v126-all-status-2fa-lookup';</script>
 
 <style id="xa120-admin-ops-style">
 #admin-console-modal .xa120-health-trigger{position:relative!important}
