@@ -1922,6 +1922,7 @@ body>.ambient-bg{display:none!important}
     <div class="xa62-toolbar">
       <label class="xa62-searchbox"><i data-lucide="search"></i><input id="xa62-search" type="search" autocomplete="off" placeholder="주문번호·계정 ID 검색" oninput="setV62Search(this.value)" aria-label="목록 검색" /></label>
 
+      <button id="xa157-open-stock-import" class="xa157-add-stock hidden" type="button" onclick="xa157OpenImport()">+ 재고 추가</button>
       <select id="xa62-stock-filter" class="hidden" onchange="setV62StockFilter(this.value)" aria-label="재고 종류">
         <option value="ALL">전체 재고</option><option value="GENERAL">일반 계정</option><option value="EMAIL">이메일 계정</option>
       </select>
@@ -1942,6 +1943,22 @@ body>.ambient-bg{display:none!important}
       <section class="xa62-view hidden" id="adm-history-view" aria-label="오늘 거래 이력"><div class="xa62-empty">오늘 이력 불러오는 중…</div></section>
     </div>
     <footer class="xa62-footer"><span id="xa62-update-status">관리자 전용 · 서버 연결 대기</span><span id="xa108-data-coverage">조회 범위 확인 중</span></footer>
+  </div>
+</div>
+
+
+<div id="xa157-import-overlay" class="xa157-import-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="xa157-import-title" onclick="if(event.target===this)xa157CloseImport()">
+  <div class="xa157-import-dialog" role="document">
+    <div class="xa157-import-head"><div><small>관리자 · 현재 재고</small><h3 id="xa157-import-title">재고 일괄 추가</h3></div><button type="button" onclick="xa157CloseImport()" aria-label="닫기">×</button></div>
+    <div class="xa157-import-body">
+      <label for="xa157-import-type">상품 종류</label>
+      <select id="xa157-import-type" onchange="xa157PreviewImport()"><option>일반 계정</option><option>이메일 계정</option></select>
+      <label for="xa157-import-lines">계정 데이터 (한 줄에 한 계정, 최대 100개)</label>
+      <textarea id="xa157-import-lines" rows="7" spellcheck="false" autocomplete="off" oninput="xa157PreviewImport()" placeholder="아이디----비밀번호----2FA"></textarea>
+      <p class="xa157-import-guide" id="xa157-import-guide">일반 계정: 아이디----비밀번호----2FA · 별도 네 번째 코드는 제외하고 입력해 주세요.</p>
+      <div id="xa157-import-status" class="xa157-import-status" role="status">입력 대기 중</div>
+      <div class="xa157-import-actions"><button type="button" onclick="xa157CloseImport()">취소</button><button id="xa157-import-submit" type="button" disabled onclick="xa157SubmitImport()">재고 등록</button></div>
+    </div>
   </div>
 </div>
 
@@ -3958,6 +3975,7 @@ async function openAdminConsole() {
 }
 
 function closeAdminConsole() {
+  xa157CloseImport();
   xa121State.cancelRequested=true;
   closeV81OrderDetails();
   v63ClockStop();
@@ -4507,6 +4525,7 @@ function switchAdminTab(tabName) {
     if(btn){if(name===tabName)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current');}
   });
   document.getElementById('xa62-stock-filter')?.classList.toggle('hidden',tabName!=='stock');
+  document.getElementById('xa157-open-stock-import')?.classList.toggle('hidden',tabName!=='stock');
   document.getElementById('xa108-period')?.classList.toggle('hidden',!['sales','history'].includes(tabName));
   const search=document.getElementById('xa62-search');
   v62Search=xa108PeriodSearch[tabName]||'';
@@ -8210,5 +8229,108 @@ body{background:radial-gradient(ellipse at 50% 5%,#f9fefa 0%,#eaf3ed 80%)!import
   #admin-console-modal .xa62-shell{height:calc(100dvh - 6px)!important;max-height:calc(100dvh - 6px)!important;}
 }
 </style>
+
+<style id="xa157-inventory-import-css">
+/* Keep diagnostic functions but remove two always-visible cards to reclaim list height. */
+#admin-console-modal #xa108-activity,
+#admin-console-modal #xa123-audit{display:none!important}
+#admin-console-modal .xa157-add-stock{flex:0 0 auto;white-space:nowrap;min-height:35px;padding:0 12px;border-radius:10px;border:1px solid #344b68;background:linear-gradient(180deg,#4d6483,#344b68);color:white;font-size:11px;font-weight:850;cursor:pointer;box-shadow:0 3px 9px #213a5719}
+#admin-console-modal .xa157-add-stock.hidden{display:none!important}
+#admin-console-modal .xa157-add-stock:hover{filter:brightness(1.08)}
+#admin-console-modal .xa62-toolbar{flex-wrap:wrap!important}
+#admin-console-modal .xa62-searchbox{min-width:145px;flex:1 1 160px}
+.xa157-import-overlay{position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(12,32,28,.54);backdrop-filter:blur(8px)}
+.xa157-import-overlay.hidden{display:none!important}
+.xa157-import-dialog{width:min(100%,500px);max-height:92dvh;overflow:auto;border:1px solid #e0e8e2;border-radius:17px;background:#fff;color:#203f32;box-shadow:0 24px 90px #071e1933}
+.xa157-import-head{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;border-bottom:1px solid #edf0ee}
+.xa157-import-head small{font-size:10px;color:#6b8c7c;font-weight:700}.xa157-import-head h3{font-size:18px;line-height:1.4;font-weight:900;margin:2px 0 0}
+.xa157-import-head button{border:1px solid #e1e9e4;background:#f7faf8;border-radius:10px;width:33px;height:33px;font-size:21px;color:#406556;cursor:pointer}
+.xa157-import-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:9px}
+.xa157-import-body label{font-size:11px;font-weight:850;color:#284e3d}
+.xa157-import-body select,.xa157-import-body textarea{width:100%;box-sizing:border-box;border:1px solid #d6e4db;background:#fafdfa;border-radius:10px;padding:10px 12px;color:#183e2d;font:12px/1.6 inherit;outline-offset:2px}
+.xa157-import-body textarea{resize:vertical;min-height:138px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;line-height:1.7;white-space:pre;overflow:auto}
+.xa157-import-guide{color:#658171;font-size:10px;line-height:1.65;margin:0;overflow-wrap:anywhere}
+.xa157-import-status{padding:10px 12px;border-radius:10px;background:#f1f7f4;border:1px solid #dcebe1;color:#315d48;font-size:11px;line-height:1.55;white-space:pre-line}
+.xa157-import-status.error{background:#fff5f2;border-color:#f1d5ca;color:#a04c36}
+.xa157-import-actions{display:grid;grid-template-columns:1fr 2fr;gap:9px;margin-top:5px}
+.xa157-import-actions button{min-height:43px;border:1px solid #dee8e0;border-radius:11px;background:#f7faf8;color:#335c48;font-size:12px;font-weight:850;cursor:pointer}
+.xa157-import-actions #xa157-import-submit{background:linear-gradient(180deg,#4e6584,#334b68);border-color:#334b68;color:white}
+.xa157-import-actions button:disabled{opacity:.45;cursor:not-allowed}
+</style>
+<script id="xa157-inventory-import-js">
+(function(){
+  let saving=false;
+  function el(id){return document.getElementById(id)}
+  function rows(){return String(el('xa157-import-lines')?.value||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
+  function inspect(){
+    const type=el('xa157-import-type')?.value;
+    const list=rows();
+    const expected=type==='일반 계정'?3:5;
+    const errors=[];
+    const ids=new Set();
+    if(list.length>100)errors.push('최대 100개까지 입력할 수 있습니다.');
+    list.forEach((line,i)=>{
+      const parts=line.split(/-{4,}/).map(x=>x.trim());
+      if(parts.length!==expected||parts.some(x=>!x)){errors.push((i+1)+'번째 줄: '+expected+'개 항목이 필요합니다.');return;}
+      if(type==='이메일 계정'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parts[2]))errors.push((i+1)+'번째 줄: 이메일 형식이 잘못됐습니다.');
+      const secret=parts[type==='일반 계정'?2:4].replace(/[\s=]/g,'').toUpperCase();
+      if(!/^[A-Z2-7]{16,128}$/.test(secret))errors.push((i+1)+'번째 줄: 2FA 형식이 잘못됐습니다.');
+      const id=parts[0].toLowerCase();if(ids.has(id))errors.push((i+1)+'번째 줄: 입력 목록 안에 같은 ID가 있습니다.');ids.add(id);
+    });
+    return {list,errors};
+  }
+  window.xa157PreviewImport=function(){
+    const type=el('xa157-import-type')?.value;
+    const guide=el('xa157-import-guide');
+    if(guide)guide.textContent=type==='일반 계정'?'일반 계정: 아이디----비밀번호----2FA · 별도 네 번째 코드는 제외하고 입력해 주세요.':'이메일 계정: X아이디----X비밀번호----이메일주소----이메일비밀번호----2FA';
+    const {list,errors}=inspect();const status=el('xa157-import-status');const submit=el('xa157-import-submit');
+    if(status){status.classList.toggle('error',errors.length>0);status.textContent=errors.length?'입력 '+list.length+'개 · 형식 오류 '+errors.length+'개\n'+errors.slice(0,4).join('\n'):(list.length?'입력 '+list.length+'개 · 기본 형식 검사 통과 (DB 중복은 등록 시 재검사)':'입력 대기 중');}
+    if(submit)submit.disabled=saving||!list.length||!!errors.length;
+  };
+  window.xa157OpenImport=function(){
+    const dialog=el('admin-console-modal');if(!dialog||dialog.classList.contains('hidden'))return;
+    el('xa157-import-overlay')?.classList.remove('hidden');
+    window.xa157PreviewImport();
+    el('xa157-import-lines')?.focus();
+  };
+  window.xa157CloseImport=function(){
+    if(saving)return;
+    el('xa157-import-overlay')?.classList.add('hidden');
+  };
+  window.xa157SubmitImport=async function(){
+    if(saving)return;
+    const {list,errors}=inspect();if(!list.length||errors.length)return;
+    const type=el('xa157-import-type')?.value;
+    if(!window.confirm(type+' '+list.length+'개를 실제 판매 가능 재고로 등록할까요?\n중복·형식 오류가 있으면 전체 등록을 취소합니다.'))return;
+    saving=true;window.xa157PreviewImport();
+    const status=el('xa157-import-status');if(status){status.classList.remove('error');status.textContent='관리자 권한 및 중복 확인 후 저장 중…';}
+    try{
+      if(!supabaseClient)throw new Error('Supabase 연결 없음');
+      const userResult=await supabaseClient.auth.getUser();
+      if(userResult.error||String(userResult.data?.user?.email||'').toLowerCase()!=='admin@xaccount.com')throw new Error('관리자 로그인 후에만 등록할 수 있습니다.');
+      const {data,error}=await supabaseClient.rpc('xa_admin_import_stock_v157',{p_product_type:type,p_lines:list});
+      if(error)throw error;
+      if(!data?.success||Number(data.inserted)!==list.length)throw new Error('저장 결과 확인 실패: 관리자에서 재고 목록을 새로고침해 주세요.');
+      if(status)status.textContent='등록 성공: '+data.inserted+'개 · 현재 재고 목록을 새로고침합니다.';
+      el('xa157-import-lines').value='';
+      await refreshAdminData();
+      if(typeof showAdminFlash==='function')showAdminFlash('새 재고 '+data.inserted+'개 등록 완료 · 판매 가능 목록을 갱신했습니다.');
+      saving=false;window.xa157PreviewImport();
+      window.xa157CloseImport();
+    }catch(e){
+      const raw=String(e?.message||'등록 실패');let help=raw;
+      if(/PGRST202|could not find the function|schema cache|42883/i.test(raw))help='DB에 재고 등록 함수가 아직 없습니다. 동봉된 xa157_admin_stock_import.sql을 SQL Editor에서 먼저 실행해 주세요.';
+      else if(/ADMIN_ONLY|42501|permission denied/i.test(raw))help='관리자 계정 권한이 없습니다. 관리자 로그인 상태를 확인해 주세요.';
+      else if(/DUPLICATE|ALREADY_EXISTS/i.test(raw))help='이미 등록된 계정 ID가 있습니다. 입력 목록과 기존 재고를 확인해 주세요.';
+      else if(/ROW_|INVALID|OUT_OF_RANGE/i.test(raw))help='입력 형식이 올바르지 않습니다: '+raw.replace(/[^A-Z0-9_\- ]/g,'').slice(0,110);
+      if(status){status.textContent='등록 실패 · '+help;status.classList.add('error');}
+      saving=false;window.xa157PreviewImport();
+      if(status){status.textContent='등록 실패 · '+help;status.classList.add('error');}
+    }
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!el('xa157-import-overlay')?.classList.contains('hidden')){e.stopImmediatePropagation();window.xa157CloseImport();}},true);
+})();
+</script>
+
 </body>
 </html>
