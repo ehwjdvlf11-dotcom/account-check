@@ -4520,7 +4520,7 @@ function switchAdminTab(tabName) {
   const search=document.getElementById('xa62-search');
   v62Search=xa108PeriodSearch[tabName]||'';
   if(search){
-    search.placeholder=tabName==='stock'?'계정 ID·재고번호 검색':tabName==='sales'?'판매 주문번호 검색':tabName==='history'?'거래 주문번호·상태 검색':'승인대기 주문번호·상품 검색';
+    search.placeholder=tabName==='stock'?'계정 ID·재고번호 검색':tabName==='sales'?'주문번호·X 계정 ID 검색':tabName==='history'?'주문번호·X 계정 ID·상태 검색':'승인대기 주문번호·상품 검색';
     search.value=v62Search;
   }
   const scroll=document.getElementById('xa62-scroll');if(scroll)scroll.scrollTop=0;
@@ -4641,8 +4641,23 @@ function v62StatusClass(order) {
 function v62Empty(message, sub='') {
   return `<div class="xa62-empty"><strong>${escapeHTML(message)}</strong>${sub?`<div style="font-size:10px;margin-top:6px">${escapeHTML(sub)}</div>`:''}</div>`;
 }
+// v165: Only the X account ID (first component) is searchable.
+// Never index passwords, mail credentials or 2FA secrets from assigned_code.
+function xa165OrderAccountId(order) {
+  const assigned=String(order?.assigned_code||'').trim();
+  if(!assigned) return '';
+  let code=assigned;
+  // Some historical orders link an inventory code rather than storing the full tuple.
+  if(!code.includes('----')) {
+    const stock=v62StockByCode.get(code);
+    if(stock) code=String(stock.code||'').trim();
+  }
+  const parts=code.split(/-{4,}/).map(part=>part.trim());
+  return parts.length>=3 && parts[0] ? parts[0] : '';
+}
 function v62OrderFullMatch(order) {
-  return v62MatchesSearch(order.order_no,order.product_type,order.payment_method,order.status);
+  return v62MatchesSearch(order.order_no,order.product_type,order.payment_method,order.status,
+    xa165OrderAccountId(order));
 }
 function v62FormatTime(date) {
   if (!date) return '—';
@@ -4938,6 +4953,7 @@ function v62StockCard(s,flag='available') {
     <div class="xa62-card-head"><div><div class="xa62-order-num">${escapeHTML(s.product_type||'재고')} <span class="xa76-stock-id">#${escapeHTML(s.id)}</span></div></div><span class="xa62-status ${flag==='available'?'available':'pending'}">${label}</span></div>
     <div class="xa76-preview"><span>계정 ID</span><strong>${escapeHTML(accountId)}</strong></div>
     ${problem?`<div class="xa108-stock-problem">${escapeHTML(problem)}</div>`:''}
+    ${flag==='available'?xa121StockCardStatus(s):''}
     <button type="button" class="xa109-stock-detail-button" onclick='openV109StockDetails(${stockId})'><i data-lucide="shield-check" aria-hidden="true"></i> 관리자 상세정보 보기 <span aria-hidden="true">›</span></button>
     <div class="xa62-actions xa127-stock-actions">
       <button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>원본 복사</button>
@@ -5032,19 +5048,20 @@ function renderV62Stock() {
   const e=available.length-g;
   const low=[['일반',g],['이메일',e]].filter(([name,c])=>c<=3).map(([name,c])=>`${name} ${c}개`);
   const all=[...available.map(s=>({...s,xa108Flag:'available'})),...bad.map(s=>({...s,xa108Flag:'invalid'}))];
-  const rows=all.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0]));
+  const rows=all.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0])&&(s.xa108Flag!=='available'||xa121RowMatchesFilter(s,xa121State.filter)));
   const excludedVisible=excluded.filter(s=>v62TypeMatch(s)&&v62MatchesSearch(s.product_type,s.id,String(s.code||'').split(/-{4,}/)[0]));
   const excludedList=excluded.length?`<details id="xa127-excluded-list" class="xa127-excluded" ${xa127ExcludedOpen||v62Search?'open':''} ontoggle="xa127ExcludedToggle(this)">
      <summary><span><i data-lucide="archive" aria-hidden="true"></i> 판매 제외 재고 <b>${excludedVisible.length}개</b></span><span>목록 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></span></summary>
      <div class="xa127-excluded-content"><p>판매 제외된 재고만 표시합니다. 이미 발급된 계정이나 교환 지급 재고는 서버에서 복구를 거부합니다.</p>${excludedVisible.length?excludedVisible.map(s=>v62StockCard(s,'excluded')).join(''):v62Empty('검색 조건에 맞는 판매 제외 재고가 없습니다.')}</div>
   </details>`:'';
-  el.innerHTML=xa123AuditPanel()+`<div class="xa108-stock-summary"><span>일반 <b>${g}</b>개</span><span>이메일 <b>${e}</b>개</span><span>점검 필요 <b>${bad.length}</b>개</span></div>`+
+  el.innerHTML=xa121StockPanel()+xa123AuditPanel()+`<div class="xa108-stock-summary"><span>일반 <b>${g}</b>개</span><span>이메일 <b>${e}</b>개</span><span>점검 필요 <b>${bad.length}</b>개</span></div>`+
     (low.length?`<div class="xa108-alert">재고 부족 알림 · ${escapeHTML(low.join(' / '))} 남음</div>`:'')+
     (bad.length?`<div class="xa108-alert">품질 점검 대상 ${bad.length}개는 판매 가능 수량 집계에서 제외했습니다. 서버 발급 검증도 별도 확인이 필요합니다.</div>`:'')+
     `<div class="xa62-section-note"><strong>${rows.length}개 재고 표시</strong><span>판매 가능 ${available.length}개</span></div>`+
     (rows.length?rows.map(s=>v62StockCard(s,s.xa108Flag)).join(''):v62Empty('표시할 판매 가능 재고가 없습니다.','판매 제외 재고는 아래 별도 목록에서 확인하세요.'))+
     excludedList;
   if(window.lucide)lucide.createIcons();
+  if(!xa121State.lastFetch&&!xa121State.busy)void xa121LoadStatuses();
 }
 function v62NeedsRestock(order) {
   const stock = v62StockByCode.get(String(order.assigned_code||''));
@@ -6983,7 +7000,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 <script id="xa121-x-status-script">
 // v121: username-only X account public lookup. Never send passwords, email or OTP to X or Edge.
 const xa121State={statuses:new Map(),lastFetch:0,lastError:'',installed:null,filter:'all',busy:false,cancelRequested:false,progress:'',progressError:false,autoQueued:false};
-const XA121_STATUS_LABELS={found:'정상 조회',suspended:'정지 확인',not_found:'미발견',review:'확인 필요',unchecked:'미검사'};
+const XA121_STATUS_LABELS={found:'공개 조회',suspended:'정지 응답',not_found:'미발견',review:'확인 필요',unchecked:'미검사'};
 function xa121Username(row){
   const part=String(row?.code||'').split(/-{4,}/)[0].trim().replace(/^@/,'');
   return /^[A-Za-z0-9_]{1,15}$/.test(part)?part:'';
@@ -7014,19 +7031,19 @@ function xa121Stats(){
 }
 function xa121StockPanel(){
   const c=xa121Stats();
-  const progress=xa121State.progress||'X 공식 API로 공개 프로필을 조회합니다. 최초 사용에는 Supabase 설치와 X API 키가 필요합니다.';
+  const progress=xa121State.progress||'무료 FxTwitter 공개 API를 통해 X 아이디만 검사합니다. 서버 함수 최초 1회 설치가 필요합니다.';
   return `<section class="xa121-panel" aria-label="X 계정 상태 점검">
-    <div class="xa121-panel-head"><div><div class="xa121-panel-title"><i data-lucide="shield-alert"></i> X 계정 상태 점검 <small style="font-size:9px;color:#799683">v121</small></div><div class="xa121-panel-sub">현재 판매 가능한 재고 ${v62AvailableStock.length}개 · X 아이디만 전송</div></div></div>
-    <div class="xa121-stats"><div class="xa121-stat"><strong>${c.found}</strong><span>정상 조회</span></div><div class="xa121-stat"><strong>${c.suspended}</strong><span>정지 확인</span></div><div class="xa121-stat"><strong>${c.not_found}</strong><span>미발견</span></div><div class="xa121-stat"><strong>${c.review}</strong><span>확인 필요</span></div></div>
+    <div class="xa121-panel-head"><div><div class="xa121-panel-title"><i data-lucide="shield-alert"></i> X 계정 상태 점검 <small style="font-size:9px;color:#799683">FxTwitter 무료</small></div><div class="xa121-panel-sub">현재 판매 가능한 재고 ${v62AvailableStock.length}개 · X 아이디만 전송</div></div></div>
+    <div class="xa121-stats"><div class="xa121-stat"><strong>${c.found}</strong><span>정상 조회</span></div><div class="xa121-stat"><strong>${c.suspended}</strong><span>정지 응답</span></div><div class="xa121-stat"><strong>${c.not_found}</strong><span>미발견</span></div><div class="xa121-stat"><strong>${c.review}</strong><span>확인 필요</span></div></div>
     <div class="xa121-actions"><button class="xa121-primary" onclick="xa121ScanAll()" ${xa121State.busy?'disabled':''}>전체 계정 검사</button><button onclick="xa121ScanAttention()" ${xa121State.busy?'disabled':''}>문제 계정 재검사</button><button onclick="xa121LoadStatuses(true)" ${xa121State.busy?'disabled':''}>결과 새로고침</button>${xa121State.busy?'<button onclick="xa121CancelScan()">검사 중단</button>':''}</div>
     <select class="xa121-filter" aria-label="계정 상태 필터" onchange="xa121SetFilter(this.value)">
       <option value="all" ${xa121State.filter==='all'?'selected':''}>전체 상태 · 미검사 ${c.unchecked}개</option>
       <option value="attention" ${xa121State.filter==='attention'?'selected':''}>문제 계정만 표시</option>
-      ${[['found','정상 조회'],['suspended','정지 확인'],['not_found','미발견'],['review','확인 필요'],['unchecked','미검사']].map(([value,label])=>`<option value="${value}" ${xa121State.filter===value?'selected':''}>${label}</option>`).join('')}
+      ${[['found','정상 조회'],['suspended','정지 응답'],['not_found','미발견'],['review','확인 필요'],['unchecked','미검사']].map(([value,label])=>`<option value="${value}" ${xa121State.filter===value?'selected':''}>${label}</option>`).join('')}
     </select>
     <div class="xa121-progress" data-error="${xa121State.progressError}">${escapeHTML(progress)}</div>
-    <label class="xa121-auto"><input type="checkbox" ${xa121AutoEnabled()?'checked':''} onchange="xa121ChangeAuto(this.checked)"> 관리자 창이 열린 경우 하루 1회 자동 검사 (X API 비용 발생 가능)</label>
-    <div class="xa121-help">정상 조회는 공개 프로필 확인일 뿐 로그인 가능 보장은 아닙니다. 정지는 API가 명시적으로 확인한 경우에만 표시합니다. 검사 결과로 재고를 자동 제외하지 않습니다.</div>
+
+    <div class="xa121-help">정상 조회는 공개 프로필 확인일 뿐 로그인 가능 보장은 아닙니다. 정지 응답은 비공식 FxTwitter 결과이며 X에서 재확인이 필요합니다. 검사 결과로 재고를 자동 제외하지 않습니다.</div>
   </section>`;
 }
 function xa121StockCardStatus(row){
@@ -7049,28 +7066,28 @@ function xa121RefreshView(){
   else if(v62LastStockSuccess){/* status cache updated; render when stock tab opens */}
 }
 async function xa121LoadStatuses(force=false){
-  if(!supabaseClient||!v62LastStockSuccess)return;
-  if(xa121State.busy&&!force)return;
-  if(!force&&Date.now()-xa121State.lastFetch<180000)return;
+  // Browser-local cache only: no new SQL/table, no secrets stored.
+  if(xa121State.lastFetch&&!force)return;
   try{
-    const all=[];
-    for(let offset=0;offset<10000;offset+=500){
-      const {data,error}=await supabaseClient.from('xa_x_status_v121')
-        .select('stock_id,username,status,checked_at,detail').order('stock_id',{ascending:true}).range(offset,offset+499);
-      if(error)throw error;
-      all.push(...(data||[]));
-      if((data||[]).length<500)break;
-    }
-    xa121State.statuses=new Map(all.map(x=>[String(x.stock_id),x]));
-    xa121State.installed=true;xa121State.lastError='';xa121State.lastFetch=Date.now();
-    if(!xa121State.busy)xa121State.progress=all.length?`이전 검사 결과 ${all.length}건 불러옴 · ${xa121Time(new Date())}`:'아직 검사 기록이 없습니다. X API 키 설정 후 첫 검사를 실행하세요.';
+    const raw=JSON.parse(localStorage.getItem('xa166_fxtwitter_status_v1')||'[]');
+    const allowed=['found','suspended','not_found','review'];
+    const entries=(Array.isArray(raw)?raw:[]).filter(x=>x&&allowed.includes(x.status)&&
+      typeof x.username==='string'&&typeof x.stock_id==='string'&&typeof x.checked_at==='string');
+    xa121State.statuses=new Map(entries.map(x=>[x.stock_id,x]));
+    xa121State.installed=true;xa121State.lastFetch=Date.now();xa121State.lastError='';
+    xa121State.progress=entries.length?`이 브라우저의 이전 검사 결과 ${entries.length}건 불러옴`:
+      '무료 FxTwitter 검사 준비됨 · 처음 사용 시 Supabase Edge Function xa166-fxtwitter-status 배포 필요';
     xa121State.progressError=false;
-  }catch(e){
-    xa121State.lastError=String(e?.message||'상태 조회 실패').slice(0,160);
-    xa121State.installed=false;xa121State.progress='상태 기록 테이블을 조회하지 못했습니다. v121 설치 SQL 및 관리자 권한을 확인하세요.';xa121State.progressError=true;
-  }
+  }catch(e){xa121State.installed=true;xa121State.lastFetch=Date.now();xa121State.progress='검사 기록 없이 시작합니다.';}
   xa121RefreshView();
-  xa121AutoMaybe();
+}
+function xa166SaveStatuses(){
+  try{
+    // Limit stored fields; do not store account passwords, mail, or OTP.
+    const list=[...xa121State.statuses.values()].map(({stock_id,username,status,checked_at,detail})=>
+      ({stock_id:String(stock_id),username,status,checked_at,detail:String(detail||'').slice(0,150)}));
+    localStorage.setItem('xa166_fxtwitter_status_v1',JSON.stringify(list.slice(-3000)));
+  }catch{}
 }
 function xa121AutoEnabled(){return false} // v123: paid X API auto scan disabled
 function xa121ChangeAuto(value){
@@ -7105,29 +7122,28 @@ async function xa121ScanAttention(){
 }
 function xa121NiceError(err){
   const msg=String(err?.message||err||'연결 실패');
-  if(/not found|404|function/i.test(msg))return 'Supabase Edge Function xa121-x-status가 배포되지 않았습니다.';
+  if(/not found|404|function/i.test(msg))return 'Supabase Edge Function xa166-fxtwitter-status를 배포해야 합니다.';
   if(/401|403|unauthori|jwt|forbidden/i.test(msg))return '관리자 로그인/Edge Function 인증을 확인하세요.';
   return msg.slice(0,140);
 }
 async function xa121RunScan(rawIds,automatic=false){
-  return; // v123: 유료 X API 검사 비활성화, 기존 배포 함수는 호출하지 않음
   if(xa121State.busy)return;
   if(!v62LastStockSuccess){xa121State.progress='재고 목록을 먼저 정상 조회해야 합니다.';xa121State.progressError=true;xa121RefreshView();return}
-  if(!xa121State.installed){xa121State.progress='v121 상태 기록 SQL을 먼저 설치한 뒤 결과 새로고침을 눌러주세요.';xa121State.progressError=true;xa121RefreshView();return}
+  if(!xa121State.installed)await xa121LoadStatuses(true);
   // Only available stock IDs; never expose stock.code, passwords, emails, or 2FA to the function.
   const permitted=new Set(v62AvailableStock.map(row=>String(row.id)));
   const ids=[...new Set(rawIds.map(String))].filter(id=>permitted.has(id));
   if(!ids.length)return;
-  if(!automatic&&ids.length>1&&!confirm(`X API로 재고 ${ids.length}개를 조회합니다. API 비용이 발생할 수 있습니다. 진행하시겠습니까?`))return;
+  if(!automatic&&ids.length>1&&!confirm(`무료 FxTwitter API로 재고 ${ids.length}개를 검사합니다. 계정 ID만 외부 API로 전송합니다. 계속하시겠습니까?`))return;
   xa121State.busy=true;xa121State.cancelRequested=false;xa121State.progressError=false;
   let completed=0,failures=0;
   try{
-    for(let i=0;i<ids.length;i+=20){
+    for(let i=0;i<ids.length;i+=10){
       if(xa121State.cancelRequested)break;
-      const chunk=ids.slice(i,i+20);
+      const chunk=ids.slice(i,i+10);
       xa121State.progress=`검사 중 ${completed}/${ids.length}개 · X 아이디만 전송`;xa121RefreshView();
       if(!supabaseClient)throw new Error('Supabase 클라이언트가 없습니다.');
-      const {data,error}=await supabaseClient.functions.invoke('xa121-x-status',{body:{stock_ids:chunk}});
+      const {data,error}=await supabaseClient.functions.invoke('xa166-fxtwitter-status',{body:{stock_ids:chunk}});
       if(error||!data?.ok){
         failures+=chunk.length;
         const message=String(data?.message||data?.error||xa121NiceError(error)).slice(0,160);
@@ -7136,8 +7152,8 @@ async function xa121RunScan(rawIds,automatic=false){
       for(const row of data.results||[]){
         if(row.stock_id&&row.status)xa121State.statuses.set(String(row.stock_id),row);
       }
-      completed+=chunk.length;xa121RefreshView();
-      if(i+20<ids.length)await new Promise(resolve=>setTimeout(resolve,900));
+      completed+=chunk.length;xa166SaveStatuses();xa121RefreshView();
+      if(i+10<ids.length)await new Promise(resolve=>setTimeout(resolve,1500));
     }
     if(!failures){
       const prefix=xa121State.cancelRequested?'중단됨':'완료';
