@@ -6998,7 +6998,7 @@ body{background:radial-gradient(ellipse 440px 390px at 50% -145px,#d0e9d4 0%,tra
 @media(max-width:380px){#admin-console-modal .xa121-panel{padding:9px}#admin-console-modal .xa121-stats{gap:3px}#admin-console-modal .xa121-stat span{font-size:8.3px}#admin-console-modal .xa121-actions button{padding:5px 7px;font-size:9.3px}}
 </style>
 <script id="xa121-x-status-script">
-// v170: 3-at-a-time, timed & cancellable username-only checks. Never send passwords, email or OTP to X or Edge.
+// v171: authenticated ping + 2-at-a-time checks + connection diagnostics. Never send passwords, email or OTP to X or Edge.
 const xa121State={statuses:new Map(),lastFetch:0,lastError:'',installed:null,filter:'all',busy:false,cancelRequested:false,abortController:null,progress:'',progressError:false,autoQueued:false};
 const XA121_STATUS_LABELS={found:'공개 조회',suspended:'정지 응답',not_found:'미발견',review:'확인 필요',unchecked:'미검사'};
 function xa121Username(row){
@@ -7035,7 +7035,7 @@ function xa121StockPanel(){
   return `<section class="xa121-panel" aria-label="X 계정 상태 점검">
     <div class="xa121-panel-head"><div><div class="xa121-panel-title"><i data-lucide="shield-alert"></i> X 계정 상태 점검 <small style="font-size:9px;color:#799683">FxTwitter 무료</small></div><div class="xa121-panel-sub">현재 판매 가능한 재고 ${v62AvailableStock.length}개 · X 아이디만 전송</div></div></div>
     <div class="xa121-stats"><div class="xa121-stat"><strong>${c.found}</strong><span>정상 조회</span></div><div class="xa121-stat"><strong>${c.suspended}</strong><span>정지 응답</span></div><div class="xa121-stat"><strong>${c.not_found}</strong><span>미발견</span></div><div class="xa121-stat"><strong>${c.review}</strong><span>확인 필요</span></div></div>
-    <div class="xa121-actions"><button class="xa121-primary" onclick="xa121ScanAll()" ${xa121State.busy?'disabled':''}>전체 계정 검사</button><button onclick="xa121ScanAttention()" ${xa121State.busy?'disabled':''}>문제 계정 재검사</button><button onclick="xa121LoadStatuses(true)" ${xa121State.busy?'disabled':''}>결과 새로고침</button>${xa121State.busy?'<button onclick="xa121CancelScan()">검사 중단</button>':''}</div>
+    <div class="xa121-actions"><button class="xa121-primary" onclick="xa121ScanAll()" ${xa121State.busy?'disabled':''}>전체 계정 검사</button><button onclick="xa121ScanAttention()" ${xa121State.busy?'disabled':''}>문제 계정 재검사</button><button onclick="xa121LoadStatuses(true)" ${xa121State.busy?'disabled':''}>결과 새로고침</button><button onclick="xa171Diagnose()" ${xa121State.busy?'disabled':''}>서버 연결 진단</button>${xa121State.busy?'<button onclick="xa121CancelScan()">검사 중단</button>':''}</div>
     <select class="xa121-filter" aria-label="계정 상태 필터" onchange="xa121SetFilter(this.value)">
       <option value="all" ${xa121State.filter==='all'?'selected':''}>전체 상태 · 미검사 ${c.unchecked}개</option>
       <option value="attention" ${xa121State.filter==='attention'?'selected':''}>문제 계정만 표시</option>
@@ -7145,89 +7145,99 @@ async function xa167FunctionError(error,data){
   }catch{}
   return fallback;
 }
+// v171 diagnostics: separate gateway and admin-auth checks.
+async function xa171Invoke(body,timeoutMs=14000){
+  const controller=new AbortController();
+  xa121State.abortController=controller;
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
+  try{
+    const {data,error}=await supabaseClient.functions.invoke('xa166-fxtwitter-status',{body,signal:controller.signal});
+    if(controller.signal.aborted)throw new Error(`함수 응답 ${Math.round(timeoutMs/1000)}초 초과 · Supabase Logs 확인`);
+    if(error||!data?.ok){
+      const message=await xa167FunctionError(error,data);
+      throw new Error(`${data?.step?'['+data.step+'] ':''}${message}`);
+    }
+    return data;
+  }finally{
+    clearTimeout(timer);
+    if(xa121State.abortController===controller)xa121State.abortController=null;
+  }
+}
+async function xa171Diagnose(){
+  if(xa121State.busy)return false;
+  if(!supabaseClient){xa121State.progress='진단 실패 · Supabase 연결 없음';xa121State.progressError=true;xa121RefreshView();return false;}
+  xa121State.busy=true;xa121State.cancelRequested=false;xa121State.progressError=false;
+  const notes=[];
+  try{
+    xa121State.progress='연결 진단 1/2 · 서버 GET 응답 확인 중';xa121RefreshView();
+    const controller=new AbortController();xa121State.abortController=controller;
+    const timer=setTimeout(()=>controller.abort(),7000);
+    try{
+      const r=await fetch(`${SUPABASE_URL}/functions/v1/xa166-fxtwitter-status`,{method:'GET',mode:'cors',cache:'no-store',signal:controller.signal});
+      const data=(r.headers.get('content-type')||'').includes('json')?await r.json().catch(()=>null):null;
+      notes.push(r.ok&&data?.version===171?'GET 정상 (v171)':`GET HTTP ${r.status}${data?.version?' v'+data.version:''}`);
+    }catch(e){notes.push(controller.signal.aborted?'GET 7초 초과':'GET 연결 실패 · CORS/인증/게이트웨이 점검');}
+    finally{clearTimeout(timer);if(xa121State.abortController===controller)xa121State.abortController=null;}
+    if(xa121State.cancelRequested)return false;
+    xa121State.progress=`연결 진단 2/2 · ${notes[0]} · 관리자 인증 확인 중`;xa121RefreshView();
+    const ping=await xa171Invoke({mode:'ping'},12000);
+    notes.push(`POST 인증 정상 (${ping.elapsed_ms??'?'}ms)`);
+    xa121State.progress='서버 연결 진단 완료 · '+notes.join(' / ');
+    xa121State.progressError=false;return true;
+  }catch(e){
+    xa121State.progress='진단 실패 · '+notes.join(' / ')+(notes.length?' / ':'')+String(e?.message||e).slice(0,185);
+    xa121State.progressError=true;return false;
+  }finally{xa121State.busy=false;xa121State.abortController=null;xa121RefreshView();}
+}
 async function xa121RunScan(rawIds,automatic=false){
   if(xa121State.busy)return;
-  if(!v62LastStockSuccess){xa121State.progress='재고 목록을 먼저 정상 조회해야 합니다.';xa121State.progressError=true;xa121RefreshView();return}
+  if(!v62LastStockSuccess){xa121State.progress='재고 목록을 먼저 조회해야 합니다.';xa121State.progressError=true;xa121RefreshView();return}
   if(!xa121State.installed)await xa121LoadStatuses(true);
-  // Only IDs go to OUR Supabase function. The external provider receives usernames only.
   const permitted=new Set(v62AvailableStock.map(row=>String(row.id)));
   const ids=[...new Set(rawIds.map(String))].filter(id=>permitted.has(id));
   if(!ids.length)return;
-  if(!automatic&&ids.length>1&&!confirm(`무료 FxTwitter API로 재고 ${ids.length}개를 검사합니다. 계정 ID만 외부 API로 전송합니다. 계속하시겠습니까?`))return;
+  if(!automatic&&ids.length>1&&!confirm(`재고 ${ids.length}개를 검사합니다. X 아이디가 비공식 FxTwitter API로 전송됩니다. 계속하시겠습니까?`))return;
   xa121State.busy=true;xa121State.cancelRequested=false;xa121State.progressError=false;
-  let completed=0,failures=0,stopForProvider=false;
+  let completed=0,stopForProvider=false;
   try{
-    for(let i=0;i<ids.length;i+=3){
+    xa121State.progress='서버 연결 및 관리자 인증 확인 중 · 계정 정보 전송 전';xa121RefreshView();
+    const ping=await xa171Invoke({mode:'ping'},12000);
+    if(ping.version!==171)throw new Error(`함수 버전 불일치 · v171 코드 배포 확인 (${ping.version||'미확인'})`);
+    for(let i=0;i<ids.length;i+=2){
       if(xa121State.cancelRequested)break;
-      const chunk=ids.slice(i,i+3);
-      xa121State.progress=`검사 중 ${completed}/${ids.length}개 · ${i+1}~${i+chunk.length}번 확인 중 (묶음당 최대 25초)`;
+      const chunk=ids.slice(i,i+2);
+      xa121State.progress=`검사 중 ${completed}/${ids.length}개 · ${i+1}~${i+chunk.length}번 요청 (최대 14초)`;
       xa121RefreshView();
-      if(!supabaseClient)throw new Error('Supabase 클라이언트가 없습니다.');
-      // A missing network response can no longer leave the scan button spinning forever.
-      const controller=new AbortController();
-      xa121State.abortController=controller;
-      let timer;
-      let data,error;
-      try{
-        timer=setTimeout(()=>controller.abort(),25000);
-        ({data,error}=await supabaseClient.functions.invoke('xa166-fxtwitter-status',{
-          body:{stock_ids:chunk},signal:controller.signal
-        }));
-      }finally{
-        clearTimeout(timer);
-        if(xa121State.abortController===controller)xa121State.abortController=null;
-      }
+      const data=await xa171Invoke({stock_ids:chunk},14000);
       if(xa121State.cancelRequested)break;
-      if(controller.signal.aborted){
-        failures+=chunk.length;
-        xa121State.progress='검사 중단 · 한 묶음이 25초를 초과했습니다. Supabase 함수 로그를 확인하세요.';
-        xa121State.progressError=true;break;
-      }
-      if(error||!data?.ok){
-        failures+=chunk.length;
-        const message=await xa167FunctionError(error,data);
-        xa121State.progress=`검사 실패 · ${message}`;xa121State.progressError=true;break;
-      }
       const returned=new Map((Array.isArray(data.results)?data.results:[])
         .filter(row=>row&&chunk.includes(String(row.stock_id))&&['found','suspended','not_found','review'].includes(row.status))
         .map(row=>[String(row.stock_id),row]));
       const rows=[];
       for(const id of chunk){
-        const row=returned.get(id)||{
-          stock_id:id,username:xa121Username(v62AvailableStock.find(s=>String(s.id)===id)),
-          status:'review',detail:'검사 응답 누락 · 재검사 필요',checked_at:new Date().toISOString()
-        };
-        xa121State.statuses.set(id,row);
-        rows.push(row);
+        const row=returned.get(id)||{stock_id:id,username:xa121Username(v62AvailableStock.find(s=>String(s.id)===id)),
+          status:'review',detail:'검사 응답 누락 · 재검사 필요',checked_at:new Date().toISOString()};
+        xa121State.statuses.set(id,row);rows.push(row);
       }
-      completed+=chunk.length;
-      xa166SaveStatuses();
-      xa121State.progress=`검사 중 ${completed}/${ids.length}개 · 진행 결과 저장 완료`;
-      xa121RefreshView();
-      // Avoid repeated calls if provider is unavailable or has started rate-limiting.
-      if(rows.every(row=>row.status==='review'&&/외부 API (연결 실패|서버 오류|요청 제한)/.test(String(row.detail||'')))){
-        stopForProvider=true;
-        xa121State.progress=`${completed}/${ids.length}개 확인 · 외부 API 응답 문제로 검사 중단. 나머지는 미검사 상태입니다.`;
+      completed+=chunk.length;xa166SaveStatuses();
+      xa121State.progress=`검사 진행 ${completed}/${ids.length}개 · 결과 저장됨`;xa121RefreshView();
+      if(rows.every(row=>row.status==='review'&&/외부 API (연결 오류|4초 시간 초과|요청 제한|HTTP)/.test(String(row.detail||'')))){
+        stopForProvider=true;xa121State.progress=`${completed}/${ids.length}개 확인 · FxTwitter 응답 문제로 나머지 보류`;
         xa121State.progressError=true;break;
       }
-      if(i+3<ids.length)await new Promise(resolve=>setTimeout(resolve,1200));
+      if(i+2<ids.length)await new Promise(resolve=>setTimeout(resolve,1400));
     }
-    if(!failures&&!stopForProvider){
-      const prefix=xa121State.cancelRequested?'사용자 중단':'완료';
-      xa121State.progress=`${prefix} · ${completed}/${ids.length}개 검사 · ${xa121Time(new Date())}`;
+    if(!stopForProvider){
+      xa121State.progress=`${xa121State.cancelRequested?'사용자 중단':'검사 완료'} · ${completed}/${ids.length}개`;
       if(automatic&&!xa121State.cancelRequested){try{localStorage.setItem('xa121_auto_last',String(Date.now()))}catch{}}
     }
     xa121State.lastFetch=Date.now();
   }catch(e){
-    if(xa121State.cancelRequested)xa121State.progress=`사용자 중단 · ${completed}/${ids.length}개 검사 결과 유지`;
-    else{xa121State.progress=`검사 오류 · ${xa121NiceError(e)}`;xa121State.progressError=true}
-  }finally{
-    xa121State.abortController=null;
-    xa121State.busy=false;
-    xa121RefreshView();
-  }
+    xa121State.progress=xa121State.cancelRequested?`사용자 중단 · ${completed}/${ids.length}개 유지`:
+      `검사 실패 (${completed}/${ids.length}) · ${String(e?.message||e).slice(0,210)}`;
+    xa121State.progressError=!xa121State.cancelRequested;
+  }finally{xa121State.abortController=null;xa121State.busy=false;xa121RefreshView();}
 }
-
 </script>
 <script id="xa123-free-audit-js">
 // v123 무료 관리자 통합 점검 센터. No X API, no external network calls.
