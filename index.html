@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="ko">
-<!-- v168: FxTwitter function invocation uses deployed function name ending in hyphen. X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
+<!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
 <meta name="x-account-version" content="v129-lookup-mailbox-type-fix" />
 <meta charset="utf-8"/>
@@ -7162,7 +7162,7 @@ async function xa121RunScan(rawIds,automatic=false){
       const chunk=ids.slice(i,i+10);
       xa121State.progress=`검사 중 ${completed}/${ids.length}개 · X 아이디만 전송`;xa121RefreshView();
       if(!supabaseClient)throw new Error('Supabase 클라이언트가 없습니다.');
-      const {data,error}=await supabaseClient.functions.invoke('xa166-fxtwitter-status-',{body:{stock_ids:chunk}});
+      const {data,error}=await supabaseClient.functions.invoke('xa166-fxtwitter-status',{body:{stock_ids:chunk}});
       if(error||!data?.ok){
         failures+=chunk.length;
         const message=await xa167FunctionError(error,data);
