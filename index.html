@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v129-lookup-mailbox-type-fix" />
+<meta name="x-account-version" content="v172-admin-stock-reference-layout" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1888,7 +1888,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v129</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v172</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -4955,12 +4955,12 @@ function v62StockCard(s,flag='available') {
     ${problem?`<div class="xa108-stock-problem">${escapeHTML(problem)}</div>`:''}
     ${flag==='available'?xa121StockCardStatus(s):''}
     <button type="button" class="xa109-stock-detail-button" onclick='openV109StockDetails(${stockId})'><i data-lucide="shield-check" aria-hidden="true"></i> 관리자 상세정보 보기 <span aria-hidden="true">›</span></button>
-    <div class="xa62-actions xa127-stock-actions">
+    <div class="xa62-actions xa127-stock-actions ${flag==='available'?'xa172-triple-actions':'xa172-dual-actions'}" aria-label="재고 관리 동작">
       <button type="button" class="xa62-btn" onclick='copyV62Stock(${stockId})'>원본 복사</button>
-      ${xa129HasMailbox(s.product_type,parts)?`<button type="button" class="xa62-btn xa128-mail-check" onclick='xa128OpenAdminInbox(${stockId},this)'><i data-lucide="mail-search" aria-hidden="true"></i> 메일함 연결 검사</button>`:''}
       ${flag==='available'?`<button type="button" class="xa62-btn xa71-exclude-stock" onclick='excludeV71Stock(${stockId},this)'>판매 제외</button><button type="button" class="xa62-btn xa127-exchange-btn" onclick='xa127ManageStock(${stockId},"EXCHANGE",this)'><i data-lucide="gift" aria-hidden="true"></i> 교환 지급</button>`:''}
       ${flag==='excluded'?`<button type="button" class="xa62-btn xa127-restore-btn" onclick='xa127ManageStock(${stockId},"RESTORE",this)'><i data-lucide="rotate-ccw" aria-hidden="true"></i> 판매 가능 복구</button>`:''}
     </div>
+    ${xa129HasMailbox(s.product_type,parts)?`<button type="button" class="xa62-btn xa128-mail-check xa172-mail-action" onclick='xa128OpenAdminInbox(${stockId},this)'><i data-lucide="mail-search" aria-hidden="true"></i> 메일함 연결 검사</button>`:''}
   </article>`;
 }
 // v109: 재고 세부 항목은 주문과 동일한 관리자 전용 중앙 팝업에서만 표시합니다.
@@ -8995,5 +8995,108 @@ document.addEventListener('keydown',function(e){
 }
 </style>
 
+
+<style id="xa172-admin-stock-reference-layout">
+/* v172 — screenshot-referenced mint, one-column manager; action buttons always form ONE row. */
+#admin-console-modal .xa62-shell{
+  width:min(100%,432px)!important;max-width:432px!important;
+  background:#f6faf7!important;
+}
+#admin-console-modal .xa62-header{
+  padding:8px 11px 6px!important;
+  background:linear-gradient(125deg,#f7fcf9,#fff)!important;
+}
+#admin-console-modal .xa108-overview{
+  margin:2px 11px 6px!important;
+  border-radius:10px!important;
+  padding:7px 9px!important;
+  min-height:29px!important;
+}
+#admin-console-modal .xa62-tabbar{padding:1px 9px 6px!important;gap:5px!important;}
+#admin-console-modal .xa62-tabbar button{min-height:42px!important;border-radius:10px!important;}
+/* Search / import / category fit a single row at phone widths. */
+#admin-console-modal .xa62-toolbar{
+  display:flex!important;flex-wrap:nowrap!important;
+  align-items:center!important;gap:6px!important;
+  padding:6px 9px!important;min-width:0!important;
+}
+#admin-console-modal .xa62-searchbox{
+  flex:1 1 auto!important;width:auto!important;
+  min-width:0!important;height:35px!important;min-height:35px!important;
+}
+#admin-console-modal .xa62-searchbox input{min-width:0!important;font-size:10px!important;}
+#admin-console-modal .xa157-add-stock{
+  flex:0 0 auto!important;min-height:35px!important;
+  padding:0 10px!important;white-space:nowrap!important;
+}
+#admin-console-modal #xa62-stock-filter{
+  flex:0 0 90px!important;min-width:0!important;width:90px!important;
+  max-width:90px!important;height:35px!important;
+  font-size:10px!important;padding:0 6px!important;
+}
+/* Keep the status-health panel above summaries and the stock list, as in the reference. */
+#admin-console-modal .xa62-scroll{padding:0 9px 9px!important;}
+#admin-console-modal .xa121-panel{
+  padding:11px!important;gap:9px!important;
+  background:linear-gradient(145deg,#fcfffd,#eff9f3)!important;
+  border-color:#cce6d6!important;
+}
+#admin-console-modal .xa121-stats{gap:5px!important;}
+#admin-console-modal .xa121-stat{min-height:57px!important;padding:7px 2px!important;}
+#admin-console-modal .xa121-actions{gap:5px!important;}
+#admin-console-modal .xa121-actions button{min-height:31px!important;}
+#admin-console-modal .xa108-stock-summary{gap:6px!important;}
+#admin-console-modal .xa108-stock-summary>span{padding:8px 3px!important;}
+#admin-console-modal .xa62-view{gap:8px!important;}
+/* Inventory cards shorter, with explicit one-row primary actions. */
+#admin-console-modal .xa62-stockcard.xa172-stockcard,
+#admin-console-modal .xa62-stockcard.xa127-stockcard{
+  padding:8px 9px!important;gap:5px!important;
+  border-radius:12px!important;
+}
+#admin-console-modal .xa76-stockcard .xa76-preview{
+  min-height:28px!important;padding:5px 8px!important;
+  flex-wrap:nowrap!important;
+}
+#admin-console-modal .xa76-stockcard .xa76-preview strong{
+  white-space:nowrap!important;text-overflow:ellipsis!important;
+  overflow:hidden!important;word-break:normal!important;
+}
+#admin-console-modal .xa121-row{min-height:36px!important;padding:6px 8px!important;}
+#admin-console-modal .xa109-stock-detail-button{
+  min-height:34px!important;padding:6px 8px!important;
+  border-radius:9px!important;
+}
+#admin-console-modal .xa62-stockcard .xa62-actions.xa127-stock-actions{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  flex-wrap:nowrap!important;gap:6px!important;align-items:stretch!important;
+  width:100%!important;
+}
+#admin-console-modal .xa62-stockcard .xa62-actions.xa127-stock-actions.xa172-dual-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+#admin-console-modal .xa62-stockcard .xa62-actions.xa127-stock-actions>button{
+  width:100%!important;min-width:0!important;min-height:33px!important;
+  padding:5px 3px!important;white-space:nowrap!important;
+  word-break:keep-all!important;overflow-wrap:normal!important;
+  line-height:1.2!important;font-size:10px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:3px!important;flex:none!important;
+}
+#admin-console-modal .xa62-stockcard .xa62-actions.xa127-stock-actions>button svg{
+  width:12px!important;height:12px!important;flex:0 0 12px!important;margin:0!important;
+}
+#admin-console-modal .xa172-mail-action{
+  width:100%!important;min-height:32px!important;padding:6px 8px!important;
+  text-align:center!important;font-size:10px!important;
+  border-radius:9px!important;
+}
+@media(max-width:360px){
+  #admin-console-modal .xa62-toolbar{gap:4px!important;padding-left:7px!important;padding-right:7px!important;}
+  #admin-console-modal #xa62-stock-filter{flex-basis:76px!important;width:76px!important;max-width:76px!important;}
+  #admin-console-modal .xa157-add-stock{padding:0 7px!important;font-size:9px!important;}
+  #admin-console-modal .xa62-stockcard .xa62-actions.xa127-stock-actions>button{font-size:9px!important;padding:4px 2px!important;}
+}
+</style>
 </body>
 </html>
