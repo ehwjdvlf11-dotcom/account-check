@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v173-today-sales-identity-tracker" />
+<meta name="x-account-version" content="v175-today-sales-identity-tracker" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1573,7 +1573,7 @@ body>.ambient-bg{display:none!important}
 </div>
 </section>
 </div>
-<p id="site-footnote">주문 접수는 결제 요청 단계이며, 입금 확인은 운영자가 진행합니다. 계정 발급은 승인 완료 후에만 표시됩니다. <span data-xa-build="173" style="opacity:.60;font-size:10px">· v173</span></p>
+<p id="site-footnote">주문 접수는 결제 요청 단계이며, 입금 확인은 운영자가 진행합니다. 계정 발급은 승인 완료 후에만 표시됩니다. <span data-xa-build="175" style="opacity:.60;font-size:10px">· v175</span></p>
 </div>
 <!-- 이메일 확인 안내: 이메일 주소/비밀번호는 결과 화면에 노출하지 않고 X 메일만 사이트 내부에서 조회 -->
 <style id="xa-v131-mail-visibility">
@@ -1888,7 +1888,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v173</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v175</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -9125,25 +9125,28 @@ document.addEventListener('keydown',function(e){
 #admin-console-modal .xa173-status{font-size:9px;border-radius:99px;background:#edf3ed;padding:3px 6px;white-space:nowrap}
 #admin-console-modal .xa173-status[data-status="changed"]{color:#a04e2f;background:#fff0e4}
 #admin-console-modal .xa173-status[data-status="same"]{color:#157550;background:#eaf8ee}
+#admin-console-modal .xa173-status[data-status="late_baseline"]{color:#97621a;background:#fff4dc}
+#admin-console-modal .xa173-status[data-status="changed_after_baseline"]{color:#a04e2f;background:#fff0e4}
 #admin-console-modal .xa173-note{font-size:9px;line-height:1.55;color:#7a8e7d}
 </style>
 <script id="xa173-tracker-script">
-// v174: v173 server integration with diagnosable failures; available stock is baselined while the admin is open; sold-account checks are explicitly manual.
+// v175: deduplicated today's results, prevent parallel calls, and support verified post-sale first observations.
+// Post-sale baseline is not evidence of identity at the sale time.
 const xa173State={busy:false,bootstrapBusy:false,bootstrapTimer:null,attemptedSignature:'',ranSignature:'',progress:'연결 상태 미확인 · 서버 연결 진단을 눌러 설치 상태를 확인하세요',error:false,results:[],total:0,lastKstDate:'',checkedAt:0,bootstrapCount:0,bootstrapFailed:0,stopBootstrap:false,nextAutoAttemptAt:0,diagnosing:false,serverReady:false};
 function xa173AdminVisible(){return !!supabaseClient&&!!v62LastStockSuccess&&!!v62LastOrdersSuccess&&!document.hidden&&!document.getElementById('admin-console-modal')?.classList.contains('hidden')}
 function xa173Signature(){return v62AllStock.filter(s=>s.is_used!==true).map(s=>String(s.id)).sort().join(',')}
 function xa173Safe(v){return escapeHTML(String(v??''))}
 function xa173RenderPanel(){
  const el=document.getElementById('xa173-tracker-panel');if(!el)return;
- const rows=xa173State.results, changed=rows.filter(r=>r.status==='changed').length,same=rows.filter(r=>r.status==='same').length;
+ const rows=xa173State.results, changed=rows.filter(r=>['changed','changed_after_baseline'].includes(r.status)).length,same=rows.filter(r=>r.status==='same').length;
  const error=rows.filter(r=>!['same','changed'].includes(r.status)).length;
- const labels={changed:'아이디 변경',same:'변경 없음',no_baseline:'고유 ID 미확보',unavailable:'조회 불가'};
+ const labels={changed:'아이디 변경',same:'변경 없음',late_baseline:'판매 후 ID 확보',changed_after_baseline:'첫 확인 후 변경',no_baseline:'고유 ID 미확보',unavailable:'조회 불가'};
  el.innerHTML=`<div class="xa173-header"><div><strong>오늘 판매 계정 · 아이디 변경 검사</strong><div class="xa173-sub">한국시간 오늘 승인된 계정만 · 재고에서 숫자 고유 ID 자동 확보</div></div></div>`+
  `<div class="xa173-summary"><div><strong>${xa173State.checkedAt?xa173State.total:(xa173State.busy?'…':'—')}</strong><span>조회 대상</span></div><div><strong>${xa173State.checkedAt?changed:'—'}</strong><span>아이디 변경</span></div><div><strong>${xa173State.checkedAt?error:'—'}</strong><span>미확인</span></div></div>`+
  `<div class="xa173-actions"><button class="xa173-primary" type="button" onclick="xa173CheckToday()" ${xa173State.busy||xa173State.diagnosing?'disabled':''}>${xa173State.busy?'검사 중…':'오늘 판매 계정 조회'}</button><button type="button" onclick="xa173Bootstrap(true)" ${xa173State.busy||xa173State.bootstrapBusy||xa173State.diagnosing?'disabled':''}>${xa173State.bootstrapBusy?'고유 ID 수집 중…':'재고 고유 ID 재수집'}</button><button type="button" onclick="xa173Diagnose()" ${xa173State.diagnosing?'disabled':''}>${xa173State.diagnosing?'진단 중…':'서버 연결 진단'}</button></div>`+
  `<div class="xa173-message" role="status" data-error="${xa173State.error}">${xa173Safe(xa173State.progress)}</div>`+
  (rows.length?`<div class="xa173-results">${rows.map(r=>`<div class="xa173-result"><div class="xa173-result-header"><span>주문 ${xa173Safe(r.order_no)}</span><span class="xa173-status" data-status="${xa173Safe(r.status)}">${xa173Safe(labels[r.status]||'확인 필요')}</span></div><div class="xa173-result-body">${xa173Safe(r.previous?'@'+r.previous:'기록 없음')}${r.current?' → '+xa173Safe('@'+r.current):''}${r.detail?' · '+xa173Safe(r.detail):''}${r.estimated_date?' · 승인시각 미기록(접수일 기준)':''}</div></div>`).join('')}</div>`:'')+
- `<div class="xa173-note">설치 순서: SQL 실행 → Edge Function 이름 xa173-username-track 으로 배포 → 이 화면에서 서버 연결 진단. 기존 재고·주문 기록은 변경하지 않습니다. 판매 전에 고유 ID를 확보한 경우에만 정확한 변경 감지가 가능합니다. 조회 실패는 변경으로 판단하지 않습니다. 비공식 FxTwitter API 장애·제한이 있을 수 있습니다. 이 자동 수집은 관리자 페이지가 열려 있을 때만 실행됩니다.</div>`;
+ `<div class="xa173-note">기존 재고·주문 기록은 변경하지 않습니다. 판매 전 확보한 고유 ID는 판매 시점 아이디와 비교합니다. 이미 판매한 계정은 기존 @아이디가 그대로 조회될 때만 판매 후 첫 ID를 저장하며, 이는 과거 계정 변경의 증거가 아닙니다. 첫 확인 이후 발생한 변경만 구분 표시합니다. FxTwitter 조회 실패는 변경으로 판정하지 않습니다. 재고 자동 수집은 관리자 화면이 열려 있을 때만 실행됩니다.</div>`;
 }
 function xa173ExplainError(error,data){
  const status=error?.context?.status;
@@ -9221,13 +9224,14 @@ function xa173ScheduleBootstrap(){
 }
 async function xa173CheckToday(){
  if(xa173State.busy)return;
+ xa173State.busy=true; // synchronous lock before awaiting the running bootstrap
  if(xa173State.bootstrapBusy){
   xa173State.stopBootstrap=true;
   for(let i=0;xa173State.bootstrapBusy&&i<40;i++)await new Promise(r=>setTimeout(r,550));
-  if(xa173State.bootstrapBusy){xa173State.progress='재고 자동 수집 요청이 아직 진행 중입니다. 잠시 후 다시 누르세요.';xa173State.error=true;xa173RenderPanel();return;}
+  if(xa173State.bootstrapBusy){xa173State.busy=false;xa173State.progress='재고 자동 수집 요청이 아직 진행 중입니다. 잠시 후 다시 누르세요.';xa173State.error=true;xa173RenderPanel();return;}
  }
- if(!v62LastOrdersSuccess){xa173State.checkedAt=0;xa173State.progress='주문 목록 조회에 실패했습니다. 먼저 관리자 데이터를 갱신하세요.';xa173State.error=true;xa173RenderPanel();return;}
- xa173State.busy=true;xa173State.results=[];xa173State.total=0;xa173State.checkedAt=0;xa173State.error=false;xa173State.progress='한국시간 오늘 승인된 주문 조회 중…';xa173RenderPanel();
+ if(!v62LastOrdersSuccess){xa173State.busy=false;xa173State.checkedAt=0;xa173State.progress='주문 목록 조회에 실패했습니다. 먼저 관리자 데이터를 갱신하세요.';xa173State.error=true;xa173RenderPanel();return;}
+ xa173State.results=[];xa173State.total=0;xa173State.checkedAt=0;xa173State.error=false;xa173State.progress='한국시간 오늘 승인된 주문 조회 중…';xa173RenderPanel();
  let offset=0;
  try{
   await xa173Call('ping');
@@ -9235,8 +9239,11 @@ async function xa173CheckToday(){
    const r=await xa173Call('check_today',{offset});
    xa173State.lastKstDate=r.kst_date;
    xa173State.total=r.total;
-   xa173State.results.push(...(r.results||[]));
-   xa173State.progress=`오늘 (${r.kst_date}) · ${xa173State.results.length}/${r.total}건 조회`;
+   // Keep one entry per database order. If a response/page is repeated, overwrite instead of duplicating.
+   const byOrder=new Map(xa173State.results.map(x=>[String(x.order_id||x.order_no+'|'+x.previous),x]));
+   for(const item of (r.results||[])) byOrder.set(String(item.order_id||item.order_no+'|'+item.previous),item);
+   xa173State.results=[...byOrder.values()];
+   xa173State.progress=`오늘 (${r.kst_date}) · ${xa173State.results.length}/${r.total}건 확인`;
    xa173RenderPanel();
    if(r.done){if(r.truncated){xa173State.error=true;xa173State.progress+=' · 300건 상한에 도달해 일부만 조회';}break;}
    if(Number(r.next_offset)<=offset)throw new Error('조회 위치가 진행되지 않았습니다.');
