@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- X ACCOUNT v71: unified pearl & forest compact mobile UI, established server functions retained. -->
 <head>
-<meta name="x-account-version" content="v177-pre-sale-identity-preflight" />
+<meta name="x-account-version" content="v179-today-sold-popup" />
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>X ACCOUNT |</title>
@@ -1290,6 +1290,64 @@ body>.ambient-bg{display:none!important}
 @media(max-width:470px){#admin-console-modal .xa123-inner{padding:9px}#admin-console-modal .xa123-stats b{font-size:14px}#admin-console-modal .xa123-summary-state{max-width:145px}}
 
 </style>
+\n<style id="xa178-today-sold-style">
+#admin-console-modal .xa178-panel{padding:12px;border:1px solid #cde2d5;border-radius:14px;background:linear-gradient(140deg,#f9fefb,#edf7f1);margin:10px 0 12px;display:grid;gap:10px}
+#admin-console-modal .xa178-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+#admin-console-modal .xa178-head strong{display:block;font-size:12px;font-weight:900;color:#14573e}
+#admin-console-modal .xa178-head small{display:block;font-size:10px;color:#678777;margin-top:2px}
+#admin-console-modal .xa178-count{border-radius:999px;padding:5px 9px;background:#dcf4e4;color:#116c4b;font-size:11px;font-weight:900;flex-shrink:0}
+#admin-console-modal .xa178-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#admin-console-modal .xa178-copyall{background:#0f7650;border:1px solid #0f7650;border-radius:9px;color:white;padding:8px 12px;font-size:10px;font-weight:800;cursor:pointer}
+#admin-console-modal .xa178-copyall:disabled{opacity:.45;cursor:default}
+#admin-console-modal .xa178-actions span{font-size:9px;color:#748b7b}
+#admin-console-modal .xa178-list{display:grid;gap:6px}
+#admin-console-modal .xa178-soldrow{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:10px 11px;border:1px solid #e0eae2;border-radius:10px;background:#fff}
+#admin-console-modal .xa178-soldtext{display:grid;gap:3px;min-width:0}
+#admin-console-modal .xa178-soldtext b{font-size:13px;font-weight:900;color:#184b3a;overflow-wrap:anywhere;user-select:text}
+#admin-console-modal .xa178-soldtext small{color:#8a998e;font-size:9px;overflow-wrap:anywhere}
+#admin-console-modal .xa178-copyone{flex-shrink:0;padding:7px 11px;border-radius:8px;border:1px solid #cde3d5;background:#f1faf5;color:#24724f;font-size:10px;font-weight:800;cursor:pointer}
+#admin-console-modal .xa178-missing{font-size:9px;color:#a17a63}
+#admin-console-modal .xa178-empty{text-align:center;font-size:11px;padding:15px 8px;color:#7f9486;border:1px dashed #d0e2d5;border-radius:10px;background:white}
+#admin-console-modal .xa178-note{font-size:9px;color:#8d8064;line-height:1.5}
+</style>
+
+<style id="xa179-sold-popup-style">
+#admin-console-modal .xa179-launch-row{margin:7px 0 8px;display:block}
+#admin-console-modal .xa179-launch{width:100%;min-height:38px;padding:7px 12px;display:flex;align-items:center;gap:8px;background:#f1faf5;border:1px solid #c9e0d3;border-radius:10px;color:#155e42;text-align:left;font-size:11px;font-weight:850;cursor:pointer}
+#admin-console-modal .xa179-launch:hover{background:#e7f5ed}
+#admin-console-modal .xa179-launch>i{width:14px;height:14px;flex-shrink:0}
+#admin-console-modal .xa179-launch>span:nth-child(2){flex:1;min-width:0}
+#admin-console-modal .xa179-launch-count{color:#0c7650;background:#daf3e3;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:850}
+#xa179-sold-modal.xa179-overlay{position:fixed!important;inset:0!important;z-index:99999!important;display:flex!important;align-items:center;justify-content:center;padding:14px;box-sizing:border-box}
+#xa179-sold-modal .xa179-backdrop{position:absolute;inset:0;background:rgba(9,28,20,.57);backdrop-filter:blur(4px)}
+#xa179-sold-modal .xa179-dialog{position:relative;z-index:1;box-sizing:border-box;width:min(410px,100%);max-height:min(84dvh,690px);display:flex;flex-direction:column;overflow:hidden;border:1px solid #cce3d5;border-radius:17px;background:#f8fcf9;box-shadow:0 24px 80px rgba(0,23,10,.3);font-family:inherit}
+#xa179-sold-modal .xa179-modal-top{padding:10px 14px;flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border-bottom:1px solid #e2eee6;color:#6a8978;font-size:10px;font-weight:800}
+#xa179-sold-modal .xa179-close{width:30px;height:30px;border:1px solid #d5e9dd;background:#f4faf6;color:#225e44;border-radius:9px;cursor:pointer;font-size:22px;line-height:1}
+#xa179-sold-modal .xa179-modal-main{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px;scrollbar-width:thin}
+#xa179-sold-modal .xa178-panel{border:0!important;background:transparent!important;border-radius:0!important;margin:0!important;padding:0!important;gap:12px!important}
+#xa179-sold-modal .xa178-list{max-height:none}
+#xa179-sold-modal .xa179-toast{min-height:15px;font-size:10px;line-height:1.5;margin:9px 0 0;font-weight:700}
+@media(max-width:390px){#xa179-sold-modal.xa179-overlay{padding:10px}#xa179-sold-modal .xa179-modal-main{padding:12px}#xa179-sold-modal .xa178-soldrow{padding:9px}}
+#xa179-sold-modal .xa178-panel{padding:12px;border:1px solid #cde2d5;border-radius:14px;background:linear-gradient(140deg,#f9fefb,#edf7f1);margin:10px 0 12px;display:grid;gap:10px}
+#xa179-sold-modal .xa178-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+#xa179-sold-modal .xa178-head strong{display:block;font-size:12px;font-weight:900;color:#14573e}
+#xa179-sold-modal .xa178-head small{display:block;font-size:10px;color:#678777;margin-top:2px}
+#xa179-sold-modal .xa178-count{border-radius:999px;padding:5px 9px;background:#dcf4e4;color:#116c4b;font-size:11px;font-weight:900;flex-shrink:0}
+#xa179-sold-modal .xa178-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#xa179-sold-modal .xa178-copyall{background:#0f7650;border:1px solid #0f7650;border-radius:9px;color:white;padding:8px 12px;font-size:10px;font-weight:800;cursor:pointer}
+#xa179-sold-modal .xa178-copyall:disabled{opacity:.45;cursor:default}
+#xa179-sold-modal .xa178-actions span{font-size:9px;color:#748b7b}
+#xa179-sold-modal .xa178-list{display:grid;gap:6px}
+#xa179-sold-modal .xa178-soldrow{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:10px 11px;border:1px solid #e0eae2;border-radius:10px;background:#fff}
+#xa179-sold-modal .xa178-soldtext{display:grid;gap:3px;min-width:0}
+#xa179-sold-modal .xa178-soldtext b{font-size:13px;font-weight:900;color:#184b3a;overflow-wrap:anywhere;user-select:text}
+#xa179-sold-modal .xa178-soldtext small{color:#8a998e;font-size:9px;overflow-wrap:anywhere}
+#xa179-sold-modal .xa178-copyone{flex-shrink:0;padding:7px 11px;border-radius:8px;border:1px solid #cde3d5;background:#f1faf5;color:#24724f;font-size:10px;font-weight:800;cursor:pointer}
+#xa179-sold-modal .xa178-missing{font-size:9px;color:#a17a63}
+#xa179-sold-modal .xa178-empty{text-align:center;font-size:11px;padding:15px 8px;color:#7f9486;border:1px dashed #d0e2d5;border-radius:10px;background:white}
+#xa179-sold-modal .xa178-note{font-size:9px;color:#8d8064;line-height:1.5}
+
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient-bg">
@@ -1573,7 +1631,7 @@ body>.ambient-bg{display:none!important}
 </div>
 </section>
 </div>
-<p id="site-footnote">주문 접수는 결제 요청 단계이며, 입금 확인은 운영자가 진행합니다. 계정 발급은 승인 완료 후에만 표시됩니다. <span data-xa-build="177" style="opacity:.60;font-size:10px">· v177</span></p>
+<p id="site-footnote">주문 접수는 결제 요청 단계이며, 입금 확인은 운영자가 진행합니다. 계정 발급은 승인 완료 후에만 표시됩니다. <span data-xa-build="132" style="opacity:.60;font-size:10px">· v132</span></p>
 </div>
 <!-- 이메일 확인 안내: 이메일 주소/비밀번호는 결과 화면에 노출하지 않고 X 메일만 사이트 내부에서 조회 -->
 <style id="xa-v131-mail-visibility">
@@ -1888,7 +1946,7 @@ body>.ambient-bg{display:none!important}
   <div class="xa62-shell" role="document">
     <header class="xa62-header">
       <div class="xa62-head-title">
-        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v177</span></span>
+        <span class="xa62-kicker">X ACCOUNT · 관리자 <span id="xa118-build-tag" style="color:#428a6c;font-size:9px;font-weight:900;letter-spacing:0">v179</span></span>
         <div class="xa112-title-row"><h3>주문·재고 관리</h3><span id="xa112-admin-day-counter" class="xa112-day-counter" title="기준일: 2024년 8월 8일">D+829</span></div>
         <span class="xa62-subtitle">오늘 주문 · 결제수단별 승인기한</span>
       </div>
@@ -2285,10 +2343,6 @@ async function xa87ApproveGroup(orderNo,button){
   button.textContent=`${list.length}개 발급 확인 중…`;
   let err=null, success=false;
   try{
-    if (typeof xa177PrepareForApproval === 'function') {
-      const allowed = await xa177PrepareForApproval(list[0].product_type,button);
-      if (!allowed) throw new Error('고유 ID 준비가 확인되지 않아 승인하지 않았습니다.');
-    }
     const {data,error}=await supabaseClient.rpc('xa_approve_order_batch_v89', {
       p_order_nos:list.map(r=>r.order_no)
     });
@@ -4317,10 +4371,6 @@ async function approveOrder(orderNo, btnEl) {
   btnEl.disabled = true;
   btnEl.textContent = '지급 처리 중…';
   try {
-    if (typeof xa177PrepareForApproval === 'function') {
-      const allowed = await xa177PrepareForApproval(adminOrderCache.get(orderNo)?.product_type, btnEl);
-      if (!allowed) { btnEl.disabled = false; btnEl.textContent = '입금 확인 · 계정 발급'; return; }
-    }
     const {data,error}=await supabaseClient.rpc('approve_xa_order',{p_order_no:orderNo});
     if(error) throw error;
     if (!data?.success || !data.assigned_code) throw new Error(data?.message||'승인 결과에 발급 코드가 없습니다.');
@@ -4600,8 +4650,6 @@ async function refreshAdminData(options={}) {
       : '조회 실패 · 시스템 점검 확인';
     xa108RenderOverview();
     await xa108LoadEvents();
-    // v173: check for new unsold inventory only after BOTH orders and stock finish loading.
-    if(typeof xa173ScheduleBootstrap==='function')xa173ScheduleBootstrap();
     // No external paid X API calls are made by this refresh.
   }catch(e){
     xa108LastError=String(e?.message||'갱신 오류');
@@ -4862,7 +4910,6 @@ async function loadAdminStock(options={}) {
     xa162LastStockFetch=Date.now();
     v62LastStockSuccess=true;
     xa120StockLastError='';
-    if(typeof xa173ScheduleBootstrap==='function')xa173ScheduleBootstrap();
     if(changed&&!options.deferRender)renderV62All();
     return changed;
   }catch(e){
@@ -5102,6 +5149,101 @@ function xa108GroupHistoryOrders(rows,view){
   }
   return result;
 }
+// v178: show sold X @usernames from today's approved order records ONLY.
+// No third-party X API, unique user ID, tracking table or Edge Function.
+function xa178TodaySoldOrders(){
+  if(!v62LastOrdersSuccess)return [];
+  const kstToday=getKstYmd(new Date());
+  const unique=new Map();
+  for(const order of v62AllOrders){
+    if(order?.status!=='APPROVED')continue;
+    if(getKstYmd(order.approved_at||order.created_at)!==kstToday)continue;
+    const key=String(order.id??order.order_no??'');
+    if(!key||unique.has(key))continue;
+    unique.set(key,order);
+  }
+  return [...unique.values()].sort((a,b)=>new Date(b.approved_at||b.created_at).getTime()-new Date(a.approved_at||a.created_at).getTime());
+}
+function xa178SoldUsername(order){
+  // Reuse existing safe extractor: NEVER expose password, email, 2FA or raw assigned_code.
+  const name=String(xa165OrderAccountId(order)||'').trim().replace(/^@/,'');
+  return /^[A-Za-z0-9_]{1,15}$/.test(name)?name:'';
+}
+function xa178SoldListHtml(){
+  const all=xa178TodaySoldOrders();
+  const rows=all.filter(v62OrderFullMatch);
+  const valid=all.filter(xa178SoldUsername);
+  const today=getKstYmd(new Date());
+  const copyDisabled=valid.length===0?' disabled':'';
+  const title=`<div class="xa178-head"><div><strong>오늘 판매된 X 아이디</strong><small>${escapeHTML(today)} · 한국시간 승인 기준</small></div><span class="xa178-count">${all.length}개</span></div>`;
+  const actions=`<div class="xa178-actions"><button type="button" class="xa178-copyall" onclick="xa178CopyAll()"${copyDisabled}>오늘 아이디 전체 복사</button><span>판매 당시 기록된 @아이디만 표시</span></div>`;
+  const list=rows.length?rows.map((o)=>{
+    const username=xa178SoldUsername(o);
+    const safeNo=escapeHTML(o.order_no||'');
+    const saleTime=v62FormatTime(o.approved_at||o.created_at);
+    const estimated=!o.approved_at;
+    return `<div class="xa178-soldrow"><div class="xa178-soldtext"><b>${username?escapeHTML('@'+username):'아이디 확인 필요'}</b><small>${safeNo} · ${escapeHTML(saleTime)}${estimated?' · 접수일 기준':''}</small></div>${username?`<button type="button" class="xa178-copyone" onclick='xa178CopyOne(${inlineJsArg(o.order_no)})' aria-label="${escapeHTML('@'+username)} 복사">복사</button>`:'<span class="xa178-missing">기록 없음</span>'}</div>`;
+  }).join(''):`<div class="xa178-empty">${all.length?'검색 조건에 맞는 오늘 판매 아이디가 없습니다.':'오늘 승인된 계정이 없습니다.'}</div>`;
+  const warning=all.some(o=>!o.approved_at)?`<p class="xa178-note">일부 과거 주문은 승인시각이 없어 접수일로 판단했어요.</p>`:'';
+  return `<section class="xa178-panel" aria-label="오늘 판매된 X 아이디 목록">${title}${actions}<div class="xa178-list">${list}</div>${warning}</section>`;
+}
+async function xa178CopyOne(orderNo){
+  const o=xa178TodaySoldOrders().find(x=>String(x.order_no)===String(orderNo));
+  const username=o?xa178SoldUsername(o):'';
+  if(!username){xa179CopyMessage('복사할 X 아이디를 찾지 못했습니다.',true);return;}
+  const ok=await copyText('@'+username);
+  xa179CopyMessage(ok?'@'+username+' 복사 완료':'아이디 복사 실패 · 브라우저 권한을 확인하세요.',!ok);
+}
+async function xa178CopyAll(){
+  const handles=xa178TodaySoldOrders().map(xa178SoldUsername).filter(Boolean).map(x=>'@'+x);
+  if(!handles.length){xa179CopyMessage('복사할 오늘 판매 아이디가 없습니다.',true);return;}
+  const ok=await copyText(handles.join('\n'));
+  xa179CopyMessage(ok?`오늘 판매 아이디 ${handles.length}개 복사 완료`:'아이디 복사 실패 · 브라우저 권한을 확인하세요.',!ok);
+}
+
+
+// v179: compact launcher + accessible floating dialog. The underlying sale data
+// comes only from the existing today's APPROVED order records (no third-party API).
+let xa179ReturnFocus=null;
+function xa179SoldOpenButton(){
+  const count=xa178TodaySoldOrders().length;
+  return `<div class="xa179-launch-row"><button type="button" class="xa179-launch" onclick="xa179OpenSoldModal()" aria-haspopup="dialog" aria-label="오늘 판매 아이디 조회 팝업 열기"><i data-lucide="list" aria-hidden="true"></i><span>오늘 판매 아이디 조회</span><span class="xa179-launch-count">${count}개</span><i data-lucide="chevron-right" aria-hidden="true"></i></button></div>`;
+}
+function xa179OpenSoldModal(){
+  const existing=document.getElementById('xa179-sold-modal');
+  if(existing){existing.querySelector('.xa179-close')?.focus();return;}
+  xa179ReturnFocus=document.activeElement;
+  const wrap=document.createElement('div');
+  wrap.id='xa179-sold-modal';
+  wrap.className='xa179-overlay';
+  wrap.innerHTML=`<div class="xa179-backdrop" onclick="xa179CloseSoldModal()" aria-hidden="true"></div><section class="xa179-dialog" role="dialog" aria-modal="true" aria-label="오늘 판매 아이디 목록"><div class="xa179-modal-top"><span>판매완료 · 당일 조회</span><button type="button" class="xa179-close" aria-label="팝업 닫기" onclick="xa179CloseSoldModal()">&times;</button></div><div class="xa179-modal-main">${xa178SoldListHtml()}<p id="xa179-toast" class="xa179-toast" aria-live="polite"></p></div></section>`;
+  wrap.addEventListener('keydown',xa179ModalKeys);
+  document.body.appendChild(wrap);
+  wrap.querySelector('.xa179-close')?.focus();
+}
+function xa179ModalKeys(ev){
+  if(ev.key==='Escape'){ev.preventDefault();xa179CloseSoldModal();return;}
+  if(ev.key!=='Tab')return;
+  const box=document.getElementById('xa179-sold-modal');
+  const focusables=[...(box?.querySelectorAll('button:not([disabled])')||[])];
+  if(!focusables.length)return;
+  const first=focusables[0],last=focusables[focusables.length-1];
+  if(ev.shiftKey&&document.activeElement===first){ev.preventDefault();last.focus();}
+  else if(!ev.shiftKey&&document.activeElement===last){ev.preventDefault();first.focus();}
+}
+function xa179CloseSoldModal(){
+  const box=document.getElementById('xa179-sold-modal');
+  if(!box)return;
+  box.remove();
+  if(xa179ReturnFocus?.isConnected)xa179ReturnFocus.focus();
+  xa179ReturnFocus=null;
+}
+function xa179CopyMessage(msg,failed=false){
+  const msgEl=document.getElementById('xa179-toast');
+  if(msgEl){msgEl.textContent=msg;msgEl.style.color=failed?'#ac4747':'#16744f';}
+  else showAdminFlash(msg,failed);
+}
+
 function renderV63Sales(){
   const el=document.getElementById('adm-sales-view');if(!el||!v62LastOrdersSuccess)return;
   const rows=v63TodaySales();
@@ -5111,12 +5253,11 @@ function renderV63Sales(){
   const title=xa108Period==='today'?'오늘':xa108Period==='all'?'전체':`최근 ${xa108Period}일`;
   el.innerHTML=`<div class="xa63-sales-kpis"><div><span>${title} 판매</span><strong>${rows.length}건</strong></div><div><span>일반 계정</span><strong>${general}개</strong></div><div><span>이메일 계정</span><strong>${email}개</strong></div></div>`+
     `<div class="xa62-section-note"><strong>승인 완료 총액</strong><span>${formatWon(total)}</span></div>`+
-    `<div id="xa173-tracker-panel" class="xa173-tracker-panel"></div>`+
+    xa179SoldOpenButton()+
     (!xa108HasApprovedAt?`<div class="xa108-alert">승인 시각 미설치 · 주문 접수일로 임시 집계 중입니다. 정확한 승인일 통계는 동봉된 선택 SQL 적용 후부터 기록됩니다.</div>`:'')+
     (rows.some(o=>!o.approved_at)&&xa108HasApprovedAt?`<div class="xa108-alert">과거 승인 기록 중 일부는 정확한 승인 시간이 없어 주문 접수일로 추정했습니다.</div>`:'')+
     (rows.filter(v62OrderFullMatch).length?rows.filter(v62OrderFullMatch).map(o=>v62OrderCard(o,'sales')).join(''):
      v62Empty('선택 기간 판매완료 내역이 없습니다.','조회 기간을 변경하거나 다른 주문을 확인하세요.'));
-  if(typeof xa173RenderPanel==='function')xa173RenderPanel();
   if(window.lucide)lucide.createIcons();
 }
 function renderV62History(){
@@ -9111,215 +9252,5 @@ document.addEventListener('keydown',function(e){
   #admin-console-modal .xa62-stockcard .xa62-actions.xa127-stock-actions>button{font-size:9px!important;padding:4px 2px!important;}
 }
 </style>
-<style id="xa173-tracker-style">
-#admin-console-modal .xa173-tracker-panel{padding:11px;border:1px solid #cce2d3;border-radius:12px;background:linear-gradient(145deg,#f9fefb,#edf8f2);margin:9px 0 12px;display:grid;gap:8px}
-#admin-console-modal .xa173-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-#admin-console-modal .xa173-header strong{font-size:12px;color:#14573e;font-weight:900}
-#admin-console-modal .xa173-sub{font-size:9.5px;color:#668a74;line-height:1.6;margin-top:3px}
-#admin-console-modal .xa173-actions{display:flex;flex-wrap:wrap;gap:5px}
-#admin-console-modal .xa173-actions button{background:white;border:1px solid #b9d8c7;color:#236749;border-radius:9px;font-size:10px;font-weight:800;padding:8px 11px;min-height:32px;cursor:pointer}
-#admin-console-modal .xa173-actions .xa173-primary{background:#0e7651;color:white;border-color:#0e7651}
-#admin-console-modal .xa173-actions button:disabled{opacity:.55;cursor:wait}
-#admin-console-modal .xa173-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
-#admin-console-modal .xa173-summary>div{background:white;border:1px solid #dbeadf;border-radius:9px;padding:8px 3px;text-align:center;min-width:0}
-#admin-console-modal .xa173-summary strong{display:block;font-size:17px;color:#24583f;font-weight:900}
-#admin-console-modal .xa173-summary span{font-size:9px;color:#718a78}
-#admin-console-modal .xa173-message{font-size:9.5px;line-height:1.6;color:#44745a;word-break:keep-all}
-#admin-console-modal .xa173-message[data-error="true"]{color:#af5235}
-#admin-console-modal .xa173-results{display:grid;gap:5px;max-height:280px;overflow-y:auto}
-#admin-console-modal .xa173-result{padding:8px 9px;border:1px solid #d9e9dd;border-radius:9px;background:#fff;display:grid;gap:4px}
-#admin-console-modal .xa173-result-header{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;font-weight:800;color:#315844}
-#admin-console-modal .xa173-result-body{font-size:10px;color:#557764;overflow-wrap:anywhere}
-#admin-console-modal .xa173-status{font-size:9px;border-radius:99px;background:#edf3ed;padding:3px 6px;white-space:nowrap}
-#admin-console-modal .xa173-status[data-status="changed"]{color:#a04e2f;background:#fff0e4}
-#admin-console-modal .xa173-status[data-status="same"]{color:#157550;background:#eaf8ee}
-#admin-console-modal .xa173-status[data-status="late_baseline"]{color:#97621a;background:#fff4dc}
-#admin-console-modal .xa173-status[data-status="changed_after_baseline"]{color:#a04e2f;background:#fff0e4}
-#admin-console-modal .xa173-note{font-size:9px;line-height:1.55;color:#7a8e7d}
-</style>
-
-<style id="xa176-link-style">
-#admin-console-modal .xa173-check-x { display:inline-flex;align-items:center;gap:2px; margin-left:3px; font-size:9px; font-weight:650; color:#146a50; text-decoration:underline; text-underline-offset:2px; white-space:nowrap; }
-#admin-console-modal .xa173-result-body { overflow-wrap:anywhere; }
-</style>
-<script id="xa173-tracker-script">
-// v176: deduplicated today's results, prevent parallel calls, and support verified post-sale first observations.
-// Post-sale baseline is not evidence of identity at the sale time.
-const xa173State={busy:false,bootstrapBusy:false,bootstrapTimer:null,attemptedSignature:'',ranSignature:'',progress:'연결 상태 미확인 · 서버 연결 진단을 눌러 설치 상태를 확인하세요',error:false,results:[],total:0,lastKstDate:'',checkedAt:0,bootstrapCount:0,bootstrapFailed:0,stopBootstrap:false,nextAutoAttemptAt:0,diagnosing:false,serverReady:false,publicApiCheck:''};
-function xa173AdminVisible(){return !!supabaseClient&&!!v62LastStockSuccess&&!!v62LastOrdersSuccess&&!document.hidden&&!document.getElementById('admin-console-modal')?.classList.contains('hidden')}
-function xa173Signature(){return v62AllStock.filter(s=>s.is_used!==true).map(s=>String(s.id)).sort().join(',')}
-function xa173Safe(v){return escapeHTML(String(v??''))}
-function xa173RenderPanel(){
- const el=document.getElementById('xa173-tracker-panel');if(!el)return;
- const rows=xa173State.results, changed=rows.filter(r=>['changed','changed_after_baseline'].includes(r.status)).length,same=rows.filter(r=>r.status==='same').length;
- const error=rows.filter(r=>!['same','changed'].includes(r.status)).length;
- const labels={changed:'아이디 변경',same:'변경 없음',late_baseline:'판매 후 ID 확보',changed_after_baseline:'첫 확인 후 변경',no_baseline:'고유 ID 미확보',unavailable:'조회 불가'};
- el.innerHTML=`<div class="xa173-header"><div><strong>오늘 판매 계정 · 아이디 변경 검사</strong><div class="xa173-sub">한국시간 오늘 승인된 계정만 · 재고에서 숫자 고유 ID 자동 확보</div></div></div>`+
- `<div class="xa173-summary"><div><strong>${xa173State.checkedAt?xa173State.total:(xa173State.busy?'…':'—')}</strong><span>조회 대상</span></div><div><strong>${xa173State.checkedAt?changed:'—'}</strong><span>아이디 변경</span></div><div><strong>${xa173State.checkedAt?error:'—'}</strong><span>미확인</span></div></div>`+
- `<div class="xa173-actions"><button class="xa173-primary" type="button" onclick="xa173CheckToday()" ${xa173State.busy||xa173State.diagnosing?'disabled':''}>${xa173State.busy?'검사 중…':'오늘 판매 계정 조회'}</button><button type="button" onclick="xa173Bootstrap(true)" ${xa173State.busy||xa173State.bootstrapBusy||xa173State.diagnosing?'disabled':''}>${xa173State.bootstrapBusy?'고유 ID 수집 중…':'재고 고유 ID 재수집'}</button><button type="button" onclick="xa173Diagnose()" ${xa173State.diagnosing?'disabled':''}>${xa173State.diagnosing?'진단 중…':'서버 연결 진단'}</button></div>`+
- `<div class="xa173-message" role="status" data-error="${xa173State.error}">${xa173Safe(xa173State.progress)}</div>`+
- (rows.length?`<div class="xa173-results">${rows.map(r=>`<div class="xa173-result"><div class="xa173-result-header"><span>주문 ${xa173Safe(r.order_no)}</span><span class="xa173-status" data-status="${xa173Safe(r.status)}">${xa173Safe(labels[r.status]||'확인 필요')}</span></div><div class="xa173-result-body">${xa173Safe(r.previous?'@'+r.previous:'기록 없음')}${r.current?' → '+xa173Safe('@'+r.current):''}${r.detail?' · '+xa173Safe(r.detail):''}${r.estimated_date?' · 승인시각 미기록(접수일 기준)':''}${/^[A-Za-z0-9_]{1,15}$/.test(r.previous||'')?` <a class="xa173-check-x" href="https://x.com/${encodeURIComponent(r.previous)}" target="_blank" rel="noopener noreferrer">X에서 기존 주소 확인 ↗</a>`:''}</div></div>`).join('')}</div>`:'')+
- `<div class="xa173-note">404는 기존 아이디 조회 실패이지, 아이디 변경 확정이 아닙니다. '서버 연결 진단'으로 공개 FxTwitter API도 점검할 수 있습니다. <strong>판매 이전 숫자 ID가 없으면 이미 바뀐 아이디를 신뢰성 있게 복구할 수 없습니다.</strong><br>기존 재고·주문 기록은 변경하지 않습니다. 판매 전 확보한 고유 ID는 판매 시점 아이디와 비교합니다. 이미 판매한 계정은 기존 @아이디가 그대로 조회될 때만 판매 후 첫 ID를 저장하며, 이는 과거 계정 변경의 증거가 아닙니다. 첫 확인 이후 발생한 변경만 구분 표시합니다. FxTwitter 조회 실패는 변경으로 판정하지 않습니다. 재고 자동 수집은 관리자 화면이 열려 있을 때만 실행됩니다. v177은 관리자 주문 승인 직전에 해당 상품 재고의 ID를 재확인합니다(실패 시 관리자 선택 필요).</div>`;
-}
-function xa173ExplainError(error,data){
- const status=error?.context?.status;
- const raw=String(data?.error||error?.message||error||'서버 응답 오류');
- if(/INSTALL_V173_SQL_FIRST|relation.*xa_account_identity/i.test(raw))return 'DB 테이블 없음 · 먼저 v173 고유ID 설치 SQL을 실행하세요.';
- if(/ADMIN_ONLY|LOGIN_REQUIRED|401|403|unauthorized|Invalid JWT/i.test(raw)||status===401||status===403)
-  return '관리자 인증 실패 ('+(status||'인증')+') · 관리자 계정 로그인 확인. JWT 검증 설정도 확인하세요.';
- if(/Failed to send a request|Failed to fetch|NetworkError|FunctionsFetchError/i.test(raw))
-  return 'Edge Function 연결 실패 · Supabase > Edge Functions에 xa173-username-track이 배포됐는지 확인하세요. 함수 미설치(404)·CORS·네트워크 가능성이 있습니다.';
- if(status===404)return 'Edge Function을 찾을 수 없음 (404) · xa173-username-track 이름으로 새 함수를 배포하세요.';
- if(status===503)return '서버 구성 오류 (503) · SQL 또는 Edge Function 환경 변수를 확인하세요.';
- if(status>=500)return '서버 내부 오류 ('+status+') · Edge Functions > Logs를 확인하세요.';
- if(error?.name==='AbortError'||/abort|timeout/i.test(raw))return '응답 시간 초과 · Supabase Edge Function 로그를 확인하세요.';
- return (status?'HTTP '+status+' · ':'')+raw.slice(0,170);
-}
-async function xa173Diagnose(){
- if(xa173State.diagnosing||xa173State.busy||xa173State.bootstrapBusy)return;
- xa173State.diagnosing=true;xa173State.progress='xa173-username-track 함수 및 DB 연결 확인 중…';xa173State.error=false;xa173RenderPanel();
- try{
-  const r=await xa173Call('ping');
-  xa173State.serverReady=true;xa173State.nextAutoAttemptAt=0;
-  xa173State.progress='서버/DB 연결 정상 (v'+r.version+') · FxTwitter 공개 프로필 조회 점검 중…';
-  xa173RenderPanel();
-  try {
-   const upstream=await xa173Call('diagnose_profile_api');
-   xa173State.publicApiCheck=upstream.public_profile_available?'정상':'실패 '+(upstream.failure_reason||'');
-   xa173State.progress='서버/DB 정상 (v'+r.version+') · FxTwitter 공개 예시 조회 '+xa173State.publicApiCheck+'. '+(upstream.public_profile_available?'판매 계정 404는 아이디 변경·정지·삭제·개별 조회 실패 중 하나일 수 있습니다.':'외부 API 자체가 조회되지 않으므로 판매 계정 변경 여부를 판단할 수 없습니다.');
-  }catch(apiError){
-   xa173State.publicApiCheck='진단 실패';
-   xa173State.progress='서버/DB 연결 정상 · FxTwitter 공개 API 진단 요청 실패: '+String(apiError?.message||apiError).slice(0,100);
-  }
-  xa173ScheduleBootstrap();
- }catch(e){xa173State.serverReady=false;xa173State.error=true;xa173State.progress='연결 진단 실패: '+String(e?.message||e).slice(0,250);}
- finally{xa173State.diagnosing=false;xa173RenderPanel();}
-}
-async function xa173Call(mode,args={}){
- if(!supabaseClient)throw new Error('Supabase 연결이 없습니다.');
- const session=await supabaseClient.auth.getSession();
- if(!session.data?.session?.access_token)throw new Error('관리자 로그인이 필요합니다.');
- const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),mode==='ensure_sale_pool'?38000:22000);
- try{
-  const {data,error}=await supabaseClient.functions.invoke('xa173-username-track',{body:{mode,...args},signal:controller.signal});
-  if(error||!data?.ok){
-   let detail=data;
-   if(error?.context){try{detail=await error.context.clone().json();}catch{}}
-   throw new Error(xa173ExplainError(error,detail));
-  }
-  xa173State.serverReady=true;
-  return data;
- }finally{clearTimeout(timer)}
-}
-async function xa173Bootstrap(manual=false){
- if(xa173State.bootstrapBusy||xa173State.busy||!xa173AdminVisible())return;
- if(manual&&!confirm('현재 판매 가능한 재고에서 숫자 고유 ID를 자동 수집합니다. 공개 X 아이디만 FxTwitter API로 조회하며, 비밀번호·이메일·2FA는 전송하지 않습니다. 계속할까요?'))return;
- const signature=xa173Signature();
- if(!manual&&(signature===xa173State.ranSignature||Date.now()<xa173State.nextAutoAttemptAt))return;
- xa173State.bootstrapBusy=true;xa173State.stopBootstrap=false;xa173State.error=false;xa173State.bootstrapCount=0;xa173State.bootstrapFailed=0;xa173State.progress='판매 전 재고 고유 ID 자동 수집 시작';xa173RenderPanel();
- let cursor=0,success=false;
- try{
-  await xa173Call('ping');
-  for(let i=0;i<340;i++){
-   if(xa173State.stopBootstrap){xa173State.progress='오늘 판매 검사 우선 · 자동 수집 일시 중지';break;}
-   if(document.hidden||document.getElementById('admin-console-modal')?.classList.contains('hidden')){xa173State.progress='관리자 창이 닫혀 자동 수집을 일시 중지했습니다.';break;}
-   const r=await xa173Call('bootstrap',{cursor});
-   xa173State.bootstrapCount+=(r.rows||[]).filter(x=>x.status==='saved').length;
-   xa173State.bootstrapFailed+=(r.rows||[]).filter(x=>!['saved','already_saved'].includes(x.status)).length;
-   xa173State.progress=`재고 고유 ID 수집 · 확인 ${cursor+(r.rows||[]).length}건 / 신규 저장 ${xa173State.bootstrapCount}건 / 미확인 ${xa173State.bootstrapFailed}건`;
-   xa173RenderPanel();
-   if(r.blocked){xa173State.error=true;xa173State.nextAutoAttemptAt=Date.now()+6*3600000;xa173State.progress+=' · API 제한 또는 저장 오류: 수동 재시도 가능';break;}
-   if(r.done){success=true;xa173State.progress+=' · 완료';break;}
-   if(Number(r.next_cursor)<=cursor)throw new Error('수집 위치가 진행되지 않았습니다.');
-   cursor=Number(r.next_cursor);
-   await new Promise(resolve=>setTimeout(resolve,1200));
-  }
-  if(success)xa173State.ranSignature=signature;
- }catch(e){xa173State.nextAutoAttemptAt=Date.now()+6*3600000;xa173State.progress='고유 ID 자동 수집 중단: '+String(e?.message||e).slice(0,250);xa173State.error=true;}
- finally{xa173State.bootstrapBusy=false;xa173RenderPanel();}
-}
-function xa173ScheduleBootstrap(){
- if(xa173State.bootstrapBusy||xa173State.busy||xa173State.bootstrapTimer)return;
- if(!xa173AdminVisible())return;
- if(xa173Signature()===xa173State.ranSignature||Date.now()<xa173State.nextAutoAttemptAt)return;
- xa173State.bootstrapTimer=setTimeout(()=>{xa173State.bootstrapTimer=null;xa173Bootstrap(false);},900);
-}
-async function xa173CheckToday(){
- if(xa173State.busy)return;
- xa173State.busy=true; // synchronous lock before awaiting the running bootstrap
- if(xa173State.bootstrapBusy){
-  xa173State.stopBootstrap=true;
-  for(let i=0;xa173State.bootstrapBusy&&i<40;i++)await new Promise(r=>setTimeout(r,550));
-  if(xa173State.bootstrapBusy){xa173State.busy=false;xa173State.progress='재고 자동 수집 요청이 아직 진행 중입니다. 잠시 후 다시 누르세요.';xa173State.error=true;xa173RenderPanel();return;}
- }
- if(!v62LastOrdersSuccess){xa173State.busy=false;xa173State.checkedAt=0;xa173State.progress='주문 목록 조회에 실패했습니다. 먼저 관리자 데이터를 갱신하세요.';xa173State.error=true;xa173RenderPanel();return;}
- xa173State.results=[];xa173State.total=0;xa173State.checkedAt=0;xa173State.error=false;xa173State.progress='한국시간 오늘 승인된 주문 조회 중…';xa173RenderPanel();
- let offset=0;
- try{
-  await xa173Call('ping');
-  for(let i=0;i<100;i++){
-   const r=await xa173Call('check_today',{offset});
-   xa173State.lastKstDate=r.kst_date;
-   xa173State.total=r.total;
-   // Keep one entry per database order. If a response/page is repeated, overwrite instead of duplicating.
-   const byOrder=new Map(xa173State.results.map(x=>[String(x.order_id||x.order_no+'|'+x.previous),x]));
-   for(const item of (r.results||[])) byOrder.set(String(item.order_id||item.order_no+'|'+item.previous),item);
-   xa173State.results=[...byOrder.values()];
-   xa173State.progress=`오늘 (${r.kst_date}) · ${xa173State.results.length}/${r.total}건 확인`;
-   xa173RenderPanel();
-   if(r.done){if(r.truncated){xa173State.error=true;xa173State.progress+=' · 300건 상한에 도달해 일부만 조회';}break;}
-   if(Number(r.next_offset)<=offset)throw new Error('조회 위치가 진행되지 않았습니다.');
-   offset=r.next_offset;
-   await new Promise(resolve=>setTimeout(resolve,700));
-  }
-  xa173State.checkedAt=Date.now();
- }catch(e){xa173State.error=true;xa173State.progress='조회 실패: '+String(e?.message||e).slice(0,250);xa173State.checkedAt=0;}
- finally{xa173State.busy=false;xa173RenderPanel();}
-}
-</script>
-
-<!-- v177: approval-time automatic user-ID capture (advisory + explicit override on failure) -->
-<script id="xa177-sales-preflight">
-async function xa177PrepareForApproval(productType,button){
- const kind=String(productType||'').trim();
- const previous=button?.textContent||'';
- const friendlyError=(err)=>String(err?.message||err||'서버 오류').slice(0,180);
- try{
-  if(button)button.textContent='판매 전 고유 ID 확인 중…';
-  let last=null;
-  for(let i=0;i<11;i++){
-   last=await xa173Call('ensure_sale_pool',{product_type:kind});
-   if(last.ready){
-    if(typeof xa173State!=='undefined'){
-     xa173State.progress='판매 전 ID 검증 완료 · '+last.eligible+'개 재고 확인';
-     xa173State.error=false;xa173RenderPanel();
-    }
-    return true;
-   }
-   if(last.error||last.failures?.length||last.eligible===0||last.remaining===null)break;
-   if(!Number.isFinite(Number(last.remaining))||last.remaining<1)break;
-   if(button)button.textContent='고유 ID 확인 중 · 남은 '+last.remaining+'개';
-  }
-  const problem=last?.failures?.map(f=>'재고 #'+f.stock_id+' '+f.reason).join(', ')||last?.error||last?.note||'준비 확인 실패';
-  const answer=await askAdminConfirm('판매 전 계정 추적 미준비',
-   `상품: ${kind}\n전체 후보 재고: ${last?.eligible??'알 수 없음'}건\n고유 ID 미확보: ${last?.remaining??'알 수 없음'}건\n원인: ${problem}\n\n현재 승인하면 고유 ID가 없는 계정이 지급될 수 있고 나중에 @아이디를 변경하면 찾지 못할 수 있습니다.\n그래도 추적 보장 없이 판매 승인을 진행할까요?`,
-   '추적 미확보 상태로 승인');
-  if(typeof xa173State!=='undefined'){
-   xa173State.progress=answer?'ID 미확보 위험을 확인하고 승인 진행':'ID 미확보로 승인 보류: '+problem;
-   xa173State.error=!answer;xa173RenderPanel();
-  }
-  return !!answer;
- }catch(e){
-  const answer=await askAdminConfirm('판매 전 추적 점검 실패',
-   '고유 ID 점검 서버에 연결할 수 없습니다: '+friendlyError(e)+'\n\n승인하면 이후 변경 추적이 불가능할 수 있습니다. 그래도 승인하시겠습니까?',
-   '추적 점검 없이 승인');
-  if(typeof xa173State!=='undefined'){
-   xa173State.progress=answer?'추적 점검 실패 상태로 승인 진행':'서버 추적 점검 실패로 승인 보류';
-   xa173State.error=true;xa173RenderPanel();
-  }
-  return !!answer;
- }finally{if(button?.isConnected)button.textContent=previous;}
-}
-</script>
 </body>
 </html>
